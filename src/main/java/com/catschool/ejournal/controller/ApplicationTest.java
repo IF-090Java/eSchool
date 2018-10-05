@@ -21,7 +21,12 @@ public class ApplicationTest {
     @Autowired
     DepartmentRepository departmentRepository;
 
-    @RequestMapping("/")
+    @RequestMapping
+    public String homePage(){
+        return "Hello World!";
+    }
+
+    @RequestMapping("/init")
     public String initialize(){
         Department d1 = new Department();
         Department d2 = new Department();
@@ -59,7 +64,7 @@ public class ApplicationTest {
 
     @RequestMapping("/employees/{id}")
     public Optional<Employee> showEmployee(@PathVariable(value = "id") int id){
-        return employeeRepository.findById((long) id);
+        return employeeRepository.findById(id);
     }
 
     @RequestMapping("/departments")
@@ -69,6 +74,6 @@ public class ApplicationTest {
 
     @RequestMapping("/departments/{id}")
     public Optional<Department> showDepartment(@PathVariable(value = "id") int id){
-        return departmentRepository.findById((long) id);
+        return departmentRepository.findById(id);
     }
 }
