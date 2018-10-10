@@ -1,4 +1,4 @@
 FROM openjdk:8
-ADD target/ejournal.jar ejournal.jar
+ADD target/eschool.jar eschool.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "ejournal.jar"]
+ENTRYPOINT ["java", "-jar", "eschool.jar"]

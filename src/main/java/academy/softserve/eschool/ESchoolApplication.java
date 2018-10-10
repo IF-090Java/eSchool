@@ -1,12 +1,12 @@
-package com.catschool.ejournal;
+package academy.softserve.eschool;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EJournalApplication {
+public class ESchoolApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(EJournalApplication.class, args);
+        SpringApplication.run(ESchoolApplication.class, args);
     }
 }
