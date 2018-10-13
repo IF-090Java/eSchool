@@ -9,7 +9,14 @@ import org.springframework.web.bind.annotation.*;
 public class TeacherController {
 
     @PostMapping
-    public void addTeacher(@RequestBody AddTeacherDTO teacher) {
+    public void addTeacher(AddTeacherDTO teacher) {
+        System.out.println("teacher = [" + teacher + "]");
 
     }
+
+    @GetMapping
+    public String getTeachers(){
+        return "In getTeachers()";
+    }
+
 }
