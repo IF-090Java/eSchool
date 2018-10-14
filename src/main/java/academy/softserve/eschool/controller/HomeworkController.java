@@ -1,6 +1,5 @@
 package academy.softserve.eschool.controller;
-
-import academy.softserve.eschool.dto.Homework;
+import academy.softserve.eschool.dto.HomeworkDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -27,13 +26,13 @@ public class HomeworkController {
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )
-    public List<Homework> getHomeworks(){
-        List<Homework> list = new ArrayList<>();
-        list.add(new Homework(new Date(),"p.125","file1.txt"));
-        list.add(new Homework(new Date(),"p.122","file2.txt"));
-        list.add(new Homework(new Date(),"ex.2","file3.txt"));
-        list.add(new Homework(new Date(),"reading","file4.txt"));
-        list.add(new Homework(new Date(),"p.12 , ex.2","file5.txt"));
+    public List<HomeworkDTO> getHomeworks(){
+        List<HomeworkDTO> list = new ArrayList<>();
+        list.add(new HomeworkDTO(new Date(),"p.125","file1.txt"));
+        list.add(new HomeworkDTO(new Date(),"p.122","file2.txt"));
+        list.add(new HomeworkDTO(new Date(),"ex.2","file3.txt"));
+        list.add(new HomeworkDTO(new Date(),"reading","file4.txt"));
+        list.add(new HomeworkDTO(new Date(),"p.12 , ex.2","file5.txt"));
         return list;
     }
 }

@@ -1,6 +1,6 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.dto.Journal;
+import academy.softserve.eschool.dto.JournalDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -26,13 +26,13 @@ public class JournalController {
             }
     )
     @GetMapping("")
-    public List<Journal> getJournals(){
-        List<Journal> list = new ArrayList<>();
-        list.add(new Journal("Фізика","7-A"));
-        list.add(new Journal("Математика","5-Б"));
-        list.add(new Journal("Хімія","5-Б"));
-        list.add(new Journal("Українська мова","6-Б"));
-        list.add(new Journal("Фізика","5-А"));
+    public List<JournalDTO> getJournals(){
+        List<JournalDTO> list = new ArrayList<>();
+        list.add(new JournalDTO("Фізика","7-A"));
+        list.add(new JournalDTO("Математика","5-Б"));
+        list.add(new JournalDTO("Хімія","5-Б"));
+        list.add(new JournalDTO("Українська мова","6-Б"));
+        list.add(new JournalDTO("Фізика","5-А"));
         return list;
     }
 
