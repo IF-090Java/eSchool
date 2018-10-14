@@ -10,7 +10,7 @@ import java.util.HashSet;
  * Used for creating student with .html.
  */
 @Data
-public class AddStudentDTO {
+public class StudentDTO {
     @ApiModelProperty(notes = "contains student first name")
     private String firstName;
 
@@ -20,7 +20,7 @@ public class AddStudentDTO {
     @ApiModelProperty(notes = "contains student class")
     private String classe;
 
-    public AddStudentDTO(String firstName, String lastName, String classe) {
+    public StudentDTO(String firstName, String lastName, String classe) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.classe = classe;
