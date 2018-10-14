@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add teacher</title>
+    <link rel="stylesheet" type="text/css" href="../css/Style.css">
+</head>
+<body>
+<form method="post" action="/teachers">
+    <div>
+        Додати нового вчителя
+        <hr>
+    </div>
+
+    <div>
+        Прізвище <input type="text" name="firstName" begraundV="Введіть прізвище вчителя" required>
+        Ім'я     <input type="text" name="lastName" begraundV="Введіть ім'я вчителя" required>
+    </div>
+    <br>Предмети<br>
+    <div class="div" align="center">
+        Предмет  <input type="text" name="subject" begraundV="Введіть предмет який вчитель викладає">
+        <br>Класи<br>
+        Клас  <input type="text" name="classe" begraundV="Введіть клас" align="right">
+    </div>
+    <div align="center">
+        <br><input type="submit" value="Додати" align="center">
+    </div>
+</form>
+</body>
+</html>

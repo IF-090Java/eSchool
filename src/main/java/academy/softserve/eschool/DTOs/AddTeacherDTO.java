@@ -3,10 +3,8 @@ package academy.softserve.eschool.DTOs;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.ArrayList;
-
 /**
- * Used for creating teacher with @RequestBody annotation.
+ * Used for creating teacher with .html.
  */
 @Data
 public class AddTeacherDTO {
@@ -21,4 +19,11 @@ public class AddTeacherDTO {
 
     @ApiModelProperty(notes = "contains classes where this teacher work")
     private String classe;
+
+    public AddTeacherDTO(String firstName, String lastName, String subject, String classe) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.subject = subject;
+        this.classe = classe;
+    }
 }

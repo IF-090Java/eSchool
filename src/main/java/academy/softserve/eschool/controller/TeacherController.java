@@ -10,13 +10,12 @@ public class TeacherController {
 
     @PostMapping
     public void addTeacher(AddTeacherDTO teacher) {
-        System.out.println("teacher = [" + teacher + "]");
-
     }
 
-    @GetMapping
-    public String getTeachers(){
-        return "In getTeachers()";
+
+    @GetMapping("/{id}")
+    public AddTeacherDTO getTeacher(@PathVariable int id){
+        return new AddTeacherDTO("first", "last", "math", "6-a");
     }
 
 }
