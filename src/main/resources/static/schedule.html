@@ -1,0 +1,810 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <head>
+    <title>Schedule</title>
+    <link href="schedule.css" type="text/css" rel="stylesheet"/>
+  </head>
+  <body>
+    <div id="base" class="">
+
+      <!-- фОН -->
+      <div id="u0_div" class="ax_default box_2">
+      </div>
+
+      <!-- Поле -->
+      <div id="u1" class="ax_default heading_1">
+          <p><h1><span>Внесення розкладу</span></h1></p>
+      </div>
+
+	        <!-- Поле -->
+      <div id="u13" class="ax_default label">
+          <p><span>Виберіть межі семестру</span></p>
+        </div>
+      </div>
+	  
+	  <form action="localhost:8085/classes/{id}/schedule" method="POST">
+	  
+        <!-- Unnamed (Rectangle) -->
+        <div id="u3" class="ax_default label">
+            <p><span>Початок семестру</span></p>
+          </div>
+        </div>
+
+		        <!-- Поле -->
+        <div id="u7" class="ax_default label">
+            <p><span>День</span></p>
+          </div>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u8" class="ax_default label">
+            <p><span>Місяць</span></p>
+          </div>
+        </div>
+		
+        <!-- Unnamed (Droplist) -->
+        <div id="u4" class="ax_default droplist">
+          <select id="u4_input">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Droplist) -->
+        <div id="u5" class="ax_default droplist">
+          <select id="u5_input">
+            <option value="Січень">Січень</option>
+            <option value="Лютий">Лютий</option>
+            <option value="Березень">Березень</option>
+            <option value="Квітень">Квітень</option>
+            <option value="Травень">Травень</option>
+            <option value="Червень">Червень</option>
+            <option value="Липень">Липень</option>
+            <option value="Серпень">Серпень</option>
+            <option value="Вересень">Вересень</option>
+            <option value="Жовтень">Жовтень</option>
+            <option value="Листопад">Листопад</option>
+            <option value="Грудень">Грудень</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u6" class="ax_default label">
+          <div id="u6_text" class="text ">
+            <p><span>Кінець семестру</span></p>
+          </div>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u9" class="ax_default label">
+            <p><span>День</span></p>
+          </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u10" class="ax_default label">
+            <p><span>Місяць</span></p>
+          </div>
+        </div>
+
+        <!-- Unnamed (Droplist) -->
+        <div id="u11" class="ax_default droplist">
+          <select id="u11_input">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Droplist) -->
+        <div id="u12" class="ax_default droplist">
+          <select id="u12_input">
+            <option value="Січень">Січень</option>
+            <option value="Лютий">Лютий</option>
+            <option value="Березень">Березень</option>
+            <option value="Квітень">Квітень</option>
+            <option value="Травень">Травень</option>
+            <option value="Червень">Червень</option>
+            <option value="Липень">Липень</option>
+            <option value="Серпень">Серпень</option>
+            <option value="Вересень">Вересень</option>
+            <option value="Жовтень">Жовтень</option>
+            <option value="Листопад">Листопад</option>
+            <option value="Грудень">Грудень</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Unnamed (Rectangle) -->
+      <div id="u14" class="ax_default label">
+          <p><span>Виберіть клас</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (Droplist) -->
+      <div id="u15" class="ax_default droplist">
+        <select id="u15_input">
+          <option value="5-А">5-А</option>
+          <option value="5-Б">5-Б</option>
+          <option value="6-А">6-А</option>
+          <option value="6-Б">6-Б</option>
+        </select>
+      </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u19" class="ax_default label">
+            <p><span style="text-decoration:underline;">Понеділок</span></p>
+          </div>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u20" class="ax_default label">
+            <p><span>1. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u21" class="ax_default droplist" data-label="Предмет">
+          <select id="u21_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u22" class="ax_default label">
+            <p><span>2</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u23" class="ax_default droplist" data-label="Предмет">
+          <select id="u23_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u24" class="ax_default label">
+            <p><span>3</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u25" class="ax_default droplist" data-label="Предмет">
+          <select id="u25_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u26" class="ax_default label">
+            <p><span>4</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u27" class="ax_default droplist" data-label="Предмет">
+          <select id="u27_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u28" class="ax_default label">
+            <p><span>5</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u29" class="ax_default droplist" data-label="Предмет">
+          <select id="u29_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u30" class="ax_default label">
+            <p><span>6. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u31" class="ax_default droplist" data-label="Предмет">
+          <select id="u31_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u32" class="ax_default label">
+            <p><span>7. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u33" class="ax_default droplist" data-label="Предмет">
+          <select id="u33_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+      </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u35" class="ax_default label">
+            <p><span style="text-decoration:underline;">Четвер</span></p>
+          </div>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u36" class="ax_default label">
+            <p><span>1. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u37" class="ax_default droplist" data-label="Предмет">
+          <select id="u37_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u38" class="ax_default label">
+            <p><span>2</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u39" class="ax_default droplist" data-label="Предмет">
+          <select id="u39_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u40" class="ax_default label">
+            <p><span>3</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u41" class="ax_default droplist" data-label="Предмет">
+          <select id="u41_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u42" class="ax_default label">
+            <p><span>4</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u43" class="ax_default droplist" data-label="Предмет">
+          <select id="u43_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u44" class="ax_default label">
+            <p><span>5</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u45" class="ax_default droplist" data-label="Предмет">
+          <select id="u45_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u46" class="ax_default label">
+            <p><span>6. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u47" class="ax_default droplist" data-label="Предмет">
+          <select id="u47_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u48" class="ax_default label">
+            <p><span>7. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u49" class="ax_default droplist" data-label="Предмет">
+          <select id="u49_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+      </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u51" class="ax_default label">
+            <p><span style="text-decoration:underline;">П'ятниця</span></p>
+          </div>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u52" class="ax_default label">
+            <p><span>1. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u53" class="ax_default droplist" data-label="Предмет">
+          <select id="u53_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u54" class="ax_default label">
+            <p><span>2</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u55" class="ax_default droplist" data-label="Предмет">
+          <select id="u55_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u56" class="ax_default label">
+            <p><span>3</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u57" class="ax_default droplist" data-label="Предмет">
+          <select id="u57_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u58" class="ax_default label">
+            <p><span>4</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u59" class="ax_default droplist" data-label="Предмет">
+          <select id="u59_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u60" class="ax_default label">
+            <p><span>5</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u61" class="ax_default droplist" data-label="Предмет">
+          <select id="u61_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u62" class="ax_default label">
+            <p><span>6. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u63" class="ax_default droplist" data-label="Предмет">
+          <select id="u63_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u64" class="ax_default label">
+            <p><span>7. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u65" class="ax_default droplist" data-label="Предмет">
+          <select id="u65_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+      </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u67" class="ax_default label">
+            <p><span style="text-decoration:underline;">Вівторок</span></p>
+          </div>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u68" class="ax_default label">
+          <div id="u68_text" class="text ">
+            <p><span>1. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u69" class="ax_default droplist" data-label="Предмет">
+          <select id="u69_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u70" class="ax_default label">
+            <p><span>2</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u71" class="ax_default droplist" data-label="Предмет">
+          <select id="u71_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u72" class="ax_default label">
+            <p><span>3</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u73" class="ax_default droplist" data-label="Предмет">
+          <select id="u73_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u74" class="ax_default label">
+            <p><span>4</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u75" class="ax_default droplist" data-label="Предмет">
+          <select id="u75_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u76" class="ax_default label">
+            <p><span>5</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u77" class="ax_default droplist" data-label="Предмет">
+          <select id="u77_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u78" class="ax_default label">
+            <p><span>6. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u79" class="ax_default droplist" data-label="Предмет">
+          <select id="u79_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u80" class="ax_default label">
+            <p><span>7. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u81" class="ax_default droplist" data-label="Предмет">
+          <select id="u81_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+      </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u83" class="ax_default label">
+            <p><span style="text-decoration:underline;">Середа</span></p>
+          </div>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u84" class="ax_default label">
+            <p><span>1. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u85" class="ax_default droplist" data-label="Предмет">
+          <select id="u85_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u86" class="ax_default label">
+            <p><span>2</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u87" class="ax_default droplist" data-label="Предмет">
+          <select id="u87_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u88" class="ax_default label">
+            <p><span>3</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u89" class="ax_default droplist" data-label="Предмет">
+          <select id="u89_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u90" class="ax_default label">
+            <p><span>4</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u91" class="ax_default droplist" data-label="Предмет">
+          <select id="u91_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u92" class="ax_default label">
+            <p><span>5</span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u93" class="ax_default droplist" data-label="Предмет">
+          <select id="u93_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u94" class="ax_default label">
+            <p><span>6. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u95" class="ax_default droplist" data-label="Предмет">
+          <select id="u95_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+
+        <!-- Unnamed (Rectangle) -->
+        <div id="u96" class="ax_default label">
+            <p><span>7. </span></p>
+          </div>
+        </div>
+
+        <!-- Предмет (Droplist) -->
+        <div id="u97" class="ax_default droplist" data-label="Предмет">
+          <select id="u97_input">
+            <option value="Математика">Математика</option>
+            <option value="Біологія">Біологія</option>
+            <option value="Хімія">Хімія</option>
+            <option value="Фізика">Фізика</option>
+          </select>
+        </div>
+      </div>
+
+	              <!-- Unnamed (Rectangle) -->
+            <div id="u17" class="ax_default primary_button">
+				<button type="button">Створити розклад</button>
+            </div>
+	</form>
+	
+		<script type="text/javascript">
+		$(document).ready(function() {
+			$.getJSON('http://localhost:8085/classes/1/schedule', function (data) {
+				console.log(data);
+				$("#u4_input").attr("value", data.firstday);
+				$("#u5_input").attr("value", data.firstmonth);
+				$("#u11_input").attr("value", data.lastday);
+				$("#u12_input").attr("value", data.lastmonth);
+				$("#u15_input").attr("value", data.class);
+			});
+		})
+	</script>
+	
+	
+  </body>
+</html>
