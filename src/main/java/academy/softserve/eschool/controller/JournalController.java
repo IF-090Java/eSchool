@@ -21,4 +21,9 @@ public class JournalController {
         list.add(new Journal("Фізика","5-А"));
         return list;
     }
+
+    @GetMapping("/subjects/{id}/classess/{id}")
+    public void getJournalsTable(){
+
+    }
 }

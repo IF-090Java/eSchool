@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Журнали</title>
+
+    <style type="text/css">
+       .description{
+           font-family: Garamond;
+           font-size: 22px;
+           margin-left: 28%;
+           width: 200px;
+           padding: 20px;
+       }
+       table,td,th{
+           border: 1px solid #ddd;
+       }
+       table {
+           border-collapse: collapse;
+           width: 40%;
+           margin: auto;
+       }
+
+       th, td {
+           text-align: left;
+           padding: 8px;
+       }
+
+       tr:nth-child(even){background-color: #f2f2f2}
+
+       th {
+           background-color: #4CAF50;
+           color: white;
+       }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <div class="description">Клас</div>
+    <div class="description">Предмет</div>
+    <div class="description">Вчитель</div>
+    <table id="table">
+        <tr>
+            <th>Дата</th>
+            <th>Домашнє завдання</th>
+            <th>Файл</th>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON('http://localhost:8080/homeworks/subjects/{1}/classes/{1}', function (data) {
+            $.each(data, function(key, val) {
+                var tr=$('<tr></tr>');
+                /*$.each(val, function(k, v){
+                    $('<td>'+v+'</td>').appendTo(tr);
+
+                });*/
+                var myDate = new Date(val.date);
+                var parsedDate = myDate.getDate() + "\\" +  (myDate.getMonth()+1) + "\\" + myDate.getFullYear();
+                $('<td>'+parsedDate+'</td>').appendTo(tr);
+                $('<td>'+val.homework+'</td>').appendTo(tr);
+                $('<td>'+val.file+'</td>').appendTo(tr);
+                tr.appendTo('#table');
+            });
+        });
+    });
+
+    </script>
+</body>
+</html>

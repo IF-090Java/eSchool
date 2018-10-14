@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class HomeWork {
+public class Homework {
     private Date date;
     private String homework;
     private String file;
