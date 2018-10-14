@@ -31,6 +31,6 @@ public class StudentController {
             }
     )
     public StudentDTO getTeacher(@PathVariable int id){
-        return new StudentDTO("first", "last", "6-a", "stud", "email", "099xxxxxxx");
+        return new StudentDTO("John", "Doe", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
     }
 }

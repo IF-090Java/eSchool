@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student profile</title>
+    <link rel="stylesheet" type="text/css" href="../css/Style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "http://localhost:8080/students/1"
+            }).then(function(data) {
+                $('#initials').append(data.firstName + ' ');
+                $('#initials').append(data.lastName);
+                $('#login').append(data.login);
+                $('#class').append(data.classe);
+                $('#email').append(data.email);
+                $('#phone').append(data.phone);
+            });
+        });
+    </script>
+</head>
+<body>
+<img src="../img/pexels-photo-257360.jpeg">
+<div class="div">
+    <h2 id="initials"></h2>
+    <h3 id="login">Логін: </h3>
+    <h4 id="class">Клас: </h4>
+</div>
+<div id="email">Емаїл: </div>
+<div id="phone">Номер телефону: </div>
+<button onclick="">Редагувати профіль.</button>
+</body>
+</html>

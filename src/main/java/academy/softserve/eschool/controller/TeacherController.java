@@ -34,7 +34,7 @@ public class TeacherController {
             }
     )
     public TeacherDTO getTeacher(@PathVariable int id){
-        return new TeacherDTO("first", "last", "teacher", "email", "099xxxxxxx");
+        return new TeacherDTO("Ivan", "Popovych", "teacher", "email", "099xxxxxxx");
     }
 
 }
