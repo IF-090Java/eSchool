@@ -2,6 +2,8 @@ package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.DTOs.StudentDTO;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -9,13 +11,26 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
 
     @PostMapping
+    @ApiOperation(value = "Add student, first name, last name and class passed in html")
+    @ApiResponses(
+            value={
+                    @ApiResponse(code = 201, message = "student crated"),
+                    @ApiResponse(code = 500, message = "server error")
+            }
+    )
     public void addStudent(StudentDTO student) {
 
     }
 
-    @GetMapping("/{id}/profile")
-    @ApiOperation(value = "Get info for teacher profail")
+    @GetMapping("/{id}")
+    @ApiOperation(value = "get some student info by id passed in url")
+    @ApiResponses(
+            value={
+                    @ApiResponse(code = 200, message = "student found and passed"),
+                    @ApiResponse(code = 500, message = "server error")
+            }
+    )
     public StudentDTO getTeacher(@PathVariable int id){
-        return new StudentDTO("first", "last", "6-a");
+        return new StudentDTO("first", "last", "6-a", "stud", "email", "099xxxxxxx");
     }
 }

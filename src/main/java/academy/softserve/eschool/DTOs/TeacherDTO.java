@@ -3,8 +3,6 @@ package academy.softserve.eschool.DTOs;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.List;
-
 /**
  * Used for creating teacher with .html.
  */
@@ -16,16 +14,23 @@ public class TeacherDTO {
     @ApiModelProperty(notes = "contains teacher last name")
     private String lastName;
 
-    @ApiModelProperty(notes = "contains teacher subjects")
-    private String subject;
+    @ApiModelProperty(notes = "teacher login")
+    private String login;
 
-    @ApiModelProperty(notes = "contains classes where this teacher work")
-    private List<String> classes;
+    @ApiModelProperty(notes = "teacher email")
+    private String email;
 
-    public TeacherDTO(String firstName, String lastName, String subject, List<String> classes) {
+    @ApiModelProperty(notes = "teacher phone")
+    private String phone;
+
+    public TeacherDTO() {
+    }
+
+    public TeacherDTO(String firstName, String lastName, String login, String email, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.subject = subject;
-        this.classes = classes;
+        this.login = login;
+        this.email = email;
+        this.phone = phone;
     }
 }

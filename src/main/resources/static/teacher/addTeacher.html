@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <title>Add teacher</title>
     <link rel="stylesheet" type="text/css" href="../css/Style.css">
-    <script src="../js/JS.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.getJSON('http://localhost:8080/teachers', function (data) {
+                console.log(data);
+                $("#firstName").attr("value", data.firstName);
+                $("#lastName").attr("value", data.lastName);
+            });
+        })
+    </script>
 </head>
 <body>
 <form method="post" action="/teachers">
@@ -14,8 +22,8 @@
     </div>
 
     <div>
-        Прізвище <input type="text" name="firstName" begraundV="Введіть прізвище вчителя" required>
-        Ім'я     <input type="text" name="lastName" begraundV="Введіть ім'я вчителя" required>
+        Прізвище <input type="text" name="firstName" id="firstName" begraundV="Введіть прізвище вчителя" required>
+        Ім'я     <input type="text" name="lastName" name="lastName" begraundV="Введіть ім'я вчителя" required>
     </div>
     <div align="center">
         <br><input type="submit" value="Додати" align="center">
