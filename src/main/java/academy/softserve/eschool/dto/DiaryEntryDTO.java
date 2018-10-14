@@ -2,8 +2,6 @@ package academy.softserve.eschool.dto;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

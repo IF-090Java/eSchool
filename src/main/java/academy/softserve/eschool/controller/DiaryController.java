@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +22,15 @@ public class DiaryController {
 	@GetMapping("/{studentId}")
 	List<DiaryEntryDTO> getDiary(
 			@RequestParam(defaultValue = "0") Integer offset, 
-			@PathVariable Integer studentId){
+			@PathVariable Integer studentId,
+			HttpServletResponse response){
 		//TODO get diary for student with id=studentId from database
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		return createDiaryStub(offset);
 	}
 	
 	private List<DiaryEntryDTO> createDiaryStub (int offset){
-		Random r = new Random(42);
+		Random r = new Random(offset);
 		Date date;
 		String[] lessons = {"Математика", "Біологія", "Фізика", "Історія", "Хімія", "Англійська"};
 		GregorianCalendar cal = new GregorianCalendar();
@@ -44,7 +48,7 @@ public class DiaryController {
 				String note = null;
 				lesson = lessons[r.nextInt(lessons.length)];
 				if (r.nextFloat() > 0.5) {
-					homework = String.format("home work #%d", r.nextInt(100));
+					homework = String.format("Домашнє завдання #%d, #%d", r.nextInt(100), r.nextInt(100));
 				}
 				if (r.nextDouble() > 0.7) {
 					mark = r.nextInt(13);
