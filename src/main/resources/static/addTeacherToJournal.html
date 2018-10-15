@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <head>
+    <title>Add teacher to journal</title>
+    <link href="css/addTeacherToJournal.css" type="text/css" rel="stylesheet"/>
+  </head>
+  
+  <body>
+    <div id="base" class="">
+
+      <!-- Сірий фон -->
+      <div id="u0_div" class="ax_default box_2">
+      </div>
+	  
+      <!-- Заголовок -->
+      <div id="u1" class="ax_default heading_1">
+          <p><h1><span>Додавання вчителя до журналу</span></h1></p>
+        </div>
+      </div>
+
+	  <form action="localhost:8085/teachers/{id}/classes/{id}/subjects/{id}/journal" method="POST">
+	  
+      <!-- Надпись -->
+      <div id="u2" class="ax_default label">
+          <p><span>Вчитель</span></p>
+       </div>
+
+      <!-- Надпись -->
+      <div id="u3" class="ax_default label">
+          <p><span>Клас</span></p>
+       </div>
+
+      <!-- Надпись -->
+      <div id="u4" class="ax_default label">
+          <p><span>Предмет</span></p>
+      </div>
+
+      <!-- Droplist для вчителя -->
+      <div id="u5" class="ax_default droplist">
+        <select id="u5_input">
+        </select>
+      </div>
+
+      <!-- Droplist для класа -->
+      <div id="u6" class="ax_default droplist">
+        <select id="u6_input">
+        </select>
+      </div>
+
+      <!-- Droplist для предмета-->
+      <div id="u7" class="ax_default droplist">
+        <select id="u7_input">
+        </select>
+      </div>
+
+      <!-- Кнопка -->
+      <div id="u8" class="ax_default primary_button">
+          <button type="Submit">Додати</button> 
+      </div>
+		
+	</form>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$.getJSON('http://localhost:8085/teachers/1/classes/1/subjects/1/journal', function (data) {
+				console.log(data);
+				$("#u5_input").attr("value", data.teacher);
+				$("#u6_input").attr("value", data.theClass);
+				$("#u7_input").attr("value", data.subject);
+			});
+		})
+	</script>
+	
+	
+  </body>
+</html>

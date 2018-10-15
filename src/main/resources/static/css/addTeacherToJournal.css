@@ -1,0 +1,147 @@
+﻿body {
+  margin:0px;
+  background-image:none;
+  position:static;
+  left:auto;
+  width:1024px;
+  margin-left:0;
+  margin-right:0;
+  text-align:left;
+}
+#base {
+  position:absolute;
+  z-index:0;
+}
+#u0_div {
+  border-width:0px;
+  position:absolute;
+  left:150px;
+  top:0px;
+  width:1024px;
+  height:770px;
+  background:inherit;
+  background-color:rgba(242, 242, 242, 0.83921568627451);
+}
+#u1 {
+  border-width:0px;
+  position:absolute;
+  left:400px;
+  top:60px;
+  width:503px;
+  height:37px;
+  font-family:'Arial Полужирный', 'Arial Обычный', 'Arial';
+  font-weight:700;
+  font-style:normal;
+  white-space:nowrap;
+}
+#u2 {
+  border-width:0px;
+  position:absolute;
+  left:250px;
+  top:168px;
+  width:83px;
+  height:22px;
+  font-family:'Arial Полужирный Курсив', 'Arial Обычный', 'Arial';
+  font-weight:700;
+  font-style:italic;
+  font-size:18px;
+  white-space:nowrap;
+}
+#u3 {
+  border-width:0px;
+  position:absolute;
+  left:250px;
+  top:241px;
+  width:43px;
+  height:22px;
+  font-family:'Arial Полужирный Курсив', 'Arial Обычный', 'Arial';
+  font-weight:700;
+  font-style:italic;
+  font-size:18px;
+  white-space:nowrap;
+}
+#u4 {
+  border-width:0px;
+  position:absolute;
+  left:250px;
+  top:314px;
+  width:85px;
+  height:22px;
+  font-family:'Arial Полужирный Курсив', 'Arial Обычный', 'Arial';
+  font-weight:700;
+  font-style:italic;
+  font-size:18px;
+  white-space:nowrap;
+}
+#u5 {
+  border-width:0px;
+  position:absolute;
+  left:400px;
+  top:202px;
+  width:300px;
+  height:22px;
+}
+#u5_input {
+  position:absolute;
+  width:300px;
+  height:22px;
+  font-family:'Arial Обычный', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  text-decoration:none;
+  color:#000000;
+}
+#u5_input:disabled {
+  color:grayText;
+}
+#u6 {
+  border-width:0px;
+  position:absolute;
+  left:400px;
+  top:275px;
+  width:300px;
+  height:22px;
+}
+#u6_input {
+  position:absolute;
+  width:300px;
+  height:22px;
+  font-family:'Arial Обычный', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  text-decoration:none;
+  color:#000000;
+}
+#u6_input:disabled {
+  color:grayText;
+}
+#u7 {
+  border-width:0px;
+  position:absolute;
+  left:400px;
+  top:348px;
+  width:300px;
+  height:22px;
+}
+#u7_input {
+  position:absolute;
+  width:300px;
+  height:22px;
+  font-family:'Arial Обычный', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  text-decoration:none;
+  color:#000000;
+}
+#u7_input:disabled {
+  color:grayText;
+}
+#u8 {
+  border-width:0px;
+  position:absolute;
+  left:600px;
+  top:450px;
+}
