@@ -33,6 +33,18 @@ public class TeacherController {
         list.add(new TeacherNamesDTO(6,"Іван","Петрович"));
         return list;
     }
+  
+    @PostMapping
+    @ApiOperation(value = "Add teacher, first name and last name passed in html")
+    @ApiResponses(
+            value={
+                    @ApiResponse(code = 201, message = "teacher crated"),
+                    @ApiResponse(code = 500, message = "server error")
+            }
+    )
+    public void addTeacher(TeacherDTO teacher) {
+    }
+  
     @ApiOperation(value = "Get all info about teacher")
     @GetMapping("/{id}")
     @ApiResponses(
@@ -60,3 +72,4 @@ public class TeacherController {
 
 
 }
+
