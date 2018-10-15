@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Щоденник</title>
+		<style> 
+		.diary-container {
+			-webkit-columns: 500px 2; /* Chrome, Safari, Opera */
+			-moz-columns: 500px 2; /* Firefox */
+			columns: 500px 2;
+			
+		}
+		.diary-day-container{
+			-webkit-column-break-inside: avoid;
+          	page-break-inside: avoid;
+            break-inside: avoid;
+		}
+		.day-name{
+			padding: 10px;
+		}
+
+		table,td,th{
+          	border: 1px solid #ddd;
+       	}
+       	table {
+           	border-collapse: collapse;
+           	width: 100%;
+       	}
+       	
+       	td,th{
+       	    text-align: left;
+       		padding: 8px;
+       	}
+       
+      	tr:nth-child(even){background-color: #f2f2f2}
+      	
+       	th {
+           background-color: #4CAF50;
+           color: white;
+       	}
+		
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="header">
+			<button id="previous-week-btn"><-</button>
+			<button id="next-week-btn">-></button>
+			<span id="date-period"></span>
+			<button id="current-week-btn">Поточний тиждень</button>
+		</div>
+		<div class="diary-container">
+			<div class="diary-day-container">
+				<div class="day-name">Понеділок</div>
+				<table class="diary-day" id="monday"> 
+					
+				</table>
+			</div>
+			
+			<div class="diary-day-container">
+				<div class="day-name">Вівторок</div>
+				<table class="diary-day" id="tuesday"> 
+				
+				</table>
+			</div>
+			
+			<div class="diary-day-container">
+				<div class="day-name">Середа</div>
+				<table class="diary-day" id="wednsday"> 
+					
+				</table>
+			</div>
+			
+			<div class="diary-day-container">
+				<div class="day-name">Четвер</div>
+				<table class="diary-day" id="thursday"> 
+					
+				</table>
+			</div>
+			
+			<div class="diary-day-container">
+				<div class="day-name">П'ятниця</div>
+				<table class="diary-day" id="friday"> 
+					
+				</table>
+			</div>
+			
+			
+		</div>
+		
+		    <script type="text/javascript">
+		    	var offset = 0;
+		    	var ulr = 'http://localhost:8080/diaries/0';
+		    	var months = ["Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", "Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"];
+				$(document).ready(function () {
+					$.getJSON(ulr, setData);
+				});
+				
+				$('#previous-week-btn').click(function(){
+					offset--;
+					$('.diary-day').empty();
+					$.getJSON(ulr, {offset:offset}, setData);
+				});
+				
+				$('#next-week-btn').click(function(){
+					offset++;
+					$('.diary-day').empty();
+					$.getJSON(ulr, {offset:offset}, setData);
+				});
+				
+				$('#current-week-btn').click(function(){
+					offset = 0;
+					$('.diary-day').empty();
+					$.getJSON(ulr, {offset:offset}, setData);
+				});
+				
+				function setData (data) {
+					var tableHeader = $('<tr> <th>№</th> <th>Урок</th> <th>Домашнє завдання</th> <th>Оцінка</th> <th>Примітка</th></tr>');
+					tableHeader.appendTo('.diary-day');
+					var firstDayDate = new Date(data[0].date).getDate();
+					var lastDayDate = new Date(data[data.length-1].date).getDate();
+					var firstDayMonth = new Date(data[0].date).getMonth();
+					var lastDayMonth = new Date(data[data.length-1].date).getMonth();
+					var period = firstDayDate+' '+months[firstDayMonth]+' - '+lastDayDate+' '+months[lastDayMonth];
+					$('#date-period').text(period);
+					if (offset != 0){
+						$('#current-week-btn').show();
+					} else {
+						$('#current-week-btn').hide();
+					}
+					$.each(data, function(i, diaryEntry) {
+						var tableRow = $('<tr></tr>');
+						var date = new Date(diaryEntry.date);
+						var dayOfWeek = date.getDay();
+						$('<td>'+diaryEntry.lessonNumber+'</td>').appendTo(tableRow);
+						$('<td>'+diaryEntry.subjectName+'</td>').appendTo(tableRow);
+						$('<td>'+(diaryEntry.homeWork == null ? "": diaryEntry.homeWork)+'</td>').appendTo(tableRow);
+						$('<td>'+(diaryEntry.mark == 0 ? "": diaryEntry.mark)+'</td>').appendTo(tableRow);
+						$('<td>'+(diaryEntry.note == null?"":diaryEntry.note)+'</td>').appendTo(tableRow);
+						switch(dayOfWeek){
+							case 1:
+								tableRow.appendTo('#monday');
+								break;
+							case 2:
+								tableRow.appendTo('#tuesday');
+								break;
+							case 3:
+								tableRow.appendTo('#wednsday');
+								break;
+							case 4:
+								tableRow.appendTo('#thursday');
+								break;
+							case 5:
+								tableRow.appendTo('#friday');
+								break;
+							default:
+						}
+					});
+				}
+			</script>
+	</body>
+</html>
