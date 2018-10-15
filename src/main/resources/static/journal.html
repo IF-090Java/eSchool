@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Журнали</title>
+
+    <style type="text/css">
+       .description{
+           font-family: Garamond;
+           font-size: 22px;
+           margin-left: 28%;
+           width: 200px;
+           padding: 20px;
+       }
+       table,td,th{
+           border: 1px solid #ddd;
+       }
+       table {
+           border-collapse: collapse;
+           width: 40%;
+           margin: 20px auto;
+       }
+
+       th, td {
+           text-align: left;
+           padding: 8px;
+       }
+
+       tr:nth-child(even){background-color: #f2f2f2}
+
+       th {
+           background-color: #4CAF50;
+           color: white;
+       }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <div class="description">Клас</div>
+    <div class="description">Предмет</div>
+    <div class="description">Вчитель</div>
+
+    <table id="table_mark">
+
+    </table>
+
+    <table id="table_home">
+        <tr>
+            <th>Дата</th>
+            <th>Домашнє завдання</th>
+            <th>Файл</th>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON('http://localhost:8080/homeworks/subjects/{1}/classes/{1}', function (data) {
+            $.each(data, function(key, val) {
+                var tr=$('<tr></tr>');
+                var myDate = new Date(val.date);
+                var parsedDate = myDate.getDate() + "\\" +  (myDate.getMonth()+1) + "\\" + myDate.getFullYear();
+                $('<td>'+parsedDate+'</td>').appendTo(tr);
+                $('<td>'+val.homework+'</td>').appendTo(tr);
+                $('<td>'+val.file+'</td>').appendTo(tr);
+                tr.appendTo('#table_home');
+            });
+        });
+
+        $.getJSON('http://localhost:8080/journals/subjects/{1}/classes/{1}', function (data) {
+            $.each(data, function(key, val) {
+                var tr1=$('<tr></tr>');
+                var tr2=$('<tr></tr>');
+                $('<th>'+"Тип оцінки"+'</th>').appendTo(tr1);
+                $('<th>'+"Дата"+'</th>').appendTo(tr2);
+                $.each(val.mark_types, function(k, v) {
+                    $('<th>'+v+'</th>').appendTo(tr1);
+                });
+                $.each(val.dates, function(k, v) {
+                    var myDate = new Date(v);
+                    var parsedDate = myDate.getDate() + "\\" +  (myDate.getMonth()+1);
+                    $('<th>'+parsedDate+'</th>').appendTo(tr2);
+                });
+                tr1.appendTo('#table_mark');
+                tr2.appendTo('#table_mark');
+                return false;
+            });
+            var count = 1;
+            $.each(data, function(key, val) {
+                var tr=$('<tr></tr>');
+                $('<td>'+(count++)+"."+val.name+'</td>').appendTo(tr);
+                $.each(val.marks, function(k, v) {
+                    if(v==0){
+                        $('<td>'+""+'</td>').appendTo(tr);
+                    }
+                    else
+                    $('<td>'+v+'</td>').appendTo(tr);
+                });
+                tr.appendTo('#table_mark');
+            });
+        });
+    });
+
+    </script>
+</body>
+</html>
