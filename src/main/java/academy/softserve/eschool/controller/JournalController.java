@@ -1,6 +1,7 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.JournalDTO;
+import academy.softserve.eschool.dto.JournalMarkDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -44,8 +46,15 @@ public class JournalController {
             }
     )
     @ApiOperation(value = "Get journal by subjects and classes")
-    @GetMapping("/subjects/{id}/classess/{id}")
-    public void getJournalsTable(){
-
+    @GetMapping("/subjects/{id}/classes/{id}")
+    public List<JournalMarkDTO> getJournalTable(){
+        List<JournalMarkDTO> list = new ArrayList<>();
+        list.add(new JournalMarkDTO("Ruslan1 Kharevych1",new Date[] {new Date(),new Date(),new Date(),new Date(),new Date()},new int[]{7,0,9,10,1}, new String[]{"s","d","g","s","s"}));
+        list.add(new JournalMarkDTO("Ruslan2 Kharevych2",new Date[] {new Date(),new Date(),new Date(),new Date(),new Date()},new int[]{10,6,4,0,8}, new String[]{"s","d","g","s","s"}));
+        list.add(new JournalMarkDTO("Ruslan3 Kharevych3",new Date[] {new Date(),new Date(),new Date(),new Date(),new Date()},new int[]{11,7,8,0,5}, new String[]{"s","d","g","s","s"}));
+        list.add(new JournalMarkDTO("Ruslan4 Kharevych4",new Date[] {new Date(),new Date(),new Date(),new Date(),new Date()},new int[]{10,0,12,2,1}, new String[]{"s","d","g","s","s"}));
+        list.add(new JournalMarkDTO("Ruslan5 Kharevych5",new Date[] {new Date(),new Date(),new Date(),new Date(),new Date()},new int[]{10,0,12,0,9}, new String[]{"s","d","g","s","s"}));
+        list.add(new JournalMarkDTO("Ruslan6 Kharevych6",new Date[] {new Date(),new Date(),new Date(),new Date(),new Date()},new int[]{0,9,12,10,11}, new String[]{"s","d","g","d","s"}));
+        return list;
     }
 }
