@@ -1,18 +1,18 @@
 package academy.softserve.eschool.DTOs;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-/**
- * Used for creating student with .html.
- */
+
 @Data
+@AllArgsConstructor
 public class StudentDTO {
     @ApiModelProperty(notes = "contains student first name")
-    private String firstName;
+    private String firstname;
 
     @ApiModelProperty(notes = "contains student last name")
-    private String lastName;
+    private String lastname;
 
     @ApiModelProperty(notes = "contains student class")
     private String classe;
@@ -25,16 +25,4 @@ public class StudentDTO {
 
     @ApiModelProperty(notes = "student phone")
     private String phone;
-
-    public StudentDTO() {
-    }
-
-    public StudentDTO(String firstName, String lastName, String classe, String login, String email, String phone) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.classe = classe;
-        this.login = login;
-        this.email = email;
-        this.phone = phone;
-    }
 }

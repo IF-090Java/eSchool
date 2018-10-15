@@ -10,8 +10,8 @@
             $.ajax({
                 url: "http://localhost:8080/teachers/15"
             }).then(function(data) {
-                $('#initials').append(data.firstName + ' ');
-                $('#initials').append(data.lastName);
+                $('#initials').append(data.firstname + ' ');
+                $('#initials').append(data.lastname );
                 $('#login').append(data.login);
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
@@ -24,10 +24,11 @@
     <div class="div">
         <h2 id="initials"></h2>
         <h3 id="login">Логін: </h3>
-    </div>
+    </div><br>
 
-    <div id="email">Емаїл: </div>
-    <div id="phone">Номер телефону: </div>
-    <button onclick="">Редагувати профіль.</button>
+    <div id="email" style="font-size: 20px">Електронна пошта: </div>
+    <div id="phone" style="font-size: 20px">Номер телефону: </div>
+
+    <br><button onclick="" style="font-size: 15px">Редагувати профіль.</button>
 </body>
 </html>
