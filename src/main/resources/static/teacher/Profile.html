@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher profile</title>
+    <link rel="stylesheet" type="text/css" href="../css/Style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "http://localhost:8080/teachers/15"
+            }).then(function(data) {
+                $('#initials').append(data.firstname + ' ');
+                $('#initials').append(data.lastname );
+                $('#login').append(data.login);
+                $('#email').append(data.email);
+                $('#phone').append(data.phone);
+            });
+        });
+    </script>
+</head>
+<body>
+    <img src="../img/profile.png">
+    <div class="div">
+        <h2 id="initials"></h2>
+        <h3 id="login">Логін: </h3>
+    </div><br>
+
+    <div id="email" style="font-size: 20px">Електронна пошта: </div>
+    <div id="phone" style="font-size: 20px">Номер телефону: </div>
+
+    <br><button onclick="" style="font-size: 15px">Редагувати профіль.</button>
+</body>
+</html>
