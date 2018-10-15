@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Шкільна статистика</title>
+		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<style> 
+			#chartContainer {
+				height: 300px;
+				width: 100%;
+			}
+			#average{
+				padding: 10px;
+			}
+			.container {
+				padding: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<select id="subject">
+				<option value="">Предмет</option>
+				<option value="0">Математика</option>
+				<option value="1">Фізика</option>
+				<option value="2">Історія</option>
+			</select> 
+			<select id="class">
+				<option value="">Клас</option>
+				<option value="0">7-А</option>
+				<option value="1">7-Б</option>
+			</select>
+			<select id="student">
+				<option value="">Учень</option>
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>				
+			</select>
+			<input id="startDate" type="date" name="start">
+			<input id="endDate" type="date" name="end">
+			<div id="average"></div>
+			<div id="chartContainer"></div>
+		</div>
+		<script type="text/javascript">
+			var ulr = 'http://localhost:8080/marks';
+			$(document).ready(function () {
+				var params = getParams();
+				$.getJSON(ulr, params, setData);
+			});
+			
+			$('#subject').change(function(){
+				var params = getParams();
+				$.getJSON(ulr, params, setData);
+			});
+			
+			$('#class').change(function(){
+				var params = getParams();
+				$.getJSON(ulr, params, setData);
+			});
+			
+			$('#student').change(function(){
+				var params = getParams();
+				$.getJSON(ulr, params, setData);
+			});
+			
+			$('#startDate').change(function(){
+				var params = getParams();
+				$.getJSON(ulr, params, setData);
+			});
+			
+			$('#endDate').change(function(){
+				var params = getParams();
+				$.getJSON(ulr, params, setData);
+			});
+			
+			function setData(data){
+				if ($('#startDate').val() == '' || $('#endDate').val() == ''){
+					initDatePickers(data);
+				}
+				
+				var marksGroupedByDate = groupMarksByDate(data);
+				var dataPoints = createDataPoints(marksGroupedByDate);
+				drawChart(dataPoints);
+				setAverageMark(data);
+			}
+			
+			function initDatePickers(data){
+				var startDate = new Date(data[0].date);
+				var endDate = new Date(data[data.length-1].date);
+				$('#startDate').val(formatDate(startDate));
+				$('#endDate').val(formatDate(endDate));
+			}
+			
+			function formatDate(date){
+				var day = ("0" + date.getDate()).slice(-2);
+				var month = ("0" + (date.getMonth() + 1)).slice(-2);
+				var today = date.getFullYear()+"-"+(month)+"-"+(day);
+				return today;
+			}
+			
+			function groupMarksByDate(data){
+				var marksGroupedByDate = new Map();
+				$.each(data, function(i, markEntry){
+					var date = markEntry.date;
+					if (!marksGroupedByDate.has(date)){
+						marksGroupedByDate.set(date, []);
+					}
+					marksGroupedByDate.get(date).push(markEntry.mark);
+				})
+				return marksGroupedByDate;
+			}
+			
+			function createDataPoints(marks){
+				var dataPoints = [];
+				marks.forEach(function(markArray, key){
+					var average = markArray.reduce((a, v) => a + v)/markArray.length;
+					var dataPoint = new Object();
+					dataPoint.x = new Date(key);
+					dataPoint.y = average;
+					dataPoints.push(dataPoint);
+				});
+				return dataPoints;
+			}
+			
+			function setAverageMark(data){
+				var sum = 0;
+				$.each(data, function(i, markEntry){
+					sum = sum + markEntry.mark;
+				});
+				var average = sum/data.length;
+				$('#average').text('Середня оцінка: ' + average.toFixed(2));
+			}
+			
+			function drawChart(dataPoints){
+				var chart = new CanvasJS.Chart("chartContainer", {
+					animationEnabled: true,
+					title: {
+						text: "Шкільні оцінки"
+					},
+					axisX: {
+						valueFormatString: "DD/MM/YYYY",
+						minimum: new Date($('#startDate').val()),
+						maximum: new Date($('#endDate').val())
+					},
+					axisY: {
+						title: "Оцінка",
+						minimum: 0,
+						maximum: 12
+					},
+					legend: {
+						verticalAlign: "top",
+						horizontalAlign: "right",
+						dockInsidePlotArea: true
+					},
+					toolTip: {
+						shared: true
+					},
+					data: [{
+						name: "Оцінка",
+						showInLegend: true,
+						legendMarkerType: "square",
+						type: "area",
+						color: "rgba(40,175,101,0.6)",
+						markerSize: 0,
+						dataPoints: dataPoints
+					}]
+				});
+				chart.render();
+			}
+			
+			function getParams(){
+				var params = new Object();
+				params.subject_id = $('#subject').val();
+				params.class_id = $('#class').val();
+				params.student_id = $('#student').val();
+				params.period_start = $('#startDate').val();
+				params.period_end = $('#endtDate').val();
+				return params;
+			}
+		</script>
+	</body>
+</html>
