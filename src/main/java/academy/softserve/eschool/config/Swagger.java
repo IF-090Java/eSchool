@@ -29,8 +29,8 @@ public class Swagger {
     private ApiInfo metaInfo() {
 
         return new ApiInfo(
-                "Swagger documentation",
-                "Swagger documentation for creating schedules and conecting teachers to journals",
+                "ESchool API",
+                "ESchool Project API",
                 "1.0",
                 "Terms of Service",
                 new Contact("IF-090.Java", "https://",
