@@ -1,0 +1,23 @@
+form {
+    margin: 0 auto;
+    background: lightgoldenrodyellow;
+    border: medium solid black;
+    border-radius: 10px;
+    width: 600px;
+    padding: 15px
+}
+
+.div {
+    border: medium solid black;
+    margin: 20px;
+    width: 450px;
+    border-radius: 15px;
+    padding: 15px;
+}
+ img {
+     border: solid 10px;
+     border-radius: 5px;
+     padding: 5px;
+     width: 200px;
+     height: 200px;
+ }
