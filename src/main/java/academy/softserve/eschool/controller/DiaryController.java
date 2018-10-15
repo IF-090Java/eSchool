@@ -15,14 +15,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import academy.softserve.eschool.dto.DiaryEntryDTO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/diaries")
+@Api(value = "Reads students' diaries")
 public class DiaryController {
 	@GetMapping("/{studentId}")
+	@ApiOperation(value = "Get student's diary")
 	List<DiaryEntryDTO> getDiary(
-			@RequestParam(defaultValue = "0") Integer offset, 
-			@PathVariable Integer studentId,
+			@ApiParam(value = "offsets week of diary", required = false) @RequestParam(defaultValue = "0") Integer offset, 
+			@ApiParam(value = "shows diary for student with specified id", required = true) @PathVariable Integer studentId,
 			HttpServletResponse response){
 		//TODO get diary for student with id=studentId from database
 		response.addHeader("Access-Control-Allow-Origin", "*");
