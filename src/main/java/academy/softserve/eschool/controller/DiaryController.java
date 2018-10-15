@@ -27,10 +27,8 @@ public class DiaryController {
 	@ApiOperation(value = "Get student's diary")
 	List<DiaryEntryDTO> getDiary(
 			@ApiParam(value = "offsets week of diary", required = false) @RequestParam(defaultValue = "0") Integer offset, 
-			@ApiParam(value = "shows diary for student with specified id", required = true) @PathVariable Integer studentId,
-			HttpServletResponse response){
+			@ApiParam(value = "shows diary for student with specified id", required = true) @PathVariable Integer studentId){
 		//TODO get diary for student with id=studentId from database
-		response.addHeader("Access-Control-Allow-Origin", "*");
 		return createDiaryStub(offset);
 	}
 	

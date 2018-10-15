@@ -33,8 +33,7 @@ public class MarksController {
 			@ApiParam(value = "filter results by subject id", required = false) @RequestParam(value = "subject_id", required = false) Integer subjectId,
 			@ApiParam(value = "filter results by class id", required = false) @RequestParam(value = "class_id", required = false) Integer classId,
 			@ApiParam(value = "get marks received after specified date", required = false) @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodStart,
-			@ApiParam(value = "get marks received before specified date", required = false) @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodEnd,
-			HttpServletResponse response){
+			@ApiParam(value = "get marks received before specified date", required = false) @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodEnd){
 		
 		//TODO get marks filtered according to request parameters
 		List<MarkDTO> marks = createStatisticsStub();
@@ -45,7 +44,6 @@ public class MarksController {
 				.filter((mark) -> periodStart == null ? true : mark.getDate().after(periodStart))
 				.filter((mark) -> periodEnd == null ? true : mark.getDate().before(periodEnd))
 				.collect(Collectors.toList());
-		response.addHeader("Access-Control-Allow-Origin", "*");
 		Collections.sort(filteredMarks);
 		return filteredMarks;
 	}
