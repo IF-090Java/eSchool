@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import academy.softserve.eschool.dto.DiaryEntryDTO;
 
 @RestController
-@RequestMapping("/api/diaries")
+@RequestMapping("/diaries")
 public class DiaryController {
 	@GetMapping("/{studentId}")
 	List<DiaryEntryDTO> getDiary(
@@ -31,27 +31,28 @@ public class DiaryController {
 	
 	private List<DiaryEntryDTO> createDiaryStub (int offset){
 		Random r = new Random(offset);
+		Random l = new Random(42);
 		Date date;
-		String[] lessons = {"Математика", "Біологія", "Фізика", "Історія", "Хімія", "Англійська"};
+		String[] lessons = {"Математика", "Біологія", "Фізика", "Історія", "Хімія", "Англійська", "Українська", "Фізкультура"};
 		GregorianCalendar cal = new GregorianCalendar();
 		cal.add(GregorianCalendar.WEEK_OF_MONTH, offset);
 		cal.set(GregorianCalendar.DAY_OF_WEEK, GregorianCalendar.MONDAY);
 		List<DiaryEntryDTO> diary = new ArrayList<>();
 		
 		for (int i = 0; i<5; i++) {
-			int lessonAmount = 3+r.nextInt(4);
+			int lessonAmount = 3+l.nextInt(4);
 			date = cal.getTime();
 			for (int j = 1; j<=lessonAmount; j++) {
 				String lesson = null;
 				String homework = null;
 				int mark = 0;
 				String note = null;
-				lesson = lessons[r.nextInt(lessons.length)];
+				lesson = lessons[l.nextInt(lessons.length)];
 				if (r.nextFloat() > 0.5) {
 					homework = String.format("Домашнє завдання #%d, #%d", r.nextInt(100), r.nextInt(100));
 				}
 				if (r.nextDouble() > 0.7) {
-					mark = r.nextInt(13);
+					mark = 4 + r.nextInt(9);
 				}
 				if (mark > 10) {
 					note = "Молодець!";

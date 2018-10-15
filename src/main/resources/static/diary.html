@@ -27,8 +27,17 @@
            	border-collapse: collapse;
            	width: 100%;
        	}
+       	
        	td,th{
-       		padding: 10px;
+       	    text-align: left;
+       		padding: 8px;
+       	}
+       
+      	tr:nth-child(even){background-color: #f2f2f2}
+      	
+       	th {
+           background-color: #4CAF50;
+           color: white;
        	}
 		
 		</style>
@@ -37,8 +46,8 @@
 	<body>
 		<div class="header">
 			<button id="previous-week-btn"><-</button>
-			<span id="date-period"></span>
 			<button id="next-week-btn">-></button>
+			<span id="date-period"></span>
 			<button id="current-week-btn">Поточний тиждень</button>
 		</div>
 		<div class="diary-container">
@@ -82,7 +91,7 @@
 		
 		    <script type="text/javascript">
 		    	var offset = 0;
-		    	var ulr = 'http://localhost:8080/api/diaries/0';
+		    	var ulr = 'http://localhost:8080/diaries/0';
 		    	var months = ["Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", "Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"];
 				$(document).ready(function () {
 					$.getJSON(ulr, setData);
