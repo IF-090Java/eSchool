@@ -1,6 +1,7 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.DTOs.StudentDTO;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/students")
+@Api(description = "Student controller")
 public class StudentController {
 
     @PostMapping
