@@ -1,6 +1,6 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.DTOs.StudentDTO;
+import academy.softserve.eschool.dto.StudentDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
