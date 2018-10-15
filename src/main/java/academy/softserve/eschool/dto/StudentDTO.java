@@ -1,4 +1,4 @@
-package academy.softserve.eschool.DTOs;
+package academy.softserve.eschool.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
