@@ -1,7 +1,7 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.DTOs.TeacherDTO;
-import academy.softserve.eschool.DTOs.TeacherNamesDTO;
+import academy.softserve.eschool.dto.TeacherDTO;
+import academy.softserve.eschool.dto.TeacherNamesDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
