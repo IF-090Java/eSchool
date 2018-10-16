@@ -23,7 +23,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("")
 @Api(value = "Schedule Endpoint", description = "Crate a schedule for a semester")
-public class CreateScheduleController {
+public class ScheduleController {
 
    /* @Query(value = "INSERT INTO schedule(id_schedule, id_grade, id_subject) VALUES CreateScheduleDTO.id, (SELECT id  FROM grade" +
             "WHERE gname = CreateScheduleDTO.theClass), (SELECT id WHERE sname IN ...)")
