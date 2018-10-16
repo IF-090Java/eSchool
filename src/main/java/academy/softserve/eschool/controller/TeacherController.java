@@ -66,7 +66,7 @@ public class TeacherController {
             }
     )
     public void updateTeacher(@RequestBody TeacherDTO teacher,@PathVariable String id){
-        // someservice.update(id,TeacherDTO)
+        // someservice.update(id,teacher)
     }
 
 
