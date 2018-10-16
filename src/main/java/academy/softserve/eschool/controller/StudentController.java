@@ -37,7 +37,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    @ApiOperation(value = "update profile of teacher")
+    @ApiOperation(value = "update profile of student")
     @ApiResponses(
             value = {
                     @ApiResponse( code = 201 , message = "Successfully created"),
@@ -45,7 +45,7 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public void updateStudent(@RequestBody StudentDTO teacher, @PathVariable String id){
-        // someservice.update(id,TeacherDTO)
+    public void updateStudent(@RequestBody StudentDTO student, @PathVariable String id){
+        // someservice.update(id,student)
     }
 }
