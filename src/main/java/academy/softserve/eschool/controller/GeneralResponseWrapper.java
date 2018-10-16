@@ -1,9 +1,9 @@
 package academy.softserve.eschool.controller;
 
-import jdk.net.SocketFlow;
+//import jdk.net.SocketFlow;
 
 public class GeneralResponseWrapper<T> {
 
-    SocketFlow.Status
-    T data;
+//    SocketFlow.Status status;
+//    T data;
 }
