@@ -1,29 +1,18 @@
 package academy.softserve.eschool.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.util.Date;
+import java.util.List;
 
 @Data
 public class JournalMarkDTO {
     @ApiModelProperty(notes = "name of student")
-    private String name;
-    @JsonFormat(
-            shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy/MM/dd")
-    @ApiModelProperty(notes = "array of dates")
-    private Date[] dates;
+    private String studentFullName;
     @ApiModelProperty(notes = "array of marks")
-    private int[] marks;
-    @ApiModelProperty(notes = "array of marks types")
-    private String[] mark_types;
+    private List<MarkDescriptionDTO> marks;
 
-    public JournalMarkDTO(String name, Date[] dates, int[] marks, String[] mark_types) {
-        this.name=name;
-        this.dates = dates;
+    public JournalMarkDTO(String studentFullName, List<MarkDescriptionDTO> marks) {
+        this.studentFullName = studentFullName;
         this.marks = marks;
-        this.mark_types = mark_types;
     }
 }

@@ -17,12 +17,11 @@ import java.util.List;
 @Api(value = "Homework's Endpoint", description = "Get homeworks")
 public class HomeworkController {
 
-    @GetMapping("/subjects/{id}/classes/{id}")
+    @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     @ApiOperation(value = "Get homeworks by subjects and classes")
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 204, message = "No content"),
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )

@@ -72,11 +72,9 @@
                 var tr2=$('<tr></tr>');
                 $('<th>'+"Тип оцінки"+'</th>').appendTo(tr1);
                 $('<th>'+"Дата"+'</th>').appendTo(tr2);
-                $.each(val.mark_types, function(k, v) {
-                    $('<th>'+v+'</th>').appendTo(tr1);
-                });
-                $.each(val.dates, function(k, v) {
-                    $('<th>'+v+'</th>').appendTo(tr2);
+                $.each(val.marks, function(k, v) {
+                    $('<th>'+v.typeMark+'</th>').appendTo(tr1);
+                    $('<th>'+v.dateMark+'</th>').appendTo(tr2);
                 });
                 tr1.appendTo('#table_mark');
                 tr2.appendTo('#table_mark');
@@ -85,13 +83,13 @@
             var count = 1;
             $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
-                $('<td>'+(count++)+"."+val.name+'</td>').appendTo(tr);
+                $('<td>'+(count++)+"."+val.studentFullName+'</td>').appendTo(tr);
                 $.each(val.marks, function(k, v) {
-                    if(v==0){
+                    if(!v.mark){
                         $('<td>'+""+'</td>').appendTo(tr);
                     }
                     else
-                    $('<td>'+v+'</td>').appendTo(tr);
+                    $('<td>'+v.mark+'</td>').appendTo(tr);
                 });
                 tr.appendTo('#table_mark');
             });
