@@ -1,6 +1,6 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.dto.CreateScheduleDTO;
+import academy.softserve.eschool.dto.ScheduleDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -23,21 +23,21 @@ import java.util.Map;
 @RestController
 @RequestMapping("")
 @Api(value = "Schedule Endpoint", description = "Crate a schedule for a semester")
-public class CreateScheduleController {
+public class ScheduleController {
 
    /* @Query(value = "INSERT INTO schedule(id_schedule, id_grade, id_subject) VALUES CreateScheduleDTO.id, (SELECT id  FROM grade" +
             "WHERE gname = CreateScheduleDTO.theClass), (SELECT id WHERE sname IN ...)")
    */
    @ApiOperation(value = "Shows all the shedules")
-   @GetMapping("/classes/schedule")//this method can be deleted
-   public List<CreateScheduleDTO> getCreateScheduleDTO() throws ParseException {
+
+   public List<ScheduleDTO> getCreateScheduleDTO() throws ParseException {
        SimpleDateFormat format = new SimpleDateFormat("dd.MM");
 
        Map<Integer, String> map = new HashMap<>();
        map.put(1, "Біологія");
 
        return Arrays.asList(
-               new CreateScheduleDTO(1, format.parse("01.09"), format.parse("25.12"), "5-B",
+               new ScheduleDTO(1, format.parse("01.09"), format.parse("25.12"), "5-B",
                        map, map, map, map, map)
        );
    }
@@ -45,12 +45,12 @@ public class CreateScheduleController {
     @ApiOperation(value = "Creates a schedule for a class")
     @ApiResponses(
             value={
-                    @ApiResponse(code = 201, message = "Розклад успішно створений"),
-                    @ApiResponse(code = 500, message = "Помилка сервера")
+                    @ApiResponse(code = 201, message = "Schedule successfully created"),
+                    @ApiResponse(code = 500, message = "Server error")
             }
     )
     @PostMapping("/classes/{id}/schedule")
-    public CreateScheduleDTO postSchedule(@PathVariable("id") final String id, @RequestBody CreateScheduleDTO createScheduleDTO) throws ParseException//create a shedule for a class with this id
+    public ScheduleDTO postSchedule(@PathVariable("id") final Long id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
         return getCreateScheduleDTO().get(0);//example
         //return createScheduleDTO;

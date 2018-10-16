@@ -10,7 +10,7 @@ import java.util.Map;
  * Created by Mariana on 12.10.2018.
  */
 @Data
-public class CreateScheduleDTO {
+public class ScheduleDTO {
 
     @ApiModelProperty(notes = "id of the schedule")
     private int id_schedule;
@@ -39,7 +39,7 @@ public class CreateScheduleDTO {
     @ApiModelProperty(notes = "schedule for Friday")
     private Map<Integer, String> fridaySubjects;    //schedule for Friday
 
-    public CreateScheduleDTO(int id_schedule, Date startOfSemester, Date endOfSemester, String theClass, Map<Integer, String> mondaySubjects,
+    public ScheduleDTO(int id_schedule, Date startOfSemester, Date endOfSemester, String theClass, Map<Integer, String> mondaySubjects,
                              Map<Integer, String> tuesdaySubjects, Map<Integer, String> wednesdaySubjects, Map<Integer, String> thursdaySubjects,
                              Map<Integer, String> fridaySubjects) {
         this.id_schedule = id_schedule;

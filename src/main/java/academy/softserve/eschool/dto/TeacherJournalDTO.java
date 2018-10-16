@@ -7,7 +7,7 @@ import lombok.Data;
  * Created by Mariana on 12.10.2018.
  */
 @Data
-public class AddTeacherToJournalDTO {
+public class TeacherJournalDTO {
 
     @ApiModelProperty(notes = "teacher to add")
     private String teacher;     //teacher we want to add to the journal
@@ -18,7 +18,7 @@ public class AddTeacherToJournalDTO {
     @ApiModelProperty(notes = "teacher's subject")
     private String subject;     //teacher's subject
 
-    public AddTeacherToJournalDTO(String teacher, String theClass, String subject) {
+    public TeacherJournalDTO(String teacher, String theClass, String subject) {
         this.teacher = teacher;
         this.theClass = theClass;
         this.subject = subject;
