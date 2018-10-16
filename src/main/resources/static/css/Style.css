@@ -9,8 +9,18 @@ form {
 
 .div {
     border: medium solid black;
+    background: white;
     margin: 20px;
     width: 450px;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.div-first {
+    margin: 0 auto;
+    background: lightgoldenrodyellow;
+    width: 800px;
+    border: medium solid black;
     border-radius: 15px;
     padding: 15px;
 }
@@ -20,4 +30,8 @@ form {
      padding: 5px;
      width: 200px;
      height: 200px;
+ }
+
+ body {
+     background: #BCC8D2;
  }
