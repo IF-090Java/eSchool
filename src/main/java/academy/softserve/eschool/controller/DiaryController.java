@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiParam;
 public class DiaryController {
 	@GetMapping("/{studentId}")
 	@ApiOperation(value = "Get student's diary")
+	//TODO startdate enddate
 	List<DiaryEntryDTO> getDiary(
 			@ApiParam(value = "offsets week of diary", required = false) @RequestParam(defaultValue = "0") Integer offset, 
 			@ApiParam(value = "shows diary for student with specified id", required = true) @PathVariable Integer studentId,
