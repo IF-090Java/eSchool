@@ -11,7 +11,7 @@
 				width: 100%;
 			}
 			#average{
-				padding: 10px;
+				padding-top: 20px;
 			}
 			.container {
 				padding: 50px;
@@ -79,18 +79,22 @@
 				if ($('#startDate').val() == '' || $('#endDate').val() == ''){
 					initDatePickers(data);
 				}
-				
-				var marksGroupedByDate = groupMarksByDate(data);
-				var dataPoints = createDataPoints(marksGroupedByDate);
-				drawChart(dataPoints);
+				formatDatadoints(data);
+				drawChart(data);
 				setAverageMark(data);
 			}
 			
 			function initDatePickers(data){
-				var startDate = new Date(data[0].date);
-				var endDate = new Date(data[data.length-1].date);
+				var startDate = new Date(data[0].x);
+				var endDate = new Date(data[data.length-1].x);
 				$('#startDate').val(formatDate(startDate));
 				$('#endDate').val(formatDate(endDate));
+			}
+			
+			function formatDatadoints(data){
+				$.each(data, function(i, e){
+					e.x = new Date(e.x);
+				});	
 			}
 			
 			function formatDate(date){
@@ -100,34 +104,10 @@
 				return today;
 			}
 			
-			function groupMarksByDate(data){
-				var marksGroupedByDate = new Map();
-				$.each(data, function(i, markEntry){
-					var date = markEntry.date;
-					if (!marksGroupedByDate.has(date)){
-						marksGroupedByDate.set(date, []);
-					}
-					marksGroupedByDate.get(date).push(markEntry.mark);
-				})
-				return marksGroupedByDate;
-			}
-			
-			function createDataPoints(marks){
-				var dataPoints = [];
-				marks.forEach(function(markArray, key){
-					var average = markArray.reduce((a, v) => a + v)/markArray.length;
-					var dataPoint = new Object();
-					dataPoint.x = new Date(key);
-					dataPoint.y = average;
-					dataPoints.push(dataPoint);
-				});
-				return dataPoints;
-			}
-			
 			function setAverageMark(data){
 				var sum = 0;
-				$.each(data, function(i, markEntry){
-					sum = sum + markEntry.mark;
+				$.each(data, function(i, dataPoint){
+					sum = sum + dataPoint.y;
 				});
 				var average = sum/data.length;
 				$('#average').text('Середня оцінка: ' + average.toFixed(2));
