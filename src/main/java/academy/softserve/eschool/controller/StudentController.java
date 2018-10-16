@@ -32,7 +32,20 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public StudentDTO getTeacher(@PathVariable int id){
+    public StudentDTO getStudent(@PathVariable int id){
         return new StudentDTO("John", "Doe", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
+    }
+
+    @PutMapping("/{id}")
+    @ApiOperation(value = "update profile of teacher")
+    @ApiResponses(
+            value = {
+                    @ApiResponse( code = 201 , message = "Successfully created"),
+                    @ApiResponse( code = 400, message = "Bad data"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    public void updateStudent(@RequestBody StudentDTO teacher, @PathVariable String id){
+        // someservice.update(id,TeacherDTO)
     }
 }

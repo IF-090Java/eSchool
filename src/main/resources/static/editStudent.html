@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Edit teacher</title>
+	<title>Edit student</title>
 	<style type="text/css">
 	.header{
 		height: 50px;
@@ -15,13 +15,17 @@
 		font-size: 18px;
 	}
 	.row{
-  		display: table-row;
+		display: table-row;
 
 	}	
+	#selectClass{
+		margin-top: 15px;
+		width: 130px;
+	}
 	label{
 		padding-top: 15px;
-  		display: table-cell;
-  		vertical-align: middle;
+		display: table-cell;
+		vertical-align: middle;
 	}
 	input{
 		margin-top: 15px;
@@ -46,30 +50,34 @@
 		<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="#"> Вийти</a></span>
 	</div>
 	<div class="main">
-			<form action="localhost:8080/teacher/{id}" method="PUT">
-				<div class="row">
-					<label for="firstname">Імя:</label>
-					<input id="fname" type="text" name="firstname">
-				</div>
-				<div class="row">
-					<label for="lastname">Прізвище:</label>
-					<input id="lname" type="text" name="lastname">
-				</div>
-				<div class="row">
-					<label for="login">Логін:</label>
-					<input id="username" type="text" name="login">
-				</div>
-				<div class="row">
-					<label for="email">Електронна адреса:</label>
-					<input id="mail" type="text" name="email">
-				</div>
-				<div class="row">
-					<label for="phone">Телефон:</label>
-					<input id="mobile" type="text" name="phone">
-				</div>
-				<div align="center" style="margin-right: 50%;">
-					<button type="Submit">Зберегти</button>
-				</div>
+		<form action="localhost:8080/student/{id}" method="PUT">
+			<div class="row">
+				<label for="firstname">Імя:</label>
+				<input id="fname" type="text" name="firstname">
+			</div>
+			<div class="row">
+				<label for="lastname">Прізвище:</label>
+				<input id="lname" type="text" name="lastname">
+			</div>
+			<div class="row">
+				<label for="login">Логін:</label>
+				<input id="username" type="text" name="login">
+			</div>
+			<div class="row">
+				<label for="select" ">Класс:</label>
+				<select id="selectClass" name="select"></select>
+			</div>
+			<div class="row">
+				<label for="email">Електронна адреса:</label>
+				<input id="mail" type="text" name="email">
+			</div>
+			<div class="row">
+				<label for="phone">Телефон:</label>
+				<input id="mobile" type="text" name="phone">
+			</div>
+			<div align="center" style="margin-right: 50%;">
+				<button type="Submit">Зберегти</button>
+			</div>
 		</form>
 		<form style="padding-top: 50px">
 			<div class="row">
@@ -87,20 +95,37 @@
 				<button type="Submit">Змінити пароль</button>
 			</div>
 		</form>
+
 	</div>
 	<script type="text/javascript">
-		$(document).ready(function() {
+		$(document).ready(function () {
 
-			$.getJSON('http://localhost:8080/teachers/1', function (data) {
-				console.log(data);
+			$.getJSON('http://localhost:8080/students/1', function (data) {
 				$("#fname").attr("value", data.firstname);
 				$("#lname").attr("value", data.lastname);
 				$("#username").attr("value", data.login);
-				$("#pass").attr("value", data.password);
+				$('#selectClass').append($('<option>', {
+					text: data.classe
+				}));
+				$('#selectClass').val(data.classe);
 				$("#mail").attr("value", data.email);
 				$("#mobile").attr("value", data.phone);
 			});
+
+			$.getJSON('http://localhost:8080/classes', function (data2) {
+				console.log(data2);
+				var names = data2.map(function (item) {
+					return item.classYear + '-' + item.className;
+				});
+				$.each(names, function (i, item) {
+					$('#selectClass').append($('<option>', { 
+						value: data2[i].id,
+						text : item
+					}));
+				});
+			});
 		})
+		
 	</script>
 </body>
 </html>
