@@ -59,9 +59,7 @@
         $.getJSON('http://localhost:8080/homeworks/subjects/{1}/classes/{1}', function (data) {
             $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
-                var myDate = new Date(val.date);
-                var parsedDate = myDate.getDate() + "\\" +  (myDate.getMonth()+1) + "\\" + myDate.getFullYear();
-                $('<td>'+parsedDate+'</td>').appendTo(tr);
+                $('<td>'+val.date+'</td>').appendTo(tr);
                 $('<td>'+val.homework+'</td>').appendTo(tr);
                 $('<td>'+val.file+'</td>').appendTo(tr);
                 tr.appendTo('#table_home');
@@ -78,9 +76,7 @@
                     $('<th>'+v+'</th>').appendTo(tr1);
                 });
                 $.each(val.dates, function(k, v) {
-                    var myDate = new Date(v);
-                    var parsedDate = myDate.getDate() + "\\" +  (myDate.getMonth()+1);
-                    $('<th>'+parsedDate+'</th>').appendTo(tr2);
+                    $('<th>'+v+'</th>').appendTo(tr2);
                 });
                 tr1.appendTo('#table_mark');
                 tr2.appendTo('#table_mark');

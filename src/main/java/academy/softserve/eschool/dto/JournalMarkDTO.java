@@ -1,5 +1,6 @@
 package academy.softserve.eschool.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -9,6 +10,9 @@ import java.util.Date;
 public class JournalMarkDTO {
     @ApiModelProperty(notes = "name of student")
     private String name;
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "yyyy/MM/dd")
     @ApiModelProperty(notes = "array of dates")
     private Date[] dates;
     @ApiModelProperty(notes = "array of marks")
