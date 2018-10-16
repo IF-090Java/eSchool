@@ -13,14 +13,14 @@ public class TeacherJournalDTO {
     private String teacher;     //teacher we want to add to the journal
 
     @ApiModelProperty(notes = "class of the journal")
-    private String theClass;    //class of the journal that we want to add to the teacher
+    private String classs;    //class of the journal that we want to add to the teacher
 
     @ApiModelProperty(notes = "teacher's subject")
     private String subject;     //teacher's subject
 
-    public TeacherJournalDTO(String teacher, String theClass, String subject) {
+    public TeacherJournalDTO(String teacher, String classs, String subject) {
         this.teacher = teacher;
-        this.theClass = theClass;
+        this.classs = classs;
         this.subject = subject;
     }
 }
