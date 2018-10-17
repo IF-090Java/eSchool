@@ -48,6 +48,7 @@ public class AddTeacherToJournalController {
             }
     )
     @PostMapping("/teachers/{id1}/classes/{id2}/subjects/{id3}/journal")
+    //public GeneralResponseWrapper<AddTeacherToJournalDTO>
     public AddTeacherToJournalDTO postConection(@PathVariable("id1") final String id1, @PathVariable("id2") final String id2, @PathVariable("id3") final String id3)
     //add a teacher with id to a journal of the class with id to a subject whith id
     {

@@ -9,6 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClassDTO {
+    @ApiModelProperty(required = true, notes = "ID of class")
+    private int Id;
+
     @ApiModelProperty(required = true, notes = "Class year, from 1 to 12")
     private int classYear;
 

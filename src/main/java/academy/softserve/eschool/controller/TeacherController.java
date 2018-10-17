@@ -42,7 +42,8 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public void addTeacher(TeacherDTO teacher) {
+    public TeacherDTO addTeacher(@RequestBody TeacherDTO teacher) {
+        return teacher;
     }
   
     @ApiOperation(value = "Get all info about teacher")
@@ -66,7 +67,7 @@ public class TeacherController {
             }
     )
     public void updateTeacher(@RequestBody TeacherDTO teacher,@PathVariable String id){
-        // someservice.update(id,TeacherDTO)
+        // someservice.update(id,teacher)
     }
 
 
