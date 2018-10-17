@@ -10,15 +10,15 @@ import lombok.Data;
 public class TeacherJournalDTO {
 
     @ApiModelProperty(notes = "teacher to add")
-    private String teacher;     //teacher we want to add to the journal
+    private TeacherNamesDTO teacher;     //teacher we want to add to the journal
 
     @ApiModelProperty(notes = "class of the journal")
-    private String classs;    //class of the journal that we want to add to the teacher
+    private ClassDTO classs;    //class of the journal that we want to add to the teacher
 
     @ApiModelProperty(notes = "teacher's subject")
     private String subject;     //teacher's subject
 
-    public TeacherJournalDTO(String teacher, String classs, String subject) {
+    public TeacherJournalDTO(TeacherNamesDTO teacher, ClassDTO classs, String subject) {
         this.teacher = teacher;
         this.classs = classs;
         this.subject = subject;

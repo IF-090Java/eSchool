@@ -54,11 +54,10 @@ public class ScheduleController {
         //return scheduleDTO;
     }
 
-    @GetMapping("/classes/{id_class}/schedule/{id_schedule}")
-    public ScheduleDTO getScheduleById(@PathVariable("id_class") final int id_class, @PathVariable("id_schedule")
-                                        final Long id_schedule) throws ParseException
+    @GetMapping("/classes/{id_class}/schedule")
+    public ScheduleDTO getSchedule(@PathVariable("id_class") final int id_class) throws ParseException
     {
-        return new ScheduleDTO(id_schedule, new Date(), new Date(),
+        return new ScheduleDTO(1, new Date(), new Date(),
                 new ClassDTO(id_class,8, "Б", "Класний керівник - Кашуба Григорій"), new HashMap<>(), new HashMap<>()
                 , new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
