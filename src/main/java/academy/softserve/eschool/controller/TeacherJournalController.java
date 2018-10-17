@@ -47,6 +47,7 @@ public class TeacherJournalController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+
     @PostMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
     public TeacherJournalDTO postConection(@PathVariable("teacher_id") final Long teacher_id, @PathVariable("class_id") final Long class_id,
                                            @PathVariable("subject_id") final Long subject_id)
