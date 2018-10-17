@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Teacher profile</title>
     <link rel="stylesheet" type="text/css" href="../css/Style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>
@@ -10,16 +8,21 @@
             $.ajax({
                 url: "http://localhost:8080/teachers/15"
             }).then(function(data) {
-                $('#initials').append(data.firstname + ' ');
-                $('#initials').append(data.lastname );
+                $('#title').append(data.firstname + ' ' + data.lastname)
+                $('#initials').append(data.firstname + ' ' + data.lastname);
                 $('#login').append(data.login);
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
             });
         });
     </script>
+
+    <meta charset="UTF-8">
+    <title id="title"></title>
 </head>
 <body>
+    <fieldset/>
+    <legend>[ Ваш профіль ]</legend>
     <div class="div-first">
         <img src="../img/profile.png">
         <div class="div">

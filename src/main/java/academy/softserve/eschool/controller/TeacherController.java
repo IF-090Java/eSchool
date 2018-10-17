@@ -42,7 +42,7 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public TeacherDTO addTeacher(@RequestBody TeacherDTO teacher) {
+    public TeacherDTO addTeacher(TeacherDTO teacher) {
         return teacher;
     }
   

@@ -20,7 +20,7 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public void addStudent(@RequestBody StudentDTO student) {
+    public void addStudent(StudentDTO student) {
 
     }
 
