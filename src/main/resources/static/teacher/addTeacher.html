@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Add teacher</title>
     <link rel="stylesheet" type="text/css" href="../css/Style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript">
@@ -14,21 +12,31 @@
             });
         })
     </script>
+
+    <meta charset="UTF-8">
+    <title>Додавання вчителя</title>
 </head>
 <body>
-<form method="post" action="/teachers">
-    <div>
-        Додати нового вчителя
+    <div align="center" style="margin-bottom: 50px">
+        <h1>ДОДАВАННЯ НОВОГО ВЧИТЕЛЯ</h1>
+    </div>
+    <form method="post" action="/teachers">
+        <fieldset/>
+        <legend>[ Дані вчителя ]</legend>
         <hr>
-    </div>
 
-    <div>
-        Прізвище <input type="text" name="firstname" begraundV="Введіть прізвище вчителя" required>
-        Ім'я     <input type="text" name="lastname" begraundV="Введіть ім'я вчителя" required>
-    </div>
-    <div align="center">
-        <br><input type="submit" value="Додати" align="center">
-    </div>
-</form>
+        <div>
+            <label for="firstname">Прізвище</label>
+            <input type="text" name="firstname" id="firstname" placeholder="Введіть прізвище вчителя" required>
+
+            <label for="lastname">Ім'я</label>
+            <input type="text" name="lastname" id="lastname" placeholder="Введіть ім'я вчителя" required><br>
+        </div>
+        <div align="center">
+            <br><input type="submit" value="Додати" align="center">
+        </div>
+        <hr>
+
+    </form>
 </body>
 </html>
