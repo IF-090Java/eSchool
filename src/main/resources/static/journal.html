@@ -38,9 +38,9 @@
 </head>
 <body>
 
-    <div class="description">Клас</div>
-    <div class="description">Предмет</div>
-    <div class="description">Вчитель</div>
+    <div class="description">Клас: </div>
+    <div class="description">Предмет: </div>
+    <div class="description">Вчитель: </div>
 
     <table id="table_mark">
 
@@ -76,21 +76,28 @@
                     $('<th>'+v.typeMark+'</th>').appendTo(tr1);
                     $('<th>'+v.dateMark+'</th>').appendTo(tr2);
                 });
+                $('<th>'+'AVG'+'</th>').appendTo(tr2);
                 tr1.appendTo('#table_mark');
                 tr2.appendTo('#table_mark');
                 return false;
             });
-            var count = 1;
+            var countStudents = 0;
+            var countMarks = 0;
+            var sum=0;
             $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
-                $('<td>'+(count++)+"."+val.studentFullName+'</td>').appendTo(tr);
+                $('<td>'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr);
                 $.each(val.marks, function(k, v) {
                     if(!v.mark){
                         $('<td>'+""+'</td>').appendTo(tr);
                     }
-                    else
-                    $('<td>'+v.mark+'</td>').appendTo(tr);
+                    else {
+                        $('<td>' + v.mark + '</td>').appendTo(tr);
+                        countMarks++;
+                        sum+=v.mark;
+                    }
                 });
+                $('<td>' + Math.round(sum/countMarks*100)/100 + '</td>').appendTo(tr);
                 tr.appendTo('#table_mark');
             });
         });

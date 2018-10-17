@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,7 +48,7 @@ public class JournalController {
     )
     @ApiOperation(value = "Get journal by subjects and classes")
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
-    public List<JournalMarkDTO> getJournalTable(){
+    public List<JournalMarkDTO> getJournalTable(@PathVariable int idSubject, @PathVariable int idClass){
         List<JournalMarkDTO> list = new ArrayList<>();
         list.add(new JournalMarkDTO("RuslanKharevych1",new ArrayList<>(
                 Arrays.asList(new MarkDescriptionDTO(10,new Date(),"a"),

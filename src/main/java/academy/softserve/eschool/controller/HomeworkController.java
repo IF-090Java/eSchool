@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +26,7 @@ public class HomeworkController {
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )
-    public List<HomeworkDTO> getHomeworks(){
+    public List<HomeworkDTO> getHomeworks(@PathVariable int idSubject, @PathVariable int idClass){
         List<HomeworkDTO> list = new ArrayList<>();
         list.add(new HomeworkDTO(new Date(),"p.125","file1.txt"));
         list.add(new HomeworkDTO(new Date(),"p.122","file2.txt"));

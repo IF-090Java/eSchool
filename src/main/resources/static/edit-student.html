@@ -7,21 +7,12 @@
 	.header{
 		height: 50px;
 		background: #BCC8D2;
-<<<<<<< HEAD
-		border: solid 1px black; 
-	}
-	.main{
-		margin-left: 40%;
-		padding-top: 15px;
-		font-size: 18px;
-=======
 		border: solid 1px black;
 	}
 	.main{
 		padding-top: 30px;
 		margin: auto;
     	width: 35%;
->>>>>>> e5febb8c71a38f17309815ee98fd1a400f5fcc0a
 	}
 	.row{
 		display: table-row;
@@ -44,12 +35,6 @@
 		margin-top: 22px;
 		width: 150px;
 		height: 32px;
-<<<<<<< HEAD
-		background-color: #72a8ff;
-		font-size: 18px;
-		align-self: center;
-	}
-=======
 		font-size: 18px;
 		background-color: #4CAF50;
 		border: 1px solid #4CAF50;
@@ -62,85 +47,35 @@
 	fieldset{
 		border: 2px solid #4CAF50;
 	}
->>>>>>> e5febb8c71a38f17309815ee98fd1a400f5fcc0a
 </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 </head>
-<<<<<<< HEAD
-<body style="background-color: #F2EDBB">
-=======
 <body>
->>>>>>> e5febb8c71a38f17309815ee98fd1a400f5fcc0a
 	<div class="header">
-		<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
-		<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
+		<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як: student</span>
+		<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Учень</span>
 		<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="#"> Вийти</a></span>
 	</div>
 	<div class="main">
 		<form action="localhost:8080/student/{id}" method="PUT">
-<<<<<<< HEAD
-			<div class="row">
-				<label for="firstname">Імя:</label>
-				<input id="fname" type="text" name="firstname">
-			</div>
-			<div class="row">
-				<label for="lastname">Прізвище:</label>
-				<input id="lname" type="text" name="lastname">
-			</div>
-			<div class="row">
-				<label for="login">Логін:</label>
-				<input id="username" type="text" name="login">
-			</div>
-			<div class="row">
-				<label for="select" ">Класс:</label>
-				<select id="selectClass" name="select"></select>
-			</div>
-			<div class="row">
-				<label for="email">Електронна адреса:</label>
-				<input id="mail" type="text" name="email">
-			</div>
-			<div class="row">
-				<label for="phone">Телефон:</label>
-				<input id="mobile" type="text" name="phone">
-			</div>
-			<div align="center" style="margin-right: 50%;">
-				<button type="Submit">Зберегти</button>
-			</div>
-		</form>
-		<form style="padding-top: 50px">
-			<div class="row">
-				<label for="oldPass">Старий пароль:</label>
-				<input id="oldPass" type="password" name="oldPass">
-			</div>
-			<div class="row">
-				<label for="oldPass">Новий пароль:</label>
-				<input id="newPass" type="password" name="newPass">
-			</div><div class="row">
-				<label for="newPassRepeat">Повторіть новий пароль пароль:</label>
-				<input id="newPassRepeat" type="password" name="newPassRepeat">
-			</div>
-			<div align="center" style="margin-right: 50%;">
-				<button type="Submit">Змінити пароль</button>
-			</div>
-=======
 			<fieldset>
 				<legend style="font-size: 19px">Особита інформація</legend>
 				<div class="row">
 					<label for="firstname">Імя:</label>
-					<input id="fname" type="text" name="firstname">
+					<input id="fname" disabled type="text" name="firstname">
 				</div>
 				<div class="row">
 					<label for="lastname">Прізвище:</label>
-					<input id="lname" type="text" name="lastname">
+					<input id="lname" disabled type="text" name="lastname">
 				</div>
 				<div class="row">
 					<label for="login">Логін:</label>
-					<input id="username" type="text" name="login">
+					<input id="username" disabled type="text" name="login">
 				</div>
 				<div class="row">
 					<label for="select" ">Класс:</label>
-					<select id="selectClass" name="select"></select>
+					<select id="selectClass" disabled name="select"></select>
 				</div>
 				<div class="row">
 					<label for="email">Електронна адреса:</label>
@@ -159,6 +94,10 @@
 			<fieldset>
 			<legend style="font-size: 19px;">Зміна паролю</legend>	
 				<div class="row">
+					<label for="oldPass">Старий пароль:</label>
+					<input id="oldPass" type="password" name="oldPass">
+				</div>
+				<div class="row">
 					<label for="oldPass">Новий пароль:</label>
 					<input id="newPass" type="password" name="newPass">
 				</div><div class="row">
@@ -169,7 +108,6 @@
 					<button type="Submit">Змінити пароль</button>
 				</div>
 			</fieldset>
->>>>>>> e5febb8c71a38f17309815ee98fd1a400f5fcc0a
 		</form>
 
 	</div>
@@ -190,7 +128,6 @@
 
 			$.getJSON('http://localhost:8080/classes', function (data2) {
 				console.log(data2);
-<<<<<<< HEAD
 				var names = data2.map(function (item) {
 					return item.classYear + '-' + item.className;
 				});
@@ -198,13 +135,6 @@
 					$('#selectClass').append($('<option>', { 
 						value: data2[i].id,
 						text : item
-=======
-				
-				$.each(data2, function (i, item) {
-					$('#selectClass').append($('<option>', { 
-						value: data2[i].id,
-						text : data2[i].className
->>>>>>> e5febb8c71a38f17309815ee98fd1a400f5fcc0a
 					}));
 				});
 			});
