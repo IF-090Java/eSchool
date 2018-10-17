@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PageMappingController {
     @RequestMapping("classes/{id}/edit")
     public String editClassPage(){
-        return "/static/editClass.html";
+        return "/editClass.html";
     }
 }
 
