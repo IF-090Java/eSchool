@@ -20,7 +20,7 @@ public class ClassController {
     })
     @ApiOperation(value = "Create class")
     @PostMapping
-    public ClassDTO addClass(ClassDTO newClass){
+    public ClassDTO addClass(@RequestBody ClassDTO newClass){
         return newClass;
     }
 
@@ -56,7 +56,7 @@ public class ClassController {
     })
     @ApiOperation("Update class")
     @PutMapping("/{id}")
-    public ClassDTO editClass(@PathVariable String id, ClassDTO editClass){
+    public ClassDTO editClass(@PathVariable String id, @RequestBody ClassDTO editClass){
         return editClass;
     }
 }

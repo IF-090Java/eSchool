@@ -81,6 +81,29 @@
         </fieldset>
     </form>
 </div>
-</body>
+<script>
+    $(document).ready(function () {
+        $('form').on('submit', function (e) {
+
+            e.preventDefault();
+            var className = $("#clsName").val();
+            var classDescription = $("#txtArea").val();
+
+            $.ajax({
+                type: "post",
+                url: "/classes",
+                dataType: "json",
+                data: JSON.stringify({
+                    "className": className,
+                    "classDescription": classDescription
+                }),
+                contentType: "application/json",
+                success: function (responce) {
+                    window.location.href = "/classList.html";
+                }
+            });
+        })
+    })
+</script>
 </body>
 </html>
