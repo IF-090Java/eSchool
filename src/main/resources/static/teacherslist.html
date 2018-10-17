@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Журнали</title>
+	<title>Список вчителів</title>
 	<style type="text/css">
 	.header{
 		height: 50px;
@@ -15,88 +15,54 @@
 		height: 100vh;
 	}
 	.main{
-		margin-right: 110px;
-	}
-	.left-menu > ul > li{
-		font-size: 20px;
-		border: solid 1px;
-		border-color: #838383;
-		height: 35px;
-		text-align: center;
-		padding-top: 5px;
-		background: #BCC8D2;
-	}
-	li a{
-		text-decoration: none;
-	}
-	.left-menu  ul{
-		list-style: none; 
-		width: 200px;
-	}
+		padding-top: 15px;
+		margin: auto;
+    	width: 35%;
+	}	
 	.main ul li a{
 		font-size: 19px;
+		text-decoration: none;
+	}
+	
+	li{
+		margin-top: 5px;
 	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
-<body style="background-color: #F2EDBB">
+<body>
 	<div class="header">
 		<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
 		<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
 		<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="#"> Вийти</a></span>
 	</div>
 	<div>
-		<!--
-		<div class="left-menu">
-			<ul>
-				<li><a href="#">Кабінет</a></li>
-				<li style="background: #92C1DF"><a href="#">Журнали</a></li>
-				<li><a href="#">Розклад</a></li>
-				<li><a href="#">Успішність</a></li>
-			</div>
--->
-			<div class="main">
-				<h2 align="center">Всі вчителі</h2>
-				<ul id="teacherslist" style="margin-left: 300px;">
-				</ul>
-			</div>
-		</ul>
-	</div>	
-	<script type="text/javascript">
-		$(document).ready(function () {
-			var allteachers = $('#teacherslist');
-			var teacherclassbooks = $('#teacherclassbooks');
-			$.getJSON('http://localhost:8080/teachers', function (data) {
-				console.log(data);
-				var items = data.map(function (item) {
-					return item.firstname + ': ' + item.lastname;
-				});
-
-				allteachers.empty();
-
-				if (items.length) {
-					var content = '<li><a href="#">' + items.join('</a></li><li><a href="#">') + '</a></li>';
-					var list = $('<ul />').html(content);
-					allteachers.append(list);
-				}
+		<div class="main">
+			<h2 align="center">Всі вчителі</h2>
+			<ul id="teacherslist" style="list-style-type: square;">
+			</ul>
+		</div>
+	</ul>
+</div>	
+<script type="text/javascript">
+	$(document).ready(function () {
+		var allteachers = $('#teacherslist');
+		$.getJSON('http://localhost:8080/teachers', function (data) {
+			console.log(data);
+			var items = data.map(function (item) {
+				return item.firstname + ' ' + item.lastname;
 			});
 
-			$.getJSON('http://localhost:8080/class-subjects/1', function (data) {
-				console.log(data);
-				var items = data.map(function (item) {
-					return item.className + ': ' + item.subjectName;
-				});
+			allteachers.empty();
 
-				teacherclassbooks.empty();
-
-				if (items.length) {
-					var content = '<li><a href="#">' + items.join('</a></li><li><a href="#">') + '</a></li>';
-					var list = $('<ul />').html(content);
-					teacherclassbooks.append(list);
-				}
-			});
-
+			if (items.length) {
+				var content = '<li><a href="#">' + items.join('</a></li><li><a href="#">') + '</a></li>';
+				var list = $('<ul />').html(content);
+				allteachers.append(list);
+			}
 		});
+
+	});
 </script>
 </body>
 </html>

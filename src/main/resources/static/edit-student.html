@@ -53,8 +53,8 @@
 </head>
 <body>
 	<div class="header">
-		<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
-		<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
+		<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як: student</span>
+		<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Учень</span>
 		<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="#"> Вийти</a></span>
 	</div>
 	<div class="main">
@@ -63,19 +63,19 @@
 				<legend style="font-size: 19px">Особита інформація</legend>
 				<div class="row">
 					<label for="firstname">Імя:</label>
-					<input id="fname" type="text" name="firstname">
+					<input id="fname" disabled type="text" name="firstname">
 				</div>
 				<div class="row">
 					<label for="lastname">Прізвище:</label>
-					<input id="lname" type="text" name="lastname">
+					<input id="lname" disabled type="text" name="lastname">
 				</div>
 				<div class="row">
 					<label for="login">Логін:</label>
-					<input id="username" type="text" name="login">
+					<input id="username" disabled type="text" name="login">
 				</div>
 				<div class="row">
 					<label for="select" ">Класс:</label>
-					<select id="selectClass" name="select"></select>
+					<select id="selectClass" disabled name="select"></select>
 				</div>
 				<div class="row">
 					<label for="email">Електронна адреса:</label>
@@ -93,6 +93,10 @@
 		<form style="padding-top: 50px">
 			<fieldset>
 			<legend style="font-size: 19px;">Зміна паролю</legend>	
+				<div class="row">
+					<label for="oldPass">Старий пароль:</label>
+					<input id="oldPass" type="password" name="oldPass">
+				</div>
 				<div class="row">
 					<label for="oldPass">Новий пароль:</label>
 					<input id="newPass" type="password" name="newPass">
@@ -124,11 +128,13 @@
 
 			$.getJSON('http://localhost:8080/classes', function (data2) {
 				console.log(data2);
-				
-				$.each(data2, function (i, item) {
+				var names = data2.map(function (item) {
+					return item.classYear + '-' + item.className;
+				});
+				$.each(names, function (i, item) {
 					$('#selectClass').append($('<option>', { 
 						value: data2[i].id,
-						text : data2[i].className
+						text : item
 					}));
 				});
 			});

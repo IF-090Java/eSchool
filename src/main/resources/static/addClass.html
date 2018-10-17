@@ -2,42 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <title>Add Teacher</title>
+    <title>Редагувати клас</title>
+    <style type="text/css">
+
+        .main {
+            margin-left: 27%;
+            margin-right: 27%;
+            padding-top: 50px;
+            font-size: 16px;
+        }
+
+        .row {
+            display: table-row;
+        }
+
+        label {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 18px;
+        }
+
+        input {
+            margin-top: 0px;
+            margin-left: 15%;
+            height: 25px;
+            width: 300px;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            margin-left: 15%;
+            width: 300px;
+        }
+
+        button {
+            height: 45px;
+            width: 150px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            border: 1px solid #4CAF50;
+            vertical-align: middle;
+            color: white;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            border-radius: 3px;
+            margin-top: 50px;
+        }
+
+        ::-webkit-input-placeholder{
+            color: #566573;
+        }
+
+        input:focus::-webkit-input-placeholder {
+            color: transparent;
+        }
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <div align="center" style="margin-bottom: 100px"><h1>ДОДАТИ КЛАС</h1></div>
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-            <form action="localhost:8080/classes" method="POST">
-                <div class="form-group row">
-                    <label for="classYear" class="col-sm-4 col-form-label">Навчальний рік</label>
-                    <div class="col-sm-8">
-                    <input type="text" class="form-control" id="classYear" placeholder="5, 6, 7 ...">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="className" class="col-sm-4 col-form-label">Назва класу</label>
-                    <div class="col-sm-8">
-                    <input type="text" class="form-control" id="className" placeholder="А, Б, В ...">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="additionalInformation" class="col-sm-4 col-form-label">Додаткова інформація</label>
-                    <div class="col-sm-8">
-                    <textarea class="form-control" id="additionalInformation" rows="4" placeholder="Додаткова інформація"></textarea>
-                    </div>
-                </div>
-                <div align="center"><button type="submit" class="btn btn-primary">Додати</button></div>
-            </form>
-        </div>
-        <div class="col-sm-3"></div>
+<div class="main">
+    <div align="center" style="margin-bottom: 50px">
+        <h1>ДОДАТИ КЛАС</h1>
     </div>
+    <form action="/classes" method="post">
+        <fieldset style="border: 2px solid #4CAF50; padding: 40px;">
+            <legend style="font-size: 20px;">[ Додавання класу ]</legend>
+            <div class="row">
+                <label for="clsName">Введіть назву класу</label>
+                <input id="clsName" type="text" name="className" placeholder="10А">
+            </div>
+            <div class="row">
+                <label for="txtArea">Введіть опис класу</label>
+                <textarea id="txtArea" name="classDescription" rows="5" placeholder="Необов'язково"></textarea>
+            </div>
+            <div align="center" style="text-align: center; margin: 0 auto;">
+                <button type="submit">Додати</button>
+            </div>
+        </fieldset>
+    </form>
 </div>
+</body>
 </body>
 </html>

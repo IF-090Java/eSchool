@@ -7,6 +7,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/students")
 @Api(description = "Student controller")
@@ -47,5 +50,22 @@ public class StudentController {
     )
     public void updateStudent(@RequestBody StudentDTO student, @PathVariable String id){
         // someservice.update(id,student)
+    }
+    @GetMapping("/classes/{id}")
+    @ApiOperation(value = "get students from class")
+    @ApiResponses(
+            value={
+                    @ApiResponse(code = 200, message = "student found and passed"),
+                    @ApiResponse(code = 500, message = "server error")
+            }
+    )
+    public List<StudentDTO> getStudentsByClass(@PathVariable int id){
+        List<StudentDTO> list = new ArrayList<>();
+        list.add(new StudentDTO("Cемків", "Василь", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO("Романчук", "Віктор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO("Кривенчук", "Ігор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO("Приймак", "Вікторія", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO("Семенів", "Ольга", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        return list;
     }
 }
