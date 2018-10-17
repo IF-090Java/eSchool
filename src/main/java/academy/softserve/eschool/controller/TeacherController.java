@@ -42,7 +42,8 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public void addTeacher(TeacherDTO teacher) {
+    public TeacherDTO addTeacher(@RequestBody TeacherDTO teacher) {
+        return teacher;
     }
   
     @ApiOperation(value = "Get all info about teacher")
@@ -53,7 +54,7 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )
-    public TeacherDTO getTeacher(){
+    public TeacherDTO getTeacher(@PathVariable int id){
         return new TeacherDTO("Іван","Іванов","вавава","*******","vanya@mail","05050505056");
     }
     @PutMapping("/{id}")
@@ -65,8 +66,8 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public void updateTeacher(@RequestBody TeacherDTO teacher,@PathVariable String id){
-        // someservice.update(id,TeacherDTO)
+    public void updateTeacher(@RequestBody TeacherDTO teacher,@PathVariable int id){
+        // someservice.update(id,teacher)
     }
 
 

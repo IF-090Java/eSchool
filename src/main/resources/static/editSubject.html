@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Редагування предмету</title>
+<style type="text/css">
+
+.main {
+	margin-left: 25%;
+	margin-right: 25%;
+	padding-top: 50px;
+	font-size: 16px;
+}
+
+.row {
+	display: table-row;
+}
+
+label {
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 18px;
+}
+
+input {
+	margin-top: 0px;
+	margin-left: 15%;
+	height: 25px;
+	width: 300px;
+}
+
+button {
+	height: 45px;
+	width: 150px;
+	font-size: 18px;
+	background-color: #4CAF50;
+	border: 1px solid #4CAF50;
+	vertical-align: middle;
+	color: white;
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	border-radius: 3px;
+	margin-top: 50px;
+}
+
+::-webkit-input-placeholder{
+font-style: italic;
+color: #566573;
+}
+
+input:focus::-webkit-input-placeholder {
+color: transparent;
+}
+
+</style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+	<body>
+		<div class="main">
+			<div align="center" style="margin-bottom: 50px">
+				<h1>РЕДАГУВАННЯ ПРЕДМЕТУ</h1>
+			</div>
+			<form action="/subjects/{id}" method="PUT">
+				<fieldset style="border: 2px solid #4CAF50; padding: 40px;">
+					<legend style="font-size: 20px;">[ Редагування навчального предмету ]</legend>
+					<div class="row">
+						<label for="subjectName">Введіть назву предмету</label>
+						<input id="sname" type="text" name="subjectName" placeholder=" Інформатика">
+					</div>
+					<div align="center" style="text-align: center; margin: 0 auto;">
+						<button type="submit">Зберегти</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.getJSON('http://localhost:8080/subjects/1', function(data) {
+					console.log(data);
+					$("#sname").attr("value", data.subjectName);
+				});
+			})
+		</script>
+	</body>
+</html>

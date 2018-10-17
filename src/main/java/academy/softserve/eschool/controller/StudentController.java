@@ -7,6 +7,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/students")
 @Api(description = "Student controller")
@@ -20,7 +23,7 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public void addStudent(StudentDTO student) {
+    public void addStudent(@RequestBody StudentDTO student) {
 
     }
 
@@ -32,7 +35,37 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public StudentDTO getTeacher(@PathVariable int id){
+    public StudentDTO getStudent(@PathVariable int id){
         return new StudentDTO("John", "Doe", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
+    }
+
+    @PutMapping("/{id}")
+    @ApiOperation(value = "update profile of student")
+    @ApiResponses(
+            value = {
+                    @ApiResponse( code = 201 , message = "Successfully created"),
+                    @ApiResponse( code = 400, message = "Bad data"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    public void updateStudent(@RequestBody StudentDTO student, @PathVariable String id){
+        // someservice.update(id,student)
+    }
+    @GetMapping("/classes/{id}")
+    @ApiOperation(value = "get students from class")
+    @ApiResponses(
+            value={
+                    @ApiResponse(code = 200, message = "student found and passed"),
+                    @ApiResponse(code = 500, message = "server error")
+            }
+    )
+    public List<StudentDTO> getStudentsByClass(@PathVariable int id){
+        List<StudentDTO> list = new ArrayList<>();
+        list.add(new StudentDTO("Cемків", "Василь", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO("Романчук", "Віктор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO("Кривенчук", "Ігор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO("Приймак", "Вікторія", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO("Семенів", "Ольга", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        return list;
     }
 }

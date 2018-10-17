@@ -3,10 +3,12 @@ package academy.softserve.eschool.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class StudentDTO {
     @ApiModelProperty(notes = "contains student first name")
     private String firstname;
