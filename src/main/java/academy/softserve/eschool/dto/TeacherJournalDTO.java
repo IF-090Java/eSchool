@@ -16,9 +16,9 @@ public class TeacherJournalDTO {
     private ClassDTO classs;    //class of the journal that we want to add to the teacher
 
     @ApiModelProperty(notes = "teacher's subject")
-    private String subject;     //teacher's subject
+    private SubjectDTO subject;     //teacher's subject
 
-    public TeacherJournalDTO(TeacherNamesDTO teacher, ClassDTO classs, String subject) {
+    public TeacherJournalDTO(TeacherNamesDTO teacher, ClassDTO classs, SubjectDTO subject) {
         this.teacher = teacher;
         this.classs = classs;
         this.subject = subject;

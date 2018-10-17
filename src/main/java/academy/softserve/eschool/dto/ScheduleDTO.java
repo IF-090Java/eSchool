@@ -27,23 +27,23 @@ public class ScheduleDTO {
     private ClassDTO className;
 
     @ApiModelProperty(notes = "schedule for Monday")
-    private Map<Integer, String> mondaySubjects;    //schedule for Monday
+    private Map<Integer, SubjectDTO> mondaySubjects;    //schedule for Monday
 
     @ApiModelProperty(notes = "schedule for Tuesday")
-    private Map<Integer, String> tuesdaySubjects;   //schedule for Tuesday
+    private Map<Integer, SubjectDTO> tuesdaySubjects;   //schedule for Tuesday
 
     @ApiModelProperty(notes = "schedule for Wednesday")
-    private Map<Integer, String> wednesdaySubjects; //schedule for Wednesday
+    private Map<Integer, SubjectDTO> wednesdaySubjects; //schedule for Wednesday
 
     @ApiModelProperty(notes = "schedule for Thursday")
-    private Map<Integer, String> thursdaySubjects;  //schedule for Thursday
+    private Map<Integer, SubjectDTO> thursdaySubjects;  //schedule for Thursday
 
     @ApiModelProperty(notes = "schedule for Friday")
-    private Map<Integer, String> fridaySubjects;    //schedule for Friday
+    private Map<Integer, SubjectDTO> fridaySubjects;    //schedule for Friday
 
-    public ScheduleDTO(long id_schedule, Date startOfSemester, Date endOfSemester, ClassDTO className, Map<Integer, String> mondaySubjects,
-                             Map<Integer, String> tuesdaySubjects, Map<Integer, String> wednesdaySubjects, Map<Integer, String> thursdaySubjects,
-                             Map<Integer, String> fridaySubjects) {
+    public ScheduleDTO(long id_schedule, Date startOfSemester, Date endOfSemester, ClassDTO className, Map<Integer, SubjectDTO> mondaySubjects,
+                             Map<Integer, SubjectDTO> tuesdaySubjects, Map<Integer, SubjectDTO> wednesdaySubjects, Map<Integer, SubjectDTO> thursdaySubjects,
+                             Map<Integer, SubjectDTO> fridaySubjects) {
         this.id_schedule = id_schedule;
         this.startOfSemester = startOfSemester;
         this.endOfSemester = endOfSemester;
