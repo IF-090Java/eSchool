@@ -12,10 +12,7 @@ public class ClassDTO {
     @ApiModelProperty(required = true, notes = "ID of class")
     private int Id;
 
-    @ApiModelProperty(required = true, notes = "Class year, from 1 to 12")
-    private int classYear;
-
-    @ApiModelProperty(required = false, notes = "Class name, like Б, А. Can be empty")
+    @ApiModelProperty(required = false, notes = "Class name")
     private String className;
 
     @ApiModelProperty(required = false, notes = "Some additional information. Can be empty")
