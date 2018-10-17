@@ -18,6 +18,6 @@ public class MarkDataPointDTO{
 	@JsonFormat(
 		      shape = JsonFormat.Shape.STRING,
 		      pattern = "yyyy-MM-dd")
-	@ApiModelProperty(required = true, notes = "date when student received mark")
+	@ApiModelProperty(required = true, notes = "date")
 	private Date x;
 }
