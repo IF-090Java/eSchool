@@ -64,7 +64,7 @@
     <div align="center" style="margin-bottom: 50px">
         <h1>РЕДАГУВАТИ КЛАС</h1>
     </div>
-    <form method="PUT">
+    <form>
         <fieldset style="border: 2px solid #4CAF50; padding: 40px;">
             <legend style="font-size: 20px;">[ Редагування класу ]</legend>
             <div class="row">
@@ -73,7 +73,7 @@
             </div>
             <div class="row">
                 <label for="txtArea">Опис класу</label>
-                <textarea id="txtArea" rows="5"></textarea>
+                <textarea id="txtArea" rows="5" name="className"></textarea>
             </div>
             <div align="center" style="text-align: center; margin: 0 auto;">
                 <button type="submit">Зберегти</button>
@@ -87,15 +87,40 @@
         var pathArray = window.location.pathname.split('/');
         var classId = pathArray[2];
 
-        var putMethodUrl = '/classes/'+classId;
-        document.querySelector("form").setAttribute("action", putMethodUrl);
-        console.log(document.getElementsByTagName("form"));
+        // var putMethodUrl = '/classes/'+classId;
+        // document.querySelector("form").setAttribute("action", putMethodUrl);
+        // console.log(document.getElementsByTagName("form"));
 
         $.getJSON('http://localhost:8080/classes/'+classId, function (data) {
             console.log(data);
             $("#clsName").attr("value", data.className);
             $("#txtArea").append(data.classDescription);
         });
+    })
+
+    $(document).ready(function () {
+        $('form').on('submit', function (e) {
+
+            e.preventDefault();
+            var className = $("#clsName").val();
+            var classDescription = $("#txtArea").val();
+
+            var pathArray = window.location.pathname.split('/');
+            var classId = pathArray[2];
+            $.ajax({
+                type: "put",
+                url: "/classes/" + classId,
+                dataType: "json",
+                data: JSON.stringify({
+                    "className": className,
+                    "classDescription": classDescription
+                }),
+                contentType: "application/json",
+                success: function (responce) {
+                    window.location.href = "/classList.html";
+                }
+            });
+        })
     })
 </script>
 </body>
