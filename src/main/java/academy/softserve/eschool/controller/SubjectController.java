@@ -11,19 +11,21 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("/subjects")
 @Api(value = "subjects", description = "API endpoints for subjects")
 public class SubjectController {
-	
-	@ApiResponses(value = {
+    List<SubjectDTO> list = new ArrayList<>();
+    @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ApiOperation(value = "Get all subjects", response = SubjectDTO.class)
     @GetMapping()
     public List<SubjectDTO> getAll(){
-        List<SubjectDTO> list = new ArrayList<>();
+        list.clear();
         list.add(new SubjectDTO(1, "Історія України"));
         list.add(new SubjectDTO(2, "Інформатика"));
         list.add(new SubjectDTO(3, "Англійська мова"));
@@ -53,8 +55,8 @@ public class SubjectController {
     })
     @ApiOperation(value = "Get a subject by Id", response = SubjectDTO.class)
     @GetMapping("/{id}")
-    public SubjectDTO getSubjectById(@PathVariable String id){
-        return new SubjectDTO(1, "Історія України");
+    public SubjectDTO getSubjectById(@PathVariable int id){
+        return list.get(id-1);
     }
 
     @ApiResponses(value = {
@@ -62,7 +64,7 @@ public class SubjectController {
     })
     @ApiOperation("Edit a subject")
     @PutMapping("/{id}")
-    public SubjectDTO editSubjectClass(@PathVariable String id, @RequestBody SubjectDTO editSubject){
+    public SubjectDTO editSubjectClass(@PathVariable int id, @RequestBody SubjectDTO editSubject){
         return editSubject;
     }
 }
