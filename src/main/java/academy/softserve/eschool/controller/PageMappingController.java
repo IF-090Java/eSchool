@@ -25,9 +25,26 @@ public class PageMappingController {
         return "/teacher/Profile.html";
     }
 
+
     @RequestMapping("students/profile")
     public String studentProfile(){
         return "/student/Profile.html";
     }
+
+    @RequestMapping("subjectList")
+    public String subjectList(){
+        return "/subjectsList.html";
+    }
+
+    @RequestMapping("subjects/{id}/edit")
+    public String editSubjectPage(){
+        return "/editSubject.html";
+    }
+
+    @RequestMapping("subjects/add")
+    public String addSubjectPage(){
+        return "/addSubject.html";
+    }
+
 }
 
