@@ -46,20 +46,11 @@
 </div>	
 <script type="text/javascript">
 	$(document).ready(function () {
-		var allteachers = $('#teacherslist');
 		$.getJSON('http://localhost:8080/teachers', function (data) {
 			console.log(data);
-			var items = data.map(function (item) {
-				return item.firstname + ' ' + item.lastname;
-			});
-
-			allteachers.empty();
-
-			if (items.length) {
-				var content = '<li><a href="#">' + items.join('</a></li><li><a href="#">') + '</a></li>';
-				var list = $('<ul />').html(content);
-				allteachers.append(list);
-			}
+			$.each(data, function (i, item) {
+				$('#teacherslist').append($('<li>').append($('<a>').attr('href','/teachers/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
+			});		
 		});
 
 	});

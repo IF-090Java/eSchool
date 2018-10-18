@@ -46,5 +46,30 @@ public class PageMappingController {
         return "/addSubject.html";
     }
 
+    @RequestMapping("students/class/{id}")
+    public String studentByClass(){
+        return "/studentClass.html";
+    }
+
+    @RequestMapping("studentsList")
+    public String listClasses(){
+        return "/chooseClass.html";
+    }
+
+    @RequestMapping("students/{id}/edit")
+    public String editStudent(){
+        return "/editStudent.html";
+    }
+
+    @RequestMapping("teachersList")
+    public String teacherList(){
+        return "/teacherslist.html";
+    }
+
+    @RequestMapping("teachers/{id}/edit")
+    public String editTeacher(){
+        return "/editTeacher.html";
+    }
+
 }
 

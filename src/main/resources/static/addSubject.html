@@ -80,11 +80,11 @@ color: transparent;
 					type: "POST",
 					url: "http://localhost:8080/subjects",
 					data: formData,
-					success: function(){ console.log(formData)},
+					success: function(){ console.log(formData);},
 					dataType: "json",
 					contentType : "application/json"
 				});
-				})
+			})
 			$.getJSON('http://localhost:8080/subjects', function(data) {
 				console.log(data);
 				$("#newName").attr("value", data.newSubjectName);
