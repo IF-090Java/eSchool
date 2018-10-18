@@ -44,5 +44,10 @@ public class PageMappingController {
     public String studentProfile(){
         return "/student/Profile.html";
     }
+
+    @RequestMapping("/")
+    public String getLoginPage(){
+        return "/loginForm.html";
+    }
 }
 
