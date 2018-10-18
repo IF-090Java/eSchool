@@ -18,6 +18,7 @@
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
 
+                $('#diary').attr("href", "/diary/" + id);
             });
         });
     </script>
@@ -31,7 +32,7 @@
 
     <hr><br>
     <div>
-        <a href="#">Переглянути щоденик</a>
+        <a id="diary">Переглянути щоденик</a>
     </div>
     <br><hr>
 

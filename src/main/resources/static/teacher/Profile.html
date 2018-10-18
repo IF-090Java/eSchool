@@ -16,6 +16,10 @@
                 $('#login').append(data.login);
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
+
+                $('#subject').attr("href", "subjectsList.html");
+                $('#classes').attr("href", "/journalsList/view");
+                $('#statistics').attr("href", "/stats");
             });
         });
     </script>
@@ -24,14 +28,14 @@
     <title id="title"></title>
 </head>
 <body>
-    <fieldset/>
+    <fieldset style="width: 800px"/>
     <legend>[ Ваш профіль ]</legend>
 
     <hr><br>
     <div>
-        <a href="#">Переглянути предмети</a>
-        <a href="#">Переглянути класи</a>
-        <a href="#">Переглянути успішність</a>
+        <a id="subjects">Переглянути предмети</a>
+        <a id="classes">Переглянути журнали</a>
+        <a id="statistics">Переглянути успішність</a>
     </div>
     <br><hr>
 
