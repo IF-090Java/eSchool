@@ -1,6 +1,7 @@
 package academy.softserve.eschool.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -45,13 +46,13 @@ public class PageMappingController {
         return "/student/addStudent.html";
     }
 
-    @RequestMapping("teachers/profile")
-    public String teacherProfile(){
+    @RequestMapping("teachers/{id}/profile")
+    public String teacherProfile(@PathVariable int id){
         return "/teacher/Profile.html";
     }
 
-    @RequestMapping("students/profile")
-    public String studentProfile(){
+    @RequestMapping("students/{id}/profile")
+    public String studentProfile(@PathVariable int id){
         return "/student/Profile.html";
     }
 }
