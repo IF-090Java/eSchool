@@ -9,6 +9,16 @@ public class PageMappingController {
     public String editClassPage(){
         return "/editClass.html";
     }
+    
+    @RequestMapping("journals/subjects/{idSubject}/classes/{idClass}/view")
+    public String journal(){
+        return "/journal.html";
+    }
+
+    @RequestMapping("journalsList/view")
+    public String journals() {
+        return "/journalsList.html";
+    }
 
     @RequestMapping("/classes/add")
     public String addClassPage(){

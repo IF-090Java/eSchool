@@ -8,8 +8,8 @@
        .description{
            font-family: Garamond;
            font-size: 22px;
-           margin-left: 28%;
-           width: 200px;
+           margin-left: 25%;
+           width: 500px;
            padding: 20px;
        }
        table,td,th{
@@ -38,9 +38,9 @@
 </head>
 <body>
 
-    <div class="description">Клас</div>
-    <div class="description">Предмет</div>
-    <div class="description">Вчитель</div>
+    <div class="description" id="classTitle">Клас: </div>
+    <div class="description" id="subjectTitle">Предмет: </div>
+    <div class="description" id="teacherTitle">Вчитель: </div>
 
     <table id="table_mark">
 
@@ -56,47 +56,63 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/homeworks/subjects/{1}/classes/{1}', function (data) {
+        var startDate = new Date();
+        var endDate = new Date();
+        var pathArray = window.location.pathname.split('/');
+        var idSubject = pathArray[3];
+        var idClass = pathArray[5];
+
+        $.getJSON('http://localhost:8080/classes/'+idClass, function (data) {
+            $('<span>'+data.className+'</span>').appendTo('#classTitle');
+        });
+
+        $.getJSON('http://localhost:8080/subjects/'+idSubject, function (data) {
+            $('<span>'+data.subjectName+'</span>').appendTo('#subjectTitle');
+        });
+
+       console.log(idSubject+" "+idClass)
+        $.getJSON('http://localhost:8080/homeworks/subjects/'+idSubject+'/classes/'+idClass,{start:startDate,end:endDate}, function (data) {
             $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
-                var myDate = new Date(val.date);
-                var parsedDate = myDate.getDate() + "\\" +  (myDate.getMonth()+1) + "\\" + myDate.getFullYear();
-                $('<td>'+parsedDate+'</td>').appendTo(tr);
+                $('<td>'+val.date+'</td>').appendTo(tr);
                 $('<td>'+val.homework+'</td>').appendTo(tr);
                 $('<td>'+val.file+'</td>').appendTo(tr);
                 tr.appendTo('#table_home');
             });
         });
 
-        $.getJSON('http://localhost:8080/journals/subjects/{1}/classes/{1}', function (data) {
+        $.getJSON('http://localhost:8080/journals/subjects/'+idSubject+'/classes/'+idClass,{start:startDate,end:endDate}, function (data) {
             $.each(data, function(key, val) {
                 var tr1=$('<tr></tr>');
                 var tr2=$('<tr></tr>');
                 $('<th>'+"Тип оцінки"+'</th>').appendTo(tr1);
                 $('<th>'+"Дата"+'</th>').appendTo(tr2);
-                $.each(val.mark_types, function(k, v) {
-                    $('<th>'+v+'</th>').appendTo(tr1);
+                $.each(val.marks, function(k, v) {
+                    $('<th>'+v.typeMark+'</th>').appendTo(tr1);
+                    $('<th>'+v.dateMark+'</th>').appendTo(tr2);
                 });
-                $.each(val.dates, function(k, v) {
-                    var myDate = new Date(v);
-                    var parsedDate = myDate.getDate() + "\\" +  (myDate.getMonth()+1);
-                    $('<th>'+parsedDate+'</th>').appendTo(tr2);
-                });
+                $('<th>'+'AVG'+'</th>').appendTo(tr2);
                 tr1.appendTo('#table_mark');
                 tr2.appendTo('#table_mark');
                 return false;
             });
-            var count = 1;
+            var countStudents = 0;
+            var countMarks = 0;
+            var sum=0;
             $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
-                $('<td>'+(count++)+"."+val.name+'</td>').appendTo(tr);
+                $('<td>'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr);
                 $.each(val.marks, function(k, v) {
-                    if(v==0){
+                    if(!v.mark){
                         $('<td>'+""+'</td>').appendTo(tr);
                     }
-                    else
-                    $('<td>'+v+'</td>').appendTo(tr);
+                    else {
+                        $('<td>' + v.mark + '</td>').appendTo(tr);
+                        countMarks++;
+                        sum+=v.mark;
+                    }
                 });
+                $('<td>' + Math.round(sum/countMarks*100)/100 + '</td>').appendTo(tr);
                 tr.appendTo('#table_mark');
             });
         });
