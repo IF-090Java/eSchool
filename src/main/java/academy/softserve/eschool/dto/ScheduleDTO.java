@@ -72,4 +72,5 @@ public class ScheduleDTO {
     public long getId() {
         return id_schedule;
     }
+
 }

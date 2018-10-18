@@ -23,18 +23,22 @@ import java.util.*;
 @Api(value = "Schedule Endpoint", description = "Crate a schedule for a semester")
 public class ScheduleController {
 
-    private static List<ScheduleDTO> list;
+    private static List<ScheduleDTO> list = new ArrayList<>();
+
+    static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     static {
-       SimpleDateFormat format = new SimpleDateFormat("dd.MM");
-
        Map<Integer, SubjectDTO> map = new HashMap<>();
        map.put(1, new SubjectDTO(1, "Історія України"));
 
-       list.add(ScheduleDTO(1, format.parse("01.09"), format.parse("25.12"),
-                       new ClassDTO(2,"5-Б","desc"), map, map, map, map, map));
+        try {
+            list.add(new ScheduleDTO(1, format.parse("2018-10-18"), format.parse("2018-12-18"),
+                    new ClassDTO(1,"5-A","Класний керівник - Данилишин Богдан"), map, map, map, map, map));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-   }
+    }
 
     @ApiOperation(value = "Creates a schedule for a class")
     @ApiResponses(
@@ -43,30 +47,37 @@ public class ScheduleController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PostMapping("/classes/{id}/schedule")
-    public ScheduleDTO postSchedule(@PathVariable("id") final int id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
+    @PostMapping("/classes/{id_class}/schedule")
+    public ScheduleDTO postSchedule(@PathVariable("id_class") final int id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
-        for (ScheduleDTO scheduleDTO1 : list)
+        for (ScheduleDTO scheduleDTO1: list)
         {
-            if (scheduleDTO1.getClassName().getId() == id) return null; //already exists
-            else
-            {
-                scheduleDTO.setId(list.size());
-                list.add(scheduleDTO);
-            }
+            if (scheduleDTO1.getClassName().getId() == id) return scheduleDTO1;
         }
-        return scheduleDTO;
+
+        list.add(new ScheduleDTO(1, format.parse("2018-10-18"), format.parse("2018-12-18"),
+                new ClassDTO(id,"5-A","Класний керівник - Данилишин Богдан"), new HashMap<Integer, SubjectDTO>(),
+                new HashMap<Integer, SubjectDTO>(), new HashMap<Integer, SubjectDTO>(), new HashMap<Integer, SubjectDTO>(),
+                new HashMap<Integer, SubjectDTO>()));
+
+        return list.get(list.size() - 1); //get new connection
     }
 
     @ApiOperation(value = "Gets schedule for the class with id")
-    @GetMapping("/classes/{id}/schedule")
-    public ScheduleDTO getSchedule(@PathVariable("id") final int id) throws ParseException
+    @GetMapping("/classes/{id_class}/schedule")
+    @ApiResponses(
+            value={
+                    @ApiResponse(code = 200, message = "OK"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    public ScheduleDTO getSchedule(@PathVariable("id_class") final int id_class) throws ParseException
     {
         for(ScheduleDTO scheduleDTO : list){
-            if (scheduleDTO.getClassName().getId() == id) return scheduleDTO;
+            if (scheduleDTO.getClassName().getId() == id_class) return scheduleDTO;
         }
         return new ScheduleDTO(1, new Date(), new Date(),
-                new ClassDTO(id,"5-Б","desc"), new HashMap<>(), new HashMap<>()
+                new ClassDTO(id_class,"5-A","Класний керівник - Данилишин Богдан"), new HashMap<>(), new HashMap<>()
                 , new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
 

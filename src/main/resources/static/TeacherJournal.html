@@ -73,8 +73,6 @@ select {
 				<h1>ПРИВ'ЯЗКА ВЧИТЕЛЯ ДО ЖУРНАЛУ</h1>
 			</div>
 			
-			<form method="POST">
-			
 				<fieldset style="border: 2px solid #4CAF50; padding: 40px;">
 					<legend style="font-size: 20px;">[ Прив'язка вчителя до журналу ]</legend>
 					
@@ -103,15 +101,20 @@ select {
 					</div>
 					
 					<div align="center" style="text-align: center; margin: 0 auto;">
-						<button type="submit">Зберегти</button>
+						<button>Зберегти</button>
 					</div>
 				</fieldset>
-			</form>
+
 		</div>
 		<script type="text/javascript">
 		
 			$(document).ready(function() {
-				$.getJSON('http://localhost:8085/teachers', function(data) {
+
+				$(document).on("click", "button", function(){
+					alert("Прив'зка вчителя до журнала створена");
+				});
+
+				$.getJSON('http://localhost:8080/teachers', function(data) {
 					console.log(data);
 					var teachers = [];
 					$.each(data, function(key, value) {
@@ -121,7 +124,7 @@ select {
 						$('#teacher_input').append('<option value="' + teachers[i] + '">' + teachers[i] + '</option>');
 				});
 				
-				$.getJSON('http://localhost:8085/classes', function(data){
+				$.getJSON('http://localhost:8080/classes', function(data){
 					console.log(data);
 					var classes = [];
 					$.each(data, function(key, value) {
@@ -131,7 +134,7 @@ select {
 						$('#class_input').append('<option value="' + classes[i] + '">' + classes[i] + '</option>');
 				});
 				
-				$.getJSON('http://localhost:8085/subjects', function(data){
+				$.getJSON('http://localhost:8080/subjects', function(data){
 					console.log(data);
 					var subjects = [];
 					$.each(data, function(key, value) {

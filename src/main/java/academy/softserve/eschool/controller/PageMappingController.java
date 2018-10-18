@@ -45,14 +45,12 @@ public class PageMappingController {
         return "/student/Profile.html";
     }
 
-    @RequestMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
+    @RequestMapping("/teachers/add/journal")
     public String teacherJournalPage(){
         return "/TeacherJournal.html";
     }
 
-    @RequestMapping("/classes/{id}/schedule")
-    public String schedulePage(){
-        return "/schedule.html";
-    }
+    @RequestMapping("/schedule/create")
+    public String schedulePage(){ return "/schedule.html"; }
 }
 
