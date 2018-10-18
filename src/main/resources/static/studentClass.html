@@ -61,7 +61,7 @@
 		$.getJSON('http://localhost:8080/students/classes/1', function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
-				$('#studentList').append($('<li>').append($('<a>').attr('href','#').append(item.firstname).append(' ' + item.lastname)))
+				$('#studentList').append($('<li>').append($('<a>').attr('href','/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
 			});		
 		});
 

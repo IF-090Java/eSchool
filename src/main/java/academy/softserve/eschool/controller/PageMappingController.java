@@ -10,7 +10,7 @@ public class PageMappingController {
     public String editClassPage(){
         return "/editClass.html";
     }
-    
+
     @RequestMapping("journals/subjects/{idSubject}/classes/{idClass}/view")
     public String journal(){
         return "/journal.html";
@@ -55,5 +55,54 @@ public class PageMappingController {
     public String studentProfile(@PathVariable int id){
         return "/student/Profile.html";
     }
+
+    @RequestMapping("/teachers/add/journal")
+    public String teacherJournalPage(){
+        return "/TeacherJournal.html";
+    }
+
+    @RequestMapping("/schedule/create")
+    public String schedulePage(){ return "/schedule.html"; }
+
+    @RequestMapping("subjectList")
+    public String subjectList(){
+        return "/subjectsList.html";
+    }
+
+    @RequestMapping("subjects/{id}/edit")
+    public String editSubjectPage(){
+        return "/editSubject.html";
+    }
+
+    @RequestMapping("subjects/add")
+    public String addSubjectPage(){
+        return "/addSubject.html";
+    }
+
+    @RequestMapping("students/class/{id}")
+    public String studentByClass(){
+        return "/studentClass.html";
+    }
+
+    @RequestMapping("studentsList")
+    public String listClasses(){
+        return "/chooseClass.html";
+    }
+
+    @RequestMapping("students/{id}/edit")
+    public String editStudent(){
+        return "/editStudent.html";
+    }
+
+    @RequestMapping("teachersList")
+    public String teacherList(){
+        return "/teacherslist.html";
+    }
+
+    @RequestMapping("teachers/{id}/edit")
+    public String editTeacher(){
+        return "/editTeacher.html";
+    }
+
 }
 

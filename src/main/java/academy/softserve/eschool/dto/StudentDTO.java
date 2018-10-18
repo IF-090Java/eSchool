@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentDTO {
-    @ApiModelProperty(notes = "contains student id")
-    private int id;
+    @ApiModelProperty(notes = "Id")
+    private int Id;
 
     @ApiModelProperty(notes = "contains student first name")
     private String firstname;
