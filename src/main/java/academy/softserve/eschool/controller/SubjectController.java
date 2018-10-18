@@ -53,8 +53,15 @@ public class SubjectController {
     })
     @ApiOperation(value = "Get a subject by Id", response = SubjectDTO.class)
     @GetMapping("/{id}")
-    public SubjectDTO getSubjectById(@PathVariable String id){
-        return new SubjectDTO(1, "Історія України");
+    public SubjectDTO getSubjectById(@PathVariable int id){
+	    switch (id) {
+            case 1:return new SubjectDTO(1, "Фізика");
+            case 2:return new SubjectDTO(2, "Українська мова");
+            case 3:return new SubjectDTO(3, "Хімія");
+            case 4:return new SubjectDTO(4, "Математика");
+            case 5:return new SubjectDTO(5, "Історія України");
+            default:return new SubjectDTO(6, "Філософія");
+        }
     }
 
     @ApiResponses(value = {
@@ -62,7 +69,7 @@ public class SubjectController {
     })
     @ApiOperation("Edit a subject")
     @PutMapping("/{id}")
-    public SubjectDTO editSubjectClass(@PathVariable String id, @RequestBody SubjectDTO editSubject){
+    public SubjectDTO editSubjectClass(@PathVariable int id, @RequestBody SubjectDTO editSubject){
         return editSubject;
     }
 }

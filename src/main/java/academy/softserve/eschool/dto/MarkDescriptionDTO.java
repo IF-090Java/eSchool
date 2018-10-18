@@ -2,11 +2,13 @@ package academy.softserve.eschool.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
+@AllArgsConstructor
 public class MarkDescriptionDTO {
     @ApiModelProperty(notes = "mark value")
     private Integer mark;
@@ -18,9 +20,4 @@ public class MarkDescriptionDTO {
     @ApiModelProperty(notes = "type of mark")
     private String typeMark;
 
-    public MarkDescriptionDTO(Integer mark, Date dateMark, String typeMark) {
-        this.mark = mark;
-        this.dateMark = dateMark;
-        this.typeMark = typeMark;
-    }
 }
