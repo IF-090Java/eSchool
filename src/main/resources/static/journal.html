@@ -38,9 +38,9 @@
 </head>
 <body>
 
-    <div class="description">Клас: </div>
-    <div class="description">Предмет: </div>
-    <div class="description">Вчитель: </div>
+    <div class="description" id="classTitle">Клас: </div>
+    <div class="description" id="subjectTitle">Предмет: </div>
+    <div class="description" id="teacherTitle">Вчитель: </div>
 
     <table id="table_mark">
 
@@ -56,7 +56,14 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/homeworks/subjects/{1}/classes/{1}', function (data) {
+        var pathArray = window.location.pathname.split('/');
+        var idSubject = pathArray[3];
+        var idClass = pathArray[5];
+        $('<span>'+idClass+'</span>').appendTo('#classTitle');
+        $('<span>'+idSubject+'</span>').appendTo('#subjectTitle');
+
+       console.log(idSubject+" "+idClass)
+        $.getJSON('http://localhost:8080/homeworks/subjects/{idSubject}/classes/{idClass}', function (data) {
             $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
                 $('<td>'+val.date+'</td>').appendTo(tr);
@@ -66,7 +73,7 @@
             });
         });
 
-        $.getJSON('http://localhost:8080/journals/subjects/{1}/classes/{1}', function (data) {
+        $.getJSON('http://localhost:8080/journals/subjects/{idSubject}/classes/{idClass}', function (data) {
             $.each(data, function(key, val) {
                 var tr1=$('<tr></tr>');
                 var tr2=$('<tr></tr>');
