@@ -43,6 +43,10 @@
            background-color: #4CAF50;
            color: white;
        	}
+       	
+       	legend {
+       		font-size: 20px;
+       	}
 		
 		</style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -127,7 +131,8 @@
 					$.getJSON(ulr, {weekStartDate:weekStart}, setData);
 				}
 				
-				function setData (data) {
+				function setData (response) {
+					var data = response.data;
 					$('.diary-day').empty();
 					var tableHeader = $('<tr> <th>№</th> <th>Урок</th> <th>Домашнє завдання</th> <th>Оцінка</th> <th>Примітка</th></tr>');
 					tableHeader.appendTo('.diary-day');

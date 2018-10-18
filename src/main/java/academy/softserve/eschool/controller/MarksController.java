@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import academy.softserve.eschool.dto.MarkDataPointDTO;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -28,7 +30,7 @@ public class MarksController {
 	
 	@GetMapping("")
 	@ApiOperation(value = "Get students' marks")
-	List<MarkDataPointDTO> getMarks (
+	GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
 			@ApiParam(value = "filter results by student id", required = false) @RequestParam(value = "student_id", required = false) Integer studentId,
 			@ApiParam(value = "filter results by subject id", required = false) @RequestParam(value = "subject_id", required = false) Integer subjectId,
 			@ApiParam(value = "filter results by class id", required = false) @RequestParam(value = "class_id", required = false) Integer classId,
@@ -37,7 +39,9 @@ public class MarksController {
 		
 		//TODO get marks filtered according to request parameters
 		List<MarkDataPointDTO> marks = createStatisticsStub();
-		return marks;
+		GeneralResponseWrapper<List<MarkDataPointDTO>> response = 
+				new GeneralResponseWrapper<>(new Status(200, "ok"), marks);
+		return response;
 	}
 
 	private List<MarkDataPointDTO> createStatisticsStub() {
