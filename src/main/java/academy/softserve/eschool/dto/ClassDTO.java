@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 public class ClassDTO {
     @ApiModelProperty(required = true, notes = "ID of class")
-    private int Id;
+    private int id;
 
     @ApiModelProperty(required = false, notes = "Class name")
     private String className;
