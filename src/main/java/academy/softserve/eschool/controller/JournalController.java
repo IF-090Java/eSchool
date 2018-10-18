@@ -3,14 +3,8 @@ package academy.softserve.eschool.controller;
 import academy.softserve.eschool.dto.JournalDTO;
 import academy.softserve.eschool.dto.JournalMarkDTO;
 import academy.softserve.eschool.dto.MarkDescriptionDTO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.*;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +42,11 @@ public class JournalController {
     )
     @ApiOperation(value = "Get journal by subjects and classes")
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
-    public List<JournalMarkDTO> getJournalTable(){
+    public List<JournalMarkDTO> getJournalTable(
+            @ApiParam(value = "first day of required week", required = true) @RequestParam Date weekStartDate,
+            @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
+            @ApiParam(value = "id of class", required = true) @PathVariable int idClass
+            ){
         List<JournalMarkDTO> list = new ArrayList<>();
         list.add(new JournalMarkDTO("RuslanKharevych1",new ArrayList<>(
                 Arrays.asList(new MarkDescriptionDTO(10,new Date(),"a"),
