@@ -18,4 +18,8 @@ public class SubjectDTO {
 		this.id_subject = id_subject;
 		this.subjectName = subjectName;
 	}
+
+    public int getId() {
+        return id_subject;
+    }
 }

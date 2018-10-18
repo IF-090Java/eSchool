@@ -10,6 +10,31 @@ public class PageMappingController {
         return "/editClass.html";
     }
 
+    @RequestMapping("journals/subjects/{idSubject}/classes/{idClass}/view")
+    public String journal(){
+        return "/journal.html";
+    }
+
+    @RequestMapping("journalsList/view")
+    public String journals() {
+        return "/journalsList.html";
+    }
+
+    @RequestMapping("/classes/add")
+    public String addClassPage(){
+        return "/addClass.html";
+    }
+
+    @RequestMapping("diary/{studentId}")
+    public String diaryPage() {
+    	return "/diary.html";
+    }
+
+    @RequestMapping("stats")
+    public String statisticsPage() {
+    	return "/statistics.html";
+    }
+
     @RequestMapping("/teachers/add")
     public String addTeacher(){
         return "/teacher/addTeacher.html";
@@ -30,6 +55,14 @@ public class PageMappingController {
     public String studentProfile(){
         return "/student/Profile.html";
     }
+
+    @RequestMapping("/teachers/add/journal")
+    public String teacherJournalPage(){
+        return "/TeacherJournal.html";
+    }
+
+    @RequestMapping("/schedule/create")
+    public String schedulePage(){ return "/schedule.html"; }
 
     @RequestMapping("subjectList")
     public String subjectList(){
