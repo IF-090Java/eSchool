@@ -17,15 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/subjects")
 @Api(value = "subjects", description = "API endpoints for subjects")
 public class SubjectController {
-    List<SubjectDTO> list = new ArrayList<>();
-    @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
-    })
-    @ApiOperation(value = "Get all subjects", response = SubjectDTO.class)
-    @GetMapping()
-    public List<SubjectDTO> getAll(){
-        list.clear();
+    private static List<SubjectDTO> list = new ArrayList<>();
+    static{
         list.add(new SubjectDTO(1, "Історія України"));
         list.add(new SubjectDTO(2, "Інформатика"));
         list.add(new SubjectDTO(3, "Англійська мова"));
@@ -36,6 +29,14 @@ public class SubjectController {
         list.add(new SubjectDTO(8, "Біологія"));
         list.add(new SubjectDTO(9, "Математика"));
         list.add(new SubjectDTO(10, "Хімія"));
+    }
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ApiOperation(value = "Get all subjects", response = SubjectDTO.class)
+    @GetMapping()
+    public List<SubjectDTO> getAll(){
         return list;
     }
 
