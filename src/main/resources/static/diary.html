@@ -16,6 +16,9 @@
 			-webkit-column-break-inside: avoid;
           	page-break-inside: avoid;
             break-inside: avoid;
+            border: 2px solid #4CAF50;
+            padding: 5px;
+            margin-bottom: 5px;
 		}
 		.day-name{
 			padding: 10px;
@@ -52,40 +55,40 @@
 			<button id="current-week-btn">Поточний тиждень</button>
 		</div>
 		<div class="diary-container">
-			<div class="diary-day-container">
-				<div class="day-name">Понеділок</div>
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Понеділок</legend>
 				<table class="diary-day" id="monday"> 
 					
 				</table>
-			</div>
+			</fieldset>
 			
-			<div class="diary-day-container">
-				<div class="day-name">Вівторок</div>
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Вівторок</legend>
 				<table class="diary-day" id="tuesday"> 
 				
 				</table>
-			</div>
+			</fieldset>
 			
-			<div class="diary-day-container">
-				<div class="day-name">Середа</div>
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Середа</legend>
 				<table class="diary-day" id="wednsday"> 
 					
 				</table>
-			</div>
+			</fieldset>
 			
-			<div class="diary-day-container">
-				<div class="day-name">Четвер</div>
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Четвер</legend>
 				<table class="diary-day" id="thursday"> 
 					
 				</table>
-			</div>
+			</fieldset>
 			
-			<div class="diary-day-container">
-				<div class="day-name">П'ятниця</div>
+			<fieldset class="diary-day-container">
+				<legend class="day-name">П'ятниця</legend>
 				<table class="diary-day" id="friday"> 
 					
 				</table>
-			</div>
+			</fieldset>
 			
 			
 		</div>
@@ -93,7 +96,9 @@
 		    <script type="text/javascript">
 		    	var weekStart = getFirstDayOfCurrentWeek();
 		    	var offset = 0;
-		    	var ulr = 'http://localhost:8080/diaries/0';
+		    	var pathArray = window.location.pathname.split('/');
+        		var studentId = pathArray[2];
+		    	var ulr = 'http://localhost:8080/diaries/' + studentId;
 		    	var months = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
 		    			"Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
 				$(document).ready(function () {
