@@ -52,9 +52,9 @@
         $.getJSON('http://localhost:8080/journals', function (data) {
             $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
-                $.each(val, function(k, v){
-                    $('<td>'+v+'</td>').appendTo(tr);
-                });
+                var ref = 'http://localhost:8080/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
+                $('<td>'+'<a href='+ref+'>'+val.subjectName+'</a>'+'</td>').appendTo(tr);
+                $('<td>'+val.className+'</td>').appendTo(tr);
                 tr.appendTo('#table');
             });
         });
