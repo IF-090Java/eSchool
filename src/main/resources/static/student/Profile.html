@@ -19,6 +19,7 @@
                 $('#phone').append(data.phone);
 
                 $('#diary').attr("href", "/diary/" + id);
+                $('#edit').attr("href", "students/" + id + "/edit");
             });
         });
     </script>
@@ -46,6 +47,6 @@
     <div id="email" style="font-size: 20px">Електронна пошта: </div>
     <div id="phone" style="font-size: 20px">Номер телефону: </div>
 
-    <br><button onclick="" style="font-size: 15px">Редагувати профіль</button>
+    <br><button id="edit" style="font-size: 15px">Редагувати профіль</button>
 </body>
 </html>

@@ -20,6 +20,7 @@
                 $('#subject').attr("href", "subjectsList.html");
                 $('#classes').attr("href", "/journalsList/view");
                 $('#statistics').attr("href", "/stats");
+                $('#edit').attr("href", "teachers/" + id + "/edit");
             });
         });
     </script>
@@ -48,7 +49,7 @@
     <div id="email" style="font-size: 20px">Електронна пошта: </div>
     <div id="phone" style="font-size: 20px">Номер телефону: </div>
 
-    <br><button onclick="" style="font-size: 15px">Редагувати профіль.</button>
+    <br><button id="edit" style="font-size: 15px">Редагувати профіль.</button>
 
 </body>
 </html>
