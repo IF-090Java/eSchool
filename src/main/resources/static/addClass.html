@@ -12,6 +12,12 @@
             font-size: 16px;
         }
 
+        .header{
+            height: 50px;
+            background: #BCC8D2;
+            border: solid 1px black;
+        }
+
         .row {
             display: table-row;
         }
@@ -60,6 +66,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
+<div class="header">
+    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
+    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+</div>
 <div class="main">
     <div align="center" style="margin-bottom: 50px">
         <h1>ДОДАТИ КЛАС</h1>
@@ -99,7 +110,7 @@
                 }),
                 contentType: "application/json",
                 success: function (responce) {
-                    window.location.href = "/classList.html";
+                    window.location.href = "/classes/list";
                 }
             });
         })

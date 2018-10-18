@@ -30,10 +30,10 @@ public class ClassController {
     })
     @ApiOperation(value = "Create class")
     @PostMapping
-    public boolean addClass(@RequestBody ClassDTO newClass){
-        newClass.setId(7);
-        list.add(newClass);
-        return true;
+    public ClassDTO addClass(@RequestBody ClassDTO newClassDTO){
+        newClassDTO.setId(7);
+        list.add(newClassDTO);
+        return newClassDTO;
     }
 
     @ApiResponses(value = {

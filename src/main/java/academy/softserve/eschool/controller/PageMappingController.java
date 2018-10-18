@@ -20,6 +20,16 @@ public class PageMappingController {
         return "/journalsList.html";
     }
 
+    @RequestMapping("/classes/list2")
+    public String getClassListShowStudents(){
+        return "/classListEditStud.html";
+    }
+
+    @RequestMapping("/classes/list")
+    public String getClassesListForEdit(){
+        return "/classListEditClass.html";
+    }
+
     @RequestMapping("/classes/add")
     public String addClassPage(){
         return "/addClass.html";
@@ -49,7 +59,6 @@ public class PageMappingController {
     public String teacherProfile(){
         return "/teacher/Profile.html";
     }
-
 
     @RequestMapping("students/profile")
     public String studentProfile(){
@@ -103,7 +112,6 @@ public class PageMappingController {
     public String editTeacher(){
         return "/editTeacher.html";
     }
-
 
     @RequestMapping("/")
     public String getLoginPage(){
