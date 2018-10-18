@@ -4,13 +4,29 @@
     <link rel="stylesheet" type="text/css" href="/css/Style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $.getJSON('http://localhost:8080/teachers', function (data) {
-                console.log(data);
-                $("#firstName").attr("value", data.firstname);
-                $("#lastName").attr("value", data.lastname);
-                $("#classe").attr("value", data.classe);
-            });
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
+
+                e.preventDefault();
+                var firstName = $("#firstname").val();
+                var lastName = $("#lastname").val();
+                var classe = $("#classe").val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/students",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "firstname": firstName,
+                        "lastname": lastName,
+                        "classe": classe
+                    }),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        window.location.href = "/classes/add";
+                    }
+                });
+            })
         })
     </script>
 
@@ -34,7 +50,7 @@
             <input type="text" name="lastname" id="lastname" placeholder="Введіть ім'я учня" required><br>
 
             <label for="lastname"><br>Клас</label>
-            <input type="text" name="classe" placeholder="Введіть клас">
+            <input type="text" name="classe" id="classe" placeholder="Введіть клас">
         </div>
 
         <div align="center">

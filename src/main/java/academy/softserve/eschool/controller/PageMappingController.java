@@ -36,12 +36,12 @@ public class PageMappingController {
     	return "/statistics.html";
     }
 
-    @RequestMapping("/teachers/add")
+    @RequestMapping("teachers/add")
     public String addTeacher(){
         return "/teacher/addTeacher.html";
     }
 
-    @RequestMapping("/students/add")
+    @RequestMapping("students/add")
     public String addStudent(){
         return "/student/addStudent.html";
     }

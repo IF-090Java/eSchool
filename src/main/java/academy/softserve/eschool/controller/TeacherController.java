@@ -42,7 +42,7 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public TeacherDTO addTeacher(TeacherDTO teacher) {
+    public TeacherDTO addTeacher(@RequestBody TeacherDTO teacher) {
         return teacher;
     }
   
@@ -55,7 +55,7 @@ public class TeacherController {
             }
     )
     public TeacherDTO getTeacher(@PathVariable int id){
-        return new TeacherDTO("Іван","Іванов","вавава","*******","vanya@mail","05050505056");
+        return new TeacherDTO(1, "Іван","Іванов","вавава","*******","vanya@mail","05050505056");
     }
     @PutMapping("/{id}")
     @ApiOperation(value = "update profile of teacher")
