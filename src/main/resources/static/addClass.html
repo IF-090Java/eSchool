@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Редагувати клас</title>
+    <title>Додати клас</title>
     <style type="text/css">
 
         .main {
@@ -64,7 +64,7 @@
     <div align="center" style="margin-bottom: 50px">
         <h1>ДОДАТИ КЛАС</h1>
     </div>
-    <form action="/classes" method="post">
+    <form>
         <fieldset style="border: 2px solid #4CAF50; padding: 40px;">
             <legend style="font-size: 20px;">[ Додавання класу ]</legend>
             <div class="row">
@@ -81,6 +81,29 @@
         </fieldset>
     </form>
 </div>
-</body>
+<script>
+    $(document).ready(function () {
+        $('form').on('submit', function (e) {
+
+            e.preventDefault();
+            var className = $("#clsName").val();
+            var classDescription = $("#txtArea").val();
+
+            $.ajax({
+                type: "post",
+                url: "/classes",
+                dataType: "json",
+                data: JSON.stringify({
+                    "className": className,
+                    "classDescription": classDescription
+                }),
+                contentType: "application/json",
+                success: function (responce) {
+                    window.location.href = "/classList.html";
+                }
+            });
+        })
+    })
+</script>
 </body>
 </html>
