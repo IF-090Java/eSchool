@@ -127,7 +127,7 @@ select {
 					$.each(data, function(key, value) {
 						classes.push(value.className);
 					});
-					for (i=0; i < teachers.length; i++)
+					for (i=0; i < classes.length; i++)
 						$('#class_input').append('<option value="' + classes[i] + '">' + classes[i] + '</option>');
 				});
 				
@@ -137,7 +137,7 @@ select {
 					$.each(data, function(key, value) {
 						subjects.push(value.subjectName);
 					});
-					for (i=0; i < teachers.length; i++)
+					for (i=0; i < subjects.length; i++)
 						$('#subject_input').append('<option value="' + subjects[i] + '">' + subjects[i] + '</option>');
 				});
 				
