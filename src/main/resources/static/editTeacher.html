@@ -31,10 +31,6 @@
 		margin-top: 22px;
 		width: 150px;
 		height: 32px;
-<<<<<<< HEAD
-		background-color: #72a8ff;
-=======
->>>>>>> e5febb8c71a38f17309815ee98fd1a400f5fcc0a
 		font-size: 18px;
 		background-color: #4CAF50;
 		border: 1px solid #4CAF50;
@@ -58,7 +54,6 @@
 		<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="#"> Вийти</a></span>
 	</div>
 	<div class="main">
-			<form action="localhost:8080/teacher/{id}" method="PUT">
 				<fieldset>
 				<legend style="font-size: 19px">Особита інформація</legend>
 				<div class="row">
@@ -82,10 +77,9 @@
 					<input id="mobile" type="text" name="phone">
 				</div>
 				<div align="center">
-					<button type="Submit">Зберегти</button>
+					<button id="submitButton" type="Submit">Зберегти</button>
 				</div>
 			</fieldset>
-		</form>
 		<form style="padding-top: 50px">
 			<fieldset>
 			<legend style="font-size: 19px;">Зміна паролю</legend>
@@ -100,30 +94,35 @@
 				<button type="Submit">Змінити пароль</button>
 			</div>
 		</fieldset>
-		</form>
-		<form style="padding-top: 50px">
-			<div class="row">
-				<label for="oldPass">Старий пароль:</label>
-				<input id="oldPass" type="password" name="oldPass">
-			</div>
-			<div class="row">
-				<label for="oldPass">Новий пароль:</label>
-				<input id="newPass" type="password" name="newPass">
-			</div><div class="row">
-				<label for="newPassRepeat">Повторіть новий пароль пароль:</label>
-				<input id="newPassRepeat" type="password" name="newPassRepeat">
-			</div>
-			<div align="center" style="margin-right: 50%;">
-				<button type="Submit">Змінити пароль</button>
-			</div>
-		</form>
-	</div>
-	<script type="text/javascript">
-		$(document).ready(function() {
+	</form>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#submitButton').click(function(){
+			var pathArray = window.location.pathname.split('/');
+			var teacherId = pathArray[2];
+			var obj = {id: teacherId, firstname : $("#fname").val() , lastname: $("#lanme").val(),
+			login: $("#username").val(),password: "dasdasdsa",  email: $("#mail").val(),
+			phone : $("#mobile").val(), 
+		};
 
-			$.getJSON('http://localhost:8080/teachers/1', function (data) {
-				console.log(data);
-				$("#fname").attr("value", data.firstname);
+		var formData = JSON.stringify(obj);
+		console.log(formData);
+		$.ajax({
+			type: "PUT",
+			url: "http://localhost:8080/teachers/" + teacherId,
+			data: formData,
+			success: function(){ 
+				console.log("success");
+				console.log(formData);
+			},
+			dataType: "json",
+			contentType : "application/json"
+		});
+	})
+		$.getJSON('http://localhost:8080/teachers/1', function (data) {
+			console.log(data);
+			$("#fname").attr("value", data.firstname);
 				$("#lname").attr("value", data.lastname);
 				$("#username").attr("value", data.login);
 				$("#mail").attr("value", data.email);
