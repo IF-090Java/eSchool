@@ -37,7 +37,8 @@ public class JournalController {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 500, message = "Serever error")
+                    @ApiResponse(code = 204, message = "No content"),
+                    @ApiResponse(code = 500, message = "Server error")
             }
     )
     @ApiOperation(value = "Get journal by subjects and classes")

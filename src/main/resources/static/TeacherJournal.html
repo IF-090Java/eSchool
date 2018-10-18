@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add teacher to journal</title>
+<style type="text/css">
+
+.main {
+	margin-left: 25%;
+	margin-right: 25%;
+	padding-top: 50px;
+	font-size: 16px;
+}
+
+.row {
+	display: table-row;
+}
+
+label {
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 18px;
+}
+
+input {
+	margin-top: 0px;
+	margin-left: 15%;
+	height: 25px;
+	width: 300px;
+}
+
+button {
+	height: 45px;
+	width: 150px;
+	font-size: 18px;
+	background-color: #4CAF50;
+	border: 1px solid #4CAF50;
+	vertical-align: middle;
+	color: white;
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	border-radius: 3px;
+	margin-top: 50px;
+}
+
+select {
+     -webkit-appearance: button;
+   -webkit-border-radius: 2px;
+   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+   -webkit-padding-end: 20px;
+   -webkit-padding-start: 2px;
+   -webkit-user-select: none;
+   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+   background-position: 97% center;
+   background-repeat: no-repeat;
+   border: 1px solid #AAA;
+   color: #555;
+   font-size: inherit;
+   margin: 20px;
+   overflow: hidden;
+   padding: 5px 10px;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width: 300px;
+ }
+
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+	<body>
+		<div class="main">
+			<div align="center" style="margin-bottom: 50px">
+				<h1>ПРИВ'ЯЗКА ВЧИТЕЛЯ ДО ЖУРНАЛУ</h1>
+			</div>
+			
+				<fieldset style="border: 2px solid #4CAF50; padding: 40px;">
+					<legend style="font-size: 20px;">[ Прив'язка вчителя до журналу ]</legend>
+					
+					<div class="row">
+						<label for="teacherName">Вчитель</label>
+						<div id="drop1" class="ax_default_droplist">
+							<select id="teacher_input">	 
+							</select>
+						</div>
+					</div>
+					
+					<div class="row">
+						<label for="subjectName">Клас</label>
+						<div id="drop2" class="ax_default_droplist">
+							<select id="class_input">	 
+							</select>
+						</div>
+					</div>
+					
+					<div class="row">
+						<label for="subjectName">Предмет</label>
+						<div id="drop3" class="ax_default_droplist">
+							<select id="subject_input">		 
+							</select>
+						</div>
+					</div>
+					
+					<div align="center" style="text-align: center; margin: 0 auto;">
+						<button>Зберегти</button>
+					</div>
+				</fieldset>
+
+		</div>
+		<script type="text/javascript">
+		
+			$(document).ready(function() {
+
+				$(document).on("click", "button", function(){
+					alert("Прив'зка вчителя до журнала створена");
+				});
+
+				$.getJSON('http://localhost:8080/teachers', function(data) {
+					console.log(data);
+					var teachers = [];
+					$.each(data, function(key, value) {
+						teachers.push(value.firstname + " " + value.lastname);
+					});
+					for (i=0; i < teachers.length; i++)
+						$('#teacher_input').append('<option value="' + teachers[i] + '">' + teachers[i] + '</option>');
+				});
+				
+				$.getJSON('http://localhost:8080/classes', function(data){
+					console.log(data);
+					var classes = [];
+					$.each(data, function(key, value) {
+						classes.push(value.className);
+					});
+					for (i=0; i < classes.length; i++)
+						$('#class_input').append('<option value="' + classes[i] + '">' + classes[i] + '</option>');
+				});
+				
+				$.getJSON('http://localhost:8080/subjects', function(data){
+					console.log(data);
+					var subjects = [];
+					$.each(data, function(key, value) {
+						subjects.push(value.subjectName);
+					});
+					for (i=0; i < subjects.length; i++)
+						$('#subject_input').append('<option value="' + subjects[i] + '">' + subjects[i] + '</option>');
+				});
+				
+			});
+		</script>
+	</body>
+</html>
