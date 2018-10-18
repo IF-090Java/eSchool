@@ -1,5 +1,6 @@
 package academy.softserve.eschool.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,19 +8,24 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.Map;
 
-/**
- * Created by Mariana on 12.10.2018.
- */
+//END POINT  /classes/{id}/schedule
+
 @Data
 @NoArgsConstructor
 public class ScheduleDTO {
 
     @ApiModelProperty(notes = "id of the schedule")
-    private long id_schedule;
+    private int id_schedule;
 
-    @ApiModelProperty(notes = "start of the semester")
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "yyyy-MM-dd")
+    @ApiModelProperty(required = true, notes = "date")
     private Date startOfSemester;
 
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "yyyy-MM-dd")
     @ApiModelProperty(notes = "end of the semester")
     private Date endOfSemester;
 
@@ -41,7 +47,7 @@ public class ScheduleDTO {
     @ApiModelProperty(notes = "schedule for Friday")
     private Map<Integer, SubjectDTO> fridaySubjects;    //schedule for Friday
 
-    public ScheduleDTO(long id_schedule, Date startOfSemester, Date endOfSemester, ClassDTO className, Map<Integer, SubjectDTO> mondaySubjects,
+    public ScheduleDTO(int id_schedule, Date startOfSemester, Date endOfSemester, ClassDTO className, Map<Integer, SubjectDTO> mondaySubjects,
                              Map<Integer, SubjectDTO> tuesdaySubjects, Map<Integer, SubjectDTO> wednesdaySubjects, Map<Integer, SubjectDTO> thursdaySubjects,
                              Map<Integer, SubjectDTO> fridaySubjects) {
         this.id_schedule = id_schedule;
@@ -55,4 +61,15 @@ public class ScheduleDTO {
         this.fridaySubjects = fridaySubjects;
     }
 
+    public ClassDTO getClassName() {
+        return className;
+    }
+
+    public void setId(int id_schedule) {
+        this.id_schedule = id_schedule;
+    }
+
+    public long getId() {
+        return id_schedule;
+    }
 }

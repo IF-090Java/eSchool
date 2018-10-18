@@ -2,11 +2,12 @@ package academy.softserve.eschool.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * Created by Mariana on 12.10.2018.
- */
+//END POINT  /teachers/{id}/classes/{id}/subjects/{id}/journal
+
 @Data
+@NoArgsConstructor
 public class TeacherJournalDTO {
 
     @ApiModelProperty(notes = "teacher to add")
@@ -22,5 +23,17 @@ public class TeacherJournalDTO {
         this.teacher = teacher;
         this.classs = classs;
         this.subject = subject;
+    }
+
+    public TeacherNamesDTO getTeacher() {
+        return teacher;
+    }
+
+    public ClassDTO getClasss() {
+        return classs;
+    }
+
+    public SubjectDTO getSubject() {
+        return subject;
     }
 }

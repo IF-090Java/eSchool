@@ -18,4 +18,7 @@ public class ClassDTO {
     @ApiModelProperty(required = false, notes = "Some additional information. Can be empty")
     private String classDescription;
 
+    public int getId() {
+        return id;
+    }
 }

@@ -23,17 +23,17 @@ import java.util.*;
 @Api(value = "Schedule Endpoint", description = "Crate a schedule for a semester")
 public class ScheduleController {
 
-   @ApiOperation(value = "Shows all the shedules")
-   public List<ScheduleDTO> getScheduleDTO() throws ParseException {
+    private static List<ScheduleDTO> list;
+
+    static {
        SimpleDateFormat format = new SimpleDateFormat("dd.MM");
 
        Map<Integer, SubjectDTO> map = new HashMap<>();
        map.put(1, new SubjectDTO(1, "Історія України"));
 
-       return Arrays.asList(
-               new ScheduleDTO(1, format.parse("01.09"), format.parse("25.12"),
-                       new ClassDTO(2,"5-Б","desc"), map, map, map, map, map)
-       );
+       list.add(ScheduleDTO(1, format.parse("01.09"), format.parse("25.12"),
+                       new ClassDTO(2,"5-Б","desc"), map, map, map, map, map));
+
    }
 
     @ApiOperation(value = "Creates a schedule for a class")
@@ -44,16 +44,29 @@ public class ScheduleController {
             }
     )
     @PostMapping("/classes/{id}/schedule")
-    public ScheduleDTO postSchedule(@PathVariable("id") final Long id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
+    public ScheduleDTO postSchedule(@PathVariable("id") final int id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
-        return getScheduleDTO().get(0);//example
+        for (ScheduleDTO scheduleDTO1 : list)
+        {
+            if (scheduleDTO1.getClassName().getId() == id) return null; //already exists
+            else
+            {
+                scheduleDTO.setId(list.size());
+                list.add(scheduleDTO);
+            }
+        }
+        return scheduleDTO;
     }
 
+    @ApiOperation(value = "Gets schedule for the class with id")
     @GetMapping("/classes/{id}/schedule")
     public ScheduleDTO getSchedule(@PathVariable("id") final int id) throws ParseException
     {
+        for(ScheduleDTO scheduleDTO : list){
+            if (scheduleDTO.getClassName().getId() == id) return scheduleDTO;
+        }
         return new ScheduleDTO(1, new Date(), new Date(),
-                new ClassDTO(2,"5-Б","desc"), new HashMap<>(), new HashMap<>()
+                new ClassDTO(id,"5-Б","desc"), new HashMap<>(), new HashMap<>()
                 , new HashMap<>(), new HashMap<>(), new HashMap<>());
     }
 
