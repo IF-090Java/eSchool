@@ -51,14 +51,13 @@
 			});
 			
 			$('#subject').change(function(){
-				//TODO add classes with selected subject to class select 
+				//TODO add classes that study selected subject to class select 
 				var params = getParams();
 				$.getJSON(marksUrl, params, setData);
 			});
 			
 			$('#class').change(function(){
-				//TODO add subjects for selected class to subjet select
-				//TODO add students from selected class to student select
+				//TODO add subjects studied by selected class to subjet select
 				var classId = this.value;
 				$.each(studentOptions, function(i, option){
 					option.remove();
