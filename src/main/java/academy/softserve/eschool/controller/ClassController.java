@@ -14,14 +14,26 @@ import java.util.List;
 @RequestMapping("/classes")
 @Api(value = "classes", description = "Endpoints for classes")
 public class ClassController {
+    private static List<ClassDTO> list = new ArrayList<>();
+    static {
+        list.add(new ClassDTO(1,"5-A","Класний керівник - Данилишин Богдан"));
+        list.add(new ClassDTO(2,"5-Б","Класний керівник - Вакун Оксана"));
+        list.add(new ClassDTO(3,"5-В","Класний керівник - Фігурка Марія"));
+        list.add(new ClassDTO(4,"6-A","Класний керівник - Семчишин Олег"));
+        list.add(new ClassDTO(5,"6-Б","Класний керівник - Козин Лариса"));
+        list.add(new ClassDTO(6,"7-А","Класний керівник - Баран Ярослав"));
+    }
+
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully created"),
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Create class")
     @PostMapping
-    public ClassDTO addClass(ClassDTO newClass){
-        return newClass;
+    public boolean addClass(@RequestBody ClassDTO newClass){
+        newClass.setId(7);
+        list.add(newClass);
+        return true;
     }
 
     @ApiResponses(value = {
@@ -30,7 +42,10 @@ public class ClassController {
     })
     @ApiOperation(value = "Get Class", response = ClassDTO.class)
     @GetMapping("/{id}")
-    public ClassDTO getClassById(@PathVariable String id){
+    public ClassDTO getClassById(@PathVariable int id){
+        for(ClassDTO classDTO : list){
+            if (classDTO.getId() == id) return classDTO;
+        }
         return new ClassDTO(1,"8-Б", "Класний керівник - Кашуба Григорій");
     }
 
@@ -41,13 +56,6 @@ public class ClassController {
     @ApiOperation(value = "Get Class", response = ClassDTO.class)
     @GetMapping()
     public List<ClassDTO> getAll(){
-        List<ClassDTO> list = new ArrayList<>();
-        list.add(new ClassDTO(1,"5-A","desc"));
-        list.add(new ClassDTO(2,"5-Б","desc"));
-        list.add(new ClassDTO(3,"5-В","desc"));
-        list.add(new ClassDTO(4,"6-A","desc"));
-        list.add(new ClassDTO(5,"6-Б","desc"));
-        list.add(new ClassDTO(6,"7-А","desc"));
         return list;
     }
 
@@ -56,7 +64,15 @@ public class ClassController {
     })
     @ApiOperation("Update class")
     @PutMapping("/{id}")
-    public ClassDTO editClass(@PathVariable String id, ClassDTO editClass){
-        return editClass;
+    public boolean editClass(@PathVariable int id, @RequestBody ClassDTO editClass){
+        for (ClassDTO classDTO : list){
+            if (classDTO.getId() == id){
+                classDTO.setClassName(editClass.getClassName());
+                classDTO.setClassDescription(editClass.getClassDescription());
+                list.set(classDTO.getId()-1, classDTO);
+                return true;
+            }
+        }
+        return false;
     }
 }

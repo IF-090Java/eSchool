@@ -54,7 +54,7 @@
 			<ul id="classeslist" style="list-style-type: square;">
 			</ul>
 			<div align="center" style="text-align: center; margin: 0 auto;">
-				<button type="submit">Додати клас</button>
+				<button type="button" onclick="window.location.href='/classes/add'">Додати клас</button>
 			</div>
 		</div>
 	</ul>
@@ -64,12 +64,9 @@
 		$.getJSON('http://localhost:8080/classes', function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
-				$('#classeslist').append($('<li>').append($('<a>').attr('href','#').append(item.className)))
+				$('#classeslist').append($('<li>').append($('<a>').attr('href','/classes/'+item.id+"/edit").append(item.className)))
 			});
-
-			
 		});
-
 	});
 </script>
 </body>

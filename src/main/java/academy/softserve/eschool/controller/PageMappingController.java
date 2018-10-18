@@ -9,7 +9,7 @@ public class PageMappingController {
     public String editClassPage(){
         return "/editClass.html";
     }
-
+    
     @RequestMapping("journals/subjects/{idSubject}/classes/{idClass}/view")
     public String journal(){
         return "/journal.html";
@@ -20,11 +20,16 @@ public class PageMappingController {
         return "/journalsList.html";
     }
 
+    @RequestMapping("/classes/add")
+    public String addClassPage(){
+        return "/addClass.html";
+    }
+
     @RequestMapping("diary/{studentId}")
     public String diaryPage() {
     	return "/diary.html";
     }
-    
+
     @RequestMapping("stats")
     public String statisticsPage() {
     	return "/statistics.html";
