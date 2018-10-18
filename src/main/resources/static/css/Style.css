@@ -1,10 +1,14 @@
-form {
+fieldset {
+    border: 2px solid #4CAF50;
+    padding: 40px;
     margin: 0 auto;
-    background: lightgoldenrodyellow;
-    border: medium solid black;
-    border-radius: 10px;
-    width: 600px;
-    padding: 15px
+    width: 650px;
+}
+
+legend {
+    font-size: 20px;
+    font-style: revert;
+    font-family: "Ubuntu Condensed";
 }
 
 .div {
@@ -16,14 +20,6 @@ form {
     padding: 15px;
 }
 
-.div-first {
-    margin: 0 auto;
-    background: lightgoldenrodyellow;
-    width: 800px;
-    border: medium solid black;
-    border-radius: 15px;
-    padding: 15px;
-}
  img {
      border: solid 10px;
      border-radius: 5px;
@@ -33,5 +29,14 @@ form {
  }
 
  body {
-     background: #BCC8D2;
+     background: lightgoldenrodyellow;
+ }
+
+ a {
+     background: darkgreen;
+     white: 100px;
+     padding: 10px;
+     font-size: 20px;
+     color: white;
+
  }
