@@ -27,22 +27,19 @@ public class DiaryController {
 	@ApiOperation(value = "Get student's diary")
 	//TODO startdate enddate
 	List<DiaryEntryDTO> getDiary(
-			@ApiParam(value = "offsets week of diary", required = false) @RequestParam(defaultValue = "0") Integer offset, 
-			@ApiParam(value = "shows diary for student with specified id", required = true) @PathVariable Integer studentId,
-			HttpServletResponse response){
+			@ApiParam(value = "first day of required week", required = true) @RequestParam Date weekStartDate, 
+			@ApiParam(value = "id of required student", required = true) @PathVariable Integer studentId){
 		//TODO get diary for student with id=studentId from database
-		response.addHeader("Access-Control-Allow-Origin", "*");
-		return createDiaryStub(offset);
+		return createDiaryStub(weekStartDate);
 	}
 	
-	private List<DiaryEntryDTO> createDiaryStub (int offset){
-		Random r = new Random(offset);
+	private List<DiaryEntryDTO> createDiaryStub (Date weekStartDate){
+		Random r = new Random(weekStartDate.getTime());
 		Random l = new Random(42);
 		Date date;
 		String[] lessons = {"Математика", "Біологія", "Фізика", "Історія", "Хімія", "Англійська", "Українська", "Фізкультура"};
 		GregorianCalendar cal = new GregorianCalendar();
-		cal.add(GregorianCalendar.WEEK_OF_MONTH, offset);
-		cal.set(GregorianCalendar.DAY_OF_WEEK, GregorianCalendar.MONDAY);
+		cal.setTime(weekStartDate);
 		List<DiaryEntryDTO> diary = new ArrayList<>();
 		
 		for (int i = 0; i<5; i++) {

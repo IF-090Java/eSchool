@@ -9,12 +9,16 @@
 			-webkit-columns: 500px 2; /* Chrome, Safari, Opera */
 			-moz-columns: 500px 2; /* Firefox */
 			columns: 500px 2;
-			
 		}
+		
+		
 		.diary-day-container{
 			-webkit-column-break-inside: avoid;
           	page-break-inside: avoid;
             break-inside: avoid;
+            border: 2px solid #4CAF50;
+            padding: 5px;
+            margin-bottom: 5px;
 		}
 		.day-name{
 			padding: 10px;
@@ -51,71 +55,80 @@
 			<button id="current-week-btn">Поточний тиждень</button>
 		</div>
 		<div class="diary-container">
-			<div class="diary-day-container">
-				<div class="day-name">Понеділок</div>
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Понеділок</legend>
 				<table class="diary-day" id="monday"> 
 					
 				</table>
-			</div>
+			</fieldset>
 			
-			<div class="diary-day-container">
-				<div class="day-name">Вівторок</div>
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Вівторок</legend>
 				<table class="diary-day" id="tuesday"> 
 				
 				</table>
-			</div>
+			</fieldset>
 			
-			<div class="diary-day-container">
-				<div class="day-name">Середа</div>
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Середа</legend>
 				<table class="diary-day" id="wednsday"> 
 					
 				</table>
-			</div>
+			</fieldset>
 			
-			<div class="diary-day-container">
-				<div class="day-name">Четвер</div>
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Четвер</legend>
 				<table class="diary-day" id="thursday"> 
 					
 				</table>
-			</div>
+			</fieldset>
 			
-			<div class="diary-day-container">
-				<div class="day-name">П'ятниця</div>
+			<fieldset class="diary-day-container">
+				<legend class="day-name">П'ятниця</legend>
 				<table class="diary-day" id="friday"> 
 					
 				</table>
-			</div>
+			</fieldset>
 			
 			
 		</div>
 		
 		    <script type="text/javascript">
+		    	var weekStart = getFirstDayOfCurrentWeek();
 		    	var offset = 0;
-		    	var ulr = 'http://localhost:8080/diaries/0';
-		    	var months = ["Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", "Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"];
+		    	var pathArray = window.location.pathname.split('/');
+        		var studentId = pathArray[2];
+		    	var ulr = 'http://localhost:8080/diaries/' + studentId;
+		    	var months = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
+		    			"Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
 				$(document).ready(function () {
-					$.getJSON(ulr, setData);
+					getData();
 				});
 				
 				$('#previous-week-btn').click(function(){
 					offset--;
-					$('.diary-day').empty();
-					$.getJSON(ulr, {offset:offset}, setData);
+					weekStart.setDate(weekStart.getDate() - 7);
+					getData();
 				});
 				
 				$('#next-week-btn').click(function(){
 					offset++;
-					$('.diary-day').empty();
-					$.getJSON(ulr, {offset:offset}, setData);
+					weekStart.setDate(weekStart.getDate() + 7);
+					getData();
 				});
 				
 				$('#current-week-btn').click(function(){
 					offset = 0;
-					$('.diary-day').empty();
-					$.getJSON(ulr, {offset:offset}, setData);
+					weekStart = getFirstDayOfCurrentWeek();
+					getData();
 				});
 				
+				function getData(){
+					$.getJSON(ulr, {weekStartDate:weekStart}, setData);
+				}
+				
 				function setData (data) {
+					$('.diary-day').empty();
 					var tableHeader = $('<tr> <th>№</th> <th>Урок</th> <th>Домашнє завдання</th> <th>Оцінка</th> <th>Примітка</th></tr>');
 					tableHeader.appendTo('.diary-day');
 					var firstDayDate = new Date(data[0].date).getDate();
@@ -124,10 +137,10 @@
 					var lastDayMonth = new Date(data[data.length-1].date).getMonth();
 					var period = firstDayDate+' '+months[firstDayMonth]+' - '+lastDayDate+' '+months[lastDayMonth];
 					$('#date-period').text(period);
-					if (offset != 0){
-						$('#current-week-btn').show();
-					} else {
+					if (offset == 0){
 						$('#current-week-btn').hide();
+					} else {
+						$('#current-week-btn').show();
 					}
 					$.each(data, function(i, diaryEntry) {
 						var tableRow = $('<tr></tr>');
@@ -157,6 +170,13 @@
 							default:
 						}
 					});
+				}
+				
+				function getFirstDayOfCurrentWeek (){
+					var weekStart = new Date();
+			    	var currentDay = weekStart.getDay();
+					weekStart.setDate(weekStart.getDate() - currentDay + 1);
+					return weekStart;
 				}
 			</script>
 	</body>

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
     <link rel="stylesheet" type="text/css" href="../css/Style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript">
@@ -15,24 +13,35 @@
             });
         })
     </script>
+
+    <meta charset="UTF-8">
+    <title>Додавання учня</title>
 </head>
 <body>
-<form  method="post" action="/students">
-    <div>
-        Додати нового учня
+    <div align="center" style="margin-bottom: 50px">
+        <h1>ДОДАВАННЯ НОВОГО УЧНЯ</h1>
+    </div>
+    <form  method="post" action="/students">
+        <fieldset/>
+        <legend>[ Дані учня ]</legend>
         <hr>
-    </div>
 
-    <div>
-        Прізвище <input type="text" name="firstname" begraundV="Введіть прізвище учня" required>
-        Ім'я     <input type="text" name="lastname" begraundV="Введіть ім'я учня" required><br>
-        <br>Клас <input type="text" name="classe" begraundV="Введіть клас">
-    </div>
+        <div>
+            <label for="firstname">Прізвище</label>
+            <input type="text" name="firstname" id="firstname" placeholder="Введіть прізвище учня" required>
 
-    <div align="center">
-        <br><input type="submit" value="Додати" align="center">
-    </div>
+            <label for="lastname">Ім'я</label>
+            <input type="text" name="lastname" id="lastname" placeholder="Введіть ім'я учня" required><br>
 
-</form>
+            <label for="lastname"><br>Клас</label>
+            <input type="text" name="classe" placeholder="Введіть клас">
+        </div>
+
+        <div align="center">
+            <br><input type="submit" value="Додати" align="center">
+        </div>
+        <hr>
+
+    </form>
 </body>
 </html>
