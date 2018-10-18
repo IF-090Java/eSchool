@@ -43,7 +43,8 @@ public class JournalController {
     @ApiOperation(value = "Get journal by subjects and classes")
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     public List<JournalMarkDTO> getJournalTable(
-            @ApiParam(value = "first day of required week", required = true) @RequestParam Date weekStartDate,
+            @ApiParam(value = "first day of required week", required = true) @RequestParam Date start,
+            @ApiParam(value = "first day of required week", required = true) @RequestParam Date end,
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass
             ){
