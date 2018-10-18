@@ -9,5 +9,10 @@ public class PageMappingController {
     public String editClassPage(){
         return "/editClass.html";
     }
+
+    @RequestMapping("/classes/add")
+    public String addClassPage(){
+        return "/addClass.html";
+    }
 }
 
