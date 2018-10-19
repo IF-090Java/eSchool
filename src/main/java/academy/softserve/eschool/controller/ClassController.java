@@ -30,10 +30,10 @@ public class ClassController {
     })
     @ApiOperation(value = "Create class")
     @PostMapping
-    public boolean addClass(@RequestBody ClassDTO newClass){
-        newClass.setId(7);
-        list.add(newClass);
-        return true;
+    public ClassDTO addClass(@RequestBody ClassDTO newClassDTO){
+        newClassDTO.setId(7);
+        list.add(newClassDTO);
+        return newClassDTO;
     }
 
     @ApiResponses(value = {
@@ -64,15 +64,15 @@ public class ClassController {
     })
     @ApiOperation("Update class")
     @PutMapping("/{id}")
-    public boolean editClass(@PathVariable int id, @RequestBody ClassDTO editClass){
+    public ClassDTO editClass(@PathVariable int id, @RequestBody ClassDTO editClass){
         for (ClassDTO classDTO : list){
             if (classDTO.getId() == id){
                 classDTO.setClassName(editClass.getClassName());
                 classDTO.setClassDescription(editClass.getClassDescription());
                 list.set(classDTO.getId()-1, classDTO);
-                return true;
+                return classDTO;
             }
         }
-        return false;
+        return editClass;
     }
 }

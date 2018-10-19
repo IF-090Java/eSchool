@@ -11,6 +11,12 @@ legend {
     font-family: "Ubuntu Condensed";
 }
 
+.header{
+    height: 50px;
+    background: #BCC8D2;
+    border: solid 1px black;
+}
+
 .div {
     border: medium solid black;
     background: lightgoldenrodyellow;

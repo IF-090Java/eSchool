@@ -14,6 +14,14 @@ import java.util.List;
 @RequestMapping("/students")
 @Api(description = "Student controller")
 public class StudentController {
+    private static List<StudentDTO> list = new ArrayList<>();
+    static {
+        list.add(new StudentDTO(1, "Cемків", "Василь", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(2, "Романчук", "Віктор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(3, "Кривенчук", "Ігор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(4, "Приймак", "Вікторія", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(5, "Семенів", "Ольга", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+    }
 
     @PostMapping
     @ApiOperation(value = "Add student, first name, last name and class passed in html")
@@ -36,6 +44,9 @@ public class StudentController {
             }
     )
     public StudentDTO getStudent(@PathVariable int id){
+        for (StudentDTO studentDTO : list){
+            if (studentDTO.getId()==id) return studentDTO;
+        }
         return new StudentDTO(1,"John", "Doe", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
     }
 
@@ -60,12 +71,6 @@ public class StudentController {
             }
     )
     public List<StudentDTO> getStudentsByClass(@PathVariable int id){
-        List<StudentDTO> list = new ArrayList<>();
-        list.add(new StudentDTO(1, "Cемків", "Василь", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(2, "Романчук", "Віктор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(3, "Кривенчук", "Ігор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(4, "Приймак", "Вікторія", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(5, "Семенів", "Ольга", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
         return list;
     }
 }
