@@ -43,8 +43,16 @@
 	fieldset{
 		border: 2px solid #4CAF50;
 	}
+	img {
+     border: solid 5px;
+     border-radius: 3px;
+     padding: 5px;
+     width: 100px;
+     height: 100px;
+ }
 </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/js/imagePreview.js" type="text/javascript"></script>
 
 </head>
 <body>
@@ -75,6 +83,14 @@
 				<div class="row">
 					<label for="phone">Телефон:</label>
 					<input id="mobile" type="text" name="phone">
+				</div>
+				<div>
+					<img id="avatar" src="/img/profile.png">
+					<input style="display: inline; position: absolute; margin-top: 50px;" type="file"
+					id="avatarFile" name="avatar"
+					accept="image/png, image/jpeg"
+					onchange="PreviewImage();" />
+					<p style=" display: inline; font-size: 12px;">* Максимальний розмір - 300 Кб</p>
 				</div>
 				<div align="center">
 					<button id="submitButton" type="Submit">Зберегти</button>
