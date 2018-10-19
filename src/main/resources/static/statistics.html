@@ -6,6 +6,13 @@
 		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<style> 
+		
+			.header{
+				height: 50px;
+				background: #BCC8D2;
+				border: solid 1px black;
+			}
+				
 			#chartContainer {
 				height: 300px;
 				width: 100%;
@@ -27,6 +34,11 @@
 		</style>
 	</head>
 	<body>
+		<div class="header">
+			<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
+			<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
+			<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+		</div>
 		<div class="container">
 			<select id="subject">
 				<option value="">Предмет</option>

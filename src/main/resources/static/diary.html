@@ -5,6 +5,13 @@
 		<meta charset="UTF-8">
 		<title>Щоденник</title>
 		<style> 
+		
+		.header{
+			height: 50px;
+			background: #BCC8D2;
+			border: solid 1px black; 
+		}		
+		
 		.diary-container {
 			-webkit-columns: 500px 2; /* Chrome, Safari, Opera */
 			-moz-columns: 500px 2; /* Firefox */
@@ -53,6 +60,11 @@
 	</head>
 	<body>
 		<div class="header">
+			<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Student01</span>
+			<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Учень</span>
+			<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+		</div>
+		<div class="controls-container">
 			<button id="previous-week-btn"><-</button>
 			<button id="next-week-btn">-></button>
 			<span id="date-period"></span>
