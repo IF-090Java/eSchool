@@ -59,7 +59,7 @@ public class StudentController {
         SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
         StudentDTO studentDTO = null;
         try {
-            studentDTO = new StudentDTO(1,"John", "Doe", "patronymic", "7-b", dateformat.parse("15/10/2005"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
+            studentDTO = new StudentDTO(1,"Ірина", "Самійлів", "Петрівна", "7-b", dateformat.parse("15/10/2003"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
         } catch (ParseException e) {
             e.printStackTrace();
         }

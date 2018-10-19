@@ -11,8 +11,10 @@
             $.ajax({
                 url: "http://localhost:8080/teachers/15"
             }).then(function(data) {
-                $('#title').append(data.firstname + ' ' + data.lastname)
-                $('#initials').append(data.firstname + ' ' + data.lastname);
+                var date = new Date(data.dateOfBirth).toLocaleDateString()
+                $('#title').append(data.firstname + ' ' + data.lastname );
+                $('#initials').append(data.lastname + ' ' + data.firstname + ' ' + data.patronymic);
+                $('#date').append(date);
                 $('#login').append(data.login);
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
@@ -50,6 +52,7 @@
         <h3 id="login">Логін: </h3>
     </div><br>
 
+    <div id="date" style="font-size: 20px">Дата народження: </div>
     <div id="email" style="font-size: 20px">Електронна пошта: </div>
     <div id="phone" style="font-size: 20px">Номер телефону: </div>
 
