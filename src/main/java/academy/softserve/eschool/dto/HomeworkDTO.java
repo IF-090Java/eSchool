@@ -2,11 +2,13 @@ package academy.softserve.eschool.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
+@AllArgsConstructor
 public class HomeworkDTO{
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
@@ -18,9 +20,4 @@ public class HomeworkDTO{
     @ApiModelProperty(notes = "file with homework or some resources")
     private String file;
 
-    public HomeworkDTO(Date date, String homework, String file) {
-        this.date = date;
-        this.homework = homework;
-        this.file = file;
-    }
 }

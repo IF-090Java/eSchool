@@ -1,9 +1,11 @@
 package academy.softserve.eschool.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class JournalDTO {
     @ApiModelProperty(notes = "id of subject")
     private int idSubject;
@@ -14,10 +16,4 @@ public class JournalDTO {
     @ApiModelProperty(notes = "class full name")
     private String className;
 
-    public JournalDTO(int idSubject,int idClass,String subjectName, String className) {
-        this.idSubject = idSubject;
-        this.idClass = idClass;
-        this.subjectName = subjectName;
-        this.className = className;
-    }
 }
