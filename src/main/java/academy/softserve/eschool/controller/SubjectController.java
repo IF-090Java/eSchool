@@ -40,6 +40,7 @@ public class SubjectController {
         return list;
     }
 
+
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully created"),
             @ApiResponse(code = 500, message = "Internal Server Error")

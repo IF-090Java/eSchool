@@ -44,6 +44,7 @@
         <tr>
             <th>Предмет</th>
             <th>Клас</th>
+            <th>Дата</th>
         </tr>
     </table>
 
@@ -55,6 +56,7 @@
                 var ref = 'http://localhost:8080/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
                 $('<td>'+'<a href='+ref+'>'+val.subjectName+'</a>'+'</td>').appendTo(tr);
                 $('<td>'+val.className+'</td>').appendTo(tr);
+                $('<td>'+val.startDate+"-"+val.endDate+'</td>').appendTo(tr);
                 tr.appendTo('#table');
             });
         });

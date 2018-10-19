@@ -26,11 +26,11 @@ public class JournalController {
     @GetMapping("")
     public List<JournalDTO> getJournals(){
         List<JournalDTO> list = new ArrayList<>();
-        list.add(new JournalDTO(1,1,"Історія України","5-A"));
-        list.add(new JournalDTO(4,2,"Українська мова","5-Б"));
-        list.add(new JournalDTO(3,2,"Англійська мова","5-Б"));
-        list.add(new JournalDTO(2,3,"Інформатика","5-В"));
-        list.add(new JournalDTO(1,4,"Історія України","6-А"));
+        list.add(new JournalDTO(1,1,"Історія України","5-A",new Date(),new Date()));
+        list.add(new JournalDTO(4,2,"Українська мова","5-Б",new Date(),new Date()));
+        list.add(new JournalDTO(3,2,"Англійська мова","5-Б",new Date(),new Date()));
+        list.add(new JournalDTO(2,3,"Інформатика","5-В",new Date(),new Date()));
+        list.add(new JournalDTO(1,4,"Історія України","6-А",new Date(),new Date()));
         return list;
     }
 
