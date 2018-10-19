@@ -40,7 +40,6 @@
 
     <div class="description" id="classTitle">Клас: </div>
     <div class="description" id="subjectTitle">Предмет: </div>
-    <div class="description" id="teacherTitle">Вчитель: </div>
 
     <table id="table_mark">
 
@@ -63,17 +62,21 @@
         var idClass = pathArray[5];
 
         $.getJSON('http://localhost:8080/classes/'+idClass, function (data) {
-            $('<span>'+data.className+'</span>').appendTo('#classTitle');
+          $('<span>'+data.className+'</span>').appendTo('#classTitle');
         });
 
         $.getJSON('http://localhost:8080/subjects/'+idSubject, function (data) {
-            $('<span>'+data.subjectName+'</span>').appendTo('#subjectTitle');
+          $('<span>'+data.subjectName+'</span>').appendTo('#subjectTitle');
         });
 
-       console.log(idSubject+" "+idClass)
+        $.getJSON('http://localhost:8080/teachers/2', function (data) {
+          $("#teacherTitle").append(data.firstname + ' ' + data.lastname);
+        });
+
+        console.log(idSubject+" "+idClass)
         $.getJSON('http://localhost:8080/homeworks/subjects/'+idSubject+'/classes/'+idClass,{start:startDate,end:endDate}, function (data) {
-            $.each(data, function(key, val) {
-                var tr=$('<tr></tr>');
+          $.each(data, function(key, val) {
+            var tr=$('<tr></tr>');
                 $('<td>'+val.date+'</td>').appendTo(tr);
                 $('<td>'+val.homework+'</td>').appendTo(tr);
                 $('<td>'+val.file+'</td>').appendTo(tr);
