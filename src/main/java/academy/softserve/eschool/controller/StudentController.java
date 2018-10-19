@@ -21,11 +21,11 @@ public class StudentController {
     static {
         try {
             SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
-            list.add(new StudentDTO(1, "Cемків", "Василь", "Іванович", "7-b", dateformat.parse("15/10/2005"),"stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(2, "Романчук", "Віктор", "Іванович", "7-b", dateformat.parse("15/10/2005"), "stud.john.doe",  "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(3, "Кривенчук", "Ігор", "Іванович", "7-b", dateformat.parse("15/10/2005"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(4, "Приймак", "Вікторія", "Іванович", "7-b", dateformat.parse("15/10/2005"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(5, "Семенів", "Ольга", "Іванівна", "7-b", dateformat.parse("15/10/2005"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+            list.add(new StudentDTO(1, "Василь", "Cемків", "Іванович", "6-а", dateformat.parse("15/10/2006"),"stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+            list.add(new StudentDTO(2, "Віктор", "Романчук", "Андрійович", "7-б,", dateformat.parse("15/10/2007"), "stud.john.doe",  "john.doe@email.com", "09xxxxxxxx"));
+            list.add(new StudentDTO(3, "Ігор", "Кривенчук", "Іванович", "5-a", dateformat.parse("15/10/2004"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+            list.add(new StudentDTO(4, "Вікторія", "Приймак",  "Петрович", "7-a", dateformat.parse("15/10/2007"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+            list.add(new StudentDTO(5, "Ольга", "Семенів", "Іванівна", "5-а", dateformat.parse("15/10/2004"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -59,7 +59,7 @@ public class StudentController {
         SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
         StudentDTO studentDTO = null;
         try {
-            studentDTO = new StudentDTO(1,"Ірина", "Самійлів", "Петрівна", "7-b", dateformat.parse("15/10/2003"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
+            studentDTO = new StudentDTO(1,"Ірина", "Самійлів", "Петрівна", "7-b", dateformat.parse("15/01/2003"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
         } catch (ParseException e) {
             e.printStackTrace();
         }
