@@ -114,6 +114,16 @@ public class PageMappingController {
         return "/editTeacher.html";
     }
 
+    @RequestMapping("classList")
+    public String classList(){
+        return "/classList.html";
+    }
+
+    @RequestMapping("admin")
+    public String adminHome(){
+        return "/adminHome.html";
+    }
+
     @RequestMapping("/")
     public String getLoginPage(){
         return "/loginForm.html";
