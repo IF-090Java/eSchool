@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +19,12 @@ public class TeacherDTO {
 
     @ApiModelProperty(notes = "contains teacher last name")
     private String lastname;
+
+    @ApiModelProperty(notes = "contains a patronymic")
+    private String patronymic;
+
+    @ApiModelProperty(notes = "contains date of birth of the teacher")
+    private Date dateOfBirth;
 
     @ApiModelProperty(notes = "teacher login")
     private String login;

@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +57,15 @@ public class TeacherController {
             }
     )
     public TeacherDTO getTeacher(@PathVariable int id){
-        return new TeacherDTO(1,"Іван","Якимів","вавава","*******","vanya@mail","05050505056");
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+
+        TeacherDTO teacherDTO = null;
+        try {
+            teacherDTO = new TeacherDTO(1,"Іван","Якимів", "Петрович", dateformat.parse("12/12/1978"),"вавава","*******","vanya@mail","05050505056");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return teacherDTO;
     }
     @PutMapping("/{id}")
     @ApiOperation(value = "update profile of teacher")
