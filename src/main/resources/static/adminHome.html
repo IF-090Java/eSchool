@@ -8,6 +8,12 @@
             text-decoration: none;
         }
 
+        .header{
+            height: 50px;
+            background: #BCC8D2;
+            border: solid 1px black;
+        }
+
         .button {
             display: block;
             width: 200px;
@@ -42,14 +48,19 @@
     </style>
 </head>
 <body>
+<div class="header">
+    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
+    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+</div>
 <h1 align="center"> Домашня сторінка адміністратора </h1>
 <div class="column" align="center">
     <a href = "/students/add" class="button">Додати учня</a>
     <a href = "/teachers/add" class="button">Додати вчителя</a>
-    <a href = "/classes/add" class="button">Додати клас</a>
+    <a href = "/classes/list" class="button">Список класів</a>
     <a href = "/subjects/add" class="button">Додати предмет</a>
     <a href = "/teachersList" class="button">Список вчителів</a>
-    <a href = "/classList" class="button">Список класів</a>
+    <a href = "/classes/list2" class="button">Список учнів</a>
     <a href = "/subjectList" class="button">Редагування предметів</a>
     <a href = "/teachers/add/journal" class="button">Додавання вчителя до журналу</a>
     <a href = "/schedule/create" class="button">Розклад</a>
