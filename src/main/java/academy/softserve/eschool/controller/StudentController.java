@@ -23,8 +23,8 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public void addStudent(StudentDTO student) {
-
+    public StudentDTO addStudent(@RequestBody StudentDTO student) {
+        return student;
     }
 
     @GetMapping("/{id}")
@@ -61,11 +61,11 @@ public class StudentController {
     )
     public List<StudentDTO> getStudentsByClass(@PathVariable int id){
         List<StudentDTO> list = new ArrayList<>();
-        list.add(new StudentDTO(1,"Cемків", "Василь", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(9,"Романчук", "Віктор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(11,"Кривенчук", "Ігор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(19,"Приймак", "Вікторія", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(6,"Семенів", "Ольга", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(1, "Cемків", "Василь", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(2, "Романчук", "Віктор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(3, "Кривенчук", "Ігор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(4, "Приймак", "Вікторія", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(5, "Семенів", "Ольга", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
         return list;
     }
 }
