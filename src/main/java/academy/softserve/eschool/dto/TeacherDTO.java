@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TeacherDTO {
+    @ApiModelProperty(notes = "Id")
+    private int id;
+
     @ApiModelProperty(notes = "contains teacher first name")
     private String firstname;
 
@@ -18,6 +21,7 @@ public class TeacherDTO {
     @ApiModelProperty(notes = "teacher login")
     private String login;
 
+    @ApiModelProperty(notes = "teacher password")
     private String password;
 
     @ApiModelProperty(notes = "teacher email")

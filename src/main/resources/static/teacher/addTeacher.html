@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="../css/Style.css">
+    <link rel="stylesheet" type="text/css" href="/css/Style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $.getJSON('http://localhost:8080/teachers', function (data) {
-                console.log(data);
-                $("#firstName").attr("value", data.firstname);
-                $("#lastName").attr("value", data.lastname);
-            });
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
+
+                e.preventDefault();
+                var firstName = $("#firstname").val();
+                var lastName = $("#lastname").val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/teachers",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "firstname": firstName,
+                        "lastname": lastName
+                    }),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        window.location.href = "/journalsList/view";
+                    }
+                });
+            })
         })
     </script>
 
@@ -20,17 +35,17 @@
     <div align="center" style="margin-bottom: 50px">
         <h1>ДОДАВАННЯ НОВОГО ВЧИТЕЛЯ</h1>
     </div>
-    <form method="post" action="/teachers">
+    <form>
         <fieldset/>
         <legend>[ Дані вчителя ]</legend>
         <hr>
 
         <div>
             <label for="firstname">Прізвище</label>
-            <input type="text" name="firstname" id="firstname" placeholder="Введіть прізвище вчителя" required>
+            <input type="text" name="firstName" id="firstname" placeholder="Введіть прізвище вчителя" required>
 
             <label for="lastname">Ім'я</label>
-            <input type="text" name="lastname" id="lastname" placeholder="Введіть ім'я вчителя" required><br>
+            <input type="text" name="lastName" id="lastname" placeholder="Введіть ім'я вчителя" required><br>
         </div>
         <div align="center">
             <br><input type="submit" value="Додати" align="center">

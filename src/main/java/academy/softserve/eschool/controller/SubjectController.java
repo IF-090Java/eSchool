@@ -11,19 +11,14 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("/subjects")
 @Api(value = "subjects", description = "API endpoints for subjects")
 public class SubjectController {
-	
-	@ApiResponses(value = {
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
-    })
-    @ApiOperation(value = "Get all subjects", response = SubjectDTO.class)
-    @GetMapping()
-    public List<SubjectDTO> getAll(){
-        List<SubjectDTO> list = new ArrayList<>();
+    private static List<SubjectDTO> list = new ArrayList<>();
+    static{
         list.add(new SubjectDTO(1, "Історія України"));
         list.add(new SubjectDTO(2, "Інформатика"));
         list.add(new SubjectDTO(3, "Англійська мова"));
@@ -34,6 +29,14 @@ public class SubjectController {
         list.add(new SubjectDTO(8, "Біологія"));
         list.add(new SubjectDTO(9, "Математика"));
         list.add(new SubjectDTO(10, "Хімія"));
+    }
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ApiOperation(value = "Get all subjects", response = SubjectDTO.class)
+    @GetMapping()
+    public List<SubjectDTO> getAll(){
         return list;
     }
 
@@ -54,14 +57,7 @@ public class SubjectController {
     @ApiOperation(value = "Get a subject by Id", response = SubjectDTO.class)
     @GetMapping("/{id}")
     public SubjectDTO getSubjectById(@PathVariable int id){
-	    switch (id) {
-            case 1:return new SubjectDTO(1, "Фізика");
-            case 2:return new SubjectDTO(2, "Українська мова");
-            case 3:return new SubjectDTO(3, "Хімія");
-            case 4:return new SubjectDTO(4, "Математика");
-            case 5:return new SubjectDTO(5, "Історія України");
-            default:return new SubjectDTO(6, "Філософія");
-        }
+        return list.get(id-1);
     }
 
     @ApiResponses(value = {

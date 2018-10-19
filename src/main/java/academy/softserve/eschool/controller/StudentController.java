@@ -23,8 +23,8 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public void addStudent(StudentDTO student) {
-
+    public StudentDTO addStudent(@RequestBody StudentDTO student) {
+        return student;
     }
 
     @GetMapping("/{id}")
@@ -36,7 +36,7 @@ public class StudentController {
             }
     )
     public StudentDTO getStudent(@PathVariable int id){
-        return new StudentDTO("John", "Doe", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
+        return new StudentDTO(1,"John", "Doe", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
     }
 
     @PutMapping("/{id}")
@@ -61,11 +61,11 @@ public class StudentController {
     )
     public List<StudentDTO> getStudentsByClass(@PathVariable int id){
         List<StudentDTO> list = new ArrayList<>();
-        list.add(new StudentDTO("Cемків", "Василь", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO("Романчук", "Віктор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO("Кривенчук", "Ігор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO("Приймак", "Вікторія", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO("Семенів", "Ольга", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(1, "Cемків", "Василь", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(2, "Романчук", "Віктор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(3, "Кривенчук", "Ігор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(4, "Приймак", "Вікторія", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(5, "Семенів", "Ольга", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
         return list;
     }
 }

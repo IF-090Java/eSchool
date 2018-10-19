@@ -10,4 +10,7 @@ public class TeacherNamesDTO {
     private String firstname;
     private String lastname;
 
+    public Integer getId() {
+        return id;
+    }
 }

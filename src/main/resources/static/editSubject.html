@@ -60,22 +60,39 @@ color: transparent;
 			<div align="center" style="margin-bottom: 50px">
 				<h1>РЕДАГУВАННЯ ПРЕДМЕТУ</h1>
 			</div>
-			<form action="/subjects/{id}" method="PUT">
 				<fieldset style="border: 2px solid #4CAF50; padding: 40px;">
 					<legend style="font-size: 20px;">[ Редагування навчального предмету ]</legend>
 					<div class="row">
 						<label for="subjectName">Введіть назву предмету</label>
-						<input id="sname" type="text" name="subjectName" placeholder=" Інформатика">
+						<input id="sname" type="text" name="subjectName">
 					</div>
 					<div align="center" style="text-align: center; margin: 0 auto;">
-						<button type="submit">Зберегти</button>
+						<button id="submitButton" type="submit">Зберегти</button>
 					</div>
 				</fieldset>
-			</form>
 		</div>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				$.getJSON('http://localhost:8080/subjects/1', function(data) {
+				var pathArray = window.location.pathname.split('/');
+				var subjectId = pathArray[2];
+				var putUrl = "http://localhost:8080/subjects/" + subjectId;
+				$('#submitButton').click(function(){
+					var obj = {id: 3, subjectName : $("#sname").val()};
+
+					var formData = JSON.stringify(obj);
+					$.ajax({
+						type: "PUT",
+						url: putUrl,
+						data: formData,
+						success: function(){
+							console.log("Put endpoint: " +  putUrl);
+							console.log("data: " + formData);
+						},
+						dataType: "json",
+						contentType : "application/json"
+					});
+				})
+				$.getJSON('http://localhost:8080/subjects/'+subjectId, function(data) {
 					console.log(data);
 					$("#sname").attr("value", data.subjectName);
 				});

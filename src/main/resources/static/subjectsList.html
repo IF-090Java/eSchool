@@ -54,7 +54,7 @@
 			<ul id="subjectslist" style="list-style-type: square;">
 			</ul>
 			<div align="center" style="text-align: center; margin: 0 auto;">
-				<button type="submit">Додати предмет</button>
+				<button type="submit"><a href="/subjects/add" style="text-decoration: none; color: #FFFFFF";>Додати предмет</a></button>
 			</div>
 		</div>
 	</ul>
@@ -64,7 +64,7 @@
 		$.getJSON('http://localhost:8080/subjects', function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
-				$('#subjectslist').append($('<li>').append($('<a>').attr('href','#').append(item.subjectName)))
+				$('#subjectslist').append($('<li>').append($('<a>').attr('href','/subjects/'+item.id_subject+'/edit').append(item.subjectName)))
 			});		
 		});
 
