@@ -21,6 +21,16 @@ public class PageMappingController {
         return "/journalsList.html";
     }
 
+    @RequestMapping("/classes/list2")
+    public String getClassListShowStudents(){
+        return "/classListEditStud.html";
+    }
+
+    @RequestMapping("/classes/list")
+    public String getClassesListForEdit(){
+        return "/classListEditClass.html";
+    }
+
     @RequestMapping("/classes/add")
     public String addClassPage(){
         return "/addClass.html";
@@ -114,5 +124,14 @@ public class PageMappingController {
         return "/edit-teacher.html";
     }
 
+    @RequestMapping("admin")
+    public String adminHome(){
+        return "/adminHome.html";
+    }
+
+    @RequestMapping("/")
+    public String getLoginPage(){
+        return "/loginForm.html";
+    }
 }
 

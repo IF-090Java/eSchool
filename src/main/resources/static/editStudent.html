@@ -123,9 +123,9 @@
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function () {
+            var pathArray = window.location.pathname.split('/');
+            var subjectId = pathArray[2];
 			$('#submitButton').click(function(){
-				var pathArray = window.location.pathname.split('/');
-				var subjectId = pathArray[2];
 				var obj = {id: subjectId, firstname : $("#fname").val() , lastname: $("#lanme").val(),
 				classe : $("#selectClass option:selected").val(), login: $("#username").val(), email: $("#mail").val(),
 				phone : $("#mobile").val()
@@ -145,7 +145,7 @@
 					contentType : "application/json"
 				});
 			})
-			$.getJSON('http://localhost:8080/students/1', function (data) {
+			$.getJSON('http://localhost:8080/students/'+subjectId, function (data) {
 				$("#fname").attr("value", data.firstname);
 				$("#lname").attr("value", data.lastname);
 				$("#username").attr("value", data.login);

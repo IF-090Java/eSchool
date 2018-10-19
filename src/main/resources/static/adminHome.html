@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Домашня сторінка адміністратора</title>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .header{
+            height: 50px;
+            background: #BCC8D2;
+            border: solid 1px black;
+        }
+
+        .button {
+            display: block;
+            width: 200px;
+            height: 30px;
+            background: #4CAF50;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 50px;
+        }
+        .column {
+            -webkit-column-width: 200px;
+            -moz-column-width: 200px;
+            column-width: 200px;
+            -webkit-column-count: 3;
+            -moz-column-count: 3;
+            column-count: 3;
+            -webkit-column-gap: 30px;
+            -moz-column-gap: 30px;
+            column-gap: 30px;
+
+        }
+
+        body {
+            margin-left: 20%;
+            margin-right: 20%;
+            margin-bottom: 20px;
+            padding: 10px 10px 10px 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
+    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+</div>
+<h1 align="center"> Домашня сторінка адміністратора </h1>
+<div class="column" align="center">
+    <a href = "/students/add" class="button">Додати учня</a>
+    <a href = "/teachers/add" class="button">Додати вчителя</a>
+    <a href = "/classes/list" class="button">Список класів</a>
+    <a href = "/subjects/add" class="button">Додати предмет</a>
+    <a href = "/teachersList" class="button">Список вчителів</a>
+    <a href = "/classes/list2" class="button">Список учнів</a>
+    <a href = "/subjectList" class="button">Редагування предметів</a>
+    <a href = "/teachers/add/journal" class="button">Додавання вчителя до журналу</a>
+    <a href = "/schedule/create" class="button">Розклад</a>
+</div>
+</body>
+</html>
