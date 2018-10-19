@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="../css/Style.css">
+    <link rel="stylesheet" type="text/css" href="/css/Style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>
         var pathArray = window.location.pathname.split('/');
@@ -16,6 +16,11 @@
                 $('#login').append(data.login);
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
+
+                $('#subjects').attr("href", "/subjectList");
+                $('#classes').attr("href", "/journalsList/view");
+                $('#statistics').attr("href", "/stats");
+                $('#edit').attr("href", "/teachers/" + id + "/edit");
             });
         });
     </script>
@@ -24,18 +29,18 @@
     <title id="title"></title>
 </head>
 <body>
-    <fieldset/>
+    <fieldset style="width: 800px"/>
     <legend>[ Ваш профіль ]</legend>
 
     <hr><br>
     <div>
-        <a href="#">Переглянути предмети</a>
-        <a href="#">Переглянути класи</a>
-        <a href="#">Переглянути успішність</a>
+        <a id="subjects">Переглянути предмети</a>
+        <a id="classes">Переглянути журнали</a>
+        <a id="statistics">Переглянути успішність</a>
     </div>
     <br><hr>
 
-    <img src="../img/profile.png">
+    <img src="/img/profile.png">
     <div class="div">
         <h2 id="initials"></h2>
         <h3 id="login">Логін: </h3>
@@ -44,7 +49,7 @@
     <div id="email" style="font-size: 20px">Електронна пошта: </div>
     <div id="phone" style="font-size: 20px">Номер телефону: </div>
 
-    <br><button onclick="" style="font-size: 15px">Редагувати профіль.</button>
+    <br><a id="edit" style="font-size: 15px; width: 30px">Редагувати профіль</a>
 
 </body>
 </html>

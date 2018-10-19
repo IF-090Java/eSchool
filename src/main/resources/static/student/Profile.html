@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="../css/Style.css">
+    <link rel="stylesheet" type="text/css" href="/css/Style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -9,7 +9,7 @@
             var id = pathArray[2];
 
             $.ajax({
-                url: "http://localhost:8080/students/1"
+                url: "http://localhost:8080/students/" + id
             }).then(function(data) {
                 $('#title').append(data.firstname + ' ' + data.lastname)
                 $('#initials').append(data.firstname + ' ' + data.lastname);
@@ -18,6 +18,8 @@
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
 
+                $('#diary').attr("href", "/diary/" + id);
+                $('#edit').attr("href", "/students/" + id + "/edit");
             });
         });
     </script>
@@ -31,11 +33,11 @@
 
     <hr><br>
     <div>
-        <a href="#">Переглянути щоденик</a>
+        <a id="diary">Переглянути щоденик</a>
     </div>
     <br><hr>
 
-    <img src="../img/profile.png">
+    <img src="/img/profile.png">
     <div class="div">
         <h2 id="initials"></h2>
         <h3 id="login">Логін: </h3>
@@ -45,6 +47,6 @@
     <div id="email" style="font-size: 20px">Електронна пошта: </div>
     <div id="phone" style="font-size: 20px">Номер телефону: </div>
 
-    <br><button onclick="" style="font-size: 15px">Редагувати профіль</button>
+    <br><a id="edit" style="font-size: 15px; width: 30px">Редагувати профіль</a>
 </body>
 </html>

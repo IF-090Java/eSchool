@@ -2,32 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Додати клас</title>
+    <title>Вхід в систему</title>
     <style type="text/css">
 
         .main {
-            margin-left: 27%;
-            margin-right: 27%;
+            margin-left: 28%;
+            margin-right: 28%;
             padding-top: 50px;
             font-size: 16px;
         }
-
-        .header{
-            height: 50px;
-            background: #BCC8D2;
-            border: solid 1px black;
-        }
-
         .row {
             display: table-row;
         }
-
         label {
             display: table-cell;
             vertical-align: middle;
             font-size: 18px;
         }
-
         input {
             margin-top: 0px;
             margin-left: 15%;
@@ -35,12 +26,10 @@
             width: 300px;
             margin-bottom: 20px;
         }
-
         textarea {
             margin-left: 15%;
             width: 300px;
         }
-
         button {
             height: 45px;
             width: 150px;
@@ -53,41 +42,32 @@
             border-radius: 3px;
             margin-top: 50px;
         }
-
         ::-webkit-input-placeholder{
             color: #566573;
         }
-
         input:focus::-webkit-input-placeholder {
             color: transparent;
         }
-
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="header">
-    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
-    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
-    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
-</div>
 <div class="main">
     <div align="center" style="margin-bottom: 50px">
-        <h1>ДОДАТИ КЛАС</h1>
+        <h1>ВХІД</h1>
     </div>
     <form>
         <fieldset style="border: 2px solid #4CAF50; padding: 40px;">
-            <legend style="font-size: 20px;">[ Додавання класу ]</legend>
             <div class="row">
-                <label for="clsName">Введіть назву класу</label>
-                <input id="clsName" type="text" name="className" placeholder="10А">
+                <label for="login">Введіть логін</label>
+                <input id="login" type="text" name="login">
             </div>
             <div class="row">
-                <label for="txtArea">Введіть опис класу</label>
-                <textarea id="txtArea" name="classDescription" rows="5" placeholder="Необов'язково"></textarea>
+                <label for="password">Введіть пароль</label>
+                <input type="password" id="password" name="password" required></input>
             </div>
             <div align="center" style="text-align: center; margin: 0 auto;">
-                <button type="submit">Додати</button>
+                <button type="submit">Увійти</button>
             </div>
         </fieldset>
     </form>
@@ -97,20 +77,21 @@
         $('form').on('submit', function (e) {
 
             e.preventDefault();
-            var className = $("#clsName").val();
-            var classDescription = $("#txtArea").val();
+            var login = $("#login").val();
+            var password = $("#password").val();
 
             $.ajax({
                 type: "post",
-                url: "/classes",
+                url: "/",
                 dataType: "json",
                 data: JSON.stringify({
-                    "className": className,
-                    "classDescription": classDescription
+                    "login": login,
+                    "password": password
                 }),
                 contentType: "application/json",
-                success: function (responce) {
-                    window.location.href = "/classes/list";
+                success: function (data) {
+                    console.log(data)
+                    window.location.href = data.url;
                 }
             });
         })
