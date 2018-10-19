@@ -16,7 +16,6 @@ import java.util.List;
 public class StudentController {
     private static List<StudentDTO> list = new ArrayList<>();
     static {
-        List<StudentDTO> list = new ArrayList<>();
         list.add(new StudentDTO(1, "Cемків", "Василь", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
         list.add(new StudentDTO(2, "Романчук", "Віктор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
         list.add(new StudentDTO(3, "Кривенчук", "Ігор", "7-b", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));

@@ -9,9 +9,9 @@ public class LoginController {
 
     @PostMapping
     public String login(@RequestBody LoginDTO loginDTO){
-        if (loginDTO.getLogin().equalsIgnoreCase("teacher")) return "{\"url\" : \"/teachers/profile\"}";
-        else if (loginDTO.getLogin().equalsIgnoreCase("student")) return "{\"url\" : \"/students/profile\"}";
-        else if (loginDTO.getLogin().equalsIgnoreCase("parents")) return "{\"url\" : \"/students/profile\"}";
+        if (loginDTO.getLogin().equalsIgnoreCase("teacher")) return "{\"url\" : \"/teachers/1/profile\"}";
+        else if (loginDTO.getLogin().equalsIgnoreCase("student")) return "{\"url\" : \"/students/1/profile\"}";
+        else if (loginDTO.getLogin().equalsIgnoreCase("parents")) return "{\"url\" : \"/students/1/profile\"}";
         else return "{\"url\" : \"/\"}";
     }
 }
