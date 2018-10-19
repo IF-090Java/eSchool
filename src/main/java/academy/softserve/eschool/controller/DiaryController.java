@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import academy.softserve.eschool.dto.DiaryEntryDTO;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -25,17 +27,18 @@ import io.swagger.annotations.ApiParam;
 public class DiaryController {
 	@GetMapping("/{studentId}")
 	@ApiOperation(value = "Get student's diary")
-	//TODO startdate enddate
-	List<DiaryEntryDTO> getDiary(
+	GeneralResponseWrapper<List<DiaryEntryDTO>> getDiary(
 			@ApiParam(value = "first day of required week", required = true) @RequestParam Date weekStartDate, 
 			@ApiParam(value = "id of required student", required = true) @PathVariable Integer studentId){
 		//TODO get diary for student with id=studentId from database
-		return createDiaryStub(weekStartDate);
+		GeneralResponseWrapper<List<DiaryEntryDTO>> response = 
+				new GeneralResponseWrapper<>(new Status(200, "OK"), createDiaryStub(weekStartDate, studentId));
+		return response;
 	}
 	
-	private List<DiaryEntryDTO> createDiaryStub (Date weekStartDate){
+	private List<DiaryEntryDTO> createDiaryStub (Date weekStartDate, int id){
 		Random r = new Random(weekStartDate.getTime());
-		Random l = new Random(42);
+		Random l = new Random(id);
 		Date date;
 		String[] lessons = {"Математика", "Біологія", "Фізика", "Історія", "Хімія", "Англійська", "Українська", "Фізкультура"};
 		GregorianCalendar cal = new GregorianCalendar();

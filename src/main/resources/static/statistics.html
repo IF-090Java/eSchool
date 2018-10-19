@@ -6,19 +6,39 @@
 		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<style> 
+		
+			.header{
+				height: 50px;
+				background: #BCC8D2;
+				border: solid 1px black;
+			}
+				
 			#chartContainer {
 				height: 300px;
 				width: 100%;
 			}
-			#average{
-				padding-top: 20px;
-			}
 			.container {
 				padding: 50px;
 			}
+			
+			.statisticsContainer{
+				border: 2px solid #4CAF50;
+				padding: 20px;
+				margin-top: 20px;
+			}
+			
+			legend {
+       			font-size: 20px;
+       		}
+			
 		</style>
 	</head>
 	<body>
+		<div class="header">
+			<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
+			<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
+			<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+		</div>
 		<div class="container">
 			<select id="subject">
 				<option value="">Предмет</option>
@@ -31,8 +51,11 @@
 			</select>
 			<input id="startDate" type="date" name="start">
 			<input id="endDate" type="date" name="end">
-			<div id="average"></div>
-			<div id="chartContainer"></div>
+			<fieldset class="statisticsContainer">
+				<legend>Статистика</legend>
+				<div id="average"></div>
+				<div id="chartContainer"></div>
+			</fieldset>
 		</div>
 		<script type="text/javascript">
 			var baseUrl = 'http://localhost:8080'
@@ -87,7 +110,8 @@
 				$.getJSON(marksUrl, params, setData);
 			});
 			
-			function setData(data){
+			function setData(response){
+				var data = response.data;
 				if ($('#startDate').val() == '' || $('#endDate').val() == ''){
 					initDatePickers(data);
 				}
@@ -120,7 +144,7 @@
 				console.log(data);
 				$.each(data, function(i, student){
 					var option = $('<option>');
-					option.val(student.firstname+student.lastname);
+					option.val(student.id);
 					option.text(student.firstname+' '+student.lastname);
 					$('#student').append(option);
 					studentOptions.push(option);
@@ -159,9 +183,6 @@
 			function drawChart(dataPoints){
 				var chart = new CanvasJS.Chart("chartContainer", {
 					animationEnabled: true,
-					title: {
-						text: "Шкільні оцінки"
-					},
 					axisX: {
 						valueFormatString: "DD/MM/YYYY",
 						minimum: new Date($('#startDate').val()),
