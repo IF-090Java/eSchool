@@ -19,11 +19,15 @@
                 $('#phone').append(data.phone);
 
                 $('#diary').attr("href", "/diary/" + id);
-                $('#edit').attr("href", "students/" + id + "/edit");
+                $('#edit').attr("href", "/student/" + id + "/edit");
             });
         });
     </script>
-
+    <style type="text/css">
+        a{
+            text-decoration: none;
+        }
+    </style>
     <meta charset="UTF-8">
     <title id="title"></title>
 </head>
