@@ -15,14 +15,16 @@ margin-left:0;
 margin-right:0;
 text-align:left;
 }
-div.counter{
-display: list-item;
-list-style-type: decimal;
-}
-
-#base {
-position:absolute;
-z-index:0;
+.header{
+	z-index:1;
+	height: 50px;
+	background: #BCC8D2;
+	border: solid 1px black;
+	border-width:0px;
+	position:absolute;
+	left:180px;
+	top:0px;
+	width:1000px;
 }
 #u0_div {
 border-width:0px;
@@ -62,54 +64,6 @@ width:120px;
 height:16px;
 white-space:nowrap;
 }
-#u4 {
-border-width:0px;
-position:absolute;
-left:350px;
-top:190px;
-width:48px;
-height:22px;
-}
-#u4_input {
-position:absolute;
-left:0px;
-top:0px;
-width:48px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u4_input:disabled {
-color:grayText;
-}
-#u5 {
-border-width:0px;
-position:absolute;
-left:450px;
-top:190px;
-width:130px;
-height:22px;
-}
-#u5_input {
-position:absolute;
-left:0px;
-top:0px;
-width:130px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u5_input:disabled {
-color:grayText;
-}
 #u6 {
 border-width:0px;
 position:absolute;
@@ -117,98 +71,7 @@ left:650px;
 top:179px;
 width:111px;
 height:16px;
-}
-#u6_text {
-border-width:0px;
-position:absolute;
-left:0px;
-top:0px;
-width:111px;
 white-space:nowrap;
-}
-#u7 {
-border-width:0px;
-position:absolute;
-left:350px;
-top:144px;
-width:34px;
-height:16px;
-white-space:nowrap;
-}
-#u8 {
-border-width:0px;
-position:absolute;
-left:450px;
-top:144px;
-width:47px;
-height:16px;
-white-space:nowrap;
-}
-#u9 {
-border-width:0px;
-position:absolute;
-left:800px;
-top:144px;
-width:34px;
-height:16px;
-white-space:nowrap;
-}
-#u10 {
-border-width:0px;
-position:absolute;
-left:900px;
-top:144px;
-width:47px;
-height:16px;
-white-space:nowrap;
-}
-#u11 {
-border-width:0px;
-position:absolute;
-left:800px;
-top:190px;
-width:48px;
-height:22px;
-}
-#u11_input {
-position:absolute;
-left:0px;
-top:0px;
-width:48px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u11_input:disabled {
-color:grayText;
-}
-#u12 {
-border-width:0px;
-position:absolute;
-left:900px;
-top:190px;
-width:130px;
-height:22px;
-}
-#u12_input {
-position:absolute;
-left:0px;
-top:0px;
-width:130px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u12_input:disabled {
-color:grayText;
 }
 #u13 {
 border-width:0px;
@@ -1188,6 +1051,11 @@ color:grayText;
   <link href="schedule.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
+<div class="header">
+  <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
+  <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
+  <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+</div>
 <div id="base" class="">
 
   <!-- Background-->
@@ -1208,61 +1076,20 @@ color:grayText;
 <form method="POST">
 
   <!-- Unnamed (Rectangle) -->
-  <div id="u3" class="ax_default label">
-    <p><span>Початок семестру</span></p>
-  </div>
-  </div>
-
-  <!-- Text -->
-  <div id="u7" class="ax_default label">
-    <p><span>День</span></p>
-  </div>
-
   <!-- Unnamed (Rectangle) -->
-  <div id="u8" class="ax_default label">
-    <p><span>Місяць</span></p>
-  </div>
-
-  <!-- Days -->
-  <div id="u4" class="ax_default droplist">
-    <select id="u4_input">
-    </select>
-  </div>
-
-  <!-- Months -->
-  <div id="u5" class="ax_default droplist">
-    <select id="u5_input">
-    </select>
+  <div id="u3" class="ax_default label">
+    <form>
+        <label for="start">Введіть початок семетру:</label>
+        <input type="date" id="start" name="start">
+    </form>
   </div>
 
   <!-- Unnamed (Rectangle) -->
   <div id="u6" class="ax_default label">
-    <div id="u6_text" class="text ">
-      <p><span>Кінець семестру</span></p>
-    </div>
-  </div>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u9" class="ax_default label">
-    <p><span>День</span></p>
-  </div>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u10" class="ax_default label">
-    <p><span>Місяць</span></p>
-  </div>
-  </div>
-
-  <!-- Days2 -->
-  <div id="u11" class="ax_default droplist">
-    <select id="u11_input">
-    </select>
-  </div>
-
-  <!-- Months2 -->
-  <div id="u12" class="ax_default droplist">
-    <select id="u12_input">
-    </select>
+      <form>
+          <label for="end">Введіть кінець семетру:</label>
+          <input type="date" id="end" name="end">
+      </form>
   </div>
 
   <!-- Unnamed (Rectangle) -->
@@ -1565,19 +1392,6 @@ color:grayText;
 </form>
 
 <script type="text/javascript">
-		
-		for(i=1; i <=31; i++){
-			$('#u4_input').append('<option value="' + i + '">' + i + '</option>');
-			$('#u11_input').append('<option value="' + i + '">' + i + '</option>');
-			}
-		var monthNames = ["Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", 
-						"Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"];
-		
-		for (i=0; i < monthNames.length; i++)
-		{
-			$('#u5_input').append('<option value="' + monthNames[i] + '">' + monthNames[i] + '</option>');
-			$('#u12_input').append('<option value="' + monthNames[i] + '">' + monthNames[i] + '</option>');
-		}
 
 		$(document).ready(function() {
 
