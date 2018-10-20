@@ -8,23 +8,33 @@
             $('form').on('submit', function (e) {
 
                 e.preventDefault();
-                var firstName = $("#firstname").val();
-                var lastName = $("#lastname").val();
+                var firstName   = $("#firstName").val();
+                var lastName    = $("#lastName").val();
+                var patronymic  = $("#patronymic").val();
+                var dateOfBirth = $("#dateOfBirth").val();
+                var login       = $("#login").val();
+                var mail        = $("#mail").val();
+                var mobile      = $("#mobile").val();
 
                 $.ajax({
                     type: "post",
                     url: "/teachers",
                     dataType: "json",
                     data: JSON.stringify({
-                        "firstname": firstName,
-                        "lastname": lastName
+                        "firstname"  :   firstName,
+                        "lastname"   :   lastName,
+                        "patronymic" :   patronymic,
+                        "dateOfBirth":   dateOfBirth,
+                        "login"      :   login,
+                        "email"      :   mail,
+                        "phone"      :   mobile
                     }),
                     contentType: "application/json",
                     success: function (responce) {
-                        window.location.href = "/journalsList/view";
+                        window.location.href = "/teachers/add";
                     }
                 });
-            })
+            });
         })
     </script>
 
@@ -40,23 +50,45 @@
     <div align="center" style="margin-bottom: 50px">
         <h1>ДОДАВАННЯ НОВОГО ВЧИТЕЛЯ</h1>
     </div>
-    <form>
-        <fieldset/>
-        <legend>[ Дані вчителя ]</legend>
-        <hr>
+<form>
+    <div class="main">
+        <fieldset>
+            <legend style="font-size: 19px">Особита інформація</legend>
+            <div class="row">
+                <label for="firstName">Імя:</label>
+                <input id="firstName" type="text" name="firstname" required>
+            </div>
+            <div class="row">
+                <label for="lastName">Прізвище:</label>
+                <input id="lastName" type="text" name="lastname" required>
+            </div>
+            <div class="row">
+                <label for="patronymic">По-батькові:</label>
+                <input id="patronymic" type="text" name="patronymic" required>
+            </div>
+            <div class="row">
+                <label for="userName">Логін:</label>
+                <input id="userName" type="text" name="login">
+            </div>
+            <div class="row">
+                <label for="dateOfBirth">Дата народження:</label>
+                <input id="dateOfBirth" type="date" name="dateOfBirth" required>
+            </div>
+            <div class="row">
+                <label for="mail">Електронна адреса:</label>
+                <input id="mail" type="text" name="email">
+            </div>
+            <div class="row">
+                <label for="mobile">Телефон:</label>
+                <input id="mobile" type="text" name="phone">
+            </div>
+            <div align="center">
+                <button id="submitButton" type="Submit">Зберегти</button>
+            </div>
+        </fieldset>
+    </div>
+    <hr>
 
-        <div>
-            <label for="firstname">Прізвище</label>
-            <input type="text" name="firstName" id="firstname" placeholder="Введіть прізвище вчителя" required>
-
-            <label for="lastname">Ім'я</label>
-            <input type="text" name="lastName" id="lastname" placeholder="Введіть ім'я вчителя" required><br>
-        </div>
-        <div align="center">
-            <br><input type="submit" value="Додати" align="center">
-        </div>
-        <hr>
-
-    </form>
+</form>
 </body>
 </html>

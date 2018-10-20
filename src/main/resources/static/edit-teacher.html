@@ -64,25 +64,30 @@
 	<div class="main">
 			<form action="/teacher/{id}" method="PUT">
 				<fieldset>
-				<legend style="font-size: 19px">Особита інформація</legend>
-				<div class="row">
-					<label for="firstname">Імя:</label>
-					<input id="fname" disabled type="text" name="firstname">
-				</div>
-				<div class="row">
-					<label for="lastname">Прізвище:</label>
+				<legend style="font-size: 19px">Особита інформація</legend><div class="row">
+					<label for="lname">Прізвище:</label>
 					<input id="lname" disabled type="text" name="lastname">
+				</div><div class="row">
+					<label for="fname">Імя:</label>
+					<input id="fname" disabled type="text" name="firstname">
+				</div><div class="row">
+					<label for="patronymic">По батькові:</label>
+					<input id="patronymic" disabled type="text" name="patronymic">
 				</div>
 				<div class="row">
-					<label for="login">Логін:</label>
+					<label for="username">Логін:</label>
 					<input id="username" disabled type="text" name="login">
 				</div>
 				<div class="row">
-					<label for="email">Електронна адреса:</label>
+					<label for="date">Дата народження:</label>
+					<input id="date" type="date" name="date">
+				</div>
+				<div class="row">
+					<label for="mail">Електронна адреса:</label>
 					<input id="mail" type="text" name="email">
 				</div>
 				<div class="row">
-					<label for="phone">Телефон:</label>
+					<label for="mobile">Телефон:</label>
 					<input id="mobile" type="text" name="phone">
 				</div>
 				<div>
@@ -122,9 +127,12 @@
 		$(document).ready(function() {
 
 			$.getJSON('http://localhost:8080/teachers/1', function (data) {
+                var date = new Date(data.dateOfBirth).toLocaleDateString();
 				console.log(data);
-				$("#fname").attr("value", data.firstname);
-				$("#lname").attr("value", data.lastname);
+                $("#fname").attr("value", data.firstname);
+                $("#lname").attr("value", data.lastname);
+                $("#patronymic").attr("value", data.patronymic);
+                $("#date").attr("value", date);
 				$("#username").attr("value", data.login);
 				$("#mail").attr("value", data.email);
 				$("#mobile").attr("value", data.phone);
