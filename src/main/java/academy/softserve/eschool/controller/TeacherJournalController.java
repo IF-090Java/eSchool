@@ -1,9 +1,6 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.dto.SubjectDTO;
 import academy.softserve.eschool.dto.TeacherJournalDTO;
-import academy.softserve.eschool.dto.TeacherNamesDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -17,7 +14,7 @@ import java.util.List;
 //            /teachers/journal/connection
 
 @RestController
-@RequestMapping()
+@RequestMapping("")
 @Api(value = "Teacher's Endpoint", description = "Connects a teacher with a journal")
 public class TeacherJournalController {
     //Many To Many (a teacher can be conected with many journals and a journal contains many teachers)
@@ -35,15 +32,18 @@ public class TeacherJournalController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @GetMapping("/teachers/{teacher_id}/journal")
-    public List<TeacherJournalDTO> getConections(@PathVariable("teacher_id") int id)
+    @GetMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
+    public TeacherJournalDTO getConections(@PathVariable("teacher_id") final int teacher_id,
+                                           @PathVariable("class_id") final int class_id,
+                                           @PathVariable("subject_id") final int subject_id)
     {
-        List<TeacherJournalDTO> list2 = new ArrayList<>();
+        TeacherJournalDTO teacherJournalDTO = new TeacherJournalDTO();
         for (int i = 0; i < list.size(); i ++)
         {
-            if (list.get(i).getTeacher_id() == id) list2.add(list.get(i));
+            if (list.get(i).getTeacher_id() == teacher_id && list.get(i).getSubject_id() == subject_id
+                    && list.get(i).getClass_id() == class_id) teacherJournalDTO = list.get(i);
         }
-        return list2;
+        return teacherJournalDTO;
     }
 
     @ApiOperation(value = "Connects a teacher with a journal")
