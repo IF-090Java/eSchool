@@ -69,27 +69,31 @@
 			<fieldset>
 				<legend style="font-size: 19px">Особита інформація</legend>
 				<div class="row">
-					<label for="firstname">Імя:</label>
+					<label for="fname">Імя:</label>
 					<input id="fname" type="text" name="firstname">
 				</div>
 				<div class="row">
-					<label for="lastname">Прізвище:</label>
+					<label for="lname">Прізвище:</label>
 					<input id="lname" type="text" name="lastname">
 				</div>
 				<div class="row">
-					<label for="login">Логін:</label>
+					<label for="username">Логін:</label>
 					<input id="username" type="text" name="login">
 				</div>
 				<div class="row">
-					<label for="select" ">Класс:</label>
+					<label for="selectClass">Класс:</label>
 					<select id="selectClass" name="select"></select>
 				</div>
 				<div class="row">
-					<label for="email">Електронна адреса:</label>
+					<label for="dateOfBirth">Дата народження:</label>
+					<input id="dateOfBirth" type="date" name="dateOfBirth">
+				</div>
+				<div class="row">
+					<label for="mail">Електронна адреса:</label>
 					<input id="mail" type="text" name="email">
 				</div>
 				<div class="row">
-					<label for="phone">Телефон:</label>
+					<label for="mobile">Телефон:</label>
 					<input id="mobile" type="text" name="phone">
 				</div>
 				<div>
@@ -108,7 +112,7 @@
 			<fieldset>
 			<legend style="font-size: 19px;">Зміна паролю</legend>	
 				<div class="row">
-					<label for="oldPass">Новий пароль:</label>
+					<label for="newPass">Новий пароль:</label>
 					<input id="newPass" type="password" name="newPass">
 				</div><div class="row">
 					<label for="newPassRepeat">Повторіть новий пароль пароль:</label>
@@ -153,7 +157,7 @@
 					text: data.classe
 				}));
 				$('#selectClass').val(data.classe);
-				$("#mail").attr("value", data.email);
+                $("#mail").attr("value", data.email);
 				$("#mobile").attr("value", data.phone);
 			});
 

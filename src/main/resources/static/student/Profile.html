@@ -7,12 +7,13 @@
         $(document).ready(function() {
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[2];
-
             $.ajax({
                 url: "http://localhost:8080/students/" + id
             }).then(function(data) {
-                $('#title').append(data.firstname + ' ' + data.lastname)
-                $('#initials').append(data.firstname + ' ' + data.lastname);
+                var date = new Date(data.dateOfBirth).toLocaleDateString();
+                $('#title').append(data.firstname + ' ' + data.lastname );
+                $('#initials').append(data.lastname + ' ' + data.firstname + ' ' + data.patronymic);
+                $('#date').append(date);
                 $('#login').append(data.login);
                 $('#class').append(data.classe);
                 $('#email').append(data.email);
@@ -48,6 +49,7 @@
         <h4 id="class">Клас: </h4>
     </div><br>
 
+    <div id="date" style="font-size: 20px">Дата народження: </div>
     <div id="email" style="font-size: 20px">Електронна пошта: </div>
     <div id="phone" style="font-size: 20px">Номер телефону: </div>
 
