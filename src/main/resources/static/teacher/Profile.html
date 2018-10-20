@@ -11,23 +11,48 @@
             $.ajax({
                 url: "http://localhost:8080/teachers/15"
             }).then(function(data) {
-                $('#title').append(data.firstname + ' ' + data.lastname)
-                $('#initials').append(data.firstname + ' ' + data.lastname);
+                var date = new Date(data.dateOfBirth).toLocaleDateString();
+                $('#title').append(data.firstname + ' ' + data.lastname );
+                $('#initials').append(data.lastname + ' ' + data.firstname + ' ' + data.patronymic);
+                $('#date').append(date);
                 $('#login').append(data.login);
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
 
-                $('#subjects').attr("href", "/subjectList");
                 $('#classes').attr("href", "/journalsList/view");
                 $('#statistics').attr("href", "/stats");
                 $('#edit').attr("href", "/teacher/" + id + "/edit");
             });
+            $.getJSON('http://localhost:8080/subjects/teachers/1', function (data) {
+                $.each(data, function(key, val) {
+                     $('<li>'+val.subjectName+'</li>').appendTo('#list');
+                });
+            });
         });
+
     </script>
     <style type="text/css">
     a{
         text-decoration: none;
     }
+    #icon{
+        height: 200px;
+     }
+
+    #subjectsList,#sub{
+        font-size: 16px;
+        margin-left: 30px;
+    }
+    #subjectsList{
+        display: inline-block;
+        height: 200px;
+    }
+    ul{
+        height: 180px;
+        overflow-y: scroll;
+        list-style: none;
+    }
+
     </style>
 <meta charset="UTF-8">
 <title id="title"></title>
@@ -38,18 +63,25 @@
 
     <hr><br>
     <div>
-        <a id="subjects">Переглянути предмети</a>
         <a id="classes">Переглянути журнали</a>
         <a id="statistics">Переглянути успішність</a>
     </div>
     <br><hr>
 
-    <img src="/img/profile.png">
+    <div id="info">
+        <img src="/img/profile.png" id="icon">
+        <div id="subjectsList">
+            <div id="sub">Предмети:</div>
+            <ul id="list">
+            </ul>
+        </div>
+    </div>
     <div class="div">
         <h2 id="initials"></h2>
         <h3 id="login">Логін: </h3>
     </div><br>
 
+    <div id="date" style="font-size: 20px">Дата народження: </div>
     <div id="email" style="font-size: 20px">Електронна пошта: </div>
     <div id="phone" style="font-size: 20px">Номер телефону: </div>
 

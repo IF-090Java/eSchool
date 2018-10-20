@@ -55,8 +55,6 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
-        var startDate = new Date();
-        var endDate = new Date();
         var pathArray = window.location.pathname.split('/');
         var idSubject = pathArray[3];
         var idClass = pathArray[5];
@@ -74,7 +72,7 @@
         });
 
         console.log(idSubject+" "+idClass)
-        $.getJSON('http://localhost:8080/homeworks/subjects/'+idSubject+'/classes/'+idClass,{start:startDate,end:endDate}, function (data) {
+        $.getJSON('http://localhost:8080/homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
           $.each(data, function(key, val) {
             var tr=$('<tr></tr>');
                 $('<td>'+val.date+'</td>').appendTo(tr);
@@ -84,7 +82,7 @@
             });
         });
 
-        $.getJSON('http://localhost:8080/journals/subjects/'+idSubject+'/classes/'+idClass,{start:startDate,end:endDate}, function (data) {
+        $.getJSON('http://localhost:8080/journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {
             $.each(data, function(key, val) {
                 var tr1=$('<tr></tr>');
                 var tr2=$('<tr></tr>');
