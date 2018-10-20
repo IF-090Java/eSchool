@@ -69,27 +69,35 @@
 			<fieldset>
 				<legend style="font-size: 19px">Особита інформація</legend>
 				<div class="row">
-					<label for="firstname">Імя:</label>
-					<input id="fname" disabled type="text" name="firstname">
-				</div>
-				<div class="row">
-					<label for="lastname">Прізвище:</label>
+					<label for="lname">Прізвище:</label>
 					<input id="lname" disabled type="text" name="lastname">
 				</div>
 				<div class="row">
-					<label for="login">Логін:</label>
+					<label for="fname">Імя:</label>
+					<input id="fname" disabled type="text" name="firstname">
+				</div>
+				<div class="row">
+					<label for="patronymic">По батькові:</label>
+					<input id="patronymic" disabled type="text" name="patronymic">
+				</div>
+				<div class="row">
+					<label for="username">Логін:</label>
 					<input id="username" disabled type="text" name="login">
 				</div>
 				<div class="row">
-					<label for="select" ">Класс:</label>
+					<label for="selectClass">Класс:</label>
 					<select id="selectClass" disabled name="select"></select>
 				</div>
 				<div class="row">
-					<label for="email">Електронна адреса:</label>
+					<label for="date">Дата народження:</label>
+					<input id="date" type="date" name="date">
+				</div>
+				<div class="row">
+					<label for="mail">Електронна адреса:</label>
 					<input id="mail" type="text" name="email">
 				</div>
 				<div class="row">
-					<label for="phone">Телефон:</label>
+					<label for="mobile">Телефон:</label>
 					<input id="mobile" type="text" name="phone">
 				</div>
 				<div>
@@ -128,11 +136,16 @@
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function () {
+            var pathArray = window.location.pathname.split('/');
+            var id = pathArray[2];
 
-			$.getJSON('http://localhost:8080/students/1', function (data) {
-				$("#fname").attr("value", data.firstname);
+			$.getJSON('http://localhost:8080/students/' + id, function (data) {
+                var date = new Date(data.dateOfBirth).toLocaleDateString();
+                $("#fname").attr("value", data.firstname);
 				$("#lname").attr("value", data.lastname);
-				$("#username").attr("value", data.login);
+				$("#patronymic").attr("value", data.patronymic);
+                $("#username").attr("value", data.login);
+                $("#date").attr("value", date);
 				$('#selectClass').append($('<option>', {
 					text: data.classe
 				}));
