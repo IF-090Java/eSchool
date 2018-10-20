@@ -17,7 +17,7 @@ import java.util.List;
 //            /teachers/journal/connection
 
 @RestController
-@RequestMapping("")
+@RequestMapping()
 @Api(value = "Teacher's Endpoint", description = "Connects a teacher with a journal")
 public class TeacherJournalController {
     //Many To Many (a teacher can be conected with many journals and a journal contains many teachers)
@@ -35,30 +35,32 @@ public class TeacherJournalController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @GetMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
-    public TeacherJournalDTO getConection(@PathVariable("teacher_id") final int teacher_id,
-                                           @PathVariable("class_id") final int class_id,
-                                           @PathVariable("subject_id") final int subject_id)
-    //gets a teacher with id connected to a journal
+    @GetMapping("/teachers/{teacher_id}/journal")
+    public List<TeacherJournalDTO> getConections(@PathVariable("teacher_id") int id)
     {
-        list.add(new TeacherJournalDTO(teacher_id, class_id, subject_id, 2018));
-
-        return list.get(list.size() - 1); //get new connection
+        List<TeacherJournalDTO> list2 = new ArrayList<>();
+        for (int i = 0; i < list.size(); i ++)
+        {
+            if (list.get(i).getTeacher_id() == id) list2.add(list.get(i));
+        }
+        return list2;
     }
 
     @ApiOperation(value = "Connects a teacher with a journal")
+    @PostMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
     @ApiResponses(
             value={
                     @ApiResponse(code = 201, message = "Teacher successfully added to the journal"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PostMapping("/teachers/journal/connection")
-    public TeacherJournalDTO postConection(@RequestBody TeacherJournalDTO teacherJournalDTO)
-    //creates connection
+    public TeacherJournalDTO postConection(@PathVariable("teacher_id") final int teacher_id,
+                                           @PathVariable("class_id") final int class_id,
+                                           @PathVariable("subject_id") final int subject_id)//creates connection
     {
-        list.add(teacherJournalDTO);
-        return teacherJournalDTO;
+        list.add(new TeacherJournalDTO(teacher_id, class_id, subject_id, 2018));
+
+        return list.get(list.size() - 1); //get new connection
     }
 
 

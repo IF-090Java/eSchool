@@ -73,6 +73,7 @@ select {
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
+
 	<body>
 	<div class="header">
 		<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
@@ -168,7 +169,6 @@ select {
 						$('#subject_input').append('<option value="' + id[i] + '">' + subjects[i] + '</option>');
 				});
 
-				<!--TODO-->
 				$('#submitButton').click(function(){
 				var teacherid = $('#teacher_input').find(":selected").val();
 				var classid = $('#class_input').find(":selected").val();
@@ -177,7 +177,7 @@ select {
 
 				$.ajax({
                 type: "post",
-                url: "/teachers/journal/connection",
+                url: "/teachers/" + teacherid + "/classes/" + classid + "/subjects/" + subjectid + "/journal",
                 dataType: "json",
                 data: JSON.stringify({
                     "teacher_id": teacherid,
@@ -190,10 +190,10 @@ select {
     				alert("Прив'зка вчителя до журнала створена");
   				}
             });
-				<!--TODO-->
 
 			})
 			})
 		</script>
+
 	</body>
 </html>

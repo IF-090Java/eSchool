@@ -7,19 +7,11 @@ import lombok.*;
 @ApiModel
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class SubjectDTO {
 	@ApiModelProperty(required = true, notes = "Id of the subject")
 	private int id_subject;
 
 	@ApiModelProperty(required = false, notes = "Subject name. For example: history. Can be null")
 	private String subjectName;
-
-	public SubjectDTO(int id_subject, String subjectName) {
-		this.id_subject = id_subject;
-		this.subjectName = subjectName;
-	}
-
-    public int getId() {
-        return id_subject;
-    }
 }
