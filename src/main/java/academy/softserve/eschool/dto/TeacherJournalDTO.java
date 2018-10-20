@@ -1,39 +1,27 @@
 package academy.softserve.eschool.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 //END POINT  /teachers/{id}/classes/{id}/subjects/{id}/journal
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class TeacherJournalDTO {
 
     @ApiModelProperty(notes = "teacher to add")
-    private TeacherNamesDTO teacher;     //teacher we want to add to the journal
+    private int teacher_id;     //teacher we want to add to the journal
 
     @ApiModelProperty(notes = "class of the journal")
-    private ClassDTO classs;    //class of the journal that we want to add to the teacher
+    private int class_id;    //class of the journal that we want to add to the teacher
 
     @ApiModelProperty(notes = "teacher's subject")
-    private SubjectDTO subject;     //teacher's subject
+    private int subject_id;     //teacher's subject
 
-    public TeacherJournalDTO(TeacherNamesDTO teacher, ClassDTO classs, SubjectDTO subject) {
-        this.teacher = teacher;
-        this.classs = classs;
-        this.subject = subject;
-    }
+    @ApiModelProperty(notes = "learning year")
+    private int year;
 
-    public TeacherNamesDTO getTeacher() {
-        return teacher;
-    }
-
-    public ClassDTO getClasss() {
-        return classs;
-    }
-
-    public SubjectDTO getSubject() {
-        return subject;
-    }
 }
