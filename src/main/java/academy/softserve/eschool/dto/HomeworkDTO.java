@@ -12,7 +12,7 @@ import java.util.Date;
 public class HomeworkDTO{
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy/MM/dd")
+            pattern = "yyyy.MM.dd")
     @ApiModelProperty(notes = "date of homework")
     private Date date;
     @ApiModelProperty(notes = "homework")
