@@ -40,6 +40,16 @@ public class SubjectController {
         return list;
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ApiOperation(value = "Get all subjects", response = SubjectDTO.class)
+    @GetMapping("/teachers/{idTeacher}")
+    public List<SubjectDTO> getSubjectsTeacher(@PathVariable int idTeacher){
+        return list;
+    }
+
 
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully created"),
