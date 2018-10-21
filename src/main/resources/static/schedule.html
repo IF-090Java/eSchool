@@ -15,14 +15,16 @@ margin-left:0;
 margin-right:0;
 text-align:left;
 }
-div.counter{
-display: list-item;
-list-style-type: decimal;
-}
-
-#base {
-position:absolute;
-z-index:0;
+.header{
+	z-index:1;
+	height: 50px;
+	background: #BCC8D2;
+	border: solid 1px black;
+	border-width:0px;
+	position:absolute;
+	left:180px;
+	top:0px;
+	width:1000px;
 }
 #u0_div {
 border-width:0px;
@@ -62,54 +64,6 @@ width:120px;
 height:16px;
 white-space:nowrap;
 }
-#u4 {
-border-width:0px;
-position:absolute;
-left:350px;
-top:190px;
-width:48px;
-height:22px;
-}
-#u4_input {
-position:absolute;
-left:0px;
-top:0px;
-width:48px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u4_input:disabled {
-color:grayText;
-}
-#u5 {
-border-width:0px;
-position:absolute;
-left:450px;
-top:190px;
-width:130px;
-height:22px;
-}
-#u5_input {
-position:absolute;
-left:0px;
-top:0px;
-width:130px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u5_input:disabled {
-color:grayText;
-}
 #u6 {
 border-width:0px;
 position:absolute;
@@ -117,98 +71,7 @@ left:650px;
 top:179px;
 width:111px;
 height:16px;
-}
-#u6_text {
-border-width:0px;
-position:absolute;
-left:0px;
-top:0px;
-width:111px;
 white-space:nowrap;
-}
-#u7 {
-border-width:0px;
-position:absolute;
-left:350px;
-top:144px;
-width:34px;
-height:16px;
-white-space:nowrap;
-}
-#u8 {
-border-width:0px;
-position:absolute;
-left:450px;
-top:144px;
-width:47px;
-height:16px;
-white-space:nowrap;
-}
-#u9 {
-border-width:0px;
-position:absolute;
-left:800px;
-top:144px;
-width:34px;
-height:16px;
-white-space:nowrap;
-}
-#u10 {
-border-width:0px;
-position:absolute;
-left:900px;
-top:144px;
-width:47px;
-height:16px;
-white-space:nowrap;
-}
-#u11 {
-border-width:0px;
-position:absolute;
-left:800px;
-top:190px;
-width:48px;
-height:22px;
-}
-#u11_input {
-position:absolute;
-left:0px;
-top:0px;
-width:48px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u11_input:disabled {
-color:grayText;
-}
-#u12 {
-border-width:0px;
-position:absolute;
-left:900px;
-top:190px;
-width:130px;
-height:22px;
-}
-#u12_input {
-position:absolute;
-left:0px;
-top:0px;
-width:130px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u12_input:disabled {
-color:grayText;
 }
 #u13 {
 border-width:0px;
@@ -1185,9 +1048,15 @@ color:grayText;
 </style>
 <head>
   <title>Schedule</title>
-  <link href="schedule.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
+
+<div class="header">
+  <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
+  <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
+  <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+</div>
+<form action= "/schedule" method="post">
 <div id="base" class="">
 
   <!-- Background-->
@@ -1205,64 +1074,21 @@ color:grayText;
   </div>
 </div>
 
-<form method="POST">
 
   <!-- Unnamed (Rectangle) -->
   <div id="u3" class="ax_default label">
-    <p><span>Початок семестру</span></p>
-  </div>
-  </div>
-
-  <!-- Text -->
-  <div id="u7" class="ax_default label">
-    <p><span>День</span></p>
-  </div>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u8" class="ax_default label">
-    <p><span>Місяць</span></p>
-  </div>
-
-  <!-- Days -->
-  <div id="u4" class="ax_default droplist">
-    <select id="u4_input">
-    </select>
-  </div>
-
-  <!-- Months -->
-  <div id="u5" class="ax_default droplist">
-    <select id="u5_input">
-    </select>
+    <form>
+        <label for="start">Введіть початок семетру:</label>
+        <input type="date" id="start" name="start">
+    </form>
   </div>
 
   <!-- Unnamed (Rectangle) -->
   <div id="u6" class="ax_default label">
-    <div id="u6_text" class="text ">
-      <p><span>Кінець семестру</span></p>
-    </div>
-  </div>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u9" class="ax_default label">
-    <p><span>День</span></p>
-  </div>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u10" class="ax_default label">
-    <p><span>Місяць</span></p>
-  </div>
-  </div>
-
-  <!-- Days2 -->
-  <div id="u11" class="ax_default droplist">
-    <select id="u11_input">
-    </select>
-  </div>
-
-  <!-- Months2 -->
-  <div id="u12" class="ax_default droplist">
-    <select id="u12_input">
-    </select>
+      <form>
+          <label for="end">Введіть кінець семетру:</label>
+          <input type="date" id="end" name="end">
+      </form>
   </div>
 
   <!-- Unnamed (Rectangle) -->
@@ -1286,49 +1112,49 @@ color:grayText;
     <!-- Subject (Droplist) -->
     <li id="u21" data-label="Subject">
       <select id="u21_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u23" data-label="Subject">
       <select id="u23_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u25" data-label="Subject">
       <select id="u25_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u27" data-label="Subject">
       <select id="u27_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u29" data-label="Subject">
       <select id="u29_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u31" data-label="Subject">
       <select id="u31_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u33" data-label="Subject">
       <select id="u33_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
@@ -1342,49 +1168,49 @@ color:grayText;
     <!-- Subject (Droplist) -->
     <li id="u69" data-label="Subject">
       <select id="u69_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u71" data-label="Subject">
       <select id="u71_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u73" data-label="Subject">
       <select id="u73_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u75" data-label="Subject">
       <select id="u75_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u77" data-label="Subject">
       <select id="u77_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u79" data-label="Subject">
       <select id="u79_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u81" data-label="Subject">
       <select id="u81_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
   </ol>
@@ -1398,49 +1224,49 @@ color:grayText;
     <!-- Subject (Droplist) -->
     <li id="u85" data-label="Subject">
       <select id="u85_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u87" data-label="Subject">
       <select id="u87_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u89" data-label="Subject">
       <select id="u89_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u91" data-label="Subject">
       <select id="u91_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u93" data-label="Subject">
       <select id="u93_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u95" data-label="Subject">
       <select id="u95_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u97" data-label="Subject">
       <select id="u97_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
   </ol>
@@ -1454,49 +1280,49 @@ color:grayText;
     <!-- Subject (Droplist) -->
     <li id="u37" data-label="Subject">
       <select id="u37_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u39" data-label="Subject">
       <select id="u39_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u41" data-label="Subject">
       <select id="u41_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u43" data-label="Subject">
       <select id="u43_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u45" data-label="Subject">
       <select id="u45_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u47" data-label="Subject">
       <select id="u47_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u49" data-label="Subject">
       <select id="u49_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
   </ol>
@@ -1510,80 +1336,62 @@ color:grayText;
     <!-- Subject (Droplist) -->
     <li id="u53" data-label="Subject">
       <select id="u53_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u55" data-label="Subject">
       <select id="u55_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u57" data-label="Subject">
       <select id="u57_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u59" data-label="Subject">
       <select id="u59_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u61" data-label="Subject">
       <select id="u61_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u63" data-label="Subject">
       <select id="u63_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
 
     <!-- Subject (Droplist) -->
     <li id="u65" data-label="Subject">
       <select id="u65_input" class="ax_default_droplist">
-        <option value="none">-</option>
+        <option value="0">-</option>
       </select>
     </li>
   </ol>
 
   <!-- Unnamed (Rectangle) -->
   <div id="u17" class="ax_default primary_button">
-    <button type="button">Створити розклад</button>
+    <button id="submitButton">Створити розклад</button>
   </div>
-
 </form>
 
 <script type="text/javascript">
-		
-		for(i=1; i <=31; i++){
-			$('#u4_input').append('<option value="' + i + '">' + i + '</option>');
-			$('#u11_input').append('<option value="' + i + '">' + i + '</option>');
-			}
-		var monthNames = ["Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", 
-						"Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"];
-		
-		for (i=0; i < monthNames.length; i++)
-		{
-			$('#u5_input').append('<option value="' + monthNames[i] + '">' + monthNames[i] + '</option>');
-			$('#u12_input').append('<option value="' + monthNames[i] + '">' + monthNames[i] + '</option>');
-		}
 
 		$(document).ready(function() {
-
-			$(document).on("click", "button", function(){
-					alert("Розклад успішно створений");
-				});
 
 			$.getJSON('http://localhost:8080/subjects', function (data) {
 				console.log(data);
@@ -1593,7 +1401,7 @@ color:grayText;
 					});
 				for (i=0; i < subjectNames.length; i++)
 				{
-					$('.ax_default_droplist').append('<option value="' + subjectNames[i] + '">' + subjectNames[i] + '</option>');
+					$('.ax_default_droplist').append('<option value="' + (i+1) + '">' + subjectNames[i] + '</option>');
 				}
 			});
 			
@@ -1604,12 +1412,86 @@ color:grayText;
 						classNames.push(value.className);
 					});
 					for (i=0; i < classNames.length; i++)
-					$('#u15_input').append('<option value="' + classNames[i] + '">' + classNames[i] + '</option>');
+					$('#u15_input').append('<option value="' + (i+1) + '">' + classNames[i] + '</option>');
 				});
-			
-		})
-	</script>
 
+
+			$('#submitButton').click(function(){
+				var startdate = $('#start').val();
+				var enddate = $('#end').val();
+
+				var classObj = {id: $('#u15_input').find(":selected").val(),
+				className: $("#u15_input").find('option:selected').text(), classDescription: " "};
+				id_class = $('#u15_input').find(":selected").val();
+
+				var monday = [];
+				var tuesday = [];
+				var wednesday = [];
+				var thursday = [];
+				var friday = [];
+
+				monday.push({id_subject: $('#u21_input').find(":selected").val(), subjectName: $('#u21_input').find("option:selected").text()});
+				monday.push({id_subject: $('#u23_input').find(":selected").val(), subjectName: $('#u23_input').find("option:selected").text()});
+				monday.push({id_subject: $('#u25_input').find(":selected").val(), subjectName: $('#u25_input').find("option:selected").text()});
+				monday.push({id_subject: $('#u27_input').find(":selected").val(), subjectName: $('#u27_input').find("option:selected").text()});
+				monday.push({id_subject: $('#u29_input').find(":selected").val(), subjectName: $('#u29_input').find("option:selected").text()});
+				monday.push({id_subject: $('#u31_input').find(":selected").val(), subjectName: $('#u31_input').find("option:selected").text()});
+				monday.push({id_subject: $('#u33_input').find(":selected").val(), subjectName: $('#u33_input').find("option:selected").text()});
+
+                tuesday.push({id_subject: $('#u69_input').find(":selected").val(), subjectName: $('#u69_input').find("option:selected").text()});
+				tuesday.push({id_subject: $('#u71_input').find(":selected").val(), subjectName: $('#u71_input').find("option:selected").text()});
+				tuesday.push({id_subject: $('#u73_input').find(":selected").val(), subjectName: $('#u73_input').find("option:selected").text()});
+				tuesday.push({id_subject: $('#u75_input').find(":selected").val(), subjectName: $('#u75_input').find("option:selected").text()});
+				tuesday.push({id_subject: $('#u77_input').find(":selected").val(), subjectName: $('#u77_input').find("option:selected").text()});
+				tuesday.push({id_subject: $('#u79_input').find(":selected").val(), subjectName: $('#u79_input').find("option:selected").text()});
+				tuesday.push({id_subject: $('#u81_input').find(":selected").val(), subjectName: $('#u81_input').find("option:selected").text()});
+
+				wednesday.push({id_subject: $('#u85_input').find(":selected").val(), subjectName: $('#u85_input').find("option:selected").text()});
+				wednesday.push({id_subject: $('#u87_input').find(":selected").val(), subjectName: $('#u87_input').find("option:selected").text()});
+				wednesday.push({id_subject: $('#u89_input').find(":selected").val(), subjectName: $('#u98_input').find("option:selected").text()});
+				wednesday.push({id_subject: $('#u91_input').find(":selected").val(), subjectName: $('#u91_input').find("option:selected").text()});
+				wednesday.push({id_subject: $('#u93_input').find(":selected").val(), subjectName: $('#u93_input').find("option:selected").text()});
+				wednesday.push({id_subject: $('#u95_input').find(":selected").val(), subjectName: $('#u95_input').find("option:selected").text()});
+				wednesday.push({id_subject: $('#u97_input').find(":selected").val(), subjectName: $('#u97_input').find("option:selected").text()});
+
+				thursday.push({id_subject: $('#u37_input').find(":selected").val(), subjectName: $('#u37_input').find("option:selected").text()});
+				thursday.push({id_subject: $('#u39_input').find(":selected").val(), subjectName: $('#u39_input').find("option:selected").text()});
+				thursday.push({id_subject: $('#u41_input').find(":selected").val(), subjectName: $('#u41_input').find("option:selected").text()});
+				thursday.push({id_subject: $('#u43_input').find(":selected").val(), subjectName: $('#u43_input').find("option:selected").text()});
+				thursday.push({id_subject: $('#u45_input').find(":selected").val(), subjectName: $('#u45_input').find("option:selected").text()});
+				thursday.push({id_subject: $('#u47_input').find(":selected").val(), subjectName: $('#u47_input').find("option:selected").text()});
+				thursday.push({id_subject: $('#u49_input').find(":selected").val(), subjectName: $('#u49_input').find("option:selected").text()});
+
+				friday.push({id_subject: $('#u53_input').find(":selected").val(), subjectName: $('#u53_input').find("option:selected").text()});
+				friday.push({id_subject: $('#u55_input').find(":selected").val(), subjectName: $('#u55_input').find("option:selected").text()});
+				friday.push({id_subject: $('#u57_input').find(":selected").val(), subjectName: $('#u57_input').find("option:selected").text()});
+				friday.push({id_subject: $('#u59_input').find(":selected").val(), subjectName: $('#u59_input').find("option:selected").text()});
+				friday.push({id_subject: $('#u61_input').find(":selected").val(), subjectName: $('#u61_input').find("option:selected").text()});
+				friday.push({id_subject: $('#u63_input').find(":selected").val(), subjectName: $('#u63_input').find("option:selected").text()});
+				friday.push({id_subject: $('#u65_input').find(":selected").val(), subjectName: $('#u65_input').find("option:selected").text()});
+
+				$.ajax({
+                type: "post",
+                url: "/classes/" + id_class + "/schedule",
+                dataType: "json",
+                data: JSON.stringify({
+                  "startOfSemester":startdate,
+                  "endOfSemester":enddate,
+                  "className":classObj,
+                  "mondaySubjects":monday,
+                  "tuesdaySubjects":tuesday,
+                  "wednesdaySubjects":wednesday,
+                  "thursdaySubjects":thursday,
+                  "fridaySubjects":friday
+                }),
+                contentType: "application/json",
+                success: function(){
+    				alert("Розклад успішно створений");
+  				}
+            });
+		})
+	})
+	</script>
 
 </body>
 </html>
