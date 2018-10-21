@@ -67,7 +67,6 @@
 		<div class="main">
 			<h2 align="center">Редагувати клас</h2>
 			<fieldset style="border: 2px solid #4CAF50">
-			<!--<ul id="classeslist" style="list-style-type: square;"></ul>-->
 				<table id="classeslist"></table>
 			<div align="center" style="text-align: center; margin: 0 auto;">
 				<button type="button" onclick="window.location.href='/classes/add'">Додати клас</button>
@@ -80,7 +79,7 @@
 		$.getJSON('http://localhost:8080/classes', function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
-				$('#classeslist').append($('<tr>').append($('<a>').attr('href','/classes/'+item.id+"/edit").append(item.className)).append($('</tr>')))
+				$('#classeslist').append($('<tr>').append($('<a>').attr('href','/classes/'+item.id+"/edit").append(item.className).append(' - '+item.classYear)).append($('</tr>')))
 			});
 		});
 	});

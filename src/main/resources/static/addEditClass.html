@@ -77,58 +77,93 @@
     </div>
     <form>
         <fieldset style="border: 2px solid #4CAF50; padding: 40px;">
-            <legend style="font-size: 20px;">[ Редагування класу ]</legend>
             <div class="row">
                 <label for="clsName">Назва класу</label>
                 <input id="clsName" type="text" name="className">
+            </div>
+            <div class="row">
+                <label for="clsYear">Навчальний рік</label>
+                <input id="clsYear" type="text" name="classYear">
             </div>
             <div class="row">
                 <label for="txtArea">Опис класу</label>
                 <textarea id="txtArea" rows="5" name="className"></textarea>
             </div>
             <div align="center" style="text-align: center; margin: 0 auto;">
-                <button type="submit">Зберегти</button>
+                <button class="button" type="submit">Зберегти</button>
             </div>
         </fieldset>
     </form>
 </div>
-</body>
 <script type="text/javascript">
-    $(document).ready(function() {
-        var pathArray = window.location.pathname.split('/');
-        var classId = pathArray[2];
+    if (window.location.href.toString() == "http://localhost:8080/classes/add"){
 
-        $.getJSON('http://localhost:8080/classes/'+classId, function (data) {
-            console.log(data);
-            $("#clsName").attr("value", data.className);
-            $("#txtArea").append(data.classDescription);
-        });
-    })
+        $(document).ready(function () {
+            $("title").html("Додати клас")
+            $("h1").html("Додати клас");
 
-    $(document).ready(function () {
-        $('form').on('submit', function (e) {
+            $('form').on('submit', function (e) {
+                e.preventDefault();
+                var className = $("#clsName").val();
+                var classDescription = $("#txtArea").val();
+                var classYear = $("#clsYear").val();
 
-            e.preventDefault();
-            var className = $("#clsName").val();
-            var classDescription = $("#txtArea").val();
-
+                $.ajax({
+                    type: "post",
+                    url: "/classes",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "className": className,
+                        "classYear": classYear,
+                        "classDescription": classDescription
+                    }),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        window.location.href = "/classes/add";
+                    }
+                });
+            })
+        })
+    } else {
+        $(document).ready(function() {
             var pathArray = window.location.pathname.split('/');
             var classId = pathArray[2];
-            $.ajax({
-                type: "put",
-                url: "/classes/" + classId,
-                dataType: "json",
-                data: JSON.stringify({
-                    "className": className,
-                    "classDescription": classDescription
-                }),
-                contentType: "application/json",
-                success: function (responce) {
-                    window.location.href = "/classes/list";
-                }
+
+            $.getJSON('http://localhost:8080/classes/'+classId, function (data) {
+                console.log(data);
+                $("#clsName").attr("value", data.className);
+                $("#clsYear").attr("value", data.classYear)
+                $("#txtArea").append(data.classDescription);
             });
         })
-    })
+
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
+
+                e.preventDefault();
+                var className = $("#clsName").val();
+                var classYear = $("#clsYear").val();
+                var classDescription = $("#txtArea").val();
+
+                var pathArray = window.location.pathname.split('/');
+                var classId = pathArray[2];
+                $.ajax({
+                    type: "put",
+                    url: "/classes/" + classId,
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "className": className,
+                        "classYear": classYear,
+                        "classDescription": classDescription
+                    }),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        window.location.href = "/classes/list";
+                    }
+                });
+            })
+        })
+    }
 </script>
 </body>
 </html>

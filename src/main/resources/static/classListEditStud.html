@@ -62,7 +62,6 @@
     <div class="main">
         <h2 align="center">Виберіть клас</h2>
         <fieldset style="border: 2px solid #4CAF50">
-        <!--<ul id="classeslist" style="list-style-type: square;">-->
             <table id="classeslist"></table>
         </ul>
         </fieldset>
@@ -73,7 +72,7 @@
         $.getJSON('http://localhost:8080/classes', function (data) {
             console.log(data);
             $.each(data, function (i, item) {
-                $('#classeslist').append($('<tr>').append($('<a>').attr('href','/students/class/1').append(item.className)).append($('</tr>')))
+                $('#classeslist').append($('<tr>').append($('<a>').attr('href','/students/class/1').append(item.className).append(' - '+item.classYear)).append($('</tr>')))
             });
         });
     });
