@@ -43,6 +43,7 @@
 </head>
 <body>
 <div class="header">
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/admin">Домашня сторінка</a></span>
     <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
     <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
     <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
@@ -54,13 +55,14 @@
     <div class="main">
         <fieldset>
             <legend style="font-size: 19px">Особита інформація</legend>
-            <div class="row">
-                <label for="firstName">Імя:</label>
-                <input id="firstName" type="text" name="firstname" required>
-            </div>
+
             <div class="row">
                 <label for="lastName">Прізвище:</label>
                 <input id="lastName" type="text" name="lastname" required>
+            </div>
+            <div class="row">
+                <label for="firstName">Ім'я:</label>
+                <input id="firstName" type="text" name="firstname" required>
             </div>
             <div class="row">
                 <label for="patronymic">По-батькові:</label>
