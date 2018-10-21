@@ -69,12 +69,16 @@
 			<fieldset>
 				<legend style="font-size: 19px">Особита інформація</legend>
 				<div class="row">
-					<label for="fname">Імя:</label>
+					<label for="lname">Прізвище:</label>
+					<input id="lname" type="text" name="lastname">
+				</div>
+				<div class="row">
+					<label for="fname">Ім'я:</label>
 					<input id="fname" type="text" name="firstname">
 				</div>
 				<div class="row">
-					<label for="lname">Прізвище:</label>
-					<input id="lname" type="text" name="lastname">
+					<label for="patronymic">По батькові:</label>
+					<input id="patronymic" type="text" name="patronymic">
 				</div>
 				<div class="row">
 					<label for="username">Логін:</label>
@@ -85,8 +89,8 @@
 					<select id="selectClass" name="select"></select>
 				</div>
 				<div class="row">
-					<label for="dateOfBirth">Дата народження:</label>
-					<input id="dateOfBirth" type="date" name="dateOfBirth">
+					<label for="date">Дата народження:</label>
+					<input id="date" type="date" name="date">
 				</div>
 				<div class="row">
 					<label for="mail">Електронна адреса:</label>
@@ -152,6 +156,7 @@
 			$.getJSON('http://localhost:8080/students/'+subjectId, function (data) {
 				$("#fname").attr("value", data.firstname);
 				$("#lname").attr("value", data.lastname);
+				$("#patronymic").attr("value", data.patronymic);
 				$("#username").attr("value", data.login);
 				$('#selectClass').append($('<option>', {
 					text: data.classe

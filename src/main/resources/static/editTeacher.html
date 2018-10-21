@@ -64,17 +64,23 @@
 	<div class="main">
 				<fieldset>
 				<legend style="font-size: 19px">Особита інформація</legend>
-				<div class="row">
-					<label for="fname">Імя:</label>
+					<div class="row">
+						<label for="lname">Прізвище:</label>
+						<input id="lname" type="text" name="lastname">
+				</div><div class="row">
+					<label for="fname">Ім'я:</label>
 					<input id="fname" type="text" name="firstname">
-				</div>
-				<div class="row">
-					<label for="lname">Прізвище:</label>
-					<input id="lname" type="text" name="lastname">
+				</div><div class="row">
+					<label for="patronymic">По батькові:</label>
+					<input id="patronymic" type="text" name="patronymic">
 				</div>
 				<div class="row">
 					<label for="username">Логін:</label>
 					<input id="username" type="text" name="login">
+				</div>
+				<div class="row">
+					<label for="date">Дата народження:</label>
+					<input id="date" type="date" name="date">
 				</div>
 				<div class="row">
 					<label for="mail">Електронна адреса:</label>
@@ -135,11 +141,15 @@
 			dataType: "json",
 			contentType : "application/json"
 		});
-	})
-		$.getJSON('http://localhost:8080/teachers/1', function (data) {
+	});
+        var pathArray = window.location.pathname.split('/');
+        var id = pathArray[2];
+
+		$.getJSON('http://localhost:8080/teachers/' + id, function (data) {
 			console.log(data);
 			$("#fname").attr("value", data.firstname);
 				$("#lname").attr("value", data.lastname);
+				$("#patronymic").attr("value", data.patronymic);
 				$("#username").attr("value", data.login);
 				$("#mail").attr("value", data.email);
 				$("#mobile").attr("value", data.phone);
