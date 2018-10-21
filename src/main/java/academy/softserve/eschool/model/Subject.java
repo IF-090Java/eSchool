@@ -20,7 +20,7 @@ public class Subject {
 	@GeneratedValue
 	private int id;
 	private String name;
-	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "subject")
 	private Set<ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
 	
 	public Subject(String name) {

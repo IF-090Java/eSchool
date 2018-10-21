@@ -27,10 +27,10 @@ public class Clazz {
 	@ManyToMany(mappedBy = "classes", 
 	        cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<Student> students = new HashSet<>();
-	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "clazz")
 	private Set<ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
-	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	private Set<Schedule> schedule = new HashSet<>();
+	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "clazz")
+	private Set<Lesson> schedule = new HashSet<>();
 	
 	public Clazz(String name, String description, int academicYear, boolean isActive) {
 		super();

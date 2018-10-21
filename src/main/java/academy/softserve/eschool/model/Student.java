@@ -29,7 +29,7 @@ public class Student extends User{
         )
     private Set<Clazz> classes = new HashSet<>();
     @OneToMany(cascade = 
-        {CascadeType.PERSIST, CascadeType.MERGE})
+        {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy="student")
     private Set<Mark> marks = new HashSet<>();
 
 	public Student(String login, String password, String email, Role role, String firstName, String lastName,
