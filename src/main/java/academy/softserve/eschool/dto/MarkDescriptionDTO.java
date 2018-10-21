@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -14,7 +15,7 @@ public class MarkDescriptionDTO {
     private Integer mark;
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy/MM/dd")
+            pattern = "yyyy.MM.dd")
     @ApiModelProperty(notes = "date of mark")
     private Date dateMark;
     @ApiModelProperty(notes = "type of mark")
