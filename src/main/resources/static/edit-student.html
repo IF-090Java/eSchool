@@ -60,6 +60,7 @@
 </head>
 <body>
 	<div class="header">
+		<span style="float: right; margin-right: 10px; margin-top: 15px"><a id="homePage">Домашня сторінка</a></span>
 		<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як: student</span>
 		<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Учень</span>
 		<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="#"> Вийти</a></span>
@@ -73,7 +74,7 @@
 					<input id="lname" disabled type="text" name="lastname">
 				</div>
 				<div class="row">
-					<label for="fname">Імя:</label>
+					<label for="fname">Ім'я:</label>
 					<input id="fname" disabled type="text" name="firstname">
 				</div>
 				<div class="row">
@@ -138,6 +139,7 @@
 		$(document).ready(function () {
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[2];
+            $("#homePage").attr("href", "/students/" + id);
 
 			$.getJSON('http://localhost:8080/students/' + id, function (data) {
                 var date = new Date(data.dateOfBirth).toLocaleDateString();
