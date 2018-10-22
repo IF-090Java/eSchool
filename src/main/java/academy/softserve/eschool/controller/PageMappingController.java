@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PageMappingController {
     @RequestMapping("classes/{id}/edit")
     public String editClassPage(){
-        return "/editClass.html";
+        return "/addEditClass.html";
     }
 
     @RequestMapping("journals/subjects/{idSubject}/classes/{idClass}/view")
@@ -33,7 +33,7 @@ public class PageMappingController {
 
     @RequestMapping("/classes/add")
     public String addClassPage(){
-        return "/addClass.html";
+        return "/addEditClass.html";
     }
 
     @RequestMapping("diary/{studentId}")
@@ -66,12 +66,12 @@ public class PageMappingController {
         return "/student/Profile.html";
     }
 
-    @RequestMapping("/teachers/add/journal")
+    @RequestMapping("teachers/add/journal")
     public String teacherJournalPage(){
         return "/TeacherJournal.html";
     }
 
-    @RequestMapping("/schedule/create")
+    @RequestMapping("schedule/create")
     public String schedulePage(){ return "/schedule.html"; }
 
     @RequestMapping("subjectList")

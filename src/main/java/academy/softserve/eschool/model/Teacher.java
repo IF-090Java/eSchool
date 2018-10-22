@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class Teacher extends User{
 	
-	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "teacher")
 	private Set<ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
 
 	public Teacher(String login, String password, String email, Role role, String firstName, String lastName,

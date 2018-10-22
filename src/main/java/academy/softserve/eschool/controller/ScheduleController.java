@@ -28,12 +28,13 @@ public class ScheduleController {
     static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     static {
-       Map<Integer, SubjectDTO> map = new HashMap<>();
-       map.put(1, new SubjectDTO(1, "Історія України"));
+        List<SubjectDTO> listsub = new ArrayList<>();
+        listsub.add(new SubjectDTO(1, "Історія України"));
 
         try {
             list.add(new ScheduleDTO(1, format.parse("2018-10-18"), format.parse("2018-12-18"),
-                    new ClassDTO(1,"5-A","Класний керівник - Данилишин Богдан"), map, map, map, map, map));
+                    new ClassDTO(1, 2018, "5-A","Класний керівник - Данилишин Богдан"), listsub, listsub,
+                    listsub, listsub, listsub));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -50,17 +51,10 @@ public class ScheduleController {
     @PostMapping("/classes/{id_class}/schedule")
     public ScheduleDTO postSchedule(@PathVariable("id_class") final int id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
-        for (ScheduleDTO scheduleDTO1: list)
-        {
-            if (scheduleDTO1.getClassName().getId() == id) return scheduleDTO1;
-        }
-
-        list.add(new ScheduleDTO(1, format.parse("2018-10-18"), format.parse("2018-12-18"),
-                new ClassDTO(id,"5-A","Класний керівник - Данилишин Богдан"), new HashMap<Integer, SubjectDTO>(),
-                new HashMap<Integer, SubjectDTO>(), new HashMap<Integer, SubjectDTO>(), new HashMap<Integer, SubjectDTO>(),
-                new HashMap<Integer, SubjectDTO>()));
-
-        return list.get(list.size() - 1); //get new connection
+        scheduleDTO.setId_schedule(list.size());
+        scheduleDTO.getClassName().setId(id);
+        list.add(scheduleDTO);
+        return scheduleDTO; //get new schedule
     }
 
     @ApiOperation(value = "Gets schedule for the class with id")
@@ -77,8 +71,8 @@ public class ScheduleController {
             if (scheduleDTO.getClassName().getId() == id_class) return scheduleDTO;
         }
         return new ScheduleDTO(1, new Date(), new Date(),
-                new ClassDTO(id_class,"5-A","Класний керівник - Данилишин Богдан"), new HashMap<>(), new HashMap<>()
-                , new HashMap<>(), new HashMap<>(), new HashMap<>());
+                new ClassDTO(id_class, 2018, "5-A","Класний керівник - Данилишин Богдан"), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
 }
