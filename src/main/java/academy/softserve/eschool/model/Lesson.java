@@ -30,15 +30,20 @@ public class Lesson {
 	private byte[] file;
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Clazz clazz;
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private Subject subject;
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "lesson")
 	private Set<Mark> marks = new HashSet<>();
 	
-	public Lesson(byte lessonNumber, Date date, String hometask, MarkType markType, byte[] file) {
+	public Lesson(byte lessonNumber, Date date, String hometask, MarkType markType, byte[] file, Clazz clazz,
+			Subject subject) {
 		super();
 		this.lessonNumber = lessonNumber;
 		this.date = date;
 		this.hometask = hometask;
 		this.markType = markType;
 		this.file = file;
+		this.clazz = clazz;
+		this.subject = subject;
 	}
 }
