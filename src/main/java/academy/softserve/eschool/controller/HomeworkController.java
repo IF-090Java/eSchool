@@ -3,10 +3,6 @@ import academy.softserve.eschool.dto.HomeworkDTO;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
