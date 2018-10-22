@@ -26,6 +26,17 @@
            padding: 8px;
        }
 
+       .header{
+           color: white;
+           height: 50px;
+           background: #4CAF50;
+           border: solid 1px black;
+       }
+
+       .header a{
+           color:white;
+       }
+
        tr:nth-child(even){background-color: #f2f2f2}
 
        th {
@@ -37,6 +48,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
+<div class="header">
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/teachers/1/profile">Домашня сторінка</a></span>
+    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
+    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+</div>
 
     <div class="description" id="classTitle">Клас: </div>
     <div class="description" id="subjectTitle">Предмет: </div>
@@ -55,6 +72,7 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
+
         var pathArray = window.location.pathname.split('/');
         var idSubject = pathArray[3];
         var idClass = pathArray[5];
@@ -67,17 +85,12 @@
           $('<span>'+data.subjectName+'</span>').appendTo('#subjectTitle');
         });
 
-        $.getJSON('http://localhost:8080/teachers/2', function (data) {
-          $("#teacherTitle").append(data.firstname + ' ' + data.lastname);
-        });
-
-        console.log(idSubject+" "+idClass)
         $.getJSON('http://localhost:8080/homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
           $.each(data, function(key, val) {
-            var tr=$('<tr></tr>');
+                var tr=$('<tr></tr>');
                 $('<td>'+val.date+'</td>').appendTo(tr);
                 $('<td>'+val.homework+'</td>').appendTo(tr);
-                $('<td>'+val.file+'</td>').appendTo(tr);
+                $('<td>'+atob(val.file)+'</td>').appendTo(tr);
                 tr.appendTo('#table_home');
             });
         });
@@ -92,7 +105,7 @@
                     $('<th>'+v.typeMark+'</th>').appendTo(tr1);
                     $('<th>'+v.dateMark+'</th>').appendTo(tr2);
                 });
-                $('<th>'+'AVG'+'</th>').appendTo(tr2);
+                $('<th>'+'С.'+'</th>').appendTo(tr2);
                 tr1.appendTo('#table_mark');
                 tr2.appendTo('#table_mark');
                 return false;
