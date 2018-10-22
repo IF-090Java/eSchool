@@ -16,12 +16,12 @@ import java.util.List;
 public class ClassController {
     private static List<ClassDTO> list = new ArrayList<>();
     static {
-        list.add(new ClassDTO(1,"5-A","Класний керівник - Данилишин Богдан"));
-        list.add(new ClassDTO(2,"5-Б","Класний керівник - Вакун Оксана"));
-        list.add(new ClassDTO(3,"5-В","Класний керівник - Фігурка Марія"));
-        list.add(new ClassDTO(4,"6-A","Класний керівник - Семчишин Олег"));
-        list.add(new ClassDTO(5,"6-Б","Класний керівник - Козин Лариса"));
-        list.add(new ClassDTO(6,"7-А","Класний керівник - Баран Ярослав"));
+        list.add(new ClassDTO(1, 2018, "5-A","Класний керівник - Данилишин Богдан"));
+        list.add(new ClassDTO(2, 2018, "5-Б","Класний керівник - Вакун Оксана"));
+        list.add(new ClassDTO(3, 2018, "5-В","Класний керівник - Фігурка Марія"));
+        list.add(new ClassDTO(4, 2018, "6-A","Класний керівник - Семчишин Олег"));
+        list.add(new ClassDTO(5, 2018, "6-Б","Класний керівник - Козин Лариса"));
+        list.add(new ClassDTO(6, 2018, "7-А","Класний керівник - Баран Ярослав"));
     }
 
     @ApiResponses(value = {
@@ -46,7 +46,7 @@ public class ClassController {
         for(ClassDTO classDTO : list){
             if (classDTO.getId() == id) return classDTO;
         }
-        return new ClassDTO(1,"8-Б", "Класний керівник - Кашуба Григорій");
+        return new ClassDTO(1, 2018,"8-Б", "Класний керівник - Кашуба Григорій");
     }
 
     @ApiResponses(value = {
@@ -69,6 +69,7 @@ public class ClassController {
             if (classDTO.getId() == id){
                 classDTO.setClassName(editClass.getClassName());
                 classDTO.setClassDescription(editClass.getClassDescription());
+                classDTO.setClassYear(editClass.getClassYear());
                 list.set(classDTO.getId()-1, classDTO);
                 return classDTO;
             }
