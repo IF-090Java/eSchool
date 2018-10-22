@@ -139,7 +139,7 @@
 		$(document).ready(function () {
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[2];
-            $("#homePage").attr("href", "/students/" + id);
+            $("#homePage").attr("href", "/students/" + id + "/profile");
 
 			$.getJSON('http://localhost:8080/students/' + id, function (data) {
                 var date = new Date(data.dateOfBirth).toLocaleDateString();
