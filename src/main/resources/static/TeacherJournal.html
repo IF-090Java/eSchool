@@ -186,9 +186,20 @@ select {
                     "year" : year
                 }),
                 contentType: "application/json",
-                success: function(){
-    				alert("Прив'зка вчителя до журнала створена");
-  				}
+  				statusCode: {
+                      200: function() {
+                      alert( "Операція успішна" );
+                    },
+                      201: function() {
+                      alert( "Прив'язка успішно створена" );
+                    },
+                      500: function() {
+                      alert( "Внутрішня помилка сервера" );
+                    }
+                  },
+                    success: function (responce) {
+                        window.location.href = "/teachers/add/journal";
+                    }
             });
 
 			})
