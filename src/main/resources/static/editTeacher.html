@@ -147,11 +147,19 @@
         var id = pathArray[2];
 
 		$.getJSON('http://localhost:8080/teachers/' + id, function (data) {
+            var date = new Date(data.dateOfBirth);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            var d = date.getDate();
+            m = m < 10 ? '0' + m : m;
+            d = d < 10 ? '0' + d : d;
+            date = y + '-' + m + '-' + d;
 			console.log(data);
 			$("#fname").attr("value", data.firstname);
 				$("#lname").attr("value", data.lastname);
 				$("#patronymic").attr("value", data.patronymic);
 				$("#username").attr("value", data.login);
+				$("#date").attr("value", date);
 				$("#mail").attr("value", data.email);
 				$("#mobile").attr("value", data.phone);
 			});
