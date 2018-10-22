@@ -1,5 +1,7 @@
 package academy.softserve.eschool.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,15 +15,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class ClassTeacherSubjectLink {
-	
+public class ClassTeacherSubjectLink implements Serializable{
 	@Id
-	@GeneratedValue
-	private int id;
 	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Clazz clazz;
+	@Id
 	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Teacher teacher;
+	@Id
 	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Subject subject;
 	

@@ -60,6 +60,7 @@
 	</head>
 	<body>
 		<div class="header">
+			<span style="float: right; margin-right: 10px; margin-top: 15px"><a id="homePage">Домашня сторінка</a></span>
 			<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Student01</span>
 			<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Учень</span>
 			<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
@@ -114,7 +115,8 @@
 		    	var offset = 0;
 		    	var pathArray = window.location.pathname.split('/');
         		var studentId = pathArray[2];
-		    	var ulr = 'http://localhost:8080/diaries/' + studentId;
+                $("#homePage").attr('href', "/students/" + studentId+"/profile");
+                var ulr = 'http://localhost:8080/diaries/' + studentId;
 		    	var months = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
 		    			"Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
 				$(document).ready(function () {

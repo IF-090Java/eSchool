@@ -18,6 +18,6 @@ public class HomeworkDTO{
     @ApiModelProperty(notes = "homework")
     private String homework;
     @ApiModelProperty(notes = "file with homework or some resources")
-    private String file;
+    private byte[] file;
 
 }

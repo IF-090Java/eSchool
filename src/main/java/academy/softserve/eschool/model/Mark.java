@@ -21,9 +21,9 @@ public class Mark {
 	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Student student;
 	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	private Schedule lesson;
+	private Lesson lesson;
 	
-	public Mark(byte mark, String note, Student student, Schedule lesson) {
+	public Mark(byte mark, String note, Student student, Lesson lesson) {
 		super();
 		this.mark = mark;
 		this.note = note;

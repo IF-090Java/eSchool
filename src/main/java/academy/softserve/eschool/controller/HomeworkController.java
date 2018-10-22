@@ -25,11 +25,11 @@ public class HomeworkController {
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass
     ){
         List<HomeworkDTO> list = new ArrayList<>();
-        list.add(new HomeworkDTO(new Date(),"p.125","file1.txt"));
-        list.add(new HomeworkDTO(new Date(),"p.122","file2.txt"));
-        list.add(new HomeworkDTO(new Date(),"ex.2","file3.txt"));
-        list.add(new HomeworkDTO(new Date(),"reading","file4.txt"));
-        list.add(new HomeworkDTO(new Date(),"p.12 , ex.2","file5.txt"));
+        list.add(new HomeworkDTO(new Date(),"ст.125","file1.txt".getBytes()));
+        list.add(new HomeworkDTO(new Date(),"ст.122","file2.txt".getBytes()));
+        list.add(new HomeworkDTO(new Date(),"впр.2","file3.txt".getBytes()));
+        list.add(new HomeworkDTO(new Date(),"рисунок","file4.txt".getBytes()));
+        list.add(new HomeworkDTO(new Date(),"ст.12 , впр.2","file5.txt".getBytes()));
         return list;
     }
 }
