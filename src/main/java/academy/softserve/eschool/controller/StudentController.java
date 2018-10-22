@@ -1,5 +1,6 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.dto.EditStudentDTO;
 import academy.softserve.eschool.dto.StudentDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,16 +20,13 @@ public class StudentController {
 
     private static List<StudentDTO> list = new ArrayList<>();
     static {
-        try {
             SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
-            list.add(new StudentDTO(1, "Василь", "Cемків", "Іванович", "6-а", dateformat.parse("15/10/2006"),"stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(2, "Віктор", "Романчук", "Андрійович", "7-б,", dateformat.parse("15/10/2007"), "stud.john.doe",  "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(3, "Ігор", "Кривенчук", "Іванович", "5-a", dateformat.parse("15/10/2004"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(4, "Вікторія", "Приймак",  "Петрович", "7-a", dateformat.parse("15/10/2007"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(5, "Ольга", "Семенів", "Іванівна", "5-а", dateformat.parse("15/10/2004"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+            list.add(new StudentDTO(1, "Василь", "Cемків", "Іванович", "6-а", "2006-10-15","stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+            list.add(new StudentDTO(2, "Віктор", "Романчук", "Андрійович", "7-б,", "2007-10-15", "stud.john.doe",  "john.doe@email.com", "09xxxxxxxx"));
+            list.add(new StudentDTO(3, "Ігор", "Кривенчук", "Іванович", "5-a", "2004-10-15", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+            list.add(new StudentDTO(4, "Вікторія", "Приймак",  "Петрович", "7-a", "2007-10-15", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+            list.add(new StudentDTO(5, "Ольга", "Семенів", "Іванівна", "5-а", "2004-10-15", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+
     }
 
     @PostMapping
@@ -57,12 +55,7 @@ public class StudentController {
         }
 
         SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
-        StudentDTO studentDTO = null;
-        try {
-            studentDTO = new StudentDTO(1,"Ірина", "Самійлів", "Петрівна", "7-b", dateformat.parse("15/01/2003"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        StudentDTO studentDTO = new StudentDTO(1,"Ірина", "Самійлів", "Петрівна", "7-b", "2003-01-15", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
         return studentDTO;
     }
 
@@ -75,7 +68,7 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public void updateStudent(@RequestBody StudentDTO student, @PathVariable String id){
+    public void updateStudent(@RequestBody EditStudentDTO student, @PathVariable String id){
         // someservice.update(id,student)
     }
     @GetMapping("/classes/{id}")

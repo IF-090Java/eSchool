@@ -1,5 +1,6 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.dto.EditTeacherDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.dto.TeacherNamesDTO;
 import io.swagger.annotations.Api;
@@ -60,11 +61,9 @@ public class TeacherController {
         SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
 
         TeacherDTO teacherDTO = null;
-        try {
-            teacherDTO = new TeacherDTO(1,"Іван","Якимів", "Петрович", dateformat.parse("12/12/1978"),"вавава","*******","vanya@mail","05050505056");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
+        teacherDTO = new TeacherDTO(1,"Іван","Якимів", "Петрович","1999-11-11","вавава","*******","vanya@mail","05050505056");
+
         return teacherDTO;
     }
     @PutMapping("/{id}")
@@ -76,7 +75,7 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public void updateTeacher(@RequestBody TeacherDTO teacher,@PathVariable int id){
+    public void updateTeacher(@RequestBody EditTeacherDTO teacher, @PathVariable int id){
         // someservice.update(id,teacher)
     }
 

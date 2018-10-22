@@ -24,7 +24,7 @@ public class TeacherDTO {
     private String patronymic;
 
     @ApiModelProperty(notes = "contains date of birth of the teacher")
-    private Date dateOfBirth;
+    private String dateOfBirth;
 
     @ApiModelProperty(notes = "teacher login")
     private String login;
