@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,10 +28,10 @@ public class Student extends User{
             joinColumns = { @JoinColumn(name = "student_id") }, 
             inverseJoinColumns = { @JoinColumn(name = "class_id") }
         )
-    private Set<Clazz> classes = new HashSet<>();
+    private Set<@NotNull Clazz> classes = new HashSet<>();
     @OneToMany(cascade = 
         {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy="student")
-    private Set<Mark> marks = new HashSet<>();
+    private Set<@NotNull Mark> marks = new HashSet<>();
 
 	public Student(String login, String password, String email, Role role, String firstName, String lastName,
 			String patronymic, Date dateOfBirth, Sex sex, String phone, String avatar, String description) {
