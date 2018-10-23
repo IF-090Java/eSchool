@@ -50,7 +50,7 @@ public class MarksController {
 		for (int i = 0; i < 15; i++) {
 			int mark = 4 + r.nextInt(9);
 			GregorianCalendar calendar = new GregorianCalendar();
-			calendar.add(GregorianCalendar.DAY_OF_YEAR, i);
+			calendar.add(GregorianCalendar.DAY_OF_YEAR, i-14);
 			marks.add(new MarkDataPointDTO(mark, calendar.getTime()));
 			
 		}
