@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -57,12 +58,11 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )
+    @SneakyThrows
     public TeacherDTO getTeacher(@PathVariable int id){
-        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd");
 
-        TeacherDTO teacherDTO = null;
-
-        teacherDTO = new TeacherDTO(1,"Іван","Якимів", "Петрович","1999-11-11","вавава","*******","vanya@mail","05050505056");
+        TeacherDTO teacherDTO = new TeacherDTO(1,"Іван","Якимів", "Петрович",dateformat.parse("1999-11-11"),"вавава","*******","vanya@mail","05050505056");
 
         return teacherDTO;
     }

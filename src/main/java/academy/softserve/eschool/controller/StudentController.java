@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -19,16 +20,19 @@ import java.util.List;
 public class StudentController {
 
     private static List<StudentDTO> list = new ArrayList<>();
+
     static {
-            SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
-            list.add(new StudentDTO(1, "Василь", "Cемків", "Іванович", "6-а", "2006-10-15","stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(2, "Віктор", "Романчук", "Андрійович", "7-б,", "2007-10-15", "stud.john.doe",  "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(3, "Ігор", "Кривенчук", "Іванович", "5-a", "2004-10-15", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(4, "Вікторія", "Приймак",  "Петрович", "7-a", "2007-10-15", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-            list.add(new StudentDTO(5, "Ольга", "Семенів", "Іванівна", "5-а", "2004-10-15", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd");
+        try {
+        list.add(new StudentDTO(1, "Василь", "Cемків", "Іванович", "6-а", dateformat.parse("2006-10-15"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(2, "Віктор", "Романчук", "Андрійович", "7-б,", dateformat.parse("2007-10-15"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(3, "Ігор", "Кривенчук", "Іванович", "5-a", dateformat.parse("2004-10-15"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(4, "Вікторія", "Приймак", "Петрович", "7-a", dateformat.parse("2007-10-15"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        list.add(new StudentDTO(5, "Ольга", "Семенів", "Іванівна", "5-а", dateformat.parse("2004-10-15"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
-
     @PostMapping
     @ApiOperation(value = "Add student, first name, last name and class passed in html")
     @ApiResponses(
@@ -49,13 +53,14 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
+    @SneakyThrows
     public StudentDTO getStudent(@PathVariable int id) {
         for (StudentDTO studentDTO : list){
             if (studentDTO.getId()==id) return studentDTO;
         }
 
         SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
-        StudentDTO studentDTO = new StudentDTO(1,"Ірина", "Самійлів", "Петрівна", "7-b", "2003-01-15", "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
+        StudentDTO studentDTO = new StudentDTO(1,"Ірина", "Самійлів", "Петрівна", "7-b", dateformat.parse("2003-01-15"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx");
         return studentDTO;
     }
 

@@ -1,5 +1,6 @@
 package academy.softserve.eschool.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,9 +23,11 @@ public class TeacherDTO {
 
     @ApiModelProperty(notes = "contains a patronymic")
     private String patronymic;
-
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "yyyy-MM-dd")
     @ApiModelProperty(notes = "contains date of birth of the teacher")
-    private String dateOfBirth;
+    private Date dateOfBirth;
 
     @ApiModelProperty(notes = "teacher login")
     private String login;
