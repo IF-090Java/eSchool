@@ -17,8 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.boot.context.annotation.Configurations.getClasses;
-
 @RestController
 @RequestMapping("/students")
 @Api(description = "Student controller")
@@ -61,25 +59,25 @@ public class StudentController {
     )
     @SneakyThrows
     public StudentDTO getStudent(@PathVariable int id) {
-//        Student student = studentRepository.getOne(id);
-//        StudentDTO studentDTO = new StudentDTO();
-//        studentDTO.setFirstname(student.getFirstName());
-//        studentDTO.setLastname(student.getLastName());
-//        studentDTO.setPatronymic(student.getPatronymic());
-//        studentDTO.setDateOfBirth(student.getDateOfBirth());
-//        for (Clazz clazz :student.getClasses()) {
-//            if (clazz.isActive())
-//                studentDTO.setClasse(clazz.getName());
-//        }
-//        studentDTO.setLogin(student.getLogin());
-//        studentDTO.setEmail(student.getEmail());
-//        studentDTO.setPhone(student.getPhone());
+        Student student = studentRepository.getOne(id);
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setFirstname(student.getFirstName());
+        studentDTO.setLastname(student.getLastName());
+        studentDTO.setPatronymic(student.getPatronymic());
+        studentDTO.setDateOfBirth(student.getDateOfBirth());
+        for (Clazz clazz :student.getClasses()) {
+            if (clazz.isActive())
+                studentDTO.setClasse(clazz.getName());
+        }
+        studentDTO.setLogin(student.getLogin());
+        studentDTO.setEmail(student.getEmail());
+        studentDTO.setPhone(student.getPhone());
 
         for (StudentDTO studentDTO1 : list){
             if (studentDTO1.getId()==id) return studentDTO1;
         }
 
-        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd");
         StudentDTO studentDTO1 = new StudentDTO(1,"Ірина", "Самійлів", "Петрівна", "7-b", dateformat.parse("2003-01-15"), "stud.johnohn.doe", "john.doe@email.com", "09xxxxxxxx");
         return studentDTO1;
     }

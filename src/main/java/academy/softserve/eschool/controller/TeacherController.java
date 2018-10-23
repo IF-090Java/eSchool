@@ -3,6 +3,8 @@ package academy.softserve.eschool.controller;
 import academy.softserve.eschool.dto.EditTeacherDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.dto.TeacherNamesDTO;
+import academy.softserve.eschool.model.Teacher;
+import academy.softserve.eschool.repository.TeacherRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -19,6 +21,8 @@ import java.util.List;
 @RequestMapping("/teachers")
 @Api(description = "Teachers controller")
 public class TeacherController {
+    private TeacherRepository teacherRepository;
+
     @GetMapping("")
     @ApiOperation(value = "Get list of teacher(only id and names)")
     @ApiResponses(
@@ -60,11 +64,21 @@ public class TeacherController {
     )
     @SneakyThrows
     public TeacherDTO getTeacher(@PathVariable int id){
+        Teacher teacher = teacherRepository.getOne(id);
+        TeacherDTO teacherDTO = new TeacherDTO();
+        teacherDTO.setFirstname(teacher.getFirstName());
+        teacherDTO.setLastname(teacher.getLastName());
+        teacherDTO.setPatronymic(teacher.getPatronymic());
+        teacherDTO.setDateOfBirth(teacher.getDateOfBirth());
+        teacherDTO.setLogin(teacher.getLogin());
+        teacherDTO.setEmail(teacher.getEmail());
+        teacherDTO.setPhone(teacher.getPhone());
+
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd");
 
-        TeacherDTO teacherDTO = new TeacherDTO(1,"Іван","Якимів", "Петрович",dateformat.parse("1999-11-11"),"вавава","*******","vanya@mail","05050505056");
+        TeacherDTO teacherDTO1 = new TeacherDTO(1,"Іван","Якимів", "Петрович",dateformat.parse("1999-11-11"),"вавава","*******","vanya@mail","05050505056");
 
-        return teacherDTO;
+        return teacherDTO1;
     }
     @PutMapping("/{id}")
     @ApiOperation(value = "update profile of teacher")
