@@ -1,8 +1,18 @@
 package academy.softserve.eschool.auxiliary;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.HashMap;
 
-public class Transliteration {
+@RestController("/login")
+@Api(description = "Login generator controller")
+public class LoginGeneratorController {
     private static HashMap<Character, String> letters = new HashMap<>();
 
     static {
@@ -17,10 +27,23 @@ public class Transliteration {
         letters.put('я', "ia");   letters.put('\'', "");
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Login successfully generated"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
+    @ApiOperation(value = "Create class")
     public String getLogin(String firstName, String lastName) {
-        return transliteration(firstName) + "." + transliteration(lastName);
+        return firstName != null && lastName != null ?
+                transliteration(firstName) + "." + transliteration(lastName)
+                : "";
     }
 
+
+    /**
+     *
+     * @param word word for transliteration
+     * @return transliterated word
+     */
     public String transliteration(String word) {
         word = word.toLowerCase();
         char[] chars = word.toCharArray();
@@ -40,6 +63,12 @@ public class Transliteration {
         return result;
     }
 
+    /**
+     * Transliterating first two letters
+     * @param first letter
+     * @param second letter
+     * @return transliterated letters
+     */
     private static String firstTwo(char first, char second) {
         String result = "";
         if (first == 'з' && second == 'г')
