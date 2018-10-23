@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Перехід на новий навчальний рік</title>
+    <style type="text/css">
+
+        .main {
+            margin-left: 15%;
+            margin-right: 15%;
+            padding-top: 50px;
+            font-size: 16px;
+        }
+
+        .new-class-form {
+            margin-left: 25%;
+            margin-right: 25%;
+        }
+
+        .student-to-class {
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 30px;
+        }
+
+        .header{
+            height: 50px;
+            background: #BCC8D2;
+            border: solid 1px black;
+        }
+
+
+        label {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 18px;
+        }
+
+        input {
+            margin-top: 0px;
+            margin-left: 15%;
+            height: 25px;
+            width: 90px;
+            margin-bottom: 5px;
+        }
+
+        textarea {
+            margin-left: 15%;
+            width: 300px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        tr:nth-child(even){
+            background-color: #f2f2f2
+        }
+
+        tr{
+            height: 28px;
+            font-size: 18px;
+        }
+
+        button {
+            height: 45px;
+            width: 150px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            border: 1px solid #4CAF50;
+            vertical-align: middle;
+            color: white;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            border-radius: 3px;
+            margin-top: 50px;
+            margin-left: 40px;
+        }
+
+        form {
+            margin-left: 85px;
+        }
+
+        ::-webkit-input-placeholder{
+            color: #566573;
+        }
+
+        input:focus::-webkit-input-placeholder {
+            color: transparent;
+        }
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="header">
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/admin">Домашня сторінка</a></span>
+    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
+    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+</div>
+<div class="main">
+    <div align="center" style="margin-bottom: 50px">
+        <h1>Перехід на новий навчальний рік</h1>
+    </div>
+    <fieldset style="border: 2px solid #4CAF50; padding: 40px;" class="new-class-form">
+        <form id="classes_table" method="post" action="/classes/addNewClasses"></form>
+    </fieldset>
+
+    <fieldset style="border: 2px solid #4CAF50; padding: 40px;" class="student-to-class">
+
+    </fieldset>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON('http://localhost:8080/classes', function (data) {
+            $.each(data, function (i, item) {
+                var name = item.className.split('-');
+
+                if (name[0]!=11){
+                    var classYear = item.classYear+1;
+                    $('#classes_table').append('<label>').append(item.className).append(' - ').append(item.classYear).append('</label>');
+                    $('#classes_table').append($('<input>').attr('value',item.className+' - '+classYear).attr('text','text'));
+                }
+            })
+            $('#classes_table').append($('<button>').attr('class','button').attr('type', 'submit').append('Зберегти')).append('</button>');
+        })
+    })
+
+    $('form').on('submit', function (e) {
+        e.preventDefault()
+        var allInputValues = document.querySelectorAll("input");
+        var allLabelValues = document.querySelectorAll("label");
+        console.log(allInputValues[0].innerHTML);
+        console.log(allLabelValues[0].innerHTML);
+
+    })
+</script>
+</body>
+</html>
