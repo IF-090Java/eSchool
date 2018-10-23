@@ -1,11 +1,13 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.dto.EditTeacherDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.dto.TeacherNamesDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -56,15 +58,12 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )
+    @SneakyThrows
     public TeacherDTO getTeacher(@PathVariable int id){
-        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd");
 
-        TeacherDTO teacherDTO = null;
-        try {
-            teacherDTO = new TeacherDTO(1,"Іван","Якимів", "Петрович", dateformat.parse("12/12/1978"),"вавава","*******","vanya@mail","05050505056");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        TeacherDTO teacherDTO = new TeacherDTO(1,"Іван","Якимів", "Петрович",dateformat.parse("1999-11-11"),"вавава","*******","vanya@mail","05050505056");
+
         return teacherDTO;
     }
     @PutMapping("/{id}")
@@ -76,7 +75,7 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public void updateTeacher(@RequestBody TeacherDTO teacher,@PathVariable int id){
+    public void updateTeacher(@RequestBody EditTeacherDTO teacher, @PathVariable int id){
         // someservice.update(id,teacher)
     }
 
