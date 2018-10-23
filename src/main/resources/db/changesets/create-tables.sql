@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `lesson` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `clazz_id` INT(11) NOT NULL,
   `subject_id` INT(11) NOT NULL,
-  `date` DATETIME NOT NULL,
+  `date` DATE NOT NULL,
   `file` LONGBLOB ,
   `hometask` VARCHAR(255) NULL DEFAULT NULL,
   `lesson_number` TINYINT(1) NOT NULL,
