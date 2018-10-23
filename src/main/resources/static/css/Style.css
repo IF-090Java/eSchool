@@ -16,12 +16,6 @@ legend {
     background: #BCC8D2;
     border: solid 1px black;
 }
-
-.header{
-    height: 50px;
-    background: #BCC8D2;
-    border: solid 1px black;
-}
 .main{
     padding-top: 30px;
     margin: auto;
@@ -35,11 +29,13 @@ legend {
     margin-top: 15px;
     width: 130px;
 }
+
 label{
     padding-top: 15px;
     display: table-cell;
     vertical-align: middle;
 }
+
 input{
     margin-top: 15px;
     height: 20px;

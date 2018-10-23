@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Teacher extends User{
 	
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "teacher")
-	private Set<ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
+	private Set<@NotNull ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
 
 	public Teacher(String login, String password, String email, Role role, String firstName, String lastName,
 			String patronymic, Date dateOfBirth, Sex sex, String phone, String avatar, String description) {

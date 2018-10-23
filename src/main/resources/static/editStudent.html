@@ -61,6 +61,7 @@
 </head>
 <body>
 	<div class="header">
+		<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/admin">Домашня сторінка</a></span>
 		<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
 		<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
 		<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="#"> Вийти</a></span>
@@ -69,12 +70,16 @@
 			<fieldset>
 				<legend style="font-size: 19px">Особита інформація</legend>
 				<div class="row">
-					<label for="fname">Імя:</label>
+					<label for="lname">Прізвище:</label>
+					<input id="lname" type="text" name="lastname">
+				</div>
+				<div class="row">
+					<label for="fname">Ім'я:</label>
 					<input id="fname" type="text" name="firstname">
 				</div>
 				<div class="row">
-					<label for="lname">Прізвище:</label>
-					<input id="lname" type="text" name="lastname">
+					<label for="patronymic">По батькові:</label>
+					<input id="patronymic" type="text" name="patronymic">
 				</div>
 				<div class="row">
 					<label for="username">Логін:</label>
@@ -85,8 +90,8 @@
 					<select id="selectClass" name="select"></select>
 				</div>
 				<div class="row">
-					<label for="dateOfBirth">Дата народження:</label>
-					<input id="dateOfBirth" type="date" name="dateOfBirth">
+					<label for="date">Дата народження:</label>
+					<input id="date" type="date" name="date">
 				</div>
 				<div class="row">
 					<label for="mail">Електронна адреса:</label>
@@ -150,9 +155,18 @@
 				});
 			})
 			$.getJSON('http://localhost:8080/students/'+subjectId, function (data) {
+                var date = new Date(data.dateOfBirth);
+                var y = date.getFullYear();
+                var m = date.getMonth() + 1;
+                var d = date.getDate();
+                m = m < 10 ? '0' + m : m;
+                d = d < 10 ? '0' + d : d;
+                date = y + '-' + m + '-' + d;
 				$("#fname").attr("value", data.firstname);
 				$("#lname").attr("value", data.lastname);
+				$("#patronymic").attr("value", data.patronymic);
 				$("#username").attr("value", data.login);
+				$("#date").attr("value", date);
 				$('#selectClass').append($('<option>', {
 					text: data.classe
 				}));

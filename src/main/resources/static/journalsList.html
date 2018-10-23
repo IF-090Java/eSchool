@@ -27,6 +27,22 @@
            padding: 8px;
        }
 
+
+       .header{
+           color: white;
+           height: 50px;
+           background: #4CAF50;
+           border: solid 1px black;
+       }
+
+       .header a{
+           color:white;
+       }
+
+       #table a{
+           color:black;
+       }
+
        tr:nth-child(even){background-color: #f2f2f2}
 
        th {
@@ -38,6 +54,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
+    <div class="header">
+        <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/teachers/1/profile">Домашня сторінка</a></span>
+        <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
+        <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
+        <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+    </div>
 
     <div class="journals">Журнали</div>
     <table id="table">
@@ -50,7 +72,7 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/journals', function (data) {
+        $.getJSON('http://localhost:8080/journals/teachers/1', function (data) {
             $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
                 var ref = 'http://localhost:8080/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
