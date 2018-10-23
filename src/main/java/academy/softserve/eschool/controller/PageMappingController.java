@@ -101,7 +101,7 @@ public class PageMappingController {
 
     @RequestMapping("students/{id}/edit")
     public String editStudent(){
-        return "/editStudent.html";
+        return "/editTeacher.html";
     }
 
     @RequestMapping("teachersList")
@@ -116,12 +116,12 @@ public class PageMappingController {
 
     @RequestMapping("student/{id}/edit")
     public String edit_Student(){
-        return "/edit-student.html";
+        return "/editTeacher.html";
     }
 
     @RequestMapping("teacher/{id}/edit")
     public String edit_Teacher(){
-        return "/edit-teacher.html";
+        return "/editTeacher.html";
     }
 
     @RequestMapping("admin")

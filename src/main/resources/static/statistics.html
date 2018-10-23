@@ -71,6 +71,7 @@
 				$.getJSON(subjectsUrl, fillSubjectsSelect);
 				$.getJSON(classesUrl, fillClassesSelect);
 				$.getJSON(marksUrl, params, setData);
+				setDatePickerConstraint()
 			});
 			
 			$('#subject').change(function(){
@@ -112,12 +113,14 @@
 			
 			function setData(response){
 				var data = response.data;
+				console.log(data);
 				if ($('#startDate').val() == '' || $('#endDate').val() == ''){
 					initDatePickers(data);
 				}
 				formatDatadoints(data);
 				drawChart(data);
 				setAverageMark(data);
+				console.log(data);
 			}
 			
 			function fillSubjectsSelect(data){
@@ -152,10 +155,8 @@
 			}
 			
 			function initDatePickers(data){
-				var startDate = new Date(data[0].x);
-				var endDate = new Date(data[data.length-1].x);
-				$('#startDate').val(formatDate(startDate));
-				$('#endDate').val(formatDate(endDate));
+				$('#startDate').val(data[0].x);
+				$('#endDate').val(data[data.length-1].x);
 			}
 			
 			function formatDatadoints(data){
@@ -168,7 +169,16 @@
 				var day = ("0" + date.getDate()).slice(-2);
 				var month = ("0" + (date.getMonth() + 1)).slice(-2);
 				var today = date.getFullYear()+"-"+(month)+"-"+(day);
+				console.log(date);
+				console.log(date.getMonth());
 				return today;
+			}
+			
+			function setDatePickerConstraint(){
+				var date = new Date();
+				var dateString = formatDate(date);
+				$('#startDate').attr("max", dateString);
+				$('#endDate').attr("max", dateString);
 			}
 			
 			function setAverageMark(data){
@@ -220,7 +230,8 @@
 				params.class_id = $('#class').val();
 				params.student_id = $('#student').val();
 				params.period_start = $('#startDate').val();
-				params.period_end = $('#endtDate').val();
+				params.period_end = $('#endDate').val();
+				console.log(new Date($('#startDate').val()));
 				return params;
 			}
 		</script>
