@@ -9,6 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,17 +24,23 @@ public class Clazz {
 	@Id
 	@GeneratedValue
 	private int id;
+	@NotBlank
+	@Size(max=4)
 	private String name;
+	@Size(max=500)
 	private String description;
+	@NotBlank
+	@Min(value=2000)
 	private int academicYear;
+	@NotNull
 	private boolean isActive;
 	@ManyToMany(mappedBy = "classes", 
 	        cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	private Set<Student> students = new HashSet<>();
+	private Set<@NotNull Student> students = new HashSet<>();
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "clazz")
-	private Set<ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
+	private Set<@NotNull ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "clazz")
-	private Set<Lesson> schedule = new HashSet<>();
+	private Set<@NotNull Lesson> schedule = new HashSet<>();
 	
 	public Clazz(String name, String description, int academicYear, boolean isActive) {
 		super();

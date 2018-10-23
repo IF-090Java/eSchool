@@ -1485,9 +1485,21 @@ color:grayText;
                   "fridaySubjects":friday
                 }),
                 contentType: "application/json",
-                success: function(){
-    				alert("Розклад успішно створений");
-  				}
+  				  statusCode: {
+                      200: function() {
+                      alert( "Операція успішна" );
+                    },
+                      201: function() {
+                      alert( "Розклад успішно створений" );
+                    },
+                      500: function() {
+                      alert( "Внутрішня помилка сервера" );
+                    }
+                  },
+                    success: function (responce) {
+                        window.location.href = "/schedule/create";
+                    }
+
             });
 		})
 	})

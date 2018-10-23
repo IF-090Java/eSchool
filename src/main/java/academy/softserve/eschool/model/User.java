@@ -7,6 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,17 +24,33 @@ public class User {
 	@Id
 	@GeneratedValue
 	private int id;
+	@NotBlank
+	@Size(max=100, min=5)
 	private String login;
+	@NotBlank
+	@Size(max=40, min=5)
 	private String password;
+	@Email
 	private String email;
+	@NotNull
 	private Role role;
+	@NotBlank
+	@Size(max=25, min=3)
     private String firstName;
+	@NotBlank
+	@Size(max=25, min=3)
     private String lastName;
+	@NotBlank
+	@Size(max=25, min=3)
     private String patronymic;
+	@Past
     private Date dateOfBirth;
     private Sex sex;
+    @Size(max=20)
     private String phone;
+    @Size(max=200)
     private String avatar;
+    @Size(max=200)
     private String description;
     
 	public User(String login, String password, String email, Role role, String firstName, String lastName,

@@ -81,6 +81,7 @@ select {
 		<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
 		<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
 	</div>
+	<form>
 		<div class="main">
 			<div align="center" style="margin-bottom: 50px">
 				<h1>ПРИВ'ЯЗКА ВЧИТЕЛЯ ДО ЖУРНАЛУ</h1>
@@ -115,7 +116,7 @@ select {
 
 					<div class="row">
 						<label for="year">Введіть навчальний рік</label>
-						<input id="year" type="text" name="year" placeholder="Рік">
+						<input id="year" type="text" name="year" placeholder="Рік" required>
 					</div>
 					
 					<div align="center" style="text-align: center; margin: 0 auto;">
@@ -124,6 +125,7 @@ select {
 				</fieldset>
 
 		</div>
+	</form>
 		<script type="text/javascript">
 		
 			$(document).ready(function() {
@@ -170,7 +172,10 @@ select {
 						$('#subject_input').append('<option value="' + id[i] + '">' + subjects[i] + '</option>');
 				});
 
-				$('#submitButton').click(function(){
+				$('form').on('submit', function (e) {
+
+				e.preventDefault();
+
 				var teacherid = $('#teacher_input').find(":selected").val();
 				var classid = $('#class_input').find(":selected").val();
 				var subjectid = $('#subject_input').find(":selected").val();
@@ -187,9 +192,20 @@ select {
                     "year" : year
                 }),
                 contentType: "application/json",
-                success: function(){
-    				alert("Прив'зка вчителя до журнала створена");
-  				}
+  				statusCode: {
+                      200: function() {
+                      alert( "Операція успішна" );
+                    },
+                      201: function() {
+                      alert( "Прив'язка успішно створена" );
+                    },
+                      500: function() {
+                      alert( "Внутрішня помилка сервера" );
+                    }
+                  },
+                    success: function (responce) {
+                        window.location.href = "/teachers/add/journal";
+                    }
             });
 
 			})
