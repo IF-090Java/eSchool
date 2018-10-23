@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Student extends User{
+
     @ManyToMany(cascade = 
         {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -29,6 +30,7 @@ public class Student extends User{
             inverseJoinColumns = { @JoinColumn(name = "class_id") }
         )
     private Set<@NotNull Clazz> classes = new HashSet<>();
+
     @OneToMany(cascade = 
         {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy="student")
     private Set<@NotNull Mark> marks = new HashSet<>();
@@ -38,8 +40,4 @@ public class Student extends User{
 		super(login, password, email, role, firstName, lastName, patronymic, dateOfBirth, sex, phone, avatar,
 				description);
 	}
-    
-    
-    
-    
 }
