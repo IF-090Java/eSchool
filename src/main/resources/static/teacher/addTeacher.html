@@ -1,45 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/Style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('form').on('submit', function (e) {
-
-                e.preventDefault();
-                var firstName   = $("#firstName").val();
-                var lastName    = $("#lastName").val();
-                var patronymic  = $("#patronymic").val();
-                var dateOfBirth = $("#dateOfBirth").val();
-                var login       = $("#login").val();
-                var mail        = $("#mail").val();
-                var mobile      = $("#mobile").val();
-
-                $.ajax({
-                    type: "post",
-                    url: "/teachers",
-                    dataType: "json",
-                    data: JSON.stringify({
-                        "firstname"  :   firstName,
-                        "lastname"   :   lastName,
-                        "patronymic" :   patronymic,
-                        "dateOfBirth":   dateOfBirth,
-                        "login"      :   login,
-                        "email"      :   mail,
-                        "phone"      :   mobile
-                    }),
-                    contentType: "application/json",
-                    success: function (responce) {
-                        window.location.href = "/teachers/add";
-                    }
-                });
-            });
-        })
-    </script>
-
-    <meta charset="UTF-8">
+	<meta charset="UTF-8">
     <title>Додавання вчителя</title>
+	<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+    <style>
+	.main {
+		margin-left: 27%;
+		margin-right: 27%;
+	}
+
+	.row {
+		display: table-row;
+	}
+
+	label {
+		display: table-cell;
+		vertical-align: middle;
+		font-size: 18px;
+	}
+
+</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
 </head>
 <body>
 <div class="header">
@@ -90,7 +73,45 @@
         </fieldset>
     </div>
     <hr>
+   <script type="text/javascript">
+		$(function() {
+			$(".header").load("/views/header.html");
+		});
+	</script>
+  <script type="text/javascript">
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
 
+                e.preventDefault();
+                var firstName   = $("#firstName").val();
+                var lastName    = $("#lastName").val();
+                var patronymic  = $("#patronymic").val();
+                var dateOfBirth = $("#dateOfBirth").val();
+                var login       = $("#login").val();
+                var mail        = $("#mail").val();
+                var mobile      = $("#mobile").val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/teachers",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "firstname"  :   firstName,
+                        "lastname"   :   lastName,
+                        "patronymic" :   patronymic,
+                        "dateOfBirth":   dateOfBirth,
+                        "login"      :   login,
+                        "email"      :   mail,
+                        "phone"      :   mobile
+                    }),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        window.location.href = "/teachers/add";
+                    }
+                });
+            });
+        })
+    </script>
 </form>
 </body>
 </html>
