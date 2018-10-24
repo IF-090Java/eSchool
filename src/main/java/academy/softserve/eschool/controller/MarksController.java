@@ -63,7 +63,12 @@ public class MarksController {
 
 	private List<MarkDataPointDTO> formDataPoints(List<Object[]> data) {
 		List<MarkDataPointDTO> dataPoints;
-		dataPoints = data.stream().map((obj) -> new MarkDataPointDTO(((BigDecimal)obj[0]).doubleValue(), (Date)obj[1])).collect(Collectors.toList());
+		dataPoints = data.stream().map((obj) -> {
+				double averageMark = ((BigDecimal)obj[0]).doubleValue();
+				Date date = (Date)obj[1];
+				return new MarkDataPointDTO(averageMark, date);
+			})
+			.collect(Collectors.toList());
 		Collections.sort(dataPoints);
 		System.out.println(dataPoints.toString());
 		return dataPoints;
