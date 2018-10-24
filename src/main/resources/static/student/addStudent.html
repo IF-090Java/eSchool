@@ -1,68 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/Style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('form').on('submit', function (e) {
-
-                e.preventDefault();
-                var firstName = $("#firstName").val();
-                var lastName = $("#lastName").val();
-                var patronymic = $("#patronymic").val();
-                var classe = $("#selectClass option:selected").val();
-                var dateOfBirth = $("#dateOfBirth").val();
-                var login = $("#login").val();
-                var mail = $("#mail").val();
-                var mobile = $("#mobile").val();
-
-
-                //$("#login").attr("value",
-                //  $.ajax({
-                //    type: "GET",
-                //  url: "/login", data: JSON.stringify({
-                //    "firstname": firstName,
-                //  "lastname": lastName
-                // })
-                //}).responseText);
-
-                $.ajax({
-                    type: "post",
-                    url: "/students",
-                    dataType: "json",
-                    data: JSON.stringify({
-                        "firstname"  :   firstName,
-                        "lastname"   :   lastName,
-                        "patronymic" :   patronymic,
-                        "classe"     :   classe,
-                        "dateOfBirth":   dateOfBirth,
-                        "login"      :   login,
-                        "email"      :   mail,
-                        "phone"      :   mobile
-                    }),
-                    contentType: "application/json",
-                    success: function (responce) {
-                        window.location.href = "/students/add";
-                    }
-                });
-            });
-
-            $.getJSON('http://localhost:8080/classes', function (data2) {
-                console.log(data2);
-
-                $.each(data2, function (i, item) {
-                    $('#selectClass').append($('<option>', {
-                        value: data2[i].id,
-                        text : data2[i].className
-                    }));
-                });
-            });
-        })
-    </script>
-
-    <meta charset="UTF-8">
+ 	<meta charset="UTF-8">
     <title>Додавання учня</title>
+	<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+	<style>
+	.main {
+		margin-left: 27%;
+		margin-right: 27%;
+	}
+
+	.row {
+		display: table-row;
+	}
+
+	label {
+		display: table-cell;
+		vertical-align: middle;
+		font-size: 18px;
+	}
+
+	#selectClass {
+		margin-top: 0px;
+		margin-left: 15%;
+		height: 25px;
+		width: 304px;
+		margin-bottom: 20px;
+	}
+
+</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
 <div class="header">
@@ -117,7 +84,58 @@
             </fieldset>
         </div>
         <hr>
+ <script type="text/javascript">
+		$(function() {
+			$(".header").load("/views/header.html");
+		});
+	</script>
+ <script type="text/javascript">
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
 
+                e.preventDefault();
+                var firstName   = $("#firstName").val();
+                var lastName    = $("#lastName").val();
+                var patronymic  = $("#patronymic").val();
+                var classe      = $("#selectClass option:selected").val();
+                var dateOfBirth = $("#dateOfBirth").val();
+                var login       = $("#login").val();
+                var mail        = $("#mail").val();
+                var mobile      = $("#mobile").val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/students",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "firstname"  :   firstName,
+                        "lastname"   :   lastName,
+                        "patronymic" :   patronymic,
+                        "classe"     :   classe,
+                        "dateOfBirth":   dateOfBirth,
+                        "login"      :   login,
+                        "email"      :   mail,
+                        "phone"      :   mobile
+                    }),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        window.location.href = "/students/add";
+                    }
+                });
+            });
+
+            $.getJSON('http://localhost:8080/classes', function (data2) {
+                console.log(data2);
+
+                $.each(data2, function (i, item) {
+                    $('#selectClass').append($('<option>', {
+                        value: data2[i].id,
+                        text : data2[i].className
+                    }));
+                });
+            });
+        })
+    </script>
     </form>
 </body>
 </html>

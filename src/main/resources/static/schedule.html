@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
-
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <!-- CSS -->
@@ -16,11 +17,13 @@ margin-right:0;
 text-align:left;
 }
 .header{
+	height: 55px;
+	background: #FFA500;
+	border: 1px solid black;
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
 	z-index:1;
-	height: 50px;
-	background: #BCC8D2;
-	border: solid 1px black;
-	border-width:0px;
 	position:absolute;
 	left:180px;
 	top:0px;
@@ -1052,10 +1055,11 @@ color:grayText;
 <body>
 
 <div class="header">
-  <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
-  <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
-  <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
-</div>
+		<a href="/admin"><img id="logo" src="/img/logo.png" width="144" height="45" alt="logo"></a>
+		<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
+		<span style="float: left; margin-left: 12%; margin-top: 15px" id="status">Статус: Адміністратор</span>
+		<span style="float: right; margin-right: 40px; margin-top: 14px; font-size: 20px;"><a href="/"> Вийти</a></span>
+	</div>
 <form action= "/schedule" method="post">
 <div id="base" class="">
 
@@ -1388,7 +1392,6 @@ color:grayText;
     <button id="submitButton">Створити розклад</button>
   </div>
 </form>
-
 <script type="text/javascript">
 
 		$(document).ready(function() {

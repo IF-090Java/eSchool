@@ -1,5 +1,6 @@
 package academy.softserve.eschool.controller;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -60,24 +62,8 @@ public class MarksController {
 	}
 
 	private List<MarkDataPointDTO> formDataPoints(List<Object[]> data) {
-		Map<Date, List<Integer>> marksMap = new HashMap<>();
-		List<MarkDataPointDTO> dataPoints = new ArrayList<>();
-		for (Object[] obj : data) {
-			byte mark = (Byte)obj[0];
-			Date date = (Date)obj[1];
-			if (!marksMap.containsKey(date)) {
-				marksMap.put(date, new ArrayList<>());
-			}
-			marksMap.get(date).add((int)mark);
-		}
-		
-		for (Date tempDate : marksMap.keySet()) {
-			List<Integer> marks = marksMap.get(tempDate);
-			int size = marks.size();
-			int total = marks.stream().reduce(0, (e1, e2) -> e1 + e2);
-			double average = ((double)total)/size;
-			dataPoints.add(new MarkDataPointDTO(average, tempDate));
-		}
+		List<MarkDataPointDTO> dataPoints;
+		dataPoints = data.stream().map((obj) -> new MarkDataPointDTO(((BigDecimal)obj[0]).doubleValue(), (Date)obj[1])).collect(Collectors.toList());
 		Collections.sort(dataPoints);
 		System.out.println(dataPoints.toString());
 		return dataPoints;

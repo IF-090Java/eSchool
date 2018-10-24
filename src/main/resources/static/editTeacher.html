@@ -5,25 +5,28 @@
 	<title>Edit teacher</title>
 	<style type="text/css">
 	.header{
-		height: 50px;
-		background: #BCC8D2;
-		border: solid 1px black; 
+		height: 55px;
+		background: #FFA500;
+		border: 1px solid black;
+		text-align: center;
+		font-weight: bold;
+		font-size: 18px;
 	}
 	.main{
 		padding-top: 30px;
 		margin: auto;
-		width: 35%;
+    	width: 35%;
 	}
 	.row{
-		display: table-row;
+  		display: table-row;
 
 	}	
 	label{
 		padding-top: 15px;
-		display: table-cell;
-		vertical-align: middle;
+  		display: table-cell;
+  		vertical-align: middle;
 	}
-	input,select{
+	input{
 		margin-top: 15px;
 		height: 20px;
 	}
@@ -41,15 +44,23 @@
 		align-self: center;
 	}
 	fieldset{
-		border: 2px solid #4CAF50;
+		border: 3px solid #4CAF50;
 	}
-	img {
-		border: solid 5px;
-		border-radius: 3px;
-		padding: 5px;
-		width: 100px;
-		height: 100px;
+	
+	#logo {
+		border: 1px solid #4CAF50;
+		float: left !important;
+		margin-left: 40px;
+		margin-top: 4px;
 	}
+
+	#avatar {
+     	border: 5px solid;
+     	border-radius: 3px;
+     	padding: 5px;
+     	width: 100px;
+     	height: 100px;
+	 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/imagePreview.js" type="text/javascript"></script>
@@ -57,10 +68,10 @@
 </head>
 <body>
 	<div class="header">
-		<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/admin">Домашня сторінка</a></span>
-		<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
-		<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
-		<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="#"> Вийти</a></span>
+		<a href="/admin"><img id="logo" src="/img/logo.png" width="144" height="45" alt="logo"></a>
+		<span style="float: left; margin-left: 40px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
+		<span style="float: left; margin-left: 12%; margin-top: 15px" id="status">Статус: Адміністратор</span>
+		<span style="float: right; margin-right: 40px; margin-top: 14px; font-size: 20px;"><a href="/"> Вийти</a></span>
 	</div>
 	<div class="main">
 

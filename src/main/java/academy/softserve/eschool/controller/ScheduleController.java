@@ -29,11 +29,11 @@ public class ScheduleController {
 
     static {
         List<SubjectDTO> listsub = new ArrayList<>();
-        listsub.add(new SubjectDTO(1, "Історія України"));
+        listsub.add(new SubjectDTO(1, "Історія України", "Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу"));
 
         try {
             list.add(new ScheduleDTO(1, format.parse("2018-10-18"), format.parse("2018-12-18"),
-                    new ClassDTO(1, 2018, "5-A","Класний керівник - Данилишин Богдан"), listsub, listsub,
+                    new ClassDTO(1, 2018, "5-A","Класний керівник - Данилишин Богдан", "true"), listsub, listsub,
                     listsub, listsub, listsub));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class ScheduleController {
             if (scheduleDTO.getClassName().getId() == id_class) return scheduleDTO;
         }
         return new ScheduleDTO(1, new Date(), new Date(),
-                new ClassDTO(id_class, 2018, "5-A","Класний керівник - Данилишин Богдан"), new ArrayList<>(),
+                new ClassDTO(id_class, 2018, "5-A","Класний керівник - Данилишин Богдан", "true"), new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
