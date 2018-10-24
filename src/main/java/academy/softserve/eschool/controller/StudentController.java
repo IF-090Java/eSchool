@@ -59,19 +59,19 @@ public class StudentController {
     )
     @SneakyThrows
     public StudentDTO getStudent(@PathVariable int id) {
-        Student student = studentRepository.getOne(id);
-        StudentDTO studentDTO = new StudentDTO();
-        studentDTO.setFirstname(student.getFirstName());
-        studentDTO.setLastname(student.getLastName());
-        studentDTO.setPatronymic(student.getPatronymic());
-        studentDTO.setDateOfBirth(student.getDateOfBirth());
-        for (Clazz clazz :student.getClasses()) {
-            if (clazz.isActive())
-                studentDTO.setClasse(clazz.getName());
-        }
-        studentDTO.setLogin(student.getLogin());
-        studentDTO.setEmail(student.getEmail());
-        studentDTO.setPhone(student.getPhone());
+//        Student student = studentRepository.getOne(id);
+//        StudentDTO studentDTO = new StudentDTO();
+//        studentDTO.setFirstname(student.getFirstName());
+//        studentDTO.setLastname(student.getLastName());
+//        studentDTO.setPatronymic(student.getPatronymic());
+//        studentDTO.setDateOfBirth(student.getDateOfBirth());
+//        for (Clazz clazz :student.getClasses()) {
+//            if (clazz.isActive())
+//                studentDTO.setClasse(clazz.getName());
+//        }
+//        studentDTO.setLogin(student.getLogin());
+//        studentDTO.setEmail(student.getEmail());
+//        studentDTO.setPhone(student.getPhone());
 
         for (StudentDTO studentDTO1 : list){
             if (studentDTO1.getId()==id) return studentDTO1;

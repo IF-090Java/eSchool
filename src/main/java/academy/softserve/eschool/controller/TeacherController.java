@@ -64,15 +64,15 @@ public class TeacherController {
     )
     @SneakyThrows
     public TeacherDTO getTeacher(@PathVariable int id){
-        Teacher teacher = teacherRepository.getOne(id);
-        TeacherDTO teacherDTO = new TeacherDTO();
-        teacherDTO.setFirstname(teacher.getFirstName());
-        teacherDTO.setLastname(teacher.getLastName());
-        teacherDTO.setPatronymic(teacher.getPatronymic());
-        teacherDTO.setDateOfBirth(teacher.getDateOfBirth());
-        teacherDTO.setLogin(teacher.getLogin());
-        teacherDTO.setEmail(teacher.getEmail());
-        teacherDTO.setPhone(teacher.getPhone());
+//        Teacher teacher = teacherRepository.getOne(id);
+//        TeacherDTO teacherDTO = new TeacherDTO();
+//        teacherDTO.setFirstname(teacher.getFirstName());
+//        teacherDTO.setLastname(teacher.getLastName());
+//        teacherDTO.setPatronymic(teacher.getPatronymic());
+//        teacherDTO.setDateOfBirth(teacher.getDateOfBirth());
+//        teacherDTO.setLogin(teacher.getLogin());
+//        teacherDTO.setEmail(teacher.getEmail());
+//        teacherDTO.setPhone(teacher.getPhone());
 
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd");
 
