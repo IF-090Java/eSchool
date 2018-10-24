@@ -113,7 +113,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/classes', function (data) {
+        $.getJSON('http://localhost:8080/classes/active', function (data) {
             $.each(data, function (i, item) {
                 var name = item.className.split('-');
 
