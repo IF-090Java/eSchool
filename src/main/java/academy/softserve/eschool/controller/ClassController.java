@@ -20,17 +20,6 @@ import java.util.List;
 public class ClassController {
     @Autowired ClassServiceImpl classService;
 
-    private static List<ClassDTO> list = new ArrayList<>();
-    static {
-        list.add(new ClassDTO(1, 2018, "5-A","Класний керівник - Данилишин Богдан", "true"));
-        list.add(new ClassDTO(2, 2018, "5-Б","Класний керівник - Вакун Оксана", "true"));
-        list.add(new ClassDTO(3, 2018, "5-В","Класний керівник - Фігурка Марія", "true"));
-        list.add(new ClassDTO(4, 2018, "6-A","Класний керівник - Семчишин Олег", "true"));
-        list.add(new ClassDTO(5, 2018, "6-Б","Класний керівник - Козин Лариса", "true"));
-        list.add(new ClassDTO(6, 2018, "7-А","Класний керівник - Баран Ярослав", "true"));
-    }
-
-
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully created"),
             @ApiResponse(code = 500, message = "Server error")
