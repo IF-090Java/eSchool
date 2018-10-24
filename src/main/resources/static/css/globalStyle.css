@@ -1,0 +1,65 @@
+.header {
+	height: 55px;
+	background: #FFA500;
+	border: 1px solid black;
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.main {
+	float: center;
+	padding-top: 30px;
+	font-size: 16px;
+}
+
+input {
+    margin-top: 0px;
+    margin-left: 15%;
+    height: 25px;
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+#logo {
+	border: 1px solid #4CAF50;
+	float: left !important;
+	margin-left: 40px;
+	margin-top: 4px;
+}
+
+button {
+	height: 45px;
+	width: 150px;
+	font-size: 18px;
+	background-color: #4CAF50;
+	border: 1px solid #4CAF50;
+	vertical-align: middle;
+	color: white;
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	border-radius: 3px;
+	margin-top: 30px;
+}
+
+fieldset{
+	border: 3px solid #4CAF50;
+	padding: 40px;
+}
+
+legend{
+	font-size: 20px;
+}
+
+::-webkit-input-placeholder {
+	font-style: italic;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #566573;
+}
+
+input:focus::-webkit-input-placeholder {
+	color: transparent;
+}
+
+textarea:focus::-webkit-input-placeholder {
+	color: transparent;
+}
