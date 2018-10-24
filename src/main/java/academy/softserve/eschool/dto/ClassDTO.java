@@ -8,6 +8,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ClassDTO {
     @ApiModelProperty(required = false, notes = "ID of class")
     private int id;

@@ -35,12 +35,18 @@ public class ClassServiceImpl implements ClassService{
     @Override
     public ClassDTO findClassById(int id) {
         Clazz clazz = classRepository.findById(id).orElse(null);
-        ClassDTO classDTO = new ClassDTO();
-        classDTO.setClassName(clazz.getName());
-        classDTO.setClassYear(clazz.getAcademicYear());
-        classDTO.setClassDescription(clazz.getDescription());
-        classDTO.setIsActive(Boolean.toString(clazz.isActive()));
-        return classDTO;
+        return ClassDTO.builder()
+                .className(clazz.getName())
+                .classDescription(clazz.getDescription())
+                .classYear(clazz.getAcademicYear())
+                .isActive(Boolean.toString(clazz.isActive())).build();
+//
+//        classDTO = new ClassDTO();
+//        classDTO.setClassName(clazz.getName());
+//        classDTO.setClassYear(clazz.getAcademicYear());
+//        classDTO.setClassDescription(clazz.getDescription());
+//        classDTO.setIsActive(Boolean.toString(clazz.isActive()));
+//        return classDTO;
     }
 
     @Override
