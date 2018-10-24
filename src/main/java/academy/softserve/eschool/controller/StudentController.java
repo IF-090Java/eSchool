@@ -1,5 +1,6 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.converter.StudentDTOConverter;
 import academy.softserve.eschool.dto.EditStudentDTO;
 import academy.softserve.eschool.dto.StudentDTO;
 import academy.softserve.eschool.model.Clazz;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -23,8 +25,9 @@ import static org.springframework.boot.context.annotation.Configurations.getClas
 @RequestMapping("/students")
 @Api(description = "Student controller")
 public class StudentController {
-
+    @Autowired
     private StudentRepository studentRepository;
+
     private static List<StudentDTO> list = new ArrayList<>();
 
     static {
@@ -75,13 +78,13 @@ public class StudentController {
 //        studentDTO.setEmail(student.getEmail());
 //        studentDTO.setPhone(student.getPhone());
 
-        for (StudentDTO studentDTO1 : list){
-            if (studentDTO1.getId()==id) return studentDTO1;
-        }
-
-        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
-        StudentDTO studentDTO1 = new StudentDTO(1,"Ірина", "Самійлів", "Петрівна", "7-b", dateformat.parse("2003-01-15"), "stud.johnohn.doe", "john.doe@email.com", "09xxxxxxxx");
-        return studentDTO1;
+//        for (StudentDTO studentDTO1 : list){
+//            if (studentDTO1.getId()==id) return studentDTO1;
+//        }
+//
+//        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+//        StudentDTO studentDTO1 = new StudentDTO(1,"Ірина", "Самійлів", "Петрівна", "7-b", dateformat.parse("2003-01-15"), "stud.johnohn.doe", "john.doe@email.com", "09xxxxxxxx");
+        return StudentDTOConverter.convertOne(studentRepository.findById(id).get());
     }
 
     @PutMapping("/{id}")
@@ -105,6 +108,6 @@ public class StudentController {
             }
     )
     public List<StudentDTO> getStudentsByClass(@PathVariable int id){
-        return list;
+        return StudentDTOConverter.convertList(studentRepository.findByClazzId(id));
     }
 }

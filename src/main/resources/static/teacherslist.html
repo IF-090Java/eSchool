@@ -50,7 +50,8 @@
 		$.getJSON('http://localhost:8080/teachers', function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
-				$('#teacherslist').append($('<li>').append($('<a>').attr('href','/teachers/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
+				$('#teacherslist').append($('<li>').append($('<a>').attr('href','/teachers/'+item.id+'/edit').append(item.firstname)
+					.append(' ' + item.lastname).append(' ' + item.patronymic)))
 			});		
 		});
 

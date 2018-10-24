@@ -32,9 +32,6 @@ public class TeacherDTO {
     @ApiModelProperty(notes = "teacher login")
     private String login;
 
-    @ApiModelProperty(notes = "teacher password")
-    private String password;
-
     @ApiModelProperty(notes = "teacher email")
     private String email;
 

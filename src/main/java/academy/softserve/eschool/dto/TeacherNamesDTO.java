@@ -9,7 +9,7 @@ public class TeacherNamesDTO {
     private Integer id;
     private String firstname;
     private String lastname;
-
+    private String patronymic;
     public Integer getId() {
         return id;
     }
