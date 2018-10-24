@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `lesson` (
   `date` DATE NOT NULL,
   `file` LONGBLOB ,
   `hometask` VARCHAR(255) NULL DEFAULT NULL,
-  `lesson_number` TINYINT(1) NOT NULL,
+  `lesson_number` TINYINT(2) NOT NULL,
   `mark_type` ENUM('Labaratorna','Practic','Control','Module') CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   INDEX `FKlqfrfxjgij4gjebdvvaeoyr14` (`clazz_id` ASC),

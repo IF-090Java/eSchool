@@ -19,6 +19,6 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 			"    where lesson.date between :startDate and :endDate" + 
 			"    and students_classes.student_id = :studentId" + 
 			"    order by lesson.lesson_number", nativeQuery=true)
-	public List<DiaryEntryDTO> getDiary(@Param("studentId")int studentId, @Param("startDate")String startDate,
+	public List<Object[]> getDiary(@Param("studentId")int studentId, @Param("startDate")String startDate,
 			@Param("endDate")String endDate);
 }
