@@ -24,7 +24,7 @@ import java.util.*;
 public class ScheduleController {
 
     private static List<ScheduleDTO> list = new ArrayList<>();
-
+/*
     static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     static {
@@ -40,7 +40,7 @@ public class ScheduleController {
         }
 
     }
-
+*/
     @ApiOperation(value = "Creates a schedule for a class")
     @ApiResponses(
             value={

@@ -1,6 +1,4 @@
 --liquibase formatted sql
-DROP DATABASE ejournal;
-CREATE DATABASE ejournal;
 
 --changeset User1:1
 

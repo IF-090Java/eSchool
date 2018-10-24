@@ -19,11 +19,11 @@ public class TeacherJournalController {
     //Many To Many (a teacher can be conected with many journals and a journal contains many teachers)
 
     private static List<TeacherJournalDTO> list = new ArrayList<>();
-
+/*
     static {
         list.add(new TeacherJournalDTO(1, 2, 3, 2018));
     }
-
+*/
     @ApiOperation(value = "Gets a teacher with a journal")
     @ApiResponses(
             value={
