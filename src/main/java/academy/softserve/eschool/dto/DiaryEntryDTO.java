@@ -15,13 +15,13 @@ public class DiaryEntryDTO {
 	@ApiModelProperty(required = true, notes = "lesson date")
 	private Date date;
 	@ApiModelProperty(required = true, notes = "lesson number")
-	private int lessonNumber;
+	private byte lessonNumber;
 	@ApiModelProperty(required = true, notes = "name of lesson")
 	private String subjectName;
 	@ApiModelProperty(notes = "home work")
 	private String homeWork;
 	@ApiModelProperty(notes = "mark received by student")
-	private int mark;
+	private byte mark;
 	@ApiModelProperty(notes = "teachers note")
 	private String note;
 }
