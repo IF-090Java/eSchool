@@ -77,10 +77,10 @@
 </div>	
 <script type="text/javascript">
 	$(document).ready(function () {
-		$.getJSON('http://localhost:8080/classes', function (data) {
+		$.getJSON('http://localhost:8080/classes/active', function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
-				$('#classeslist').append($('<tr>').append($('<a>').attr('href','/classes/'+item.id+"/edit").append(item.className).append(' - '+item.classYear)).append($('</tr>')))
+				$('#classeslist').append($('<tr>').append($('<a>').attr('href','/classes/'+item.id+"/edit").append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
 			});
 		});
 	});

@@ -21,4 +21,7 @@ public class ClassDTO {
     @ApiModelProperty(required = false, notes = "Some additional information. Can be empty")
     private String classDescription;
 
+    @ApiModelProperty(required = true, notes = "Active or inactive in currently year")
+    private String isActive;
+
 }
