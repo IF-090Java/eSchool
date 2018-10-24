@@ -1,15 +1,15 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.service.StudentService;
 import academy.softserve.eschool.dto.EditStudentDTO;
 import academy.softserve.eschool.dto.StudentDTO;
-import academy.softserve.eschool.model.Clazz;
-import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.repository.StudentRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -23,8 +23,9 @@ import static org.springframework.boot.context.annotation.Configurations.getClas
 @RequestMapping("/students")
 @Api(description = "Student controller")
 public class StudentController {
-
+    @Autowired
     private StudentRepository studentRepository;
+
     private static List<StudentDTO> list = new ArrayList<>();
 
     static {
@@ -59,29 +60,8 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    @SneakyThrows
     public StudentDTO getStudent(@PathVariable int id) {
-//        Student student = studentRepository.getOne(id);
-//        StudentDTO studentDTO = new StudentDTO();
-//        studentDTO.setFirstname(student.getFirstName());
-//        studentDTO.setLastname(student.getLastName());
-//        studentDTO.setPatronymic(student.getPatronymic());
-//        studentDTO.setDateOfBirth(student.getDateOfBirth());
-//        for (Clazz clazz :student.getClasses()) {
-//            if (clazz.isActive())
-//                studentDTO.setClasse(clazz.getName());
-//        }
-//        studentDTO.setLogin(student.getLogin());
-//        studentDTO.setEmail(student.getEmail());
-//        studentDTO.setPhone(student.getPhone());
-
-        for (StudentDTO studentDTO1 : list){
-            if (studentDTO1.getId()==id) return studentDTO1;
-        }
-
-        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
-        StudentDTO studentDTO1 = new StudentDTO(1,"Ірина", "Самійлів", "Петрівна", "7-b", dateformat.parse("2003-01-15"), "stud.johnohn.doe", "john.doe@email.com", "09xxxxxxxx");
-        return studentDTO1;
+        return StudentService.getOne(studentRepository.findById(id).get());
     }
 
     @PutMapping("/{id}")
@@ -105,6 +85,6 @@ public class StudentController {
             }
     )
     public List<StudentDTO> getStudentsByClass(@PathVariable int id){
-        return list;
+        return StudentService.getAll(studentRepository.findByClazzId(id));
     }
 }

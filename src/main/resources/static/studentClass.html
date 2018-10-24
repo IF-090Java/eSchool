@@ -43,7 +43,9 @@
     </script> 
 <script type="text/javascript">
 	$(document).ready(function () {
-		$.getJSON('http://localhost:8080/students/classes/1', function (data) {
+        var pathArray = window.location.pathname.split('/');
+        var classId = pathArray[3];
+		$.getJSON('http://localhost:8080/students/classes/' + classId, function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
 				$('#studentList').append($('<li>').append($('<a>').attr('href','/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
