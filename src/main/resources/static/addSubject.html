@@ -3,58 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Додавання предмету</title>
+<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
 <style type="text/css">
 
 .main {
 	margin-left: 25%;
 	margin-right: 25%;
-	padding-top: 50px;
-	font-size: 16px;
 }
 
 .row {
-	display: table-row;
-}
-
-.header{
-	height: 50px;
-	background: #BCC8D2;
-	border: solid 1px black;
+	display: run-in;
 }
 
 label {
-	display: table-cell;
-	vertical-align: middle;
+	float: left;
+	margin-top: 1%;
+	margin-left: 10%;
 	font-size: 18px;
+	display: table-cell;
 }
 
 input {
-	margin-top: 0px;
-	margin-left: 15%;
+	margin-left: 5%;
 	height: 25px;
-	width: 300px;
+	width: 351.5px;
+	margin-bottom: 20px;
 }
 
-button {
-	height: 45px;
-	width: 150px;
-	font-size: 18px;
-	background-color: #4CAF50;
-	border: 1px solid #4CAF50;
-	vertical-align: middle;
-	color: white;
-	font-family: Georgia, 'Times New Roman', Times, serif;
-	border-radius: 3px;
-	margin-top: 50px;
-}
-
-::-webkit-input-placeholder{
-font-style: italic;
-color: #566573;
-}
-
-input:focus::-webkit-input-placeholder {
-color: transparent;
+textarea {
+	margin-left: 5.5%;
+	width: 350px;
 }
 
 </style>
@@ -62,45 +40,58 @@ color: transparent;
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
-<div class="header">
-	<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/admin">Домашня сторінка</a></span>
-	<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
-	<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
-	<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
-</div>
+<div class="header"></div>
 	<div class="main">
-		<div align="center" style="margin-bottom: 50px">
+		<div align="center" style="margin-bottom: 35px">
 			<h1>ДОДАВАННЯ НОВОГО ПРЕДМЕТУ</h1>
 		</div>
-		<fieldset style="border: 2px solid #4CAF50; padding: 40px;">
-		<legend style="font-size: 20px;">[ Додавання навчального предмету ]</legend>
-			<div class="row">
-				<label for="newSubjectName">Введіть назву предмету</label>
-				<input id="newName" type="text" name="newSubjectName" placeholder=" Інформатика">
-			</div>
-			<div align="center" style="text-align: center; margin: 0 auto;">
-				<button id="submitButton">Додати</button>
-			</div>
+		<form>
+			<fieldset>
+				<legend>[ Додавання навчального
+					предмету ]</legend>
+				<div class="row">
+					<label for="subjectName">Назва предмету</label> <input
+						id="subjectName" type="text" name="subject_name"
+						placeholder="Введіть назву предмету" required>
+				</div>
+				<div class="row">
+					<label for="subjectDesc">Опис предмету</label>
+					<textarea id="subjectDesc" name="subject_description" rows="5"
+						placeholder="Введіть опис предмету"></textarea>
+				</div>
+				<div align="center" style="text-align: center; margin: 0 auto;">
+					<button id="submit_button" type="submit">Додати</button>
+				</div>
+			</fieldset>
+		</form>
 	</div>
+	<script type="text/javascript"> 
+	 $(function() {
+      $(".header").load("/views/header.html");
+    });
+    </script> 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#submitButton').click(function(){
-				var obj = {id: 5, subjectName : $("#newName").val()};
+			$('form').on('submit', function(e) {
 
-				var formData = JSON.stringify(obj);
+				e.preventDefault();
+				var subjectName = $("#subjectName").val();
+				var subjectDescription = $("#subjectDesc").val();
+
 				$.ajax({
-					type: "POST",
-					url: "http://localhost:8080/subjects",
-					data: formData,
-					success: function(){ console.log(formData);},
-					dataType: "json",
-					contentType : "application/json"
+					type : "post",
+					url : "/subjects",
+					dataType : "json",
+					data : JSON.stringify({
+						"subjectName" : subjectName,
+						"subjectDescription" : subjectDescription
+					}),
+					contentType : "application/json",
+					success : function(responce) {
+						window.location.href = "/subjectList";
+					}
 				});
 			})
-			$.getJSON('http://localhost:8080/subjects', function(data) {
-				console.log(data);
-				$("#newName").attr("value", data.newSubjectName);
-			});
 		})
 	</script>
 </body>

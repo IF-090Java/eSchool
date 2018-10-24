@@ -24,23 +24,7 @@ import java.util.*;
 public class ScheduleController {
 
     private static List<ScheduleDTO> list = new ArrayList<>();
-/*
-    static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-    static {
-        List<SubjectDTO> listsub = new ArrayList<>();
-        listsub.add(new SubjectDTO(1, "Історія України"));
-
-        try {
-            list.add(new ScheduleDTO(1, format.parse("2018-10-18"), format.parse("2018-12-18"),
-                    new ClassDTO(1, 2018, "5-A","Класний керівник - Данилишин Богдан"), listsub, listsub,
-                    listsub, listsub, listsub));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-    }
-*/
     @ApiOperation(value = "Creates a schedule for a class")
     @ApiResponses(
             value={

@@ -3,14 +3,7 @@ package academy.softserve.eschool.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,14 +18,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Clazz {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@NotBlank
 	@Size(max=4)
 	private String name;
 	@Size(max=500)
 	private String description;
-	@NotBlank
+	@NotNull
 	@Min(value=2000)
 	@Column(name="academic_year")
 	private int academicYear;

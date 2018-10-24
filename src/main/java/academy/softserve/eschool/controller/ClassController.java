@@ -1,10 +1,14 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.ClassDTO;
+import academy.softserve.eschool.model.Clazz;
+import academy.softserve.eschool.repository.ClassRepository;
+import academy.softserve.eschool.service.ClassServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,15 +18,7 @@ import java.util.List;
 @RequestMapping("/classes")
 @Api(value = "classes", description = "Endpoints for classes")
 public class ClassController {
-    private static List<ClassDTO> list = new ArrayList<>();
-    static {
-        list.add(new ClassDTO(1, 2018, "5-A","Класний керівник - Данилишин Богдан"));
-        list.add(new ClassDTO(2, 2018, "5-Б","Класний керівник - Вакун Оксана"));
-        list.add(new ClassDTO(3, 2018, "5-В","Класний керівник - Фігурка Марія"));
-        list.add(new ClassDTO(4, 2018, "6-A","Класний керівник - Семчишин Олег"));
-        list.add(new ClassDTO(5, 2018, "6-Б","Класний керівник - Козин Лариса"));
-        list.add(new ClassDTO(6, 2018, "7-А","Класний керівник - Баран Ярослав"));
-    }
+    @Autowired ClassServiceImpl classService;
 
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully created"),
@@ -31,8 +27,7 @@ public class ClassController {
     @ApiOperation(value = "Create class")
     @PostMapping
     public ClassDTO addClass(@RequestBody ClassDTO newClassDTO){
-        newClassDTO.setId(7);
-        list.add(newClassDTO);
+        classService.saveClass(newClassDTO);
         return newClassDTO;
     }
 
@@ -43,21 +38,31 @@ public class ClassController {
     @ApiOperation(value = "Get Class", response = ClassDTO.class)
     @GetMapping("/{id}")
     public ClassDTO getClassById(@PathVariable int id){
-        for(ClassDTO classDTO : list){
-            if (classDTO.getId() == id) return classDTO;
-        }
-        return new ClassDTO(1, 2018,"8-Б", "Класний керівник - Кашуба Григорій");
+        return classService.findClassById(id);
     }
+
 
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Bad data"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Get Class", response = ClassDTO.class)
-    @GetMapping()
-    public List<ClassDTO> getAll(){
-        return list;
+    @ApiOperation(value = "Get active classes list", response = ClassDTO.class)
+    @GetMapping
+    public List<ClassDTO> getActiveClasses(){
+        return classService.findClassesByStatus(true);
     }
+
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad data"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
+    @ApiOperation(value = "Get inactive classes list", response = ClassDTO.class)
+    @GetMapping("/inactive")
+    public List<ClassDTO> getNonActiveClasses(){
+        return classService.findClassesByStatus(false);
+    }
+
 
     @ApiResponses(value = {
             @ApiResponse(code = 500, message = "Server error")
@@ -65,15 +70,7 @@ public class ClassController {
     @ApiOperation("Update class")
     @PutMapping("/{id}")
     public ClassDTO editClass(@PathVariable int id, @RequestBody ClassDTO editClass){
-        for (ClassDTO classDTO : list){
-            if (classDTO.getId() == id){
-                classDTO.setClassName(editClass.getClassName());
-                classDTO.setClassDescription(editClass.getClassDescription());
-                classDTO.setClassYear(editClass.getClassYear());
-                list.set(classDTO.getId()-1, classDTO);
-                return classDTO;
-            }
-        }
+        classService.updateClass(id, editClass);
         return editClass;
     }
 }
