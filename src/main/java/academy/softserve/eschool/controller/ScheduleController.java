@@ -51,6 +51,9 @@ public class ScheduleController {
     @PostMapping("/classes/{id_class}/schedule")
     public ScheduleDTO postSchedule(@PathVariable("id_class") final int id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
+        for(ScheduleDTO scheduleDTO1 : list){
+            if (scheduleDTO1.getClassName().getId() == id) list.remove(scheduleDTO1);
+        }
         scheduleDTO.setId_schedule(list.size());
         scheduleDTO.getClassName().setId(id);
         list.add(scheduleDTO);
@@ -65,14 +68,10 @@ public class ScheduleController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public ScheduleDTO getSchedule(@PathVariable("id_class") final int id_class) throws ParseException
-    {
-        for(ScheduleDTO scheduleDTO : list){
+    public ScheduleDTO getSchedule(@PathVariable("id_class") final int id_class) throws ParseException {
+        for (ScheduleDTO scheduleDTO : list) {
             if (scheduleDTO.getClassName().getId() == id_class) return scheduleDTO;
         }
-        return new ScheduleDTO(1, new Date(), new Date(),
-                new ClassDTO(id_class, 2018, "5-A","Класний керівник - Данилишин Богдан"), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        return null;
     }
-
 }

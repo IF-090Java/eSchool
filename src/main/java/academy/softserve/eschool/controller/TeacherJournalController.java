@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 //END POINTS  /teachers/{id}/classes/{id}/subjects/{id}/journal
-//            /teachers/journal/connection
 
 @RestController
 @RequestMapping("")
