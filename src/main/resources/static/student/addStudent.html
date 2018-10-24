@@ -8,14 +8,24 @@
             $('form').on('submit', function (e) {
 
                 e.preventDefault();
-                var firstName   = $("#firstName").val();
-                var lastName    = $("#lastName").val();
-                var patronymic  = $("#patronymic").val();
-                var classe      = $("#selectClass option:selected").val();
+                var firstName = $("#firstName").val();
+                var lastName = $("#lastName").val();
+                var patronymic = $("#patronymic").val();
+                var classe = $("#selectClass option:selected").val();
                 var dateOfBirth = $("#dateOfBirth").val();
-                var login       = $("#login").val();
-                var mail        = $("#mail").val();
-                var mobile      = $("#mobile").val();
+                var login = $("#login").val();
+                var mail = $("#mail").val();
+                var mobile = $("#mobile").val();
+
+
+                //$("#login").attr("value",
+                //  $.ajax({
+                //    type: "GET",
+                //  url: "/login", data: JSON.stringify({
+                //    "firstname": firstName,
+                //  "lastname": lastName
+                // })
+                //}).responseText);
 
                 $.ajax({
                     type: "post",
@@ -82,8 +92,8 @@
                     <input id="patronymic" type="text" name="patronymic" required>
                 </div>
                 <div class="row">
-                    <label for="userName">Логін:</label>
-                    <input id="userName" type="text" name="login">
+                    <label for="login">Логін:</label>
+                    <input id="login" type="text" name="login">
                 </div>
                 <div class="row">
                     <label for="selectClass">Класс:</label>

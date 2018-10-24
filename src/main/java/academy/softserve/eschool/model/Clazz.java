@@ -4,11 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,6 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name="clazz")
 @Data
 @NoArgsConstructor
 public class Clazz {
@@ -31,8 +34,10 @@ public class Clazz {
 	private String description;
 	@NotBlank
 	@Min(value=2000)
+	@Column(name="academic_year")
 	private int academicYear;
 	@NotNull
+	@Column(name="is_active")
 	private boolean isActive;
 	@ManyToMany(mappedBy = "classes", 
 	        cascade = {CascadeType.PERSIST, CascadeType.MERGE})

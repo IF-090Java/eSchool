@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS `class_teacher_subject_link` (
   `teacher_id` INT(11) NOT NULL,
   `subject_id` INT(11) NOT NULL,
   `clazz_id` INT(11) NOT NULL,
+  `is_active` BIT(1) NOT NULL,
   PRIMARY KEY (`teacher_id`, `subject_id`, `clazz_id`),
   INDEX `FK2cxobx1gt9ypn7xqvnnu5kelo` (`subject_id` ASC),
   INDEX `FKs14ndc8vkc4tq78by75egflka` (`clazz_id` ASC),
