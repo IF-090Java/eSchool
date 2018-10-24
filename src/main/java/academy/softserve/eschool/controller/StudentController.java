@@ -19,8 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.boot.context.annotation.Configurations.getClasses;
-
 @RestController
 @RequestMapping("/students")
 @Api(description = "Student controller")
