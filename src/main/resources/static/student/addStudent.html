@@ -122,6 +122,7 @@
                     contentType: "application/json",
 
                     success: function (responce) {
+                        $("*").val("");
                         $("#message").html("Учнь " + lastName + " " + firstName + " доданий введіть дані наступного учня");
                     }
                 });

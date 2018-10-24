@@ -54,8 +54,8 @@
                     <input id="patronymic" type="text" name="patronymic" required>
                 </div>
                 <div class="row">
-                    <label for="userName">Логін:</label>
-                    <input id="userName" type="text" name="login">
+                    <label for="login">Логін:</label>
+                    <input id="login" type="text" name="login">
                 </div>
                 <div class="row">
                     <label for="dateOfBirth">Дата народження:</label>
@@ -108,6 +108,7 @@
                         }),
                         contentType: "application/json",
                         success: function (responce) {
+                            $("*").val("");
                             $("#message").html("Вчитель " + lastName + " " + firstName + " доданий введіть дані наступного вчителя");
                         }
                     });
