@@ -10,8 +10,8 @@ import academy.softserve.eschool.model.Mark;
 
 public interface MarkRepository extends JpaRepository<Mark, Integer> {
 	
-	@Query(value="select m from mark m left join lesson l on m.lesson_id = l.id"
-			+ "where (:subjectId is null or m.subject_id = :subjectId)"
+	@Query(value="select * from mark m left join lesson l on m.lesson_id = l.id"
+			+ "where (:subjectId is null or l.subject_id = :subjectId)"
 			+ "and (:classId is null or l.clazz_id = :classId)"
 			+ "and (:studentId is null or m.student_id = :studentId)"
 			+ "and (:startDate is null or l.date >= :startDate)"

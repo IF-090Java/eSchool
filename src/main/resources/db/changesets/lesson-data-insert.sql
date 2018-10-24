@@ -290,4 +290,4 @@ INSERT INTO lesson(clazz_id, subject_id, date, file, hometask, lesson_number, ma
 (4, 4, '2018-09-28', null, 'null', 1, 'Control'),
 (4, 4, '2018-09-28', null, 'null', 2, 'Practic'),
 (4, 10, '2018-09-28', null, 'null', 3, 'Labaratorna'),
-(4, 2, '2018-09-28', null, 'Домашнє завдання #26, #10', 4, 'Module'),
+(4, 2, '2018-09-28', null, 'Домашнє завдання #26, #10', 4, 'Module');
