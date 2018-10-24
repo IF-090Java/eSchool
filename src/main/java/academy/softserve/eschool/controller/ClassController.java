@@ -47,7 +47,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get active classes list", response = ClassDTO.class)
-    @GetMapping("/active")
+    @GetMapping
     public List<ClassDTO> getActiveClasses(){
         return classService.findClassesByStatus(true);
     }

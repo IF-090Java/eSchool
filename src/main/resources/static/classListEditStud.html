@@ -70,7 +70,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/classes/active', function (data) {
+        $.getJSON('http://localhost:8080/classes', function (data) {
             console.log(data);
             $.each(data, function (i, item) {
                 $('#classeslist').append($('<tr>').append($('<a>').attr('href','/students/class/1').append(item.className).append(' - '+item.classYear)).append($('</tr>')))
