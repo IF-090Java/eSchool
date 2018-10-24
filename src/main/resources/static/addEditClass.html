@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Редагування класу</title>
+     <link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
     <style type="text/css">
 
         .container {
@@ -65,14 +66,6 @@
         .main {
             margin-left: 30%;
             margin-right: 30%;
-            padding-top: 50px;
-            font-size: 16px;
-        }
-
-        .header{
-            height: 50px;
-            background: #BCC8D2;
-            border: solid 1px black;
         }
 
         .row {
@@ -97,42 +90,11 @@
             margin-left: 15%;
             width: 300px;
         }
-
-        button {
-            height: 45px;
-            width: 150px;
-            font-size: 18px;
-            background-color: #4CAF50;
-            border: 1px solid #4CAF50;
-            vertical-align: middle;
-            color: white;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            border-radius: 3px;
-            margin-top: 50px;
-        }
-
-        .isActive {
-
-        }
-
-        ::-webkit-input-placeholder{
-            color: #566573;
-        }
-
-        input:focus::-webkit-input-placeholder {
-            color: transparent;
-        }
-
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="header">
-    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/admin">Домашня сторінка</a></span>
-    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
-    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
-    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
-</div>
+<div class="header"></div>
 <div class="main">
     <div align="center" style="margin-bottom: 50px">
         <h1>РЕДАГУВАТИ КЛАС</h1>
@@ -165,6 +127,11 @@
         </fieldset>
     </form>
 </div>
+<script type="text/javascript">
+	 $(function() {
+      $(".header").load("/views/header.html");
+    });
+    </script>
 <script type="text/javascript">
     if (window.location.href.toString() == "http://localhost:8080/classes/add"){
 

@@ -29,7 +29,7 @@ public class ScheduleController {
 
     static {
         List<SubjectDTO> listsub = new ArrayList<>();
-        listsub.add(new SubjectDTO(1, "Історія України"));
+        listsub.add(new SubjectDTO(1, "Історія України", "Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу"));
 
         try {
             list.add(new ScheduleDTO(1, format.parse("2018-10-18"), format.parse("2018-12-18"),
