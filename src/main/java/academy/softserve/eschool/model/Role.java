@@ -1,5 +1,5 @@
 package academy.softserve.eschool.model;
 
 public enum Role {
-	TEACHER, STUDENT, ADMIN
+	ROLE_ADMIN, ROLE_TEACHER, ROLE_USER
 }

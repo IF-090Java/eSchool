@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -24,6 +25,7 @@ import static org.springframework.boot.context.annotation.Configurations.getClas
 @Api(description = "Student controller")
 public class StudentController {
 
+    @Autowired
     private StudentRepository studentRepository;
     private static List<StudentDTO> list = new ArrayList<>();
 
@@ -61,19 +63,19 @@ public class StudentController {
     )
     @SneakyThrows
     public StudentDTO getStudent(@PathVariable int id) {
-//        Student student = studentRepository.getOne(id);
-//        StudentDTO studentDTO = new StudentDTO();
-//        studentDTO.setFirstname(student.getFirstName());
-//        studentDTO.setLastname(student.getLastName());
-//        studentDTO.setPatronymic(student.getPatronymic());
-//        studentDTO.setDateOfBirth(student.getDateOfBirth());
-//        for (Clazz clazz :student.getClasses()) {
-//            if (clazz.isActive())
-//                studentDTO.setClasse(clazz.getName());
-//        }
-//        studentDTO.setLogin(student.getLogin());
-//        studentDTO.setEmail(student.getEmail());
-//        studentDTO.setPhone(student.getPhone());
+        Student student = studentRepository.findStudentById(id);
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setFirstname(student.getFirstName());
+        studentDTO.setLastname(student.getLastName());
+        studentDTO.setPatronymic(student.getPatronymic());
+        studentDTO.setDateOfBirth(student.getDateOfBirth());
+        for (Clazz clazz :student.getClasses()) {
+            if (clazz.isActive())
+                studentDTO.setClasse(clazz.getName());
+        }
+        studentDTO.setLogin(student.getLogin());
+        studentDTO.setEmail(student.getEmail());
+        studentDTO.setPhone(student.getPhone());
 
         for (StudentDTO studentDTO1 : list){
             if (studentDTO1.getId()==id) return studentDTO1;
