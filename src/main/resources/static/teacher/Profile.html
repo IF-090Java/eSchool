@@ -18,7 +18,11 @@
                 $('#login').append(data.login);
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
-
+                if(data.avatar !== null) {
+                    if (data.avatar.length > 0) {
+                        $("#avatar").attr("src", data.avatar);
+                    }
+                }
                 $('#classes').attr("href", "/journalsList/view");
                 $('#statistics').attr("href", "/stats");
                 $('#edit').attr("href", "/teacher/" + id + "/edit");
@@ -69,7 +73,7 @@
     <br><hr>
 
     <div id="info">
-        <img src="/img/profile.png" id="icon">
+        <img id="avatar" src="/img/profile.png" id="icon">
         <div id="subjectsList">
             <div id="sub">Предмети:</div>
             <ul id="list">

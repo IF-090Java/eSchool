@@ -1,6 +1,7 @@
 package academy.softserve.eschool.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,11 +12,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name="class_teacher_subject_link")
 @Data
+@ToString(of = {"clazz"})
 @NoArgsConstructor
 public class ClassTeacherSubjectLink implements Serializable{
 	@Id
@@ -30,7 +34,7 @@ public class ClassTeacherSubjectLink implements Serializable{
 	@NotNull
 	@Column(name="is_active")
 	private boolean isActive;
-	
+
 	public ClassTeacherSubjectLink(Clazz clazz, Teacher teacher, Subject subject, boolean isActive) {
 		super();
 		this.clazz = clazz;
@@ -38,4 +42,5 @@ public class ClassTeacherSubjectLink implements Serializable{
 		this.subject = subject;
 		this.isActive = isActive;
 	}
+
 }

@@ -13,12 +13,14 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name="teacher")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true, of=("id"))
+@EqualsAndHashCode(callSuper = true, of=("id"))
 public class Teacher extends User{
 	
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "teacher")

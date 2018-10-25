@@ -1,5 +1,6 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.dto.EditTeacherDTO;
 import academy.softserve.eschool.service.StudentService;
 import academy.softserve.eschool.dto.EditStudentDTO;
 import academy.softserve.eschool.dto.StudentDTO;
@@ -26,20 +27,12 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    StudentService studentService;
+
     private static List<StudentDTO> list = new ArrayList<>();
 
-    static {
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd");
-        try {
-        list.add(new StudentDTO(1, "Василь", "Cемків", "Іванович", "6-а", dateformat.parse("2006-10-15"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(2, "Віктор", "Романчук", "Андрійович", "7-б,", dateformat.parse("2007-10-15"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(3, "Ігор", "Кривенчук", "Іванович", "5-a", dateformat.parse("2004-10-15"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(4, "Вікторія", "Приймак", "Петрович", "7-a", dateformat.parse("2007-10-15"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        list.add(new StudentDTO(5, "Ольга", "Семенів", "Іванівна", "5-а", dateformat.parse("2004-10-15"), "stud.john.doe", "john.doe@email.com", "09xxxxxxxx"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
+
     @PostMapping
     @ApiOperation(value = "Add student, first name, last name and class passed in html")
     @ApiResponses(
@@ -61,21 +54,9 @@ public class StudentController {
             }
     )
     public StudentDTO getStudent(@PathVariable int id) {
-        return StudentService.getOne(studentRepository.findById(id).get());
+        return studentService.getOne(studentRepository.findById(id).get());
     }
 
-    @PutMapping("/{id}")
-    @ApiOperation(value = "update profile of student")
-    @ApiResponses(
-            value = {
-                    @ApiResponse( code = 201 , message = "Successfully created"),
-                    @ApiResponse( code = 400, message = "Bad data"),
-                    @ApiResponse(code = 500, message = "Server error")
-            }
-    )
-    public void updateStudent(@RequestBody EditStudentDTO student, @PathVariable String id){
-        // someservice.update(id,student)
-    }
     @GetMapping("/classes/{id}")
     @ApiOperation(value = "get students from class")
     @ApiResponses(
@@ -85,6 +66,21 @@ public class StudentController {
             }
     )
     public List<StudentDTO> getStudentsByClass(@PathVariable int id){
-        return StudentService.getAll(studentRepository.findByClazzId(id));
+        return studentService.getAll(studentRepository.findByClazzId(id));
     }
+    @PutMapping("/{id}")
+    @ApiOperation(value = "update profile of student")
+    @ApiResponses(
+            value = {
+                    @ApiResponse( code = 201 , message = "Successfully created"),
+                    @ApiResponse( code = 400, message = "Bad data"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    public void updateStudent(@RequestBody EditTeacherDTO student, @PathVariable int id){
+
+        studentService.updateStudent(studentRepository.findById(id).get(),student);
+
+    }
+
 }

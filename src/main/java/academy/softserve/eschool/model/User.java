@@ -27,7 +27,7 @@ public class User {
 	@Size(max=100, min=5)
 	private String login;
 	@NotBlank
-	@Size(max=40, min=5)
+	@Size(max=40)
 	private String password;
 	@Email
 	private String email;
@@ -55,7 +55,7 @@ public class User {
     private Sex sex;
     @Size(max=20)
     private String phone;
-    @Size(max=200)
+    @Size(max=9999999)
     private String avatar;
     @Size(max=200)
     private String description;

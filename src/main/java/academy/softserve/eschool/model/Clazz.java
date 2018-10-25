@@ -12,10 +12,12 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name="clazz")
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(exclude={"students", "CTSlinks", "schedule"})
+@ToString(of = {"id","name"})
 @Data
 @NoArgsConstructor
 public class Clazz {

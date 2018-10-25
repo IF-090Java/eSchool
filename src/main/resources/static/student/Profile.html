@@ -18,7 +18,11 @@
                 $('#class').append(data.classe);
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
-
+                if(data.avatar !== null) {
+                    if (data.avatar.length > 0) {
+                        $("#avatar").attr("src", data.avatar);
+                    }
+                }
                 $('#diary').attr("href", "/diary/" + id);
                 $('#edit').attr("href", "/student/" + id + "/edit");
             });
@@ -42,7 +46,7 @@
     </div>
     <br><hr>
 
-    <img src="/img/profile.png">
+    <img id="avatar" src="/img/profile.png">
     <div class="div">
         <h2 id="initials"></h2>
         <h3 id="login">Логін: </h3>

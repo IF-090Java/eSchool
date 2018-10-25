@@ -1,5 +1,6 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.service.TeacherService;
 import academy.softserve.eschool.dto.EditTeacherDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
@@ -23,6 +24,13 @@ public class TeacherController {
     @Autowired
     private TeacherRepository teacherRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+
+    @Autowired
+    private TeacherService teacherService;
+
     @GetMapping("")
     @ApiOperation(value = "Get list of teacher(only id and names)")
     @ApiResponses(
@@ -32,7 +40,7 @@ public class TeacherController {
             }
     )
     public List<TeacherDTO> getall(){
-        return TeacherService.getAll(teacherRepository.findAll());
+        return teacherService.getAll(teacherRepository.findAll());
     }
   
     @PostMapping
@@ -56,7 +64,8 @@ public class TeacherController {
             }
     )
     public TeacherDTO getTeacher(@PathVariable int id){
-        return TeacherService.getOne(teacherRepository.findById(id).get());
+        System.out.println(teacherRepository.findById(id).get());
+        return teacherService.getOne(teacherRepository.findById(id).get());
     }
     @PutMapping("/{id}")
     @ApiOperation(value = "update profile of teacher")
@@ -68,7 +77,8 @@ public class TeacherController {
             }
     )
     public void updateTeacher(@RequestBody EditTeacherDTO teacher, @PathVariable int id){
-        // someservice.update(id,teacher)
+
+        teacherService.updateTeacher(userRepository.findById(id).get(),teacher);
     }
 
 
