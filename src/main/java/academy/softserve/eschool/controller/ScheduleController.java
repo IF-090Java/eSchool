@@ -38,7 +38,7 @@ public class ScheduleController {
         for(ScheduleDTO scheduleDTO1 : list){
             if (scheduleDTO1.getClassName().getId() == id) list.remove(scheduleDTO1);
         }
-        scheduleDTO.setId_schedule(list.size());
+        scheduleDTO.setId_schedule(list.size() + 1);
         scheduleDTO.getClassName().setId(id);
         list.add(scheduleDTO);
         return scheduleDTO; //get new schedule
