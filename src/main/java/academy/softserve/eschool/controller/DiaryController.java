@@ -33,8 +33,13 @@ public class DiaryController {
 			@ApiParam(value = "id of required student", required = true) @PathVariable Integer studentId){
 		
 		List<DiaryEntryDTO> diary = diaryService.getDiary(weekStartDate, studentId);
-		GeneralResponseWrapper<List<DiaryEntryDTO>> response = 
-				new GeneralResponseWrapper<>(new Status(200, "OK"), diary);
+		GeneralResponseWrapper<List<DiaryEntryDTO>> response;
+		if (!diary.isEmpty()) {
+			response = new GeneralResponseWrapper<>(new Status(200, "OK"), diary);
+		} else {
+			response = new GeneralResponseWrapper<>(new Status(204, "No data for this period"), diary);
+		}
+			
 		return response;
 	}
 }
