@@ -15,11 +15,13 @@ import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name="subject")
+@ToString(of = {"id", "name"})
 public class Subject {
 	@Id
 	@GeneratedValue

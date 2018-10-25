@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name="user")
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(of="id")
 @NoArgsConstructor
+@ToString(of = {"id", "login"})
 public class User {
 	@Id
 	@GeneratedValue
