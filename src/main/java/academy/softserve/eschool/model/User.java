@@ -9,11 +9,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
+@AllArgsConstructor
 @Table(name="user")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data

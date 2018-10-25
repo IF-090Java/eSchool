@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static academy.softserve.eschool.service.StudentService.addStudentServ;
+
 @RestController
 @RequestMapping("/students")
 @Api(description = "Student controller")
@@ -49,8 +51,8 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public StudentDTO addStudent(@RequestBody StudentDTO student) {
-        return student;
+    public void addStudent(@RequestBody StudentDTO student) {
+        addStudentServ(student);
     }
 
     @GetMapping("/{id}")
