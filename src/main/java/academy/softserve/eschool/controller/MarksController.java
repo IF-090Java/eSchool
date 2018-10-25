@@ -35,11 +35,13 @@ public class MarksController {
 			@ApiParam(value = "get marks received after specified date", required = false) @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodStart,
 			@ApiParam(value = "get marks received before specified date", required = false) @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodEnd){
 		
-		System.out.println(periodStart);
-		System.out.println(periodEnd);
+		GeneralResponseWrapper<List<MarkDataPointDTO>> response;
 		List<MarkDataPointDTO> dataPoints = markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd);
-		GeneralResponseWrapper<List<MarkDataPointDTO>> response = 
-				new GeneralResponseWrapper<>(new Status(200, "ok"), dataPoints);
+		if (!dataPoints.isEmpty()) {
+			response = new GeneralResponseWrapper<>(new Status(200, "OK"), dataPoints);
+		} else {
+			response = new GeneralResponseWrapper<>(new Status(204, "No data for this request"), dataPoints);
+		}
 		return response;
 	}
 
