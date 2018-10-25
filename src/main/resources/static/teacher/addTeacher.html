@@ -31,87 +31,90 @@
     <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
     <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
 </div>
+    <div id="message" align="center" style="border: medium solid black; background: lightgoldenrodyellow; color: red;"></div>
+
     <div align="center" style="margin-bottom: 50px">
         <h1>ДОДАВАННЯ НОВОГО ВЧИТЕЛЯ</h1>
     </div>
-<form>
-    <div class="main">
-        <fieldset>
-            <legend style="font-size: 19px">Особита інформація</legend>
+    <form>
+        <div class="main">
+            <fieldset>
+                <legend style="font-size: 19px">Особита інформація</legend>
 
-            <div class="row">
-                <label for="lastName">Прізвище:</label>
-                <input id="lastName" type="text" name="lastname" required>
-            </div>
-            <div class="row">
-                <label for="firstName">Ім'я:</label>
-                <input id="firstName" type="text" name="firstname" required>
-            </div>
-            <div class="row">
-                <label for="patronymic">По-батькові:</label>
-                <input id="patronymic" type="text" name="patronymic" required>
-            </div>
-            <div class="row">
-                <label for="userName">Логін:</label>
-                <input id="userName" type="text" name="login">
-            </div>
-            <div class="row">
-                <label for="dateOfBirth">Дата народження:</label>
-                <input id="dateOfBirth" type="date" name="dateOfBirth" required>
-            </div>
-            <div class="row">
-                <label for="mail">Електронна адреса:</label>
-                <input id="mail" type="text" name="email">
-            </div>
-            <div class="row">
-                <label for="mobile">Телефон:</label>
-                <input id="mobile" type="text" name="phone">
-            </div>
-            <div align="center">
-                <button id="submitButton" type="Submit">Зберегти</button>
-            </div>
-        </fieldset>
-    </div>
-    <hr>
-   <script type="text/javascript">
-		$(function() {
-			$(".header").load("/views/header.html");
-		});
-	</script>
-  <script type="text/javascript">
-        $(document).ready(function () {
-            $('form').on('submit', function (e) {
-
-                e.preventDefault();
-                var firstName   = $("#firstName").val();
-                var lastName    = $("#lastName").val();
-                var patronymic  = $("#patronymic").val();
-                var dateOfBirth = $("#dateOfBirth").val();
-                var login       = $("#login").val();
-                var mail        = $("#mail").val();
-                var mobile      = $("#mobile").val();
-
-                $.ajax({
-                    type: "post",
-                    url: "/teachers",
-                    dataType: "json",
-                    data: JSON.stringify({
-                        "firstname"  :   firstName,
-                        "lastname"   :   lastName,
-                        "patronymic" :   patronymic,
-                        "dateOfBirth":   dateOfBirth,
-                        "login"      :   login,
-                        "email"      :   mail,
-                        "phone"      :   mobile
-                    }),
-                    contentType: "application/json",
-                    success: function (responce) {
-                        window.location.href = "/teachers/add";
-                    }
-                });
+                <div class="row">
+                    <label for="lastName">Прізвище:</label>
+                    <input id="lastName" type="text" name="lastname" required>
+                </div>
+                <div class="row">
+                    <label for="firstName">Ім'я:</label>
+                    <input id="firstName" type="text" name="firstname" required>
+                </div>
+                <div class="row">
+                    <label for="patronymic">По-батькові:</label>
+                    <input id="patronymic" type="text" name="patronymic" required>
+                </div>
+                <div class="row">
+                    <label for="login">Логін:</label>
+                    <input id="login" type="text" name="login">
+                </div>
+                <div class="row">
+                    <label for="dateOfBirth">Дата народження:</label>
+                    <input id="dateOfBirth" type="date" name="dateOfBirth" required>
+                </div>
+                <div class="row">
+                    <label for="mail">Електронна адреса:</label>
+                    <input id="mail" type="text" name="email">
+                </div>
+                <div class="row">
+                    <label for="mobile">Телефон:</label>
+                    <input id="mobile" type="text" name="phone">
+                </div>
+                <div align="center">
+                    <button id="submitButton" type="Submit">Зберегти</button>
+                </div>
+            </fieldset>
+        </div>
+        <hr>
+       <script type="text/javascript">
+            $(function() {
+                $(".header").load("/views/header.html");
             });
-        })
-    </script>
-</form>
+        </script>
+      <script type="text/javascript">
+            $(document).ready(function () {
+                $('form').on('submit', function (e) {
+
+                    e.preventDefault();
+                    var firstName   = $("#firstName").val();
+                    var lastName    = $("#lastName").val();
+                    var patronymic  = $("#patronymic").val();
+                    var dateOfBirth = $("#dateOfBirth").val();
+                    var login       = $("#login").val();
+                    var mail        = $("#mail").val();
+                    var mobile      = $("#mobile").val();
+
+                    $.ajax({
+                        type: "post",
+                        url: "/teachers",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "firstname"  :   firstName,
+                            "lastname"   :   lastName,
+                            "patronymic" :   patronymic,
+                            "dateOfBirth":   dateOfBirth,
+                            "login"      :   login,
+                            "email"      :   mail,
+                            "phone"      :   mobile
+                        }),
+                        contentType: "application/json",
+                        success: function (responce) {
+                            $("*").val("");
+                            $("#message").html("Вчитель " + lastName + " " + firstName + " доданий введіть дані наступного вчителя");
+                        }
+                    });
+                });
+            })
+      </script>
+    </form>
 </body>
 </html>
