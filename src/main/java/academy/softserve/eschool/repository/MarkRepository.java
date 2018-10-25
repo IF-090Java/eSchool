@@ -19,8 +19,8 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
 			+ "and (:studentId is null or m.student_id = :studentId)"
 			+ "and (:startDate is null or l.date >= :startDate)"
 			+ "and (:endDate is null or l.date <= :endDate) "
-			+ "group by l.date", nativeQuery=true)
-	public List<Object[]> findAll(@Param("subjectId") Integer subjectId, @Param("classId")Integer classId,
+			+ "group by l.date order by l.date", nativeQuery=true)
+	public List<Object[]> getFilteredByParamsGroupedByDate(@Param("subjectId") Integer subjectId, @Param("classId")Integer classId,
 			@Param("studentId") Integer studentId, @Param("startDate") String startDate, @Param("endDate") String endDate);
 	
 	
