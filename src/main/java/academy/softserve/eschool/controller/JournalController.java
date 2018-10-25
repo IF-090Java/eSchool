@@ -47,14 +47,6 @@ public class JournalController {
     )
     @GetMapping("/teachers/{idTeacher}")
     public List<JournalDTO> getJournalsTeacher(@PathVariable int idTeacher){
-        /*List<JournalDTO> list = new ArrayList<>();
-        list.add(new JournalDTO(1,1,"Історія України","5-A",new Date(),new Date()));
-        list.add(new JournalDTO(4,2,"Українська мова","5-Б",new Date(),new Date()));
-        list.add(new JournalDTO(3,2,"Англійська мова","5-Б",new Date(),new Date()));
-        list.add(new JournalDTO(2,3,"Інформатика","5-В",new Date(),new Date()));
-        list.add(new JournalDTO(1,4,"Історія України","6-А",new Date(),new Date()));
-        return list;*/
-        //return journalServiceImpl.getSubjectsByTeacher(idTeacher);
         return journalServiceImpl.getSubjectsByTeacher(idTeacher);
     }
 
