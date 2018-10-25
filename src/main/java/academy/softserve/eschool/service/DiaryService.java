@@ -33,9 +33,9 @@ public class DiaryService implements DiaryServiceBase{
 					Date date = (Date)obj[0];
 					byte no = (byte)obj[1];
 					String lessonName = (String)obj[2];
-					String hometask = (String)obj[3];
+					String hometask = obj[3] == null ? "" :(String)obj[3];
 					byte mark = obj[4] == null ? 0 : (byte)obj[4];
-					String note = (String)obj[5];
+					String note = obj[5] == null ? "" : (String)obj[5];
 					return new DiaryEntryDTO(date, no, lessonName, hometask, mark, note);
 				})
 				.collect(Collectors.toList());
