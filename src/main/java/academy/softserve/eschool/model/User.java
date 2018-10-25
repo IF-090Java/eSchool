@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -49,6 +50,9 @@ public class User {
 	@Past
 	@Temporal(TemporalType.DATE)
 	@Column(name="date_of_birth")
+	@JsonFormat(
+			shape = JsonFormat.Shape.STRING,
+			pattern = "yyyy-MM-dd", timezone="EST")
     private Date dateOfBirth;
 	@Enumerated(EnumType.STRING)
 	@Column(length = 6)

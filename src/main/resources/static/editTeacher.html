@@ -137,7 +137,6 @@
 		var subjectId = pathArray[2];
 		var fileBase64;
         var referrer =  document.referrer;
-		console.log(referrer);
 
 		if(referrer.indexOf("profile")>-1) {
             $("#homepage").attr("href", referrer);
@@ -173,7 +172,7 @@
             if(window.location.href.indexOf("teacher/") > -1  || window.location.href.indexOf("student/") > -1){
             	$("#loggeduser").append(data.login);
             } else {
-                $("#loggeduser").append("Admon 01");
+                $("#loggeduser").append("Admin01");
 			}
             $("#fname").attr("value", data.firstname);
             $("#lname").attr("value", data.lastname);
@@ -208,9 +207,6 @@
 
 
 		$('#submitButton').click(function(){
-		    console.log($("#dateOfBirth").val());
-		    var date = $("#dateOfBirth").val();
-            console.log(date);
 			if (window.location.href.indexOf("teacher") > -1) {
 				var obj = {firstname : $("#fname").val() , lastname: $("#lname").val(),
 					patronymic: $("#patronymic").val(), dateOfBirth: $("#dateOfBirth").val(),
@@ -230,20 +226,20 @@
 		if (window.location.href.indexOf("students/")> -1) {
 				obj.oldPass = "adminchangedpass"
 			}
+
 	}
 	var formData = JSON.stringify(obj);
-	console.log(formData);
 	$.ajax({
 		type: "PUT",
 		url: "http://localhost:8080/" + endpoint + "/" + subjectId,
 		data: formData,
 		success: function(){ 
-			console.log("success");
 			console.log(formData);
 		},
 		dataType: "json",
 		contentType : "application/json"
 	})
+            window.history.back();
 })
 		if (window.location.href.indexOf("student") > -1) {
 			$.getJSON('http://localhost:8080/students/' + subjectId, function (data) {

@@ -4,27 +4,19 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="lesson")
 @Data
+@EqualsAndHashCode(exclude = {"marks","subject","clazz"})
 @NoArgsConstructor
 public class Lesson {
 	@Id
@@ -39,6 +31,7 @@ public class Lesson {
 	private Date date;
 	@Size(max=500)
 	private String hometask;
+	@Enumerated(EnumType.STRING)
 	@Column(name="mark_type")
 	private MarkType markType;
 	@Lob

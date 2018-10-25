@@ -1,20 +1,16 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.dto.EditTeacherDTO;
+import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.service.StudentService;
-import academy.softserve.eschool.dto.EditStudentDTO;
 import academy.softserve.eschool.dto.StudentDTO;
 import academy.softserve.eschool.repository.StudentRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +73,7 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public void updateStudent(@RequestBody EditTeacherDTO student, @PathVariable int id){
+    public void updateStudent(@RequestBody EditUserDTO student, @PathVariable int id){
 
         studentService.updateStudent(studentRepository.findById(id).get(),student);
 

@@ -1,11 +1,9 @@
 package academy.softserve.eschool.service;
 
-import academy.softserve.eschool.dto.EditTeacherDTO;
+import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
-import academy.softserve.eschool.dto.TeacherNamesDTO;
 import academy.softserve.eschool.model.Teacher;
 import academy.softserve.eschool.model.User;
-import academy.softserve.eschool.repository.TeacherRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +41,7 @@ public class TeacherService {
                 .build();
     }
 
-    public void updateTeacher(User oldUser, EditTeacherDTO edited){
+    public void updateTeacher(User oldUser, EditUserDTO edited){
 
         oldUser.setFirstName(edited.getFirstname());
         oldUser.setLastName(edited.getLastname());
@@ -52,7 +50,8 @@ public class TeacherService {
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
-        if(oldUser.getPassword().equals(edited.getOldPass()) || edited.getOldPass().equals("adminchangedpass")){
+        if((oldUser.getPassword().equals(edited.getOldPass()) || edited.getOldPass().equals("adminchangedpass"))
+                 && edited.getNewPass().length()>0){
             oldUser.setPassword(edited.getNewPass());
         }
         oldUser.setLogin(edited.getLogin());

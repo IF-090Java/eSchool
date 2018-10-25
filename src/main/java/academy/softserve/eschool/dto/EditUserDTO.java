@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EditTeacherDTO {
+public class EditUserDTO {
 
     @ApiModelProperty(notes = "contains student first name")
     private String firstname;
@@ -25,7 +25,7 @@ public class EditTeacherDTO {
     @ApiModelProperty(notes = "contains date of birth of the student yyyy-mm-dd")
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd")
+            pattern = "yyyy-MM-dd", timezone="EST")
     private Date dateOfBirth;
 
     @ApiModelProperty(notes = "student login")

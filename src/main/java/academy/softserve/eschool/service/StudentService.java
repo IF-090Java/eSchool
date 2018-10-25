@@ -1,6 +1,6 @@
 package academy.softserve.eschool.service;
 
-import academy.softserve.eschool.dto.EditTeacherDTO;
+import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.StudentDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Student;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
@@ -25,6 +24,7 @@ public class StudentService {
                 .dateOfBirth(s.getDateOfBirth())
                 .classe(s.getClasses().stream().filter(Clazz::isActive).findFirst().orElseGet(Clazz::new).getName())
                 .email(s.getEmail())
+                .avatar(s.getAvatar())
                 .phone(s.getPhone()).build();
     }
 
@@ -40,7 +40,7 @@ public class StudentService {
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public void updateStudent(User oldUser, EditTeacherDTO edited){
+    public void updateStudent(User oldUser, EditUserDTO edited){
 
         oldUser.setFirstName(edited.getFirstname());
         oldUser.setLastName(edited.getLastname());
