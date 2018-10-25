@@ -12,12 +12,14 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name="clazz")
 @EqualsAndHashCode(of="id")
 @Data
 @NoArgsConstructor
+@ToString(of = {"id", "name"})
 public class Clazz {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
