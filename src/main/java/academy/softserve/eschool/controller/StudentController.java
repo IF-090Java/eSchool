@@ -14,12 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.boot.context.annotation.Configurations.getClasses;
-
 @RestController
 @RequestMapping("/students")
 @Api(description = "Student controller")
 public class StudentController {
+
     @Autowired
     private StudentRepository studentRepository;
 

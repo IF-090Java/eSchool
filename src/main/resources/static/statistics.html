@@ -113,18 +113,15 @@
 			
 			function setData(response){
 				var data = response.data;
-				console.log(data);
 				if ($('#startDate').val() == '' || $('#endDate').val() == ''){
 					initDatePickers(data);
 				}
 				formatDatadoints(data);
 				drawChart(data);
 				setAverageMark(data);
-				console.log(data);
 			}
 			
 			function fillSubjectsSelect(data){
-				console.log(data);
 				$.each(data, function(i, subj){
 					var option = $('<option>');
 					option.val(subj.id_subject);
@@ -134,7 +131,6 @@
 			}
 			
 			function fillClassesSelect(data){
-				console.log(data);
 				$.each(data, function(i, clazz){
 					var option = $('<option>');
 					option.val(clazz.id);
@@ -144,7 +140,6 @@
 			}
 			
 			function fillStudentsSelect(data){
-				console.log(data);
 				$.each(data, function(i, student){
 					var option = $('<option>');
 					option.val(student.id);
@@ -155,8 +150,12 @@
 			}
 			
 			function initDatePickers(data){
-				$('#startDate').val(data[0].x);
-				$('#endDate').val(data[data.length-1].x);
+				var start = new Date(data[0].x);
+				var end = new Date(data[data.length-1].x);
+				var startString = formatDate(start);
+				var endString = formatDate(end);
+				$('#startDate').val(startString);
+				$('#endDate').val(endString);
 			}
 			
 			function formatDatadoints(data){
@@ -169,8 +168,6 @@
 				var day = ("0" + date.getDate()).slice(-2);
 				var month = ("0" + (date.getMonth() + 1)).slice(-2);
 				var today = date.getFullYear()+"-"+(month)+"-"+(day);
-				console.log(date);
-				console.log(date.getMonth());
 				return today;
 			}
 			
@@ -231,7 +228,6 @@
 				params.student_id = $('#student').val();
 				params.period_start = $('#startDate').val();
 				params.period_end = $('#endDate').val();
-				console.log(new Date($('#startDate').val()));
 				return params;
 			}
 		</script>

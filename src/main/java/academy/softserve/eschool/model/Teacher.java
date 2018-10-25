@@ -19,8 +19,8 @@ import lombok.ToString;
 @Table(name="teacher")
 @Data
 @NoArgsConstructor
-@ToString(callSuper = true, of=("id"))
 @EqualsAndHashCode(callSuper = true, of=("id"))
+@ToString(of = {"id", "login"})
 public class Teacher extends User{
 	
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "teacher")
