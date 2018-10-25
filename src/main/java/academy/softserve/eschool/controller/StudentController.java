@@ -3,6 +3,8 @@ package academy.softserve.eschool.controller;
 import academy.softserve.eschool.service.StudentService;
 import academy.softserve.eschool.dto.EditStudentDTO;
 import academy.softserve.eschool.dto.StudentDTO;
+import academy.softserve.eschool.model.Clazz;
+import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.repository.StudentRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,12 +19,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.boot.context.annotation.Configurations.getClasses;
-
 @RestController
 @RequestMapping("/students")
 @Api(description = "Student controller")
 public class StudentController {
+
     @Autowired
     private StudentRepository studentRepository;
 
