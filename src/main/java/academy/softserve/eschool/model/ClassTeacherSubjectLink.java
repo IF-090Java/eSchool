@@ -1,14 +1,9 @@
 package academy.softserve.eschool.model;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -53,34 +48,4 @@ public class ClassTeacherSubjectLink{
 		this.isActive = isActive;
 	}
 
-	public static class ClassTeacherSubjectLinkId implements Serializable {
-
-		private Clazz clazz;
-		private Teacher teacher;
-		private Subject subject;
-
-		public ClassTeacherSubjectLinkId() {
-		}
-
-		public ClassTeacherSubjectLinkId(Clazz clazz, Teacher teacher, Subject subject) {
-			this.clazz = clazz;
-			this.teacher = teacher;
-			this.subject = subject;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
-			ClassTeacherSubjectLinkId that = (ClassTeacherSubjectLinkId) o;
-			return Objects.equals(clazz, that.clazz) &&
-					Objects.equals(teacher, that.teacher) &&
-					Objects.equals(subject, that.subject);
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(clazz, teacher, subject);
-		}
-	}
 }

@@ -2,10 +2,7 @@ package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.dto.TeacherJournalDTO;
 import academy.softserve.eschool.model.*;
-import academy.softserve.eschool.repository.ClassRepository;
-import academy.softserve.eschool.repository.ClassTeacherSubjectRepository;
-import academy.softserve.eschool.repository.SubjectRepository;
-import academy.softserve.eschool.repository.TeacherRepository;
+import academy.softserve.eschool.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +13,7 @@ import java.util.Date;
 public class ClassTeacherSubjectServiceImpl implements ClassTeacherSubjectService {
 
     @Autowired
-    private ClassTeacherSubjectRepository classTeacherSubjectRepository;
+    private ClassTeacherSubjectLinkRepository classTeacherSubjectRepository;
 
     @Autowired
     ClassRepository classRepository;

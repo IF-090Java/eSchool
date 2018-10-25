@@ -7,9 +7,10 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-public class ClassTeacherSubjectLinkId implements Serializable{
+public class ClassTeacherSubjectLinkId implements Serializable {
 
     private int clazz_id;
     private int teacher_id;
     private int subject_id;
+
 }
