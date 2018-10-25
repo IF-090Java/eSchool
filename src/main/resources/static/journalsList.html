@@ -66,19 +66,19 @@
         <tr>
             <th>Предмет</th>
             <th>Клас</th>
-            <th>Дата</th>
+            <th>Рік навчання</th>
         </tr>
     </table>
 
     <script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/journals/teachers/1', function (data) {
+        $.getJSON('http://localhost:8080/journals/teachers/3', function (data) {
             $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
                 var ref = 'http://localhost:8080/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
                 $('<td>'+'<a href='+ref+'>'+val.subjectName+'</a>'+'</td>').appendTo(tr);
                 $('<td>'+val.className+'</td>').appendTo(tr);
-                $('<td>'+val.startDate+"-"+val.endDate+'</td>').appendTo(tr);
+                $('<td>'+val.academicYear+'</td>').appendTo(tr);
                 tr.appendTo('#table');
             });
         });
