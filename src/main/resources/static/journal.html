@@ -95,7 +95,8 @@
             });
         });
 
-        $.getJSON('http://localhost:8080/journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {
+        /*$.getJSON('http://localhost:8080/journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {*/
+        $.getJSON('http://localhost:8080/journals/subjects/'+1+'/classes/'+3, function (data) {
             $.each(data, function(key, val) {
                 var tr1=$('<tr></tr>');
                 var tr2=$('<tr></tr>');

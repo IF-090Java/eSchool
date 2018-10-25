@@ -1,4 +1,4 @@
-package academy.softserve.eschool.controller;
+package academy.softserve.eschool.LESSONler;
 
 import academy.softserve.eschool.dto.JournalDTO;
 import academy.softserve.eschool.dto.JournalMarkDTO;
@@ -29,13 +29,7 @@ public class JournalController {
     )
     @GetMapping("")
     public List<JournalDTO> getJournals(){
-        List<JournalDTO> list = new ArrayList<>();
-        list.add(new JournalDTO(1,1,"Історія України","5-A",2018));
-        list.add(new JournalDTO(4,2,"Українська мова","5-Б",2014));
-        list.add(new JournalDTO(3,2,"Англійська мова","5-Б",2015));
-        list.add(new JournalDTO(2,3,"Інформатика","5-В",2016));
-        list.add(new JournalDTO(1,4,"Історія України","6-А",2018));
-        return list;
+        return journalServiceImpl.getJournals();
     }
 
     @ApiOperation(value = "Get list of journals")
@@ -47,7 +41,7 @@ public class JournalController {
     )
     @GetMapping("/teachers/{idTeacher}")
     public List<JournalDTO> getJournalsTeacher(@PathVariable int idTeacher){
-        return journalServiceImpl.getSubjectsByTeacher(idTeacher);
+        return journalServiceImpl.getJournalsByTeacher(idTeacher);
     }
 
     @ApiResponses(
@@ -63,46 +57,6 @@ public class JournalController {
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass
             ){
-        List<JournalMarkDTO> list = new ArrayList<>();
-        list.add(new JournalMarkDTO("Руслан Харевич",new ArrayList<>(
-                Arrays.asList(new MarkDescriptionDTO(10,new Date(),"к"),
-                              new MarkDescriptionDTO(null,new Date(),"т"),
-                              new MarkDescriptionDTO(2,new Date(),"к"),
-                              new MarkDescriptionDTO(3,new Date(),"c"),
-                              new MarkDescriptionDTO(7,new Date(),"т"),
-                              new MarkDescriptionDTO(11,new Date(),"c")))));
-
-        list.add(new JournalMarkDTO("Сеньків Олег",new ArrayList<>(
-                Arrays.asList(new MarkDescriptionDTO(1,new Date(),"к"),
-                              new MarkDescriptionDTO(null,new Date(),"т"),
-                              new MarkDescriptionDTO(null,new Date(),"к"),
-                              new MarkDescriptionDTO(9,new Date(),"c"),
-                              new MarkDescriptionDTO(null,new Date(),"т"),
-                              new MarkDescriptionDTO(7,new Date(),"c")))));
-
-        list.add(new JournalMarkDTO("Яремин Андрій",new ArrayList<>(
-                Arrays.asList(new MarkDescriptionDTO(12,new Date(),"к"),
-                              new MarkDescriptionDTO(5,new Date(),"т"),
-                              new MarkDescriptionDTO(2,new Date(),"к"),
-                              new MarkDescriptionDTO(null,new Date(),"c"),
-                              new MarkDescriptionDTO(null,new Date(),"т"),
-                              new MarkDescriptionDTO(11,new Date(),"c")))));
-
-        list.add(new JournalMarkDTO("Табачнюк Мирослав",new ArrayList<>(
-                Arrays.asList(new MarkDescriptionDTO(10,new Date(),"к"),
-                              new MarkDescriptionDTO(null,new Date(),"т"),
-                              new MarkDescriptionDTO(8,new Date(),"к"),
-                              new MarkDescriptionDTO(6,new Date(),"c"),
-                              new MarkDescriptionDTO(7,new Date(),"т"),
-                              new MarkDescriptionDTO(null,new Date(),"c")))));
-
-        list.add(new JournalMarkDTO("Романяк Марія",new ArrayList<>(
-                Arrays.asList(new MarkDescriptionDTO(null,new Date(),"к"),
-                              new MarkDescriptionDTO(null,new Date(),"т"),
-                              new MarkDescriptionDTO(10,new Date(),"к"),
-                              new MarkDescriptionDTO(5,new Date(),"c"),
-                              new MarkDescriptionDTO(2,new Date(),"т"),
-                              new MarkDescriptionDTO(null,new Date(),"c")))));
-        return list;
+        return journalServiceImpl.getJournal(idSubject,idClass);
     }
 }

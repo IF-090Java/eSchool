@@ -29,7 +29,5 @@ public class Teacher extends User{
 		super(login, password, email, role, firstName, lastName, patronymic, dateOfBirth, sex, phone, avatar,
 				description);
 	}
-	
-	
 
 }
