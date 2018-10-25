@@ -6,6 +6,7 @@ import academy.softserve.eschool.repository.ClassTeacherSubjectLinkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,9 +15,18 @@ public class JournalServiceImpl implements JournalService {
     ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository;
     @Override
     public List<JournalDTO> getSubjectsByTeacher(int idTeacher) {
-        //return  classTeacherSubjectLinkRepository.findJournalsByTeacher(idTeacher);
-        List<ClassTeacherSubjectLink> c = classTeacherSubjectLinkRepository.findJournalsByTeacher(idTeacher);
-        System.out.println(c);
-        return null;
+        List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findJournalsByTeacher(idTeacher);
+        List<JournalDTO> listDTO = new ArrayList<>();
+        for(ClassTeacherSubjectLink link: listCTS){
+            JournalDTO dto = JournalDTO.builder()
+                    .idClass(link.getClazz().getId())
+                    .idSubject(link.getSubject().getId())
+                    .className(link.getClazz().getName())
+                    .subjectName(link.getSubject().getName())
+                    .academicYear(link.getClazz().getAcademicYear())
+                    .build();
+            listDTO.add(dto);
+        }
+        return listDTO;
     }
 }

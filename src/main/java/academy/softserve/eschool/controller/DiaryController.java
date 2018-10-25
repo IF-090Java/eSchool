@@ -1,6 +1,8 @@
 package academy.softserve.eschool.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -49,21 +51,15 @@ public class DiaryController {
 		Date weekEndDate = cal.getTime();
 		String startDate = dateFormat.format(weekStartDate);
 		String endDate = dateFormat.format(weekEndDate);
-		System.out.println(startDate + " " + endDate);
 		List<Object[]> diaryData = lessonRepo.getDiary(studentId, startDate, endDate);
-		for (Object[] obj : diaryData) {
-			for (int i = 0; i < obj.length; i++) {
-				System.out.print(obj[i] + " ");
-			}
-			System.out.println("");
-		}
 		List<DiaryEntryDTO> diary = diaryData.stream().map((obj) -> {
-					byte no = (Byte)obj[1];
-					byte mark = 0;
-					if (obj[4] != null) {
-						mark = (Byte)obj[4];
-					}
-					return new DiaryEntryDTO((Date)obj[0], (int)no, (String)obj[2], (String)obj[3], (int)mark, (String)obj[5]);
+					Date date = (Date)obj[0];
+					byte no = (byte)obj[1];
+					String lessonName = (String)obj[2];
+					String hometask = (String)obj[3];
+					byte mark = obj[4] == null ? 0 : (byte)obj[4];
+					String note = (String)obj[5];
+					return new DiaryEntryDTO(date, no, lessonName, hometask, mark, note);
 				})
 				.collect(Collectors.toList());
 		System.out.println(diary);

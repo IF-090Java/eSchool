@@ -55,8 +55,7 @@ public class JournalController {
         list.add(new JournalDTO(1,4,"Історія України","6-А",new Date(),new Date()));
         return list;*/
         //return journalServiceImpl.getSubjectsByTeacher(idTeacher);
-        System.out.println(journalServiceImpl.getSubjectsByTeacher(idTeacher));
-        return null;
+        return journalServiceImpl.getSubjectsByTeacher(idTeacher);
     }
 
     @ApiResponses(
