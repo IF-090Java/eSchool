@@ -3,8 +3,10 @@ package academy.softserve.eschool.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
+@ApiIgnore
 public class PageMappingController {
     @RequestMapping("classes/{id}/edit")
     public String editClassPage(){
@@ -21,14 +23,14 @@ public class PageMappingController {
         return "/journalsList.html";
     }
 
-    @RequestMapping("/classes/list2")
+    @RequestMapping("/classes/classList")
     public String getClassListShowStudents(){
-        return "/classListEditStud.html";
+        return "/classList.html";
     }
 
     @RequestMapping("/classes/list")
     public String getClassesListForEdit(){
-        return "/classListEditClass.html";
+        return "/classList.html";
     }
 
     @RequestMapping("/classes/add")

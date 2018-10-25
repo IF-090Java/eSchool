@@ -64,7 +64,7 @@
 
         button {
             height: 45px;
-            width: 150px;
+            width: 300px;
             font-size: 18px;
             background-color: #4CAF50;
             border: 1px solid #4CAF50;
@@ -72,8 +72,7 @@
             color: white;
             font-family: Georgia, 'Times New Roman', Times, serif;
             border-radius: 3px;
-            margin-top: 50px;
-            margin-left: 40px;
+            /*margin-left: 35%;*/
         }
 
         form {
@@ -102,39 +101,48 @@
     <div align="center" style="margin-bottom: 50px">
         <h1>Перехід на новий навчальний рік</h1>
     </div>
-    <fieldset style="border: 2px solid #4CAF50; padding: 40px;" class="new-class-form">
-        <form id="classes_table" method="post" action="/classes/addNewClasses"></form>
-    </fieldset>
-
-    <fieldset style="border: 2px solid #4CAF50; padding: 40px;" class="student-to-class">
-
+  <fieldset style="border: 2px solid #4CAF50; padding: 40px;" class="student-to-class">
+        <div align="center" style="margin-bottom: 50px">
+            <button class="button" type="submit">Новий навчальний рік. Додати класи</button>
+        </div>
+        <div align="center" style="margin-bottom: 50px">
+            <h2>Зміна поточних класів для учнів</h2>
+        </div>
+        <table id="old_new_classes"></table>
     </fieldset>
 </div>
 
 <script type="text/javascript">
+
+    $('button').on('click', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "post",
+            url: "/students/transition",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (responce) {
+                alert('Нові класи додані!')
+                window.location.href = "/transToNewYear.html";
+            }
+        });
+    })
+
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/classes', function (data) {
-            $.each(data, function (i, item) {
-                var name = item.className.split('-');
-
-                if (name[0]!=11){
-                    var classYear = item.classYear+1;
-                    $('#classes_table').append('<label>').append(item.className).append(' - ').append(item.classYear).append('</label>');
-                    $('#classes_table').append($('<input>').attr('value',item.className+' - '+classYear).attr('text','text'));
-                }
+        $.getJSON('http://localhost:8080/students/transition', function (oldClasses) {
+        $.getJSON('http://localhost:8080/classes', function (newClasses) {
+                console.log(oldClasses);
+                $.each(oldClasses, function (i, item) {
+                    $.each(newClasses, function (j, jitem) {
+                        $('#old_new_classes').append('<tr>')
+                        $('#old_new_classes').append($('<td>').append(item.className).append(' - '+item.classYear)).append($('</td>'))
+                        $('#old_new_classes').append($('<td>').append(jitem.className).append(' - '+jitem.classYear)).append($('</td>'))
+                        $('#old_new_classes').append('</tr>')
+                    })
+                });
             })
-            $('#classes_table').append($('<button>').attr('class','button').attr('type', 'submit').append('Зберегти')).append('</button>');
-        })
-    })
-
-    $('form').on('submit', function (e) {
-        e.preventDefault()
-        var allInputValues = document.querySelectorAll("input");
-        var allLabelValues = document.querySelectorAll("label");
-        console.log(allInputValues[0].innerHTML);
-        console.log(allLabelValues[0].innerHTML);
-
-    })
+        });
+    });
 </script>
 </body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClassServiceImpl implements ClassService{
@@ -15,21 +16,15 @@ public class ClassServiceImpl implements ClassService{
 
     @Override
     public List<ClassDTO> findClassesByStatus(boolean status) {
-        List<Clazz> clazzList = classRepository.findClassByStatus(status);
+        List<Clazz> clazzList = classRepository.findClassByActiveStatus(status);
 
-        List<ClassDTO> classDTOS = new ArrayList<>();
-
-        for (Clazz clazz : clazzList){
-            clazz.isActive();
-            ClassDTO classDTO = new ClassDTO();
-            classDTO.setId(clazz.getId());
-            classDTO.setClassName(clazz.getName());
-            classDTO.setClassYear(clazz.getAcademicYear());
-            classDTO.setClassDescription(clazz.getDescription());
-            classDTO.setIsActive(Boolean.toString(clazz.isActive()));
-            classDTOS.add(classDTO);
-        }
-        return classDTOS;
+        return clazzList.stream().map((i) -> ClassDTO.builder()
+                .id(i.getId())
+                .className(i.getName())
+                .classDescription(i.getDescription())
+                .classYear(i.getAcademicYear())
+                .isActive(Boolean.toString(i.isActive())).build()
+        ).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
@@ -40,27 +35,42 @@ public class ClassServiceImpl implements ClassService{
                 .classDescription(clazz.getDescription())
                 .classYear(clazz.getAcademicYear())
                 .isActive(Boolean.toString(clazz.isActive())).build();
-//
-//        classDTO = new ClassDTO();
-//        classDTO.setClassName(clazz.getName());
-//        classDTO.setClassYear(clazz.getAcademicYear());
-//        classDTO.setClassDescription(clazz.getDescription());
-//        classDTO.setIsActive(Boolean.toString(clazz.isActive()));
-//        return classDTO;
     }
 
     @Override
     public void saveClass(ClassDTO classDTO) {
-        Clazz clazz = new Clazz();
-        clazz.setName(classDTO.getClassName());
-        clazz.setAcademicYear(classDTO.getClassYear());
-        clazz.setDescription(classDTO.getClassDescription());
-        clazz.setActive(Boolean.valueOf(classDTO.getIsActive()));
-        classRepository.save(clazz);
+        Boolean isActive = Boolean.valueOf(classDTO.getIsActive());
+        classRepository.save(
+        Clazz.builder()
+                .name(classDTO.getClassName())
+                .description(classDTO.getClassDescription())
+                .academicYear(classDTO.getClassYear())
+                .isActive(isActive).build()
+        );
     }
 
     @Override
     public void updateClass(int id, ClassDTO classDTO) {
         classRepository.updateClass(id, classDTO.getClassName(), classDTO.getClassYear(), classDTO.getClassDescription(), Boolean.valueOf(classDTO.getIsActive()));
     }
+
+    @Override
+    public void addNewYearClasses() {
+        List<ClassDTO> prevYearClasses = findClassesByStatus(true);
+        prevYearClasses.stream().forEach(c -> c.setClassYear(c.getClassYear()+1));
+        prevYearClasses.stream().forEach(c -> saveClass(c));
+    }
+
+    @Override
+    public List<ClassDTO> getActiveClassesWithStudents() {
+        List<Clazz> aClasses = classRepository.getActiveClassesWithStudents();
+        return aClasses.stream().map(i -> ClassDTO.builder()
+                .id(i.getId())
+                .className(i.getName())
+                .classYear(i.getAcademicYear())
+                .classDescription(i.getDescription()).build()
+        ).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+
 }

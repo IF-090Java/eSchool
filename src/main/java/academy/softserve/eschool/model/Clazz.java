@@ -9,15 +9,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name="clazz")
 @EqualsAndHashCode(of="id")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Clazz {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
