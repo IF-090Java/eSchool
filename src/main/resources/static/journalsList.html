@@ -72,7 +72,7 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/journals/teachers/1', function (data) {
+        $.getJSON('http://localhost:8080/journals/teachers/3', function (data) {
             $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
                 var ref = 'http://localhost:8080/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
