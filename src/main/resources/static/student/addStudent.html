@@ -38,6 +38,8 @@
     <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
     <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
 </div>
+    <div id="message" align="center" style="border: medium solid black; background: lightgoldenrodyellow; color: red;"></div>
+
     <div align="center" style="margin-bottom: 50px">
         <h1>ДОДАВАННЯ НОВОГО УЧНЯ</h1>
     </div>
@@ -118,8 +120,10 @@
                         "phone"      :   mobile
                     }),
                     contentType: "application/json",
+
                     success: function (responce) {
-                        window.location.href = "/students/add";
+                        $("*").val("");
+                        $("#message").html("Учнь " + lastName + " " + firstName + " доданий введіть дані наступного учня");
                     }
                 });
             });

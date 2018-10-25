@@ -1,6 +1,9 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.SubjectDTO;
+import academy.softserve.eschool.service.ClassServiceImpl;
+import academy.softserve.eschool.service.SubjectService;
+import academy.softserve.eschool.service.SubjectServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -9,6 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/subjects")
 @Api(value = "subjects", description = "API endpoints for subjects")
 public class SubjectController {
+	@Autowired
+	private SubjectServiceImpl subjectServiceImpl;
 	
 	public static int nextId = 0;
 
@@ -54,10 +60,10 @@ public class SubjectController {
 
 	@ApiResponses(value = { @ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	@ApiOperation(value = "Get all subjects", response = SubjectDTO.class)
+	@ApiOperation(value = "Get all subjects by teacher", response = SubjectDTO.class)
 	@GetMapping("/teachers/{idTeacher}")
 	public List<SubjectDTO> getSubjectsTeacher(@PathVariable int idTeacher) {
-		return listOfSubjects;
+		return subjectServiceImpl.getSubjectsByTeacher(idTeacher);
 	}
 
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successfully created"),
