@@ -3,7 +3,9 @@ package academy.softserve.eschool.controller;
 import academy.softserve.eschool.dto.JournalDTO;
 import academy.softserve.eschool.dto.JournalMarkDTO;
 import academy.softserve.eschool.dto.MarkDescriptionDTO;
+import academy.softserve.eschool.service.JournalServiceImpl;
 import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.List;
 @Api(value = "Journal's Endpoint", description = "Get journals")
 @RequestMapping("/journals")
 public class JournalController {
+    @Autowired
+    JournalServiceImpl journalServiceImpl;
 
     @ApiOperation(value = "Get list of journals")
     @ApiResponses(
@@ -26,11 +30,11 @@ public class JournalController {
     @GetMapping("")
     public List<JournalDTO> getJournals(){
         List<JournalDTO> list = new ArrayList<>();
-        list.add(new JournalDTO(1,1,"Історія України","5-A",new Date(),new Date()));
-        list.add(new JournalDTO(4,2,"Українська мова","5-Б",new Date(),new Date()));
-        list.add(new JournalDTO(3,2,"Англійська мова","5-Б",new Date(),new Date()));
-        list.add(new JournalDTO(2,3,"Інформатика","5-В",new Date(),new Date()));
-        list.add(new JournalDTO(1,4,"Історія України","6-А",new Date(),new Date()));
+        list.add(new JournalDTO(1,1,"Історія України","5-A",2018));
+        list.add(new JournalDTO(4,2,"Українська мова","5-Б",2014));
+        list.add(new JournalDTO(3,2,"Англійська мова","5-Б",2015));
+        list.add(new JournalDTO(2,3,"Інформатика","5-В",2016));
+        list.add(new JournalDTO(1,4,"Історія України","6-А",2018));
         return list;
     }
 
@@ -43,13 +47,7 @@ public class JournalController {
     )
     @GetMapping("/teachers/{idTeacher}")
     public List<JournalDTO> getJournalsTeacher(@PathVariable int idTeacher){
-        List<JournalDTO> list = new ArrayList<>();
-        list.add(new JournalDTO(1,1,"Історія України","5-A",new Date(),new Date()));
-        list.add(new JournalDTO(4,2,"Українська мова","5-Б",new Date(),new Date()));
-        list.add(new JournalDTO(3,2,"Англійська мова","5-Б",new Date(),new Date()));
-        list.add(new JournalDTO(2,3,"Інформатика","5-В",new Date(),new Date()));
-        list.add(new JournalDTO(1,4,"Історія України","6-А",new Date(),new Date()));
-        return list;
+        return journalServiceImpl.getSubjectsByTeacher(idTeacher);
     }
 
     @ApiResponses(

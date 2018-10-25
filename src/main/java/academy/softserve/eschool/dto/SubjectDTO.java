@@ -7,6 +7,7 @@ import lombok.*;
 @ApiModel
 @Data
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 public class SubjectDTO {
 
