@@ -9,10 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name="clazz")
@@ -20,6 +17,8 @@ import lombok.ToString;
 @ToString(of = {"id","name"})
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Clazz {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
