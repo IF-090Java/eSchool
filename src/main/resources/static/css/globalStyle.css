@@ -64,7 +64,6 @@ textarea:focus::-webkit-input-placeholder {
 	color: transparent;
 }
 
-
 .spoiler > input + label:after{
 	content: "+";
 	float: right;
@@ -80,10 +79,10 @@ textarea:focus::-webkit-input-placeholder {
 	background: #b5b5b5;
 	padding:5px 15px;
 	overflow:hidden;
-	width:100%;
+	/*width:100%;*/
 	box-sizing: border-box;
 	display: block;
-	margin-top: 15px}
+	margin-top: 0px}
 .spoiler > input + label + .spoiler_body{display:none;}
 .spoiler > input:checked + label + .spoiler_body{display: block;}
 .spoiler > .spoiler_body{

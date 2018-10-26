@@ -58,6 +58,7 @@ public class ClassServiceImpl implements ClassService{
     public void addNewYearClasses() {
         List<ClassDTO> prevYearClasses = findClassesByStatus(true);
         prevYearClasses.stream().forEach(c -> c.setClassYear(c.getClassYear()+1));
+        prevYearClasses.stream().forEach(c -> c.setClassName(updateClassName(c.getClassName())));
         prevYearClasses.stream().forEach(c -> saveClass(c));
     }
 
@@ -70,6 +71,18 @@ public class ClassServiceImpl implements ClassService{
                 .classYear(i.getAcademicYear())
                 .classDescription(i.getDescription()).build()
         ).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
+    public String updateClassName(String className) {
+        String[] classNameParts = className.split("-");
+        if (classNameParts.length>1){
+            int classNum = Integer.parseInt(classNameParts[0])+1;
+            return String.valueOf(classNum)+"-"+classNameParts[1];
+        } else {
+            int classNum = Integer.parseInt(classNameParts[0])+1;
+            return String.valueOf(classNum);
+        }
     }
 
 

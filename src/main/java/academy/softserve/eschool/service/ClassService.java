@@ -11,4 +11,5 @@ public interface ClassService {
     void updateClass(int id, ClassDTO classDTO);
     void addNewYearClasses();
     List<ClassDTO> getActiveClassesWithStudents();
+    String updateClassName(String className);
 }
