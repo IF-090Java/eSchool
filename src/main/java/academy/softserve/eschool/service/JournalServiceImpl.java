@@ -60,24 +60,26 @@ public class JournalServiceImpl implements JournalService {
     public List<JournalMarkDTO> getJournal(int idSubject, int idClass) {
          List<Object[]> list = studentRepository.findJournal(idSubject,idClass);
          List<JournalMarkDTO> JMDto = new ArrayList<>();
-         Set<String> students = new HashSet<>();
+         Map<Integer,String> students = new HashMap<>();
          for(Object[] a: list){
-             students.add((String)a[1]+" "+(String)a[0]);
+             String name = a[1]+" "+a[2];
+             students.put((Integer)a[0],name);
         }
-        for (String a: students){
+        for (Map.Entry<Integer, String> entry : students.entrySet()) {
             JournalMarkDTO dto = JournalMarkDTO.builder()
-                    .studentFullName(a)
+                    .idStudent(entry.getKey())
+                    .studentFullName(entry.getValue())
                     .marks(new ArrayList<>())
                     .build();
             JMDto.add(dto);
         }
         for (JournalMarkDTO jm : JMDto){
             for (Object[] object: list){
-                if(jm.getStudentFullName().equals((String)object[1]+" "+(String)object[0])){
+                if(jm.getIdStudent()==(Integer)object[0]){
                     MarkDescriptionDTO desc = MarkDescriptionDTO.builder()
-                            .mark((Byte)object[2])
-                            .dateMark((Date)object[3])
-                            .typeMark((String)object[4])
+                            .mark((Byte)object[4])
+                            .dateMark((Date)object[5])
+                            .typeMark((String)object[6])
                             .build();
                     jm.getMarks().add(desc);
                 }
