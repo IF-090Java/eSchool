@@ -24,5 +24,7 @@ public class MarkDescriptionDTO {
     private Date dateMark;
     @ApiModelProperty(notes = "type of mark")
     private String typeMark;
+    @ApiModelProperty(notes = "note for mark")
+    private String note;
 
 }

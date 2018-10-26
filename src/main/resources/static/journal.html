@@ -123,7 +123,7 @@
                         $('<td>'+""+'</td>').appendTo(tr);
                     }
                     else {
-                        $('<td>' + v.mark + '</td>').appendTo(tr);
+                        $('<td title="'+v.note+'">' + v.mark + '</td>').appendTo(tr);
                         countMarks++;
                         sum+=v.mark;
                     }

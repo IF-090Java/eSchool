@@ -21,7 +21,7 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
             "where lesson.clazz_id=3 and lesson.subject_id=1\n", nativeQuery=true)
     Set<Student> findJournal(@Param("idSubject")int idSubject, @Param("idClass")int idClass);*/
 
-    @Query(value="select student.id as 'id_student',user.first_name,user.last_name,lesson.id,mark.mark,lesson.date,lesson.mark_type from student\n" +
+    @Query(value="select student.id as 'id_student',user.first_name,user.last_name,lesson.id,mark.mark,lesson.date,lesson.mark_type,mark.note from student\n" +
             "left join user on student.id=user.id\n" +
             "left join students_classes on students_classes.student_id=student.id\n" +
             "right join lesson on students_classes.class_id=lesson.clazz_id\n" +

@@ -77,9 +77,11 @@ public class JournalServiceImpl implements JournalService {
             for (Object[] object: list){
                 if(jm.getIdStudent()==(Integer)object[0]){
                     MarkDescriptionDTO desc = MarkDescriptionDTO.builder()
+                            .idLesson((Integer)object[3])
                             .mark((Byte)object[4])
                             .dateMark((Date)object[5])
                             .typeMark((String)object[6])
+                            .note((String)object[7])
                             .build();
                     jm.getMarks().add(desc);
                 }
