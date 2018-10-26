@@ -12,6 +12,7 @@ Teachers can:
 1. View and edit mark book
 2. Assign home tasks
 3. Add notes for student
+4. View school performance chart
 
 
 Students can: 
