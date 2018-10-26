@@ -21,7 +21,5 @@ public class TeacherJournalDTO {
     @ApiModelProperty(notes = "teacher's subject")
     private int subject_id;     //teacher's subject
 
-    @ApiModelProperty(notes = "learning year")
-    private int year;
 
 }

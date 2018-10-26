@@ -1,9 +1,12 @@
 package academy.softserve.eschool.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -21,9 +24,11 @@ public class EditStudentDTO {
 
     @ApiModelProperty(notes = "contains student class")
     private Integer classId;
-
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "yyyy-MM-dd")
     @ApiModelProperty(notes = "contains date of birth of the student yyyy-mm-dd")
-    private String dateOfBirth;
+    private Date dateOfBirth;
 
     @ApiModelProperty(notes = "student login")
     private String login;
