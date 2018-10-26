@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/Style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var pathArray = window.location.pathname.split('/');
+            var id = pathArray[2];
+            $.ajax({
+                url: "http://localhost:8080/students/" + id
+            }).then(function(data) {
+                var date = new Date(data.dateOfBirth).toLocaleDateString();
+                $('#title').append(data.firstname + ' ' + data.lastname );
+                $('#initials').append(data.lastname + ' ' + data.firstname + ' ' + data.patronymic);
+                $('#date').append(date);
+                $('#login').append(data.login);
+                $('#class').append(data.classe);
+                $('#email').append(data.email);
+                $('#phone').append(data.phone);
+                if(data.avatar !== null) {
+                    if (data.avatar.length > 0) {
+                        $("#avatar").attr("src", data.avatar);
+                    }
+                }
+                $('#diary').attr("href", "/diary/" + id);
+                $('#edit').attr("href", "/student/" + id + "/edit");
+            });
+        });
+    </script>
+    <style type="text/css">
+        a{
+            text-decoration: none;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title id="title"></title>
+</head>
+<body>
+    <fieldset/>
+    <legend>[ Ваш профіль ]</legend>
+
+    <hr><br>
+    <div>
+        <a id="diary">Переглянути щоденик</a>
+    </div>
+    <br><hr>
+
+    <img id="avatar" src="/img/profile.png">
+    <div class="div">
+        <h2 id="initials"></h2>
+        <h3 id="login">Логін: </h3>
+        <h4 id="class">Клас: </h4>
+    </div><br>
+
+    <div id="date" style="font-size: 20px">Дата народження: </div>
+    <div id="email" style="font-size: 20px">Електронна пошта: </div>
+    <div id="phone" style="font-size: 20px">Номер телефону: </div>
+
+    <br><a id="edit" style="font-size: 15px; width: 30px">Редагувати профіль</a>
+</body>
+</html>

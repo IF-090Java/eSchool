@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Щоденник</title>
+		<style> 
+		
+		.header{
+			height: 50px;
+			background: #BCC8D2;
+			border: solid 1px black; 
+		}		
+		
+		.diary-container {
+			-webkit-columns: 500px 2; /* Chrome, Safari, Opera */
+			-moz-columns: 500px 2; /* Firefox */
+			columns: 500px 2;
+		}
+		
+		
+		.diary-day-container{
+			-webkit-column-break-inside: avoid;
+          	page-break-inside: avoid;
+            break-inside: avoid;
+            border: 2px solid #4CAF50;
+            padding: 5px;
+            margin-bottom: 5px;
+		}
+		.day-name{
+			padding: 10px;
+		}
+
+		table,td,th{
+          	border: 1px solid #ddd;
+       	}
+       	table {
+           	border-collapse: collapse;
+           	width: 100%;
+       	}
+       	
+       	td,th{
+       	    text-align: left;
+       		padding: 8px;
+       	}
+       
+      	tr:nth-child(even){background-color: #f2f2f2}
+      	
+       	th {
+           background-color: #4CAF50;
+           color: white;
+       	}
+       	
+       	legend {
+       		font-size: 20px;
+       	}
+		
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="header">
+			<span style="float: right; margin-right: 10px; margin-top: 15px"><a id="homePage">Домашня сторінка</a></span>
+			<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Student01</span>
+			<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Учень</span>
+			<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+		</div>
+		<div class="controls-container">
+			<button id="previous-week-btn"><-</button>
+			<button id="next-week-btn">-></button>
+			<span id="date-period"></span>
+			<button id="current-week-btn">Поточний тиждень</button>
+		</div>
+		<div class="diary-container">
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Понеділок</legend>
+				<table class="diary-day" id="monday"> 
+					
+				</table>
+			</fieldset>
+			
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Вівторок</legend>
+				<table class="diary-day" id="tuesday"> 
+				
+				</table>
+			</fieldset>
+			
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Середа</legend>
+				<table class="diary-day" id="wednsday"> 
+					
+				</table>
+			</fieldset>
+			
+			<fieldset class="diary-day-container">
+				<legend class="day-name">Четвер</legend>
+				<table class="diary-day" id="thursday"> 
+					
+				</table>
+			</fieldset>
+			
+			<fieldset class="diary-day-container">
+				<legend class="day-name">П'ятниця</legend>
+				<table class="diary-day" id="friday"> 
+					
+				</table>
+			</fieldset>
+			
+			
+		</div>
+		
+		    <script type="text/javascript">
+		    	var offset = 0;
+		    	var weekStart = getWeekStart(offset);
+		    	var weekEnd = getWeekEnd(offset);
+		    	var pathArray = window.location.pathname.split('/');
+        		var studentId = pathArray[2];
+                $("#homePage").attr("href", "/students/" + studentId + "/profile");
+                var ulr = 'http://localhost:8080/diaries/' + studentId;
+		    	var months = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
+		    			"Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
+				$(document).ready(function () {
+					getData();
+				});
+				
+				$('#previous-week-btn').click(function(){
+					offset--;
+					getData();
+				});
+				
+				$('#next-week-btn').click(function(){
+					offset++;
+					getData();
+				});
+				
+				$('#current-week-btn').click(function(){
+					offset = 0;
+					getData();
+				});
+				
+				function getData(){
+					$.getJSON(ulr, {weekStartDate:getWeekStart(offset)}, setData);
+				}
+				
+				
+				
+				function setData (response) {
+					var data = response.data;
+					$('.diary-day').empty();
+					var tableHeader = $('<tr> <th>№</th> <th>Урок</th> <th>Домашнє завдання</th> <th>Оцінка</th> <th>Примітка</th></tr>');
+					tableHeader.appendTo('.diary-day');
+					var firstDayDate = getWeekStart(offset).getDate();
+					var lastDayDate = getWeekEnd(offset).getDate();
+					var firstDayMonth = getWeekStart(offset).getMonth();
+					var lastDayMonth = getWeekEnd(offset).getMonth();
+					var period = firstDayDate +' '+months[firstDayMonth]+' - '+lastDayDate+' '+months[lastDayMonth];
+					$('#date-period').text(period);
+					if (offset == 0){
+						$('#current-week-btn').hide();
+					} else {
+						$('#current-week-btn').show();
+					}
+					if (data.length == 0){
+						$('.diary-container').hide();
+					} else {
+						$('.diary-container').show();
+					}
+					$.each(data, function(i, diaryEntry) {
+						var tableRow = $('<tr></tr>');
+						var date = new Date(diaryEntry.date);
+						var dayOfWeek = date.getDay();
+						$('<td>'+diaryEntry.lessonNumber+'</td>').appendTo(tableRow);
+						$('<td>'+diaryEntry.subjectName+'</td>').appendTo(tableRow);
+						$('<td>'+(diaryEntry.homeWork == null ? "": diaryEntry.homeWork)+'</td>').appendTo(tableRow);
+						$('<td>'+(diaryEntry.mark == 0 ? "": diaryEntry.mark)+'</td>').appendTo(tableRow);
+						$('<td>'+(diaryEntry.note == null?"":diaryEntry.note)+'</td>').appendTo(tableRow);
+						switch(dayOfWeek){
+							case 1:
+								tableRow.appendTo('#monday');
+								break;
+							case 2:
+								tableRow.appendTo('#tuesday');
+								break;
+							case 3:
+								tableRow.appendTo('#wednsday');
+								break;
+							case 4:
+								tableRow.appendTo('#thursday');
+								break;
+							case 5:
+								tableRow.appendTo('#friday');
+								break;
+							default:
+						}
+					});
+				}
+				
+				function getWeekStart (offset){
+					var weekStart = new Date();
+			    	var currentDay = weekStart.getDay();
+					weekStart.setDate(weekStart.getDate() - currentDay + 1 + 7*offset);
+					return weekStart;
+				}
+				
+				function getWeekEnd(offset){
+					var weekEnd = new Date(weekStart.getTime());
+					weekEnd.setDate(weekEnd.getDate() + 4 + 7*offset);
+					return weekEnd;
+				}
+			</script>
+	</body>
+</html>

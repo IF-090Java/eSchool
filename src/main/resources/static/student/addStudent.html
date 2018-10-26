@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 	<meta charset="UTF-8">
+    <title>Додавання учня</title>
+	<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+	<style>
+	.main {
+		margin-left: 27%;
+		margin-right: 27%;
+	}
+
+	.row {
+		display: table-row;
+	}
+
+	label {
+		display: table-cell;
+		vertical-align: middle;
+		font-size: 18px;
+	}
+
+	#selectClass {
+		margin-top: 0px;
+		margin-left: 15%;
+		height: 25px;
+		width: 304px;
+		margin-bottom: 20px;
+	}
+
+</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+<div class="header">
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/admin">Домашня сторінка</a></span>
+    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
+    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+</div>
+    <div id="message" align="center" style="border: medium solid black; background: lightgoldenrodyellow; color: red;"></div>
+
+    <div align="center" style="margin-bottom: 50px">
+        <h1>ДОДАВАННЯ НОВОГО УЧНЯ</h1>
+    </div>
+    <form>
+        <div class="main">
+            <fieldset>
+                <legend style="font-size: 19px">Особита інформація</legend>
+                <div class="row">
+                    <label for="lastName">Прізвище:</label>
+                    <input id="lastName" type="text" name="lastname" required>
+                </div>
+                <div class="row">
+                    <label for="firstName">Ім'я:</label>
+                    <input id="firstName" type="text" name="firstname" required>
+                </div>
+
+                <div class="row">
+                    <label for="patronymic">По-батькові:</label>
+                    <input id="patronymic" type="text" name="patronymic" required>
+                </div>
+                <div class="row">
+                    <label for="login">Логін:</label>
+                    <input id="login" type="text" name="login">
+                </div>
+                <div class="row">
+                    <label for="selectClass">Класс:</label>
+                    <select id="selectClass" name="select" required><option></option></select>
+                </div>
+                <div class="row">
+                    <label for="dateOfBirth">Дата народження:</label>
+                    <input id="dateOfBirth" type="date" name="dateOfBirth" required>
+                </div>
+                <div class="row">
+                    <label for="mail">Електронна адреса:</label>
+                    <input id="mail" type="text" name="email">
+                </div>
+                <div class="row">
+                    <label for="mobile">Телефон:</label>
+                    <input id="mobile" type="text" name="phone">
+                </div>
+                <div align="center">
+                    <button id="submitButton" type="Submit">Зберегти</button>
+                </div>
+            </fieldset>
+        </div>
+        <hr>
+ <script type="text/javascript">
+		$(function() {
+			$(".header").load("/views/header.html");
+		});
+	</script>
+ <script type="text/javascript">
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
+
+                e.preventDefault();
+                var firstName   = $("#firstName").val();
+                var lastName    = $("#lastName").val();
+                var patronymic  = $("#patronymic").val();
+                var classe      = $("#selectClass option:selected").val();
+                var dateOfBirth = $("#dateOfBirth").val();
+                var login       = $("#login").val();
+                var mail        = $("#mail").val();
+                var mobile      = $("#mobile").val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/students",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "firstname"  :   firstName,
+                        "lastname"   :   lastName,
+                        "patronymic" :   patronymic,
+                        "classe"     :   classe,
+                        "dateOfBirth":   dateOfBirth,
+                        "login"      :   login,
+                        "email"      :   mail,
+                        "phone"      :   mobile
+                    }),
+                    contentType: "application/json",
+
+                    success: function (responce) {
+                        $("*").val("");
+                        $("#message").html("Учнь " + lastName + " " + firstName + " доданий введіть дані наступного учня");
+                    }
+                });
+            });
+
+            $.getJSON('http://localhost:8080/classes', function (data2) {
+                console.log(data2);
+
+                $.each(data2, function (i, item) {
+                    $('#selectClass').append($('<option>', {
+                        value: data2[i].id,
+                        text : data2[i].className
+                    }));
+                });
+            });
+        })
+    </script>
+    </form>
+</body>
+</html>

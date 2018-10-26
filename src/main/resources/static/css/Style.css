@@ -1,0 +1,81 @@
+fieldset {
+    border: 2px solid #4CAF50;
+    padding: 40px;
+    margin: 0 auto;
+    width: 650px;
+}
+
+legend {
+    font-size: 20px;
+    font-style: revert;
+    font-family: "Ubuntu Condensed";
+}
+
+.header{
+    height: 50px;
+    background: #BCC8D2;
+    border: solid 1px black;
+}
+.main{
+    padding-top: 30px;
+    margin: auto;
+    width: 35%;
+}
+.row{
+    display: table-row;
+
+}
+#selectClass{
+    margin-top: 15px;
+    width: 130px;
+}
+
+label{
+    padding-top: 15px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+input{
+    margin-top: 15px;
+    height: 20px;
+}
+button{
+    margin-top: 22px;
+    width: 150px;
+    height: 32px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    border: 1px solid #4CAF50;
+    vertical-align: middle;
+    color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    border-radius: 3px;
+    align-self: center;
+}
+
+.div {
+    border: medium solid black;
+    background: lightgoldenrodyellow;
+    margin: 20px;
+    width: 450px;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+ img {
+     border: solid 10px;
+     border-radius: 5px;
+     padding: 5px;
+     width: 200px;
+     height: 200px;
+ }
+
+ a {
+     background: darkgreen;
+     white: 100px;
+     padding: 10px;
+     font-size: 20px;
+     color: white;
+
+ }

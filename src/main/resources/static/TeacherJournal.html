@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add teacher to journal</title>
+<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+<style type="text/css">
+.main {
+	margin-left: 25%;
+	margin-right: 25%;
+}
+.row {
+	display: table-row;
+}
+label {
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 18px;
+}
+
+select {
+     -webkit-appearance: button;
+   -webkit-border-radius: 2px;
+   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+   -webkit-padding-end: 20px;
+   -webkit-padding-start: 2px;
+   -webkit-user-select: none;
+   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+   background-position: 97% center;
+   background-repeat: no-repeat;
+   border: 1px solid #AAA;
+   color: #555;
+   font-size: inherit;
+   margin: 20px;
+   overflow: hidden;
+   padding: 5px 10px;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width: 300px;
+ }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+	<body>
+	<div class="header"></div>
+	<form>
+		<div class="main">
+			<div align="center" style="margin-bottom: 50px">
+				<h1>ПРИВ'ЯЗКА ВЧИТЕЛЯ ДО ЖУРНАЛУ</h1>
+			</div>
+			
+				<fieldset style="border: 2px solid #4CAF50; padding: 40px;">
+					<legend style="font-size: 20px;">[ Прив'язка вчителя до журналу ]</legend>
+					
+					<div class="row">
+						<label for="teacher_input">Вчитель</label>
+						<div id="drop1" class="ax_default_droplist">
+							<select id="teacher_input">	 
+							</select>
+						</div>
+					</div>
+					
+					<div class="row">
+						<label for="class_input">Клас</label>
+						<div id="drop2" class="ax_default_droplist">
+							<select id="class_input">	 
+							</select>
+						</div>
+					</div>
+					
+					<div class="row">
+						<label for="subject_input">Предмет</label>
+						<div id="drop3" class="ax_default_droplist">
+							<select id="subject_input">		 
+							</select>
+						</div>
+					</div>
+					
+					<div align="center" style="text-align: center; margin: 0 auto;">
+						<button id="submitButton">Зберегти</button>
+					</div>
+				</fieldset>
+
+		</div>
+	</form>
+	<script type="text/javascript"> 
+	 $(function() {
+      $(".header").load("/views/header.html");
+    });
+    </script> 
+		<script type="text/javascript">
+		
+			$(document).ready(function() {
+				$.getJSON('http://localhost:8080/teachers', function(data) {
+					console.log(data);
+					var teachers = [];
+					var id = [];
+					$.each(data, function(key, value) {
+						teachers.push(value.firstname + " " + value.lastname);
+					});
+					$.each(data, function(key, value) {
+						id.push(value.id);
+					});
+					for (i=0; i < teachers.length; i++)
+						$('#teacher_input').append('<option value="' + id[i] + '">' + teachers[i] + '</option>');
+				});
+				
+				$.getJSON('http://localhost:8080/classes', function(data){
+					console.log(data);
+					var classes = [];
+					var id = [];
+					$.each(data, function(key, value) {
+						classes.push(value.className);
+					});
+					$.each(data, function(key, value) {
+						id.push(value.id);
+					});
+					for (i=0; i < classes.length; i++)
+						$('#class_input').append('<option value="' + id[i] + '">' + classes[i] + '</option>');
+				});
+				
+				$.getJSON('http://localhost:8080/subjects', function(data){
+					console.log(data);
+					var subjects = [];
+					var id = [];
+					$.each(data, function(key, value) {
+						subjects.push(value.subjectName);
+					});
+					$.each(data, function(key, value) {
+						id.push(value.subjectId);
+					});
+					for (i=0; i < subjects.length; i++)
+						$('#subject_input').append('<option value="' + id[i] + '">' + subjects[i] + '</option>');
+				});
+				$('form').on('submit', function (e) {
+				e.preventDefault();
+				var teacherid = $('#teacher_input').find(":selected").val();
+				var classid = $('#class_input').find(":selected").val();
+				var subjectid = $('#subject_input').find(":selected").val();
+				$.ajax({
+                type: "post",
+                url: "/teachers/" + teacherid + "/classes/" + classid + "/subjects/" + subjectid + "/journal",
+                dataType: "json",
+                data: JSON.stringify({
+                    "teacher_id": teacherid,
+                    "class_id": classid,
+                    "subject_id": subjectid
+                }),
+                contentType: "application/json",
+  				statusCode: {
+                      200: function() {
+                      alert( "Операція успішна" );
+                    },
+                      201: function() {
+                      alert( "Прив'язка успішно створена" );
+                    },
+                      500: function() {
+                      alert( "Внутрішня помилка сервера" );
+                    }
+                  },
+                    success: function (responce) {
+                        window.location.href = "/teachers/add/journal";
+                    }
+            });
+			})
+			})
+		</script>
+
+	</body>
+</html>

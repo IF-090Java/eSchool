@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Додавання предмету</title>
+<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+<style type="text/css">
+
+.main {
+	margin-left: 25%;
+	margin-right: 25%;
+	}
+
+.row {
+	display: run-in;
+	}
+
+label {
+	float: left;
+	margin-top: 1%;
+	margin-left: 10%;
+	font-size: 18px;
+	display: table-cell;
+	}
+
+input {
+	margin-left: 5%;
+	height: 25px;
+	width: 351px;
+	margin-bottom: 20px;
+	}
+
+textarea {
+	margin-left: 5.8%;
+	width: 350px;
+	}
+
+#message {
+    display: none;
+    }
+
+#message {
+	position: fixed;
+	position: absolute;
+    width: 300px;
+    height: 100px;
+    margin: auto;
+    left: 38.5%;
+    top: 10px;
+    padding-top: 70px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+    background: #4CAF50;
+    color: white;
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	font-weight: bold;
+	font-size: 18px;
+    border-radius: 3px;
+    box-shadow: 0 0 3px 5px rgba(0,0,0,.3);
+	}
+</style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+<div class="header"></div>
+	<div class="main">
+		<div align="center" style="margin-bottom: 35px">
+			<h1>ДОДАВАННЯ НОВОГО ПРЕДМЕТУ</h1>
+		</div>
+		<form>
+			<fieldset>
+				<legend>[ Додавання навчального
+					предмету ]</legend>
+				<div class="row">
+					<label for="subjectName">Назва предмету</label> <input
+						id="subjectName" type="text" name="subject_name"
+						placeholder="Введіть назву предмету" required>
+				</div>
+				<div class="row">
+					<label for="subjectDesc">Опис предмету</label>
+					<textarea id="subjectDesc" name="subject_description" rows="5"
+						placeholder="Введіть опис предмету"></textarea>
+				</div>
+				<div align="center" style="text-align: center; margin: 0 auto;">
+					<button id="submit_button" type="submit">Додати</button>
+				</div>
+			</fieldset>
+		</form>
+<div id="message">Предмет успішно додано!</div>
+	</div>
+	<script type="text/javascript"> 
+	 $(function() {
+      $(".header").load("/views/header.html");
+    });
+    </script> 
+	<script type="text/javascript">
+	
+	$(document).ready(function() {
+		$('form').on('submit', function(e) {
+			$('#message').fadeIn();
+			e.preventDefault();
+			var subjectName = $("#subjectName").val();
+			var subjectDescription = $("#subjectDesc").val();
+
+			$.ajax({
+				type : "post",
+				url : "/subjects",
+				dataType : "json",
+				data : JSON.stringify({
+					"subjectName" : subjectName,
+					"subjectDescription" : subjectDescription
+				}),
+				contentType : "application/json",
+				success : function(responce) {
+					setTimeout(function(){$('#message').fadeOut('fast')},1000);
+					$('#subjectName').val('');
+					$('#subjectDesc').val('');
+				}
+			});
+		})
+	})
+	</script> 
+</body>
+</html>

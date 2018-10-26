@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Журнали</title>
+
+    <style type="text/css">
+       .journals{
+           font-family: Garamond;
+           font-size: 30px;
+           margin: 50px auto 35px auto;
+           width: 200px;
+           padding: 20px;
+           text-align: center;
+       }
+       table,td,th{
+           border: 1px solid #ddd;
+       }
+       table {
+           border-collapse: collapse;
+           width: 40%;
+           margin: auto;
+       }
+
+       th, td {
+           text-align: left;
+           padding: 8px;
+       }
+
+
+       .header{
+           color: white;
+           height: 50px;
+           background: #4CAF50;
+           border: solid 1px black;
+       }
+
+       .header a{
+           color:white;
+       }
+
+       #table a{
+           color:black;
+       }
+
+       tr:nth-child(even){background-color: #f2f2f2}
+
+       th {
+           background-color: #4CAF50;
+           color: white;
+       }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/teachers/1/profile">Домашня сторінка</a></span>
+        <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
+        <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
+        <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+    </div>
+
+    <div class="journals">Журнали</div>
+    <table id="table">
+        <tr>
+            <th>Предмет</th>
+            <th>Клас</th>
+            <th>Рік навчання</th>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON('http://localhost:8080/journals/teachers/3', function (data) {
+            $.each(data, function(key, val) {
+                var tr=$('<tr></tr>');
+                var ref = 'http://localhost:8080/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
+                $('<td>'+'<a href='+ref+'>'+val.subjectName+'</a>'+'</td>').appendTo(tr);
+                $('<td>'+val.className+'</td>').appendTo(tr);
+                $('<td>'+val.academicYear+'</td>').appendTo(tr);
+                tr.appendTo('#table');
+            });
+        });
+    });
+
+    </script>
+</body>
+</html>

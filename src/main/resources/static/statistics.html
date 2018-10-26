@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Шкільна статистика</title>
+		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<style> 
+		
+			.header{
+				height: 50px;
+				background: #BCC8D2;
+				border: solid 1px black;
+			}
+				
+			#chartContainer {
+				height: 300px;
+				width: 100%;
+			}
+			.container {
+				padding: 50px;
+			}
+			
+			.statisticsContainer{
+				border: 2px solid #4CAF50;
+				padding: 20px;
+				margin-top: 20px;
+			}
+			
+			legend {
+       			font-size: 20px;
+       		}
+			
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
+			<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
+			<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+		</div>
+		<div class="container">
+			<select id="subject">
+				<option value="">Предмет</option>
+			</select> 
+			<select id="class">
+				<option value="">Клас</option>
+			</select>
+			<select id="student" disabled="true">
+				<option value="">Учень</option>				
+			</select>
+			<input id="startDate" type="date" name="start">
+			<input id="endDate" type="date" name="end">
+			<fieldset class="statisticsContainer">
+				<legend>Статистика</legend>
+				<div id="average"></div>
+				<div id="chartContainer"></div>
+			</fieldset>
+		</div>
+		<script type="text/javascript">
+			var baseUrl = 'http://localhost:8080'
+			var marksUrl = baseUrl + '/marks';
+			var classesUrl = baseUrl + '/classes';
+			var studentsUrl = baseUrl + '/students/classes/';
+			var subjectsUrl = baseUrl + '/subjects';
+			
+			var studentOptions = [];
+			
+			$(document).ready(function () {
+				var params = getParams();
+				$.getJSON(subjectsUrl, fillSubjectsSelect);
+				$.getJSON(classesUrl, fillClassesSelect);
+				$.getJSON(marksUrl, params, setData);
+				setDatePickerConstraint()
+			});
+			
+			$('#subject').change(function(){
+				//TODO add classes that study selected subject to class select 
+				var params = getParams();
+				$.getJSON(marksUrl, params, setData);
+			});
+			
+			$('#class').change(function(){
+				//TODO add subjects studied by selected class to subjet select
+				var classId = this.value;
+				$.each(studentOptions, function(i, option){
+					option.remove();
+				})
+				if(classId != ''){
+					$.getJSON(studentsUrl+this.value, fillStudentsSelect);
+					$('#student').attr("disabled", false);
+				} else {
+					$('#student').attr("disabled", true);
+				}
+				var params = getParams();
+				$.getJSON(marksUrl, params, setData);
+			});
+			
+			$('#student').change(function(){
+				var params = getParams();
+				$.getJSON(marksUrl, params, setData);
+			});
+			
+			$('#startDate').change(function(){
+				var params = getParams();
+				$.getJSON(marksUrl, params, setData);
+			});
+			
+			$('#endDate').change(function(){
+				var params = getParams();
+				$.getJSON(marksUrl, params, setData);
+			});
+			
+			function setData(response){
+				var data = response.data;
+				if ($('#startDate').val() == '' || $('#endDate').val() == ''){
+					initDatePickers(data);
+				}
+				formatDatadoints(data);
+				drawChart(data);
+				setAverageMark(data);
+			}
+			
+			function fillSubjectsSelect(data){
+				$.each(data, function(i, subj){
+					var option = $('<option>');
+					option.val(subj.id_subject);
+					option.text(subj.subjectName);
+					$('#subject').append(option);
+				});
+			}
+			
+			function fillClassesSelect(data){
+				$.each(data, function(i, clazz){
+					var option = $('<option>');
+					option.val(clazz.id);
+					option.text(clazz.className);
+					$('#class').append(option);
+				});
+			}
+			
+			function fillStudentsSelect(data){
+				$.each(data, function(i, student){
+					var option = $('<option>');
+					option.val(student.id);
+					option.text(student.firstname+' '+student.lastname);
+					$('#student').append(option);
+					studentOptions.push(option);
+				});
+			}
+			
+			function initDatePickers(data){
+				var start = new Date(data[0].x);
+				var end = new Date(data[data.length-1].x);
+				var startString = formatDate(start);
+				var endString = formatDate(end);
+				$('#startDate').val(startString);
+				$('#endDate').val(endString);
+			}
+			
+			function formatDatadoints(data){
+				$.each(data, function(i, e){
+					e.x = new Date(e.x);
+				});	
+			}
+			
+			function formatDate(date){
+				var day = ("0" + date.getDate()).slice(-2);
+				var month = ("0" + (date.getMonth() + 1)).slice(-2);
+				var today = date.getFullYear()+"-"+(month)+"-"+(day);
+				return today;
+			}
+			
+			function setDatePickerConstraint(){
+				var date = new Date();
+				var dateString = formatDate(date);
+				$('#startDate').attr("max", dateString);
+				$('#endDate').attr("max", dateString);
+			}
+			
+			function setAverageMark(data){
+				var sum = 0;
+				$.each(data, function(i, dataPoint){
+					sum = sum + dataPoint.y;
+				});
+				var average = sum/data.length;
+				$('#average').text('Середня оцінка: ' + average.toFixed(2));
+			}
+			
+			function drawChart(dataPoints){
+				var chart = new CanvasJS.Chart("chartContainer", {
+					animationEnabled: true,
+					axisX: {
+						valueFormatString: "DD/MM/YYYY",
+						minimum: new Date($('#startDate').val()),
+						maximum: new Date($('#endDate').val())
+					},
+					axisY: {
+						title: "Оцінка",
+						minimum: 0,
+						maximum: 12
+					},
+					legend: {
+						verticalAlign: "top",
+						horizontalAlign: "right",
+						dockInsidePlotArea: true
+					},
+					toolTip: {
+						shared: true
+					},
+					data: [{
+						name: "Оцінка",
+						showInLegend: true,
+						legendMarkerType: "square",
+						type: "area",
+						color: "rgba(40,175,101,0.6)",
+						markerSize: 0,
+						dataPoints: dataPoints
+					}]
+				});
+				chart.render();
+			}
+			
+			function getParams(){
+				var params = new Object();
+				params.subject_id = $('#subject').val();
+				params.class_id = $('#class').val();
+				params.student_id = $('#student').val();
+				params.period_start = $('#startDate').val();
+				params.period_end = $('#endDate').val();
+				return params;
+			}
+		</script>
+	</body>
+</html>

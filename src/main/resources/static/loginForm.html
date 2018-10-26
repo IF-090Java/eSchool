@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Вхід в систему</title>
+    <link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+    <style type="text/css">
+
+      .main {
+            margin-left: 28%;
+            margin-right: 28%;
+        }
+        .row {
+            display: table-row;
+        }
+        label {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 18px;
+        }
+       
+        textarea {
+            margin-left: 15%;
+            width: 300px;
+        }
+        
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="main">
+    <div align="center" style="margin-bottom: 50px">
+        <h1>ВХІД</h1>
+    </div>
+    <form>
+        <fieldset style="border: 2px solid #4CAF50; padding: 40px;">
+            <div class="row">
+                <label for="login">Введіть логін</label>
+                <input id="login" type="text" name="login">
+            </div>
+            <div class="row">
+                <label for="password">Введіть пароль</label>
+                <input type="password" id="password" name="password" required></input>
+            </div>
+            <div align="center" style="text-align: center; margin: 0 auto;">
+                <button type="submit">Увійти</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        $('form').on('submit', function (e) {
+
+            e.preventDefault();
+            var login = $("#login").val();
+            var password = $("#password").val();
+
+            $.ajax({
+                type: "post",
+                url: "/",
+                dataType: "json",
+                data: JSON.stringify({
+                    "login": login,
+                    "password": password
+                }),
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data)
+                    window.location.href = data.url;
+                }
+            });
+        })
+    })
+</script>
+</body>
+</html>

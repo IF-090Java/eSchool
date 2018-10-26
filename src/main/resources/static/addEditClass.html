@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редагування класу</title>
+     <link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+    <style type="text/css">
+
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 18px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+            border-radius: 50%;
+        }
+
+        .container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .container input:checked ~ .checkmark {
+            background-color: #4caf50;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .container .checkmark:after {
+            top: 9px;
+            left: 9px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+
+        .main {
+            margin-left: 30%;
+            margin-right: 30%;
+        }
+
+        .row {
+            display: table-row;
+        }
+
+        label {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 18px;
+        }
+
+        .form-input {
+            margin-top: 0px;
+            margin-left: 15%;
+            height: 25px;
+            width: 300px;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            margin-left: 15%;
+            width: 300px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="header"></div>
+<div class="main">
+    <div align="center" style="margin-bottom: 50px">
+        <h1>РЕДАГУВАТИ КЛАС</h1>
+    </div>
+    <form>
+        <fieldset style="border: 2px solid #4CAF50; padding: 40px;">
+            <div class="row">
+                <label for="clsName">Назва класу</label>
+                <input class="form-input" id="clsName" type="text" name="className">
+            </div>
+            <div class="row">
+                <label for="clsYear">Навчальний рік</label>
+                <input class="form-input" id="clsYear" type="text" name="classYear">
+            </div>
+            <div class="row">
+                <label for="txtArea">Опис класу</label>
+                <textarea id="txtArea" rows="5" name="className"></textarea>
+            </div>
+            <label class="container">Активний
+                <input type="radio" class="isActive" name="radioButton" value="true">
+                <span class="checkmark"></span>
+            </label>
+            <label class="container">Неактивний
+                <input type="radio" class="isActive" name="radioButton" value="false" checked="checked">
+                <span class="checkmark"></span>
+            </label>
+            <div align="center" style="text-align: center; margin: 0 auto;">
+                <button class="button" type="submit">Зберегти</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+	 $(function() {
+      $(".header").load("/views/header.html");
+    });
+    </script>
+<script type="text/javascript">
+    if (window.location.href.toString() == "http://localhost:8080/classes/add"){
+
+        $(document).ready(function () {
+            $("title").html("Додати клас")
+            $("h1").html("Додати клас");
+
+            $('form').on('submit', function (e) {
+                e.preventDefault();
+                var className = $("#clsName").val();
+                var classDescription = $("#txtArea").val();
+                var classYear = $("#clsYear").val();
+                var isActive = document.querySelector("input[name=radioButton]:checked").value;
+
+                $.ajax({
+                    type: "post",
+                    url: "/classes",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "className": className,
+                        "classYear": classYear,
+                        "classDescription": classDescription,
+                        "isActive": isActive
+                    }),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        alert('Клас створений!')
+                        window.location.href = "/classes/add";
+                    }
+                });
+            })
+        })
+    } else {
+        $(document).ready(function() {
+            var pathArray = window.location.pathname.split('/');
+            var classId = pathArray[2];
+
+            $.getJSON('http://localhost:8080/classes/'+classId, function (data) {
+                console.log(data);
+                $("#clsName").attr("value", data.className);
+                $("#clsYear").attr("value", data.classYear)
+                $("#txtArea").append(data.classDescription);
+                $(':radio[name=radioButton][value=' + data.isActive + ']').prop('checked', true);
+            });
+        })
+
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
+
+                e.preventDefault();
+                var className = $("#clsName").val();
+                var classYear = $("#clsYear").val();
+                var classDescription = $("#txtArea").val();
+                var isActive = document.querySelector("input[name=radioButton]:checked").value;
+
+                var pathArray = window.location.pathname.split('/');
+                var classId = pathArray[2];
+                $.ajax({
+                    type: "put",
+                    url: "/classes/" + classId,
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "className": className,
+                        "classYear": classYear,
+                        "classDescription": classDescription,
+                        "isActive": isActive
+                    }),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        window.location.href = "/classes/list";
+                    }
+                });
+            })
+        })
+    }
+</script>
+</body>
+</html>

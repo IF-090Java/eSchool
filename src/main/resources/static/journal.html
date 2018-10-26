@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Журнали</title>
+
+    <style type="text/css">
+       .description{
+           font-family: Garamond;
+           font-size: 22px;
+           margin-left: 25%;
+           width: 500px;
+           padding: 20px;
+       }
+       table,td,th{
+           border: 1px solid #ddd;
+       }
+       table {
+           border-collapse: collapse;
+           width: 40%;
+           margin: 20px auto;
+       }
+
+       th, td {
+           text-align: left;
+           padding: 8px;
+       }
+
+       .header{
+           color: white;
+           height: 50px;
+           background: #4CAF50;
+           border: solid 1px black;
+       }
+
+       .header a{
+           color:white;
+       }
+
+       tr:nth-child(even){background-color: #f2f2f2}
+
+       th {
+           background-color: #4CAF50;
+           color: white;
+       }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="header">
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/teachers/1/profile">Домашня сторінка</a></span>
+    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
+    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+</div>
+
+    <div class="description" id="classTitle">Клас: </div>
+    <div class="description" id="subjectTitle">Предмет: </div>
+
+    <table id="table_mark">
+
+    </table>
+
+    <table id="table_home">
+        <tr>
+            <th>Дата</th>
+            <th>Домашнє завдання</th>
+            <th>Файл</th>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        var pathArray = window.location.pathname.split('/');
+        var idSubject = pathArray[3];
+        var idClass = pathArray[5];
+
+        $.getJSON('http://localhost:8080/classes/'+idClass, function (data) {
+          $('<span>'+data.className+'</span>').appendTo('#classTitle');
+        });
+
+        $.getJSON('http://localhost:8080/subjects/'+idSubject, function (data) {
+          $('<span>'+data.subjectName+'</span>').appendTo('#subjectTitle');
+        });
+
+        $.getJSON('http://localhost:8080/homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
+          $.each(data, function(key, val) {
+                var tr=$('<tr></tr>');
+                $('<td>'+val.date+'</td>').appendTo(tr);
+                $('<td>'+val.homework+'</td>').appendTo(tr);
+                /*$('<td>'+atob(val.file)+'</td>').appendTo(tr);*/
+                $('<td>'+'file.txt'+'</td>').appendTo(tr);
+                tr.appendTo('#table_home');
+            });
+        });
+
+        $.getJSON('http://localhost:8080/journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {
+            $.each(data, function(key, val) {
+                var tr1=$('<tr></tr>');
+                var tr2=$('<tr></tr>');
+                $('<th>'+"Тип оцінки"+'</th>').appendTo(tr1);
+                $('<th>'+"Дата"+'</th>').appendTo(tr2);
+                $.each(val.marks, function(k, v) {
+                    $('<th>'+v.typeMark+'</th>').appendTo(tr1);
+                    $('<th>'+v.dateMark+'</th>').appendTo(tr2);
+                });
+                $('<th>'+'С.'+'</th>').appendTo(tr2);
+                tr1.appendTo('#table_mark');
+                tr2.appendTo('#table_mark');
+                return false;
+            });
+            var countStudents = 0;
+            $.each(data, function(key, val) {
+                var countMarks = 0;
+                var sum=0;
+                var average = "";
+                var tr=$('<tr></tr>');
+                $('<td>'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr);
+                $.each(val.marks, function(k, v) {
+                    if(!v.mark){
+                        $('<td>'+""+'</td>').appendTo(tr);
+                    }
+                    else {
+                        $('<td>' + v.mark + '</td>').appendTo(tr);
+                        countMarks++;
+                        sum+=v.mark;
+                    }
+                });
+                if(countMarks>0){
+                    average = Math.round(sum/countMarks*100)/100;
+                }
+                $('<td>' + average + '</td>').appendTo(tr);
+                tr.appendTo('#table_mark');
+            });
+        });
+    });
+
+    </script>
+</body>
+</html>

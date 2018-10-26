@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Учні класу</title>
+	<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+	<style type="text/css">
+	.left-menu{
+		width: 300px;
+		float: left;
+		height: 100vh;
+	}
+	.main{
+		padding-top: 15px;
+		margin: auto;
+    	width: 35%;
+	}	
+	.main ul li a{
+		font-size: 19px;
+		text-decoration: none;
+	}
+	
+	li{
+		margin-top: 5px;
+	}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+	<div class="header"></div>
+	<div>
+		<div class="main">
+			<h2 align="center">Всі учні</h2>
+			<fieldset style="border: 2px solid #4CAF50">
+			<ul id="studentList" style="list-style-type: square;"></ul>
+			</fieldset>
+		</div>
+	</ul>
+</div>	
+<script type="text/javascript"> 
+	 $(function() {
+      $(".header").load("/views/header.html");
+    });
+    </script> 
+<script type="text/javascript">
+	$(document).ready(function () {
+        var pathArray = window.location.pathname.split('/');
+        var classId = pathArray[3];
+		$.getJSON('http://localhost:8080/students/classes/' + classId, function (data) {
+			console.log(data);
+			$.each(data, function (i, item) {
+				$('#studentList').append($('<li>').append($('<a>').attr('href','/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
+			});		
+		});
+
+	});
+</script>
+</body>
+</html>
