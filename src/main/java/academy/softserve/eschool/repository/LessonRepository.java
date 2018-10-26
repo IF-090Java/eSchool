@@ -27,7 +27,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 	List<Object[]> getDiary(@Param("studentId")int studentId, @Param("startDate")String startDate,
 			@Param("endDate")String endDate);
 
-	@Query(value = "select * from lesson\n" +
-			"where lesson.clazz_id=:idClass and lesson.subject_id=:idSubject\n", nativeQuery=true)
+	@Query(value = "select * from lesson where lesson.clazz_id=:idClass and lesson.subject_id=:idSubject\n" +
+			"order by lesson.date", nativeQuery=true)
 	List<Lesson> findHomework(@Param("idSubject")int idSubject, @Param("idClass")int idClass);
 }
