@@ -13,7 +13,8 @@ import lombok.*;
 
 @Entity
 @Table(name="clazz")
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(exclude={"students", "CTSlinks", "schedule"})
+@ToString(of = {"id","name"})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

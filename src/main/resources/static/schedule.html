@@ -1048,6 +1048,9 @@ color:#000000;
 #u97_input:disabled {
 color:grayText;
 }
+input[type=date] {
+width: 150px;
+}
 </style>
 <head>
   <title>Schedule</title>
@@ -1083,7 +1086,7 @@ color:grayText;
   <div id="u3" class="ax_default label">
     <form>
         <label for="start">Введіть початок семетру:</label>
-        <input type="date" id="start" name="start">
+        <input type="date" id="start" name="start" required>
     </form>
   </div>
 
@@ -1091,7 +1094,7 @@ color:grayText;
   <div id="u6" class="ax_default label">
       <form>
           <label for="end">Введіть кінець семетру:</label>
-          <input type="date" id="end" name="end">
+          <input type="date" id="end" name="end" required>
       </form>
   </div>
 
@@ -1397,7 +1400,7 @@ color:grayText;
 		$(document).ready(function() {
 
 			$.getJSON('http://localhost:8080/subjects', function (data) {
-				console.log(data);
+
 				var subjectNames = [];
 				$.each(data, function(key, value) {
 						subjectNames.push(value.subjectName);
@@ -1409,7 +1412,7 @@ color:grayText;
 			});
 			
 			$.getJSON('http://localhost:8080/classes', function(data){
-					console.log(data);
+
 					var classNames = [];
 					$.each(data, function(key, value) {
 						classNames.push(value.className);
@@ -1423,8 +1426,8 @@ color:grayText;
 				var startdate = $('#start').val();
 				var enddate = $('#end').val();
 
-				var classObj = {id: $('#u15_input').find(":selected").val(),
-				className: $("#u15_input").find('option:selected').text(), classDescription: " "};
+				var classObj = {id: $('#u15_input').find(":selected").val(), classYear: (new Date()).getFullYear(),
+				className: $("#u15_input").find('option:selected').text(), classDescription: " ", isActive: "true"};
 				id_class = $('#u15_input').find(":selected").val();
 
 				var monday = [];
@@ -1433,45 +1436,54 @@ color:grayText;
 				var thursday = [];
 				var friday = [];
 
-				monday.push({id_subject: $('#u21_input').find(":selected").val(), subjectName: $('#u21_input').find("option:selected").text()});
-				monday.push({id_subject: $('#u23_input').find(":selected").val(), subjectName: $('#u23_input').find("option:selected").text()});
-				monday.push({id_subject: $('#u25_input').find(":selected").val(), subjectName: $('#u25_input').find("option:selected").text()});
-				monday.push({id_subject: $('#u27_input').find(":selected").val(), subjectName: $('#u27_input').find("option:selected").text()});
-				monday.push({id_subject: $('#u29_input').find(":selected").val(), subjectName: $('#u29_input').find("option:selected").text()});
-				monday.push({id_subject: $('#u31_input').find(":selected").val(), subjectName: $('#u31_input').find("option:selected").text()});
-				monday.push({id_subject: $('#u33_input').find(":selected").val(), subjectName: $('#u33_input').find("option:selected").text()});
+				monday.push({subjectId: $('#u21_input').find(":selected").val(), subjectName: $('#u21_input').find("option:selected").text(), subjectDescription: ""});
+				monday.push({subjectId: $('#u23_input').find(":selected").val(), subjectName: $('#u23_input').find("option:selected").text(), subjectDescription: ""});
+				monday.push({subjectId: $('#u25_input').find(":selected").val(), subjectName: $('#u25_input').find("option:selected").text(), subjectDescription: ""});
+				monday.push({subjectId: $('#u27_input').find(":selected").val(), subjectName: $('#u27_input').find("option:selected").text(), subjectDescription: ""});
+				monday.push({subjectId: $('#u29_input').find(":selected").val(), subjectName: $('#u29_input').find("option:selected").text(), subjectDescription: ""});
+				monday.push({subjectId: $('#u31_input').find(":selected").val(), subjectName: $('#u31_input').find("option:selected").text(), subjectDescription: ""});
+				monday.push({subjectId: $('#u33_input').find(":selected").val(), subjectName: $('#u33_input').find("option:selected").text(), subjectDescription: ""});
 
-                tuesday.push({id_subject: $('#u69_input').find(":selected").val(), subjectName: $('#u69_input').find("option:selected").text()});
-				tuesday.push({id_subject: $('#u71_input').find(":selected").val(), subjectName: $('#u71_input').find("option:selected").text()});
-				tuesday.push({id_subject: $('#u73_input').find(":selected").val(), subjectName: $('#u73_input').find("option:selected").text()});
-				tuesday.push({id_subject: $('#u75_input').find(":selected").val(), subjectName: $('#u75_input').find("option:selected").text()});
-				tuesday.push({id_subject: $('#u77_input').find(":selected").val(), subjectName: $('#u77_input').find("option:selected").text()});
-				tuesday.push({id_subject: $('#u79_input').find(":selected").val(), subjectName: $('#u79_input').find("option:selected").text()});
-				tuesday.push({id_subject: $('#u81_input').find(":selected").val(), subjectName: $('#u81_input').find("option:selected").text()});
+                tuesday.push({subjectId: $('#u69_input').find(":selected").val(), subjectName: $('#u69_input').find("option:selected").text(), subjectDescription: ""});
+				tuesday.push({subjectId: $('#u71_input').find(":selected").val(), subjectName: $('#u71_input').find("option:selected").text(), subjectDescription: ""});
+				tuesday.push({subjectId: $('#u73_input').find(":selected").val(), subjectName: $('#u73_input').find("option:selected").text(), subjectDescription: ""});
+				tuesday.push({subjectId: $('#u75_input').find(":selected").val(), subjectName: $('#u75_input').find("option:selected").text(), subjectDescription: ""});
+				tuesday.push({subjectId: $('#u77_input').find(":selected").val(), subjectName: $('#u77_input').find("option:selected").text(), subjectDescription: ""});
+				tuesday.push({subjectId: $('#u79_input').find(":selected").val(), subjectName: $('#u79_input').find("option:selected").text(), subjectDescription: ""});
+				tuesday.push({subjectId: $('#u81_input').find(":selected").val(), subjectName: $('#u81_input').find("option:selected").text(), subjectDescription: ""});
 
-				wednesday.push({id_subject: $('#u85_input').find(":selected").val(), subjectName: $('#u85_input').find("option:selected").text()});
-				wednesday.push({id_subject: $('#u87_input').find(":selected").val(), subjectName: $('#u87_input').find("option:selected").text()});
-				wednesday.push({id_subject: $('#u89_input').find(":selected").val(), subjectName: $('#u98_input').find("option:selected").text()});
-				wednesday.push({id_subject: $('#u91_input').find(":selected").val(), subjectName: $('#u91_input').find("option:selected").text()});
-				wednesday.push({id_subject: $('#u93_input').find(":selected").val(), subjectName: $('#u93_input').find("option:selected").text()});
-				wednesday.push({id_subject: $('#u95_input').find(":selected").val(), subjectName: $('#u95_input').find("option:selected").text()});
-				wednesday.push({id_subject: $('#u97_input').find(":selected").val(), subjectName: $('#u97_input').find("option:selected").text()});
+				wednesday.push({subjectId: $('#u85_input').find(":selected").val(), subjectName: $('#u85_input').find("option:selected").text(), subjectDescription: ""});
+				wednesday.push({subjectId: $('#u87_input').find(":selected").val(), subjectName: $('#u87_input').find("option:selected").text(), subjectDescription: ""});
+				wednesday.push({subjectId: $('#u89_input').find(":selected").val(), subjectName: $('#u98_input').find("option:selected").text(), subjectDescription: ""});
+				wednesday.push({subjectId: $('#u91_input').find(":selected").val(), subjectName: $('#u91_input').find("option:selected").text(), subjectDescription: ""});
+				wednesday.push({subjectId: $('#u93_input').find(":selected").val(), subjectName: $('#u93_input').find("option:selected").text(), subjectDescription: ""});
+				wednesday.push({subjectId: $('#u95_input').find(":selected").val(), subjectName: $('#u95_input').find("option:selected").text(), subjectDescription: ""});
+				wednesday.push({subjectId: $('#u97_input').find(":selected").val(), subjectName: $('#u97_input').find("option:selected").text(), subjectDescription: ""});
 
-				thursday.push({id_subject: $('#u37_input').find(":selected").val(), subjectName: $('#u37_input').find("option:selected").text()});
-				thursday.push({id_subject: $('#u39_input').find(":selected").val(), subjectName: $('#u39_input').find("option:selected").text()});
-				thursday.push({id_subject: $('#u41_input').find(":selected").val(), subjectName: $('#u41_input').find("option:selected").text()});
-				thursday.push({id_subject: $('#u43_input').find(":selected").val(), subjectName: $('#u43_input').find("option:selected").text()});
-				thursday.push({id_subject: $('#u45_input').find(":selected").val(), subjectName: $('#u45_input').find("option:selected").text()});
-				thursday.push({id_subject: $('#u47_input').find(":selected").val(), subjectName: $('#u47_input').find("option:selected").text()});
-				thursday.push({id_subject: $('#u49_input').find(":selected").val(), subjectName: $('#u49_input').find("option:selected").text()});
+				thursday.push({subjectId: $('#u37_input').find(":selected").val(), subjectName: $('#u37_input').find("option:selected").text(), subjectDescription: ""});
+				thursday.push({subjectId: $('#u39_input').find(":selected").val(), subjectName: $('#u39_input').find("option:selected").text(), subjectDescription: ""});
+				thursday.push({subjectId: $('#u41_input').find(":selected").val(), subjectName: $('#u41_input').find("option:selected").text(), subjectDescription: ""});
+				thursday.push({subjectId: $('#u43_input').find(":selected").val(), subjectName: $('#u43_input').find("option:selected").text(), subjectDescription: ""});
+				thursday.push({subjectId: $('#u45_input').find(":selected").val(), subjectName: $('#u45_input').find("option:selected").text(), subjectDescription: ""});
+				thursday.push({subjectId: $('#u47_input').find(":selected").val(), subjectName: $('#u47_input').find("option:selected").text(), subjectDescription: ""});
+				thursday.push({subjectId: $('#u49_input').find(":selected").val(), subjectName: $('#u49_input').find("option:selected").text(), subjectDescription: ""});
 
-				friday.push({id_subject: $('#u53_input').find(":selected").val(), subjectName: $('#u53_input').find("option:selected").text()});
-				friday.push({id_subject: $('#u55_input').find(":selected").val(), subjectName: $('#u55_input').find("option:selected").text()});
-				friday.push({id_subject: $('#u57_input').find(":selected").val(), subjectName: $('#u57_input').find("option:selected").text()});
-				friday.push({id_subject: $('#u59_input').find(":selected").val(), subjectName: $('#u59_input').find("option:selected").text()});
-				friday.push({id_subject: $('#u61_input').find(":selected").val(), subjectName: $('#u61_input').find("option:selected").text()});
-				friday.push({id_subject: $('#u63_input').find(":selected").val(), subjectName: $('#u63_input').find("option:selected").text()});
-				friday.push({id_subject: $('#u65_input').find(":selected").val(), subjectName: $('#u65_input').find("option:selected").text()});
+				friday.push({subjectId: $('#u53_input').find(":selected").val(), subjectName: $('#u53_input').find("option:selected").text(), subjectDescription: ""});
+				friday.push({subjectId: $('#u55_input').find(":selected").val(), subjectName: $('#u55_input').find("option:selected").text(), subjectDescription: ""});
+				friday.push({subjectId: $('#u57_input').find(":selected").val(), subjectName: $('#u57_input').find("option:selected").text(), subjectDescription: ""});
+				friday.push({subjectId: $('#u59_input').find(":selected").val(), subjectName: $('#u59_input').find("option:selected").text(), subjectDescription: ""});
+				friday.push({subjectId: $('#u61_input').find(":selected").val(), subjectName: $('#u61_input').find("option:selected").text(), subjectDescription: ""});
+				friday.push({subjectId: $('#u63_input').find(":selected").val(), subjectName: $('#u63_input').find("option:selected").text(), subjectDescription: ""});
+				friday.push({subjectId: $('#u65_input').find(":selected").val(), subjectName: $('#u65_input').find("option:selected").text(), subjectDescription: ""});
+
+                function deleteFromArray(array)
+                {
+                  var array2 = [];
+                  for (i=0; i<array.length; i++){
+                    if (array[i].subjectId != 0) { array2.push(array[i]);}
+                    }
+                   return array2;
+                }
 
 				$.ajax({
                 type: "post",
@@ -1481,11 +1493,11 @@ color:grayText;
                   "startOfSemester":startdate,
                   "endOfSemester":enddate,
                   "className":classObj,
-                  "mondaySubjects":monday,
-                  "tuesdaySubjects":tuesday,
-                  "wednesdaySubjects":wednesday,
-                  "thursdaySubjects":thursday,
-                  "fridaySubjects":friday
+                  "mondaySubjects":deleteFromArray(monday),
+                  "tuesdaySubjects":deleteFromArray(tuesday),
+                  "wednesdaySubjects":deleteFromArray(wednesday),
+                  "thursdaySubjects":deleteFromArray(thursday),
+                  "fridaySubjects":deleteFromArray(friday)
                 }),
                 contentType: "application/json",
   				  statusCode: {
