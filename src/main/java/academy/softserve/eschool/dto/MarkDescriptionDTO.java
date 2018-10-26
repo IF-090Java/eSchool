@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class MarkDescriptionDTO {
     @ApiModelProperty(notes = "mark value")
-    private int mark;
+    private Byte mark;
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy.MM.dd")

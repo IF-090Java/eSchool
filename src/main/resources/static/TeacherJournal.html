@@ -76,11 +76,6 @@ select {
 							</select>
 						</div>
 					</div>
-
-					<div class="row">
-						<label for="year">Введіть навчальний рік</label>
-						<input id="year" type="text" name="year" placeholder="Рік" required>
-					</div>
 					
 					<div align="center" style="text-align: center; margin: 0 auto;">
 						<button id="submitButton">Зберегти</button>
@@ -133,7 +128,7 @@ select {
 						subjects.push(value.subjectName);
 					});
 					$.each(data, function(key, value) {
-						id.push(value.id_subject);
+						id.push(value.subjectId);
 					});
 					for (i=0; i < subjects.length; i++)
 						$('#subject_input').append('<option value="' + id[i] + '">' + subjects[i] + '</option>');
@@ -143,7 +138,6 @@ select {
 				var teacherid = $('#teacher_input').find(":selected").val();
 				var classid = $('#class_input').find(":selected").val();
 				var subjectid = $('#subject_input').find(":selected").val();
-				var year =  $("#year").val();
 				$.ajax({
                 type: "post",
                 url: "/teachers/" + teacherid + "/classes/" + classid + "/subjects/" + subjectid + "/journal",
@@ -151,8 +145,7 @@ select {
                 data: JSON.stringify({
                     "teacher_id": teacherid,
                     "class_id": classid,
-                    "subject_id": subjectid,
-                    "year" : year
+                    "subject_id": subjectid
                 }),
                 contentType: "application/json",
   				statusCode: {

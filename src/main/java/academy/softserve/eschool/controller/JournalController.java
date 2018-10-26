@@ -1,16 +1,12 @@
-package academy.softserve.eschool.LESSONler;
+package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.JournalDTO;
 import academy.softserve.eschool.dto.JournalMarkDTO;
-import academy.softserve.eschool.dto.MarkDescriptionDTO;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @RestController

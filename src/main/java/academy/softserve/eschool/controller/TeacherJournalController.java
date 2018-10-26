@@ -1,29 +1,29 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.TeacherJournalDTO;
+import academy.softserve.eschool.service.ClassTeacherSubjectServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 //END POINTS  /teachers/{id}/classes/{id}/subjects/{id}/journal
-//            /teachers/journal/connection
 
 @RestController
 @RequestMapping("")
 @Api(value = "Teacher's Endpoint", description = "Connects a teacher with a journal")
 public class TeacherJournalController {
-    //Many To Many (a teacher can be conected with many journals and a journal contains many teachers)
+
+    @Autowired
+    private ClassTeacherSubjectServiceImpl classTeacherSubject;
 
     private static List<TeacherJournalDTO> list = new ArrayList<>();
-
-    static {
-        list.add(new TeacherJournalDTO(1, 2, 3, 2018));
-    }
 
     @ApiOperation(value = "Gets a teacher with a journal")
     @ApiResponses(
@@ -58,9 +58,11 @@ public class TeacherJournalController {
                                            @PathVariable("class_id") final int class_id,
                                            @PathVariable("subject_id") final int subject_id)//creates connection
     {
-        list.add(new TeacherJournalDTO(teacher_id, class_id, subject_id, 2018));
+        classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacher_id, class_id, subject_id), true);
 
+        list.add(new TeacherJournalDTO(teacher_id, class_id, subject_id));
         return list.get(list.size() - 1); //get new connection
+
     }
 
 

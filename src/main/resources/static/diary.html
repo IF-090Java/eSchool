@@ -111,8 +111,9 @@
 		</div>
 		
 		    <script type="text/javascript">
-		    	var weekStart = getFirstDayOfCurrentWeek();
 		    	var offset = 0;
+		    	var weekStart = getWeekStart(offset);
+		    	var weekEnd = getWeekEnd(offset);
 		    	var pathArray = window.location.pathname.split('/');
         		var studentId = pathArray[2];
                 $("#homePage").attr("href", "/students/" + studentId + "/profile");
@@ -125,41 +126,45 @@
 				
 				$('#previous-week-btn').click(function(){
 					offset--;
-					weekStart.setDate(weekStart.getDate() - 7);
 					getData();
 				});
 				
 				$('#next-week-btn').click(function(){
 					offset++;
-					weekStart.setDate(weekStart.getDate() + 7);
 					getData();
 				});
 				
 				$('#current-week-btn').click(function(){
 					offset = 0;
-					weekStart = getFirstDayOfCurrentWeek();
 					getData();
 				});
 				
 				function getData(){
-					$.getJSON(ulr, {weekStartDate:weekStart}, setData);
+					$.getJSON(ulr, {weekStartDate:getWeekStart(offset)}, setData);
 				}
+				
+				
 				
 				function setData (response) {
 					var data = response.data;
 					$('.diary-day').empty();
 					var tableHeader = $('<tr> <th>№</th> <th>Урок</th> <th>Домашнє завдання</th> <th>Оцінка</th> <th>Примітка</th></tr>');
 					tableHeader.appendTo('.diary-day');
-					var firstDayDate = new Date(data[0].date).getDate();
-					var lastDayDate = new Date(data[data.length-1].date).getDate();
-					var firstDayMonth = new Date(data[0].date).getMonth();
-					var lastDayMonth = new Date(data[data.length-1].date).getMonth();
-					var period = firstDayDate+' '+months[firstDayMonth]+' - '+lastDayDate+' '+months[lastDayMonth];
+					var firstDayDate = getWeekStart(offset).getDate();
+					var lastDayDate = getWeekEnd(offset).getDate();
+					var firstDayMonth = getWeekStart(offset).getMonth();
+					var lastDayMonth = getWeekEnd(offset).getMonth();
+					var period = firstDayDate +' '+months[firstDayMonth]+' - '+lastDayDate+' '+months[lastDayMonth];
 					$('#date-period').text(period);
 					if (offset == 0){
 						$('#current-week-btn').hide();
 					} else {
 						$('#current-week-btn').show();
+					}
+					if (data.length == 0){
+						$('.diary-container').hide();
+					} else {
+						$('.diary-container').show();
 					}
 					$.each(data, function(i, diaryEntry) {
 						var tableRow = $('<tr></tr>');
@@ -191,11 +196,17 @@
 					});
 				}
 				
-				function getFirstDayOfCurrentWeek (){
+				function getWeekStart (offset){
 					var weekStart = new Date();
 			    	var currentDay = weekStart.getDay();
-					weekStart.setDate(weekStart.getDate() - currentDay + 1);
+					weekStart.setDate(weekStart.getDate() - currentDay + 1 + 7*offset);
 					return weekStart;
+				}
+				
+				function getWeekEnd(offset){
+					var weekEnd = new Date(weekStart.getTime());
+					weekEnd.setDate(weekEnd.getDate() + 4 + 7*offset);
+					return weekEnd;
 				}
 			</script>
 	</body>

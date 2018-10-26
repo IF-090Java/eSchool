@@ -68,8 +68,8 @@
 </head>
 <body>
 	<div class="header">
-		<a href="/admin"><img id="logo" src="/img/logo.png" width="144" height="45" alt="logo"></a>
-		<span style="float: left; margin-left: 40px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
+		<a id="homepage" href="/admin"><img id="logo" src="/img/logo.png" width="144" height="45" alt="logo"></a>
+		<span style="float: left; margin-left: 40px; margin-top: 15px" id="loggeduser">Ви увійшли як </span>
 		<span style="float: left; margin-left: 12%; margin-top: 15px" id="status">Статус: Адміністратор</span>
 		<span style="float: right; margin-right: 40px; margin-top: 14px; font-size: 20px;"><a href="/"> Вийти</a></span>
 	</div>
@@ -93,15 +93,9 @@
 				<label for="username">Логін:</label>
 				<input id="username" type="text" name="login">
 			</div>
-			<div id="selectBlock" class="row">
-				<label for="selectClass">Класс:</label>
-				<select id="selectClass" name="select">
-					<option id="preselected"></option>
-				</select>
-			</div>
 			<div class="row">
 				<label for="dateOfBirth">Дата народження:</label>
-				<input id="dateOfBirth" type="date" name="dateOfBirth" required>
+				<input id="dateOfBirth" type="date" name="dateOfBirth" >
 			</div>
 			<div class="row">
 				<label for="mail">Електронна адреса:</label>
@@ -141,10 +135,59 @@
 	$(document).ready(function() {
 		var pathArray = window.location.pathname.split('/');
 		var subjectId = pathArray[2];
+		var fileBase64;
+        var referrer =  document.referrer;
+
+		if(referrer.indexOf("profile")>-1) {
+            $("#homepage").attr("href", referrer);
+        }
 
 		$("#newPass, #newPassRepeat").keyup(checkPasswordMatch);
-		
+		$("#avatarFile").on('change', function () {
+            var file = document.getElementById('avatarFile').files[0];
+            var promise = getBase64(file);
+            promise.then(function(result) {
+                console.log(result);
+                fileBase64 = result;
+            });
+        });
 
+        function checkMail(){
+            var inputemail = $("#mail").val();
+            var regex = /^([\w-\.]+@.*)$/;
+
+            if (regex.test(inputemail)) {
+                $("#submitButton").prop("disabled", false).css('background-color','#4CAF50');;
+                $("#mail").css('border-color' , 'green');
+            }
+            else{
+                $("#submitButton").prop("disabled", true).css('background-color','grey');
+                $("#mail").css('border-color' , 'red').css('border-radius' , '4px');
+            }
+        }
+
+        $("#mail").keyup(checkMail);
+
+        function setData(data){
+            if(window.location.href.indexOf("teacher/") > -1  || window.location.href.indexOf("student/") > -1){
+            	$("#loggeduser").append(data.login);
+            } else {
+                $("#loggeduser").append("Admin01");
+			}
+            $("#fname").attr("value", data.firstname);
+            $("#lname").attr("value", data.lastname);
+            $("#username").attr("value", data.login);
+            $("#dateOfBirth").val(data.dateOfBirth);
+            $('#patronymic').val(data.patronymic);
+            $('#selectClass').val(data.classe);
+            $("#mail").attr("value", data.email);
+            $("#mobile").attr("value", data.phone);
+            if(data.avatar !== null) {
+                if (data.avatar.length > 0) {
+                    $("#avatar").attr("src", data.avatar);
+                }
+            }
+        }
 		if ((window.location.href.indexOf("teacher/") > -1)||(window.location.href.indexOf("student/") > -1)) {
 			$("#fname").prop('disabled',true);
 			$("#lname").prop('disabled',true);
@@ -157,83 +200,56 @@
 		}
 
 		if (window.location.href.indexOf("teacher") > -1) {
-			$("#selectBlock").hide();
 			var endpoint = 'teachers';
 		}
 		else var endpoint = 'students';
 
+
+
 		$('#submitButton').click(function(){
 			if (window.location.href.indexOf("teacher") > -1) {
-				var obj = {firstname : $("#fname").val() , lastname: $("#lanme").val(), patronymic: $("#patronymic").val(), dateOfBirth: $("#dateOfBirth").val(),
-				login: $("#username").val(),oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),  email: $("#mail").val(),
-				phone : $("#mobile").val(), 
+				var obj = {firstname : $("#fname").val() , lastname: $("#lname").val(),
+					patronymic: $("#patronymic").val(), dateOfBirth: $("#dateOfBirth").val(),
+					login: $("#username").val(),oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),
+					email: $("#mail").val(), phone : $("#mobile").val(), avatar: fileBase64
 			};
 			if (window.location.href.indexOf("teachers/")> -1) {
 				obj.oldPass = "adminchangedpass"
 			}
 		}
 		else{
-			var obj = {firstname : $("#fname").val() , lastname: $("#lanme").val(), patronymic: $("#patronymic").val(), 
-			classId : $("#selectClass").find(':selected').attr('data-id'), dateOfBirth: $("#dateOfBirth").val(), login: $("#username").val(), oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),  email: $("#mail").val(),
-			phone : $("#mobile").val()
+			var obj = {firstname : $("#fname").val() , lastname: $("#lname").val(),
+				patronymic: $("#patronymic").val(),  dateOfBirth: $("#dateOfBirth").val(),
+				login: $("#username").val(), oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),
+				email: $("#mail").val(), phone : $("#mobile").val(), avatar: fileBase64
 		};
 		if (window.location.href.indexOf("students/")> -1) {
 				obj.oldPass = "adminchangedpass"
 			}
+
 	}
 	var formData = JSON.stringify(obj);
-	console.log(formData);
 	$.ajax({
 		type: "PUT",
 		url: "http://localhost:8080/" + endpoint + "/" + subjectId,
 		data: formData,
 		success: function(){ 
-			console.log("success");
 			console.log(formData);
 		},
 		dataType: "json",
 		contentType : "application/json"
-	});
+	})
+            window.history.back();
 })
 		if (window.location.href.indexOf("student") > -1) {
 			$.getJSON('http://localhost:8080/students/' + subjectId, function (data) {
-				console.log(data);
-				// var dt = new Date(data.dateOfBirth);
-				// var mnth = ("0" + (dt.getMonth() + 1)).slice(-2);
-				// var day = ("0" + dt.getDate()).slice(-2);
-				// var myDate = dt.getFullYear() + '-' + mnth + '-' + day;
-				$("#fname").attr("value", data.firstname);
-				$("#lname").attr("value", data.lastname);
-				$("#username").attr("value", data.login);
-				$("#preselected").append(data.classe);
-				$("#dateOfBirth").val(data.dateOfBirth);
-				$('#patronymic').val(data.patronymic);
-				$('#selectClass').val(data.classe);
-				$("#mail").attr("value", data.email);
-				$("#mobile").attr("value", data.phone);
+				setData(data);
 			});
-			$.getJSON('http://localhost:8080/classes', function (data2) {
-				console.log(data2);
-				$.each(data2, function (i, item) {
-					$('#selectClass').append($('<option>', { 
-						text : data2[i].className,
-					}).attr('data-id',data2[i].id));
-				});
-			});
-			$("#mydropdownlist").val("0").change();
 		}
 		else{
 			$.getJSON('http://localhost:8080/teachers/' + subjectId, function (data) {
-				console.log(data);
-				$("#fname").attr("value", data.firstname);
-				$("#lname").attr("value", data.lastname);
-				$("#dateOfBirth").val(data.dateOfBirth);
-				$('#patronymic').val(data.patronymic);
-				$("#username").attr("value", data.login);
-				$("#date").attr("value", data.date);
-				$("#mail").attr("value", data.email);
-				$("#mobile").attr("value", data.phone);
-			});
+				setData(data);
+            });
 		}
 	})
 </script>
