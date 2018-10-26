@@ -103,7 +103,7 @@
                 $('<th>'+"Тип оцінки"+'</th>').appendTo(tr1);
                 $('<th>'+"Дата"+'</th>').appendTo(tr2);
                 $.each(val.marks, function(k, v) {
-                    $('<th>'+v.typeMark+'</th>').appendTo(tr1);
+                    $('<th >'+v.typeMark+'</th>').appendTo(tr1);
                     $('<th>'+v.dateMark+'</th>').appendTo(tr2);
                 });
                 $('<th>'+'С.'+'</th>').appendTo(tr2);
@@ -135,6 +135,7 @@
                 tr.appendTo('#table_mark');
             });
         });
+
     });
 
     </script>
