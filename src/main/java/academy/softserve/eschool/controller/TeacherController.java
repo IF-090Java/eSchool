@@ -1,15 +1,14 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.service.TeacherService;
-import academy.softserve.eschool.dto.EditTeacherDTO;
+import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
-import academy.softserve.eschool.dto.TeacherNamesDTO;
 import academy.softserve.eschool.repository.TeacherRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +22,13 @@ public class TeacherController {
     @Autowired
     private TeacherRepository teacherRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+
+    @Autowired
+    private TeacherService teacherService;
+
     @GetMapping("")
     @ApiOperation(value = "Get list of teacher(only id and names)")
     @ApiResponses(
@@ -32,7 +38,7 @@ public class TeacherController {
             }
     )
     public List<TeacherDTO> getall(){
-        return TeacherService.getAll(teacherRepository.findAll());
+        return teacherService.getAll(teacherRepository.findAll());
     }
   
     @PostMapping
@@ -56,7 +62,7 @@ public class TeacherController {
             }
     )
     public TeacherDTO getTeacher(@PathVariable int id){
-        return TeacherService.getOne(teacherRepository.findById(id).get());
+        return teacherService.getOne(teacherRepository.findById(id).get());
     }
     @PutMapping("/{id}")
     @ApiOperation(value = "update profile of teacher")
@@ -67,8 +73,9 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public void updateTeacher(@RequestBody EditTeacherDTO teacher, @PathVariable int id){
-        // someservice.update(id,teacher)
+    public void updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int id){
+
+        teacherService.updateTeacher(userRepository.findById(id).get(),teacher);
     }
 
 

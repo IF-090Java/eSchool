@@ -16,10 +16,10 @@ import lombok.ToString;
 
 @Entity
 @Table(name="clazz")
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(exclude={"students", "CTSlinks", "schedule"})
+@ToString(of = {"id","name"})
 @Data
 @NoArgsConstructor
-@ToString(of = {"id", "name"})
 public class Clazz {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

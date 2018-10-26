@@ -39,4 +39,7 @@ public class TeacherDTO {
 
     @ApiModelProperty(notes = "teacher phone")
     private String phone;
+
+    @ApiModelProperty(notes = "Avatar in Base64")
+    private String avatar;
 }

@@ -47,5 +47,4 @@ public class ClassTeacherSubjectLink{
 		this.subject = subject;
 		this.isActive = isActive;
 	}
-
 }

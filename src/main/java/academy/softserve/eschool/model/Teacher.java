@@ -19,7 +19,7 @@ import lombok.ToString;
 @Table(name="teacher")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, of=("id"))
 @ToString(of = {"id", "login"})
 public class Teacher extends User{
 	

@@ -15,12 +15,15 @@ import javax.validation.constraints.Size;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = "CTSlinks")
 @NoArgsConstructor
+
 @Table(name="subject")
 @ToString(of = {"id", "name"})
 public class Subject {
