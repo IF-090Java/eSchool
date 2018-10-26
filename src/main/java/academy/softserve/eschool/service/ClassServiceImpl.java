@@ -30,6 +30,7 @@ public class ClassServiceImpl implements ClassService{
     @Override
     public ClassDTO findClassById(int id) {
         Clazz clazz = classRepository.findById(id).orElse(null);
+  
         return ClassDTO.builder()
                 .className(clazz.getName())
                 .classDescription(clazz.getDescription())
