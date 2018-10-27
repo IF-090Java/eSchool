@@ -18,7 +18,6 @@ import java.text.ParseException;
 @Api(value = "Schedule Endpoint", description = "Crate a schedule for a semester")
 public class ScheduleController {
 
-   // private static List<ScheduleDTO> list = new ArrayList<>();
     @Autowired
     ScheduleServiceImpl scheduleService;
 
@@ -32,14 +31,8 @@ public class ScheduleController {
     @PostMapping("/classes/{id_class}/schedule")
     public ScheduleDTO postSchedule(@PathVariable("id_class") final int id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
-      /*  for(ScheduleDTO scheduleDTO1 : list){
-            if (scheduleDTO1.getClassName().getId() == id) list.remove(scheduleDTO1);
-        }
-        scheduleDTO.setId_schedule(list.size() + 1);
-        scheduleDTO.getClassName().setId(id);
-        list.add(scheduleDTO);
-        return scheduleDTO; //get new schedule*/
-      return null;
+      scheduleService.saveSchedule(scheduleDTO);
+      return scheduleDTO;
     }
 
     @ApiOperation(value = "Gets schedule for the class with id")

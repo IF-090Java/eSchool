@@ -18,9 +18,6 @@ import java.util.List;
 @Builder
 public class ScheduleDTO {
 
-    @ApiModelProperty(notes = "id of the schedule")
-    private int id_schedule;
-
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd")

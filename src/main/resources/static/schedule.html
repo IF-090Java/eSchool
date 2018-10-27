@@ -1402,23 +1402,27 @@ width: 150px;
 			$.getJSON('http://localhost:8080/subjects', function (data) {
 
 				var subjectNames = [];
+				var id = [];
 				$.each(data, function(key, value) {
 						subjectNames.push(value.subjectName);
+						id.push(value.subjectId);
 					});
 				for (i=0; i < subjectNames.length; i++)
 				{
-					$('.ax_default_droplist').append('<option value="' + (i+1) + '">' + subjectNames[i] + '</option>');
+					$('.ax_default_droplist').append('<option value="' + id[i] + '">' + subjectNames[i] + '</option>');
 				}
 			});
 			
 			$.getJSON('http://localhost:8080/classes', function(data){
 
 					var classNames = [];
+					var id = [];
 					$.each(data, function(key, value) {
 						classNames.push(value.className);
+						id.push(value.id);
 					});
 					for (i=0; i < classNames.length; i++)
-					$('#u15_input').append('<option value="' + (i+1) + '">' + classNames[i] + '</option>');
+					$('#u15_input').append('<option value="' + id[i] + '">' + classNames[i] + '</option>');
 				});
 
 
