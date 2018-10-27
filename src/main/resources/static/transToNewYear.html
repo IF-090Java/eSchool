@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Перехід на новий навчальний рік</title>
+    <link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
     <style type="text/css">
 
         .main {
@@ -12,21 +13,10 @@
             font-size: 16px;
         }
 
-        .new-class-form {
-            margin-left: 25%;
-            margin-right: 25%;
-        }
-
         .student-to-class {
             margin-left: 10%;
             margin-right: 10%;
             margin-top: 30px;
-        }
-
-        .header{
-            height: 50px;
-            background: #BCC8D2;
-            border: solid 1px black;
         }
 
 
@@ -64,7 +54,7 @@
 
         button {
             height: 45px;
-            width: 150px;
+            width: 300px;
             font-size: 18px;
             background-color: #4CAF50;
             border: 1px solid #4CAF50;
@@ -72,8 +62,7 @@
             color: white;
             font-family: Georgia, 'Times New Roman', Times, serif;
             border-radius: 3px;
-            margin-top: 50px;
-            margin-left: 40px;
+            /*margin-left: 35%;*/
         }
 
         form {
@@ -88,53 +77,111 @@
             color: transparent;
         }
 
+        table.fixed {table-layout:fixed; width:100%;}
+        table.fixed td {overflow:hidden;}
+        table.fixed td:nth-of-type(1) {width:300px;}
+        table.fixed td:nth-of-type(2) {width:200px;}
+        table.fixed td:nth-of-type(3) {width:170px;}
+
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="header">
-    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/admin">Домашня сторінка</a></span>
-    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
-    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
-    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
-</div>
+<div class="header"></div>
 <div class="main">
     <div align="center" style="margin-bottom: 50px">
         <h1>Перехід на новий навчальний рік</h1>
     </div>
-    <fieldset style="border: 2px solid #4CAF50; padding: 40px;" class="new-class-form">
-        <form id="classes_table" method="post" action="/classes/addNewClasses"></form>
-    </fieldset>
-
-    <fieldset style="border: 2px solid #4CAF50; padding: 40px;" class="student-to-class">
-
+  <fieldset style="border: 2px solid #4CAF50; padding: 40px;" class="student-to-class">
+        <div align="center" style="margin-bottom: 50px">
+            <button class="button1" type="submit">Новий навчальний рік. Додати класи</button>
+        </div>
+        <div align="center" style="margin-bottom: 50px">
+            <h2>Зміна поточних класів для учнів</h2>
+        </div>
+          <table class="fixed">
+              <tr>
+                  <td><strong>Учні поточного класу</strong></td>
+                  <td><strong>Поточний клас</strong></td>
+                  <td><strong>Новий клас</strong></td>
+              </tr>
+          </table>
+          <table id="old_new_classes" class="fixed">
+          </table>
+          <div align="center" style="margin-top: 50px">
+              <button class="button2" type="submit">Зберегти</button>
+          </div>
     </fieldset>
 </div>
 
 <script type="text/javascript">
+    $(function() {
+        $(".header").load("/views/header.html");
+    });
+</script>
+
+<script type="text/javascript">
+
+    $('.button1').on('click', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "post",
+            url: "/students/transition",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (responce) {
+                alert('Нові класи додані!')
+                window.location.href = "/transToNewYear.html";
+            }
+        });
+    })
+
+    $('.button2').on('click', function (e) {
+        e.preventDefault();
+    })
+
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/classes', function (data) {
-            $.each(data, function (i, item) {
-                var name = item.className.split('-');
-
-                if (name[0]!=11){
-                    var classYear = item.classYear+1;
-                    $('#classes_table').append('<label>').append(item.className).append(' - ').append(item.classYear).append('</label>');
-                    $('#classes_table').append($('<input>').attr('value',item.className+' - '+classYear).attr('text','text'));
-                }
+        $.getJSON('http://localhost:8080/students/transition', function (oldClasses) {
+        $.getJSON('http://localhost:8080/classes', function (newClasses) {
+            var activeClasses = [];
+            var counter = 0;
+            $.each(newClasses, function (j, jitem) {
+                activeClasses.push(jitem.className +' - '+jitem.classYear)
             })
-            $('#classes_table').append($('<button>').attr('class','button').attr('type', 'submit').append('Зберегти')).append('</button>');
-        })
-    })
+                console.log(oldClasses);
+                $.each(oldClasses, function (i, item) {
+                    $.getJSON('http://localhost:8080/students/classes/'+item.id, function (studList) {
+                        $('#old_new_classes').append('<tr>')
+                            .append($('<td>')
+                            .append($('<div>').attr('class', 'spoiler')
+                                .append($('<input>').attr('type', 'checkbox').attr('id', 'spoilerid'+item.id))
+                                .append($('<label>').attr('for', 'spoilerid'+item.id).append('Учні '+item.className +' класу'))
+                            .append($('<div>').attr('class', 'spoiler_body')
+                                .append($('<list>').attr('id', 'studId'+item.id)))))
+                                    $.each(studList, function (k, v) {
+                                        $('<li>'+v.firstname+' '+v.lastname +'</li>').appendTo('#studId'+item.id);
+                                    })
+                                $('#old_new_classes').append('</list>')
+                            .append('</div>').append('</div>') //.append('</td>')
 
-    $('form').on('submit', function (e) {
-        e.preventDefault()
-        var allInputValues = document.querySelectorAll("input");
-        var allLabelValues = document.querySelectorAll("label");
-        console.log(allInputValues[0].innerHTML);
-        console.log(allLabelValues[0].innerHTML);
+                        $('#old_new_classes')
+                            .append($('<td>')
+                            .append(item.className).append(' - '+item.classYear))
 
-    })
+                        $('#old_new_classes')
+                            .append($('<td>')
+                                .append($('<select>').attr('class', 'select_class'+counter).append('</select>')))
+
+                        for (i=0; i<activeClasses.length; i++){
+                            $('.select_class'+counter).append('<option value="'+activeClasses[i]+'">'+activeClasses[i]+'</option>')
+                        }
+                        $('#old_new_classes').append('</tr>')
+                        counter+=1;
+                    })
+                });
+            })
+        });
+    });
 </script>
 </body>
 </html>

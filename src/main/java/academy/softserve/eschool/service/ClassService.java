@@ -9,4 +9,7 @@ public interface ClassService {
     ClassDTO findClassById(int id);
     void saveClass(ClassDTO classDTO);
     void updateClass(int id, ClassDTO classDTO);
+    void addNewYearClasses();
+    List<ClassDTO> getActiveClassesWithStudents();
+    String updateClassName(String className);
 }

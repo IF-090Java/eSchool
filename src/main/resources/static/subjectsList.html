@@ -28,15 +28,18 @@
 </head>
 <body>
 	<div class="header"></div>
-	<div>
+	
 		<div class="main">
-			<h2 align="center">Всі предмети</h2>
-			<ul id="subjectslist" style="list-style-type: square;">
-			</ul>
+		<div class="head">
+			<h1 align="center">ВСІ ПРЕДМЕТИ</h1>
+   				<div id="form"><pre style="text-align: left; font-family: Georgia, 'Times New Roman', Times, serif;
+   				font-size: 16px;">Введіть слова для пошуку предмету</pre></div>
+    				<div class="clear"></div>
+		</div>
+			<ul id="subjectslist" style="list-style-type: square;"></ul>
 			<div align="center" style="text-align: center; margin: 0 auto;">
 				<button type="submit"><a href="/subjects/add" style="text-decoration: none; color: #FFFFFF";>Додати предмет</a></button>
 			</div>
-		</div>
 	</ul>
 </div>	
 <script type="text/javascript"> 
@@ -52,8 +55,42 @@
 				$('#subjectslist').append($('<li>').append($('<a>').attr('href','/subjects/'+item.subjectId+'/edit').append(item.subjectName)))
 			});		
 		});
-
 	});
 </script>
+<script type="text/javascript">
+(function ($) {
+	  jQuery.expr[':'].Contains = function(a,i,m){
+	      return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
+	  };
+	  function filterList(header, subjectslist) {
+			var form = $("<form>").attr({
+				"class" : "filterform",
+				"action" : "#"
+			}), input = $("<input>").attr({
+				"class" : "filterinput",
+				"type" : "text"
+			});
+			$(form).append(input).appendTo(header);
+			$(input).change(
+					function() {
+						var filter = $(this).val();
+						if (filter) {
+							$matches = $(subjectslist).find(
+									'a:Contains(' + filter + ')').parent();
+							$('li', subjectslist).not($matches).slideUp();
+							$matches.slideDown();
+						} else {
+							$(subjectslist).find("li").slideDown();
+						}
+						return false;
+					}).keyup(function() {
+				$(this).change();
+			});
+		}
+		$(function() {
+			filterList($("#form"), $("#subjectslist"));
+		});
+	}(jQuery));
+</script> 
 </body>
 </html>

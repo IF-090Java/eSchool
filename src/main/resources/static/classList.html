@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Список класів</title>
+	<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+	<style type="text/css">
+
+	.main{
+		margin: auto;
+    	width: 35%;
+	}	
+	.main ul li a{
+		font-size: 19px;
+		text-decoration: none;
+	}
+	
+	li{
+		margin-top: 5px;
+	}
+
+	tr:nth-child(even){
+		background-color: #f2f2f2
+	}
+
+	tr{
+		height: 28px;
+		font-size: 18px;
+	}
+
+	table{
+		width: 100%;
+	}
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="header"></div>
+	<div>
+		<div class="main">
+			<h2 align="center">Редагувати клас</h2>
+			<fieldset style="border: 2px solid #4CAF50">
+				<table id="classeslist"></table>
+				<div class="spoiler">
+					<input type="checkbox" id="spoilerid_1">
+					<label for="spoilerid_1">Неактивні класи</label>
+					<div class="spoiler_body">
+						<table id="inactiveClasslist"></table>
+					</div>
+				</div>
+			<div align="center" style="text-align: center; margin: 0 auto;">
+				<button type="button" onclick="window.location.href='/classes/add'">Додати клас</button>
+			</div>
+			</fieldset>
+		</div>
+</div>	
+<script type="text/javascript">
+		$(function() {
+			$(".header").load("/views/header.html");
+		});
+	</script>
+<script type="text/javascript">
+    if (window.location.href.toString() == "http://localhost:8080/classes/classList"){
+        $("h2").html("Виберіть клас");
+        $("button").remove();
+        $(document).ready(function () {
+            $.getJSON('http://localhost:8080/classes', function (data) {
+                $.each(data, function (i, item) {
+                    $('#classeslist').append($('<tr>').append($('<a>').attr('href','/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $.getJSON('http://localhost:8080/classes/inactive', function (data) {
+                console.log(data);
+                $.each(data, function (i, item) {
+                    $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href','/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                });
+            });
+        });
+    } else {
+        $(document).ready(function () {
+            $.getJSON('http://localhost:8080/classes', function (data) {
+                $.each(data, function (i, item) {
+                    $('#classeslist').append($('<tr>').append($('<a>').attr('href', '/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $.getJSON('http://localhost:8080/classes/inactive', function (data) {
+                console.log(data);
+                $.each(data, function (i, item) {
+                    $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href', '/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                });
+            });
+        });
+    }
+</script>
+</body>
+</html>

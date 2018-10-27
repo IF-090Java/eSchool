@@ -9,9 +9,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name="user")
@@ -19,6 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(of="id")
 @NoArgsConstructor
+@ToString(of = {"id", "login"})
 public class User {
 	@Id
 	@GeneratedValue
@@ -27,7 +30,7 @@ public class User {
 	@Size(max=100, min=5)
 	private String login;
 	@NotBlank
-	@Size(max=40, min=5)
+	@Size(max=40)
 	private String password;
 	@Email
 	private String email;
@@ -49,13 +52,16 @@ public class User {
 	@Past
 	@Temporal(TemporalType.DATE)
 	@Column(name="date_of_birth")
+	@JsonFormat(
+			shape = JsonFormat.Shape.STRING,
+			pattern = "yyyy-MM-dd", timezone="EST")
     private Date dateOfBirth;
 	@Enumerated(EnumType.STRING)
 	@Column(length = 6)
     private Sex sex;
     @Size(max=20)
     private String phone;
-    @Size(max=200)
+    @Size(max=9999999)
     private String avatar;
     @Size(max=200)
     private String description;
