@@ -43,6 +43,11 @@
            background-color: #4CAF50;
            color: white;
        }
+
+        #markPick{
+            margin: auto;
+            width: 40%;
+        }
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -62,7 +67,21 @@
 
     </table>
 
-    <table id="table_home">
+<div id="markPick">
+    <div id="st">
+    Студент: <span id="spanStudent"></span>
+</div>
+    <div id="les">
+    Урок: <span id="spanLesson"></span>
+</div>
+    <form >
+    Mark: <input type="number" id="mark_form" min="1" max="12"><br>
+    Note:<input type="text" id="note_form"><br><br>
+    <input type="submit" value="Submit">
+</form>
+</div>
+
+<table id="table_home">
         <tr>
             <th>Дата</th>
             <th>Домашнє завдання</th>
@@ -70,12 +89,17 @@
         </tr>
     </table>
 
+
     <script type="text/javascript">
     $(document).ready(function () {
 
         var pathArray = window.location.pathname.split('/');
         var idSubject = pathArray[3];
         var idClass = pathArray[5];
+        var idLessonValue;
+        var idStudentValue;
+        var currentCell;
+
 
         $.getJSON('http://localhost:8080/classes/'+idClass, function (data) {
           $('<span>'+data.className+'</span>').appendTo('#classTitle');
@@ -116,14 +140,14 @@
                 var countMarks = 0;
                 var sum=0;
                 var average = "";
-                var tr=$('<tr></tr>');
+                var tr=$('<tr class="markValues"></tr>');
                 $('<td>'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr);
                 $.each(val.marks, function(k, v) {
                     if(!v.mark){
-                        $('<td>'+""+'</td>').appendTo(tr);
+                        $('<td class="mark">'+""+'</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
                     }
                     else {
-                        $('<td title="'+v.note+'">' + v.mark + '</td>').appendTo(tr);
+                        $('<td class="mark" title="'+v.note+'">' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
                         countMarks++;
                         sum+=v.mark;
                     }
@@ -131,13 +155,69 @@
                 if(countMarks>0){
                     average = Math.round(sum/countMarks*100)/100;
                 }
-                $('<td>' + average + '</td>').appendTo(tr);
+                $('<td class="average">' + average + '</td>').appendTo(tr);
                 tr.appendTo('#table_mark');
+            });
+            $('td.mark').click( function() {
+                if(currentCell!=undefined) {
+                    currentCell.css("background-color", "");
+                }
+                var idS = $(this).attr("idSt");
+                var idL = $(this).attr("idLes");
+                $('#spanStudent').text(idS);
+                $('#spanLesson').text(idL);
+                $('#note_form').val($(this).attr("title"));
+                idLessonValue = idL;
+                idStudentValue = idS;
+                currentCell = $(this);
+                $(this).css("background-color", "#83AF86");
             });
         });
 
-    });
 
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var mark = $("#mark_form").val();
+            var note = $("#note_form").val();
+
+            $.ajax({
+                type: "post",
+                url: "/marks",
+                dataType: "json",
+                data: JSON.stringify({
+                    "mark": mark,
+                    "note": note,
+                    "idStudent": idStudentValue,
+                    "idLesson": idLessonValue
+
+                }),
+                contentType: "application/json",
+                success: function (response) {
+                    currentCell.text(mark);
+                    currentCell.prop("title",note);
+                    currentCell.css("background-color", "");
+
+                    $('#table_mark .markValues').each(function() {
+                        var sum = 0;
+                        var total = 0;
+                        var average = "";
+                        $(this).find('.mark').each (function() {
+                            if($(this).text()){
+                                total+=1;
+                                sum+=parseInt($(this).text());
+                            }
+                        });
+                        if(total!=0){
+                            average = (sum / total).toFixed(2);
+                        }
+                        $(this).find('.average').text(average);
+                    });
+
+                }
+            });
+        })
+
+    });
     </script>
 </body>
 </html>
