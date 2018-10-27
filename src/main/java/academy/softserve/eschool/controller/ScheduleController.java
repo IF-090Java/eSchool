@@ -25,22 +25,6 @@ public class ScheduleController {
 
     private static List<ScheduleDTO> list = new ArrayList<>();
 
-    static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
-    static {
-        List<SubjectDTO> listsub = new ArrayList<>();
-        listsub.add(new SubjectDTO(1, "Історія України", "Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу"));
-
-        try {
-            list.add(new ScheduleDTO(1, format.parse("2018-10-18"), format.parse("2018-12-18"),
-                    new ClassDTO(1, 2018, "5-A","Класний керівник - Данилишин Богдан", "true"), listsub, listsub,
-                    listsub, listsub, listsub));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-    }
-
     @ApiOperation(value = "Creates a schedule for a class")
     @ApiResponses(
             value={
@@ -51,7 +35,10 @@ public class ScheduleController {
     @PostMapping("/classes/{id_class}/schedule")
     public ScheduleDTO postSchedule(@PathVariable("id_class") final int id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
-        scheduleDTO.setId_schedule(list.size());
+        for(ScheduleDTO scheduleDTO1 : list){
+            if (scheduleDTO1.getClassName().getId() == id) list.remove(scheduleDTO1);
+        }
+        scheduleDTO.setId_schedule(list.size() + 1);
         scheduleDTO.getClassName().setId(id);
         list.add(scheduleDTO);
         return scheduleDTO; //get new schedule
@@ -65,14 +52,10 @@ public class ScheduleController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public ScheduleDTO getSchedule(@PathVariable("id_class") final int id_class) throws ParseException
-    {
-        for(ScheduleDTO scheduleDTO : list){
+    public ScheduleDTO getSchedule(@PathVariable("id_class") final int id_class) throws ParseException {
+        for (ScheduleDTO scheduleDTO : list) {
             if (scheduleDTO.getClassName().getId() == id_class) return scheduleDTO;
         }
-        return new ScheduleDTO(1, new Date(), new Date(),
-                new ClassDTO(id_class, 2018, "5-A","Класний керівник - Данилишин Богдан", "true"), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        return null;
     }
-
 }

@@ -1,8 +1,6 @@
 package academy.softserve.eschool.model;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,12 +16,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name="student")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, of = "id")
+@ToString(callSuper = true, of = "id")
 public class Student extends User{
 
     @ManyToMany(cascade = 
@@ -34,12 +34,12 @@ public class Student extends User{
             inverseJoinColumns = { @JoinColumn(name = "class_id") }
         )
     @JsonIgnore
-    private Set<@NotNull Clazz> classes = new HashSet<>();
+    private List<@NotNull Clazz> classes = new ArrayList<>();
 
     @OneToMany(cascade = 
         {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy="student")
     @JsonIgnore
-    private Set<@NotNull Mark> marks = new HashSet<>();
+    private List<@NotNull Mark> marks = new ArrayList<>();
 
     @Builder
 	public Student(String login, String password, String email, Role role, String firstName, String lastName,
@@ -48,3 +48,5 @@ public class Student extends User{
 				description);
 	}
 }
+
+

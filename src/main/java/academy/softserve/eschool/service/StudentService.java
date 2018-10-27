@@ -1,29 +1,22 @@
 package academy.softserve.eschool.service;
 
+import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.StudentDTO;
 import academy.softserve.eschool.model.Clazz;
-import academy.softserve.eschool.model.Role;
 import academy.softserve.eschool.model.Student;
-import academy.softserve.eschool.repository.ClassRepository;
-import academy.softserve.eschool.repository.StudentRepository;
+import academy.softserve.eschool.model.User;
+import academy.softserve.eschool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static academy.softserve.eschool.auxiliary.LoginGeneratorController.transliteration;
-import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
-
+@Service
 public class StudentService {
-
     @Autowired
-    private static ClassRepository classRepository;
-
-    @Autowired
-    private static StudentRepository studentRepository;
-    public static StudentDTO getOne(Student s){
+    UserRepository userRepository;
+    public StudentDTO getOne(Student s){
         return StudentDTO.builder().firstname(s.getFirstName())
                 .lastname(s.getLastName())
                 .patronymic(s.getPatronymic())
@@ -31,10 +24,11 @@ public class StudentService {
                 .dateOfBirth(s.getDateOfBirth())
                 .classe(s.getClasses().stream().filter(Clazz::isActive).findFirst().orElseGet(Clazz::new).getName())
                 .email(s.getEmail())
+                .avatar(s.getAvatar())
                 .phone(s.getPhone()).build();
     }
 
-    public static List<StudentDTO> getAll(List<Student> students){
+    public List<StudentDTO> getAll(List<Student> students){
         return students.stream().map(i->StudentDTO.builder().Id(i.getId())
                 .firstname(i.getFirstName())
                 .lastname(i.getLastName())
@@ -46,20 +40,20 @@ public class StudentService {
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public static void addStudentServ(final StudentDTO studentDTO){
-        Student student = Student.builder()
-                .firstName(studentDTO.getFirstname())
-                .lastName(studentDTO.getLastname())
-                .patronymic(studentDTO.getPatronymic())
-                .login(transliteration(studentDTO.getLastname()))
-                .password(generatePassword(7))
-                .avatar(null)
-                .dateOfBirth(studentDTO.getDateOfBirth())
-                .email(studentDTO.getEmail())
-                .phone(studentDTO.getPhone())
-                .role(Role.ROLE_USER)
-                .build();
-        student.getClasses().add(new Clazz());
-        studentRepository.save(student);
+    public void updateStudent(User oldUser, EditUserDTO edited){
+
+        oldUser.setFirstName(edited.getFirstname());
+        oldUser.setLastName(edited.getLastname());
+        oldUser.setPatronymic(edited.getPatronymic());
+        oldUser.setDateOfBirth(edited.getDateOfBirth());
+        oldUser.setAvatar(edited.getAvatar());
+        oldUser.setEmail(edited.getEmail());
+        oldUser.setPhone(edited.getPhone());
+        if((oldUser.getPassword().equals(edited.getOldPass()) || edited.getOldPass().equals("adminchangedpass"))
+                && edited.getNewPass().length()>0){
+            oldUser.setPassword(edited.getNewPass());
+        }
+        oldUser.setLogin(edited.getLogin());
+        userRepository.save(oldUser);
     }
 }

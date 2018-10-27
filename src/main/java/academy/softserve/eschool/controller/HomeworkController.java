@@ -1,6 +1,8 @@
 package academy.softserve.eschool.controller;
 import academy.softserve.eschool.dto.HomeworkDTO;
+import academy.softserve.eschool.service.JournalServiceImpl;
 import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import java.util.List;
 @RequestMapping("/homeworks")
 @Api(value = "Homework's Endpoint", description = "Get homeworks")
 public class HomeworkController {
+    @Autowired
+    JournalServiceImpl journalServiceImpl;
 
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     @ApiOperation(value = "Get homeworks by subjects and classes")
@@ -24,12 +28,6 @@ public class HomeworkController {
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass
     ){
-        List<HomeworkDTO> list = new ArrayList<>();
-        list.add(new HomeworkDTO(new Date(),"ст.125","file1.txt".getBytes()));
-        list.add(new HomeworkDTO(new Date(),"ст.122","file2.txt".getBytes()));
-        list.add(new HomeworkDTO(new Date(),"впр.2","file3.txt".getBytes()));
-        list.add(new HomeworkDTO(new Date(),"рисунок","file4.txt".getBytes()));
-        list.add(new HomeworkDTO(new Date(),"ст.12 , впр.2","file5.txt".getBytes()));
-        return list;
+       return journalServiceImpl.getHomework(idSubject,idClass);
     }
 }

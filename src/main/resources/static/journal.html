@@ -90,7 +90,8 @@
                 var tr=$('<tr></tr>');
                 $('<td>'+val.date+'</td>').appendTo(tr);
                 $('<td>'+val.homework+'</td>').appendTo(tr);
-                $('<td>'+atob(val.file)+'</td>').appendTo(tr);
+                /*$('<td>'+atob(val.file)+'</td>').appendTo(tr);*/
+                $('<td>'+'file.txt'+'</td>').appendTo(tr);
                 tr.appendTo('#table_home');
             });
         });
@@ -111,9 +112,10 @@
                 return false;
             });
             var countStudents = 0;
-            var countMarks = 0;
-            var sum=0;
             $.each(data, function(key, val) {
+                var countMarks = 0;
+                var sum=0;
+                var average = "";
                 var tr=$('<tr></tr>');
                 $('<td>'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr);
                 $.each(val.marks, function(k, v) {
@@ -126,7 +128,10 @@
                         sum+=v.mark;
                     }
                 });
-                $('<td>' + Math.round(sum/countMarks*100)/100 + '</td>').appendTo(tr);
+                if(countMarks>0){
+                    average = Math.round(sum/countMarks*100)/100;
+                }
+                $('<td>' + average + '</td>').appendTo(tr);
                 tr.appendTo('#table_mark');
             });
         });
