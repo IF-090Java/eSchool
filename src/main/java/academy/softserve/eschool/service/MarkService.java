@@ -2,9 +2,9 @@ package academy.softserve.eschool.service;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,17 +34,17 @@ public class MarkService implements MarkServiceBase{
 		if (periodEnd != null) {
 			endDate = dateFormat.format(periodEnd);
 		}
-		List<Object[]> marks = markRepo.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate);
+		List<Map<String, Object>> marks = markRepo.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate);
 		List<MarkDataPointDTO> dataPoints = formDataPoints(marks);
 		return dataPoints;
 	}
 	
 
-	private List<MarkDataPointDTO> formDataPoints(List<Object[]> data) {
+	private List<MarkDataPointDTO> formDataPoints(List<Map<String, Object>> data) {
 		List<MarkDataPointDTO> dataPoints;
 		dataPoints = data.stream().map((obj) -> {
-				double averageMark = ((BigDecimal)obj[0]).doubleValue();
-				Date date = (Date)obj[1];
+				double averageMark = ((BigDecimal)obj.get("avg_mark")).doubleValue();
+				Date date = (Date)obj.get("date");
 				return new MarkDataPointDTO(averageMark, date);
 			})
 			.collect(Collectors.toList());
