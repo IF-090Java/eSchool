@@ -12,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class JournalMarkDTO {
+    @ApiModelProperty(notes = "id of student")
+    private int idStudent;
     @ApiModelProperty(notes = "name of student")
     private String studentFullName;
     @ApiModelProperty(notes = "array of marks")
