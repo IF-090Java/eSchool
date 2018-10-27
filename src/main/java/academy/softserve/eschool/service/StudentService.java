@@ -3,19 +3,34 @@ package academy.softserve.eschool.service;
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.StudentDTO;
 import academy.softserve.eschool.model.Clazz;
+import academy.softserve.eschool.model.Role;
 import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.model.User;
+import academy.softserve.eschool.repository.ClassRepository;
+import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.loading.ClassLoaderRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static academy.softserve.eschool.auxiliary.LoginGeneratorController.transliteration;
+import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
+
 @Service
 public class StudentService {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ClassRepository classRepository;
+
+    @Autowired
+    StudentRepository studentRepository;
+
     public StudentDTO getOne(Student s){
         return StudentDTO.builder().firstname(s.getFirstName())
                 .lastname(s.getLastName())
@@ -55,5 +70,22 @@ public class StudentService {
         }
         oldUser.setLogin(edited.getLogin());
         userRepository.save(oldUser);
+    }
+
+    public Student addOne(StudentDTO studentDTO) {
+        Student student = Student.builder()
+                .lastName(studentDTO.getLastname())
+                .firstName(studentDTO.getFirstname())
+                .patronymic(studentDTO.getPatronymic())
+                .login(transliteration(studentDTO.getLastname()))
+                .password(generatePassword(7))
+                .phone(studentDTO.getPhone())
+                .email(studentDTO.getEmail())
+                .dateOfBirth(studentDTO.getDateOfBirth())
+                .role(Role.ROLE_USER)
+                .build();
+        Clazz clazz = classRepository.getOne(Integer.valueOf(studentDTO.getClassId()));
+        student.getClasses().add(clazz);
+        return studentRepository.save(student);
     }
 }

@@ -1,9 +1,10 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.EditUserDTO;
-import academy.softserve.eschool.service.StudentService;
 import academy.softserve.eschool.dto.StudentDTO;
+import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.repository.StudentRepository;
+import academy.softserve.eschool.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static academy.softserve.eschool.service.StudentService.addStudentServ;
 
 @RestController
 @RequestMapping("/students")
@@ -38,8 +37,8 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public void addStudent(@RequestBody StudentDTO student) {
-        addStudentServ(student);
+    public Student addStudent(@RequestBody StudentDTO student) {
+        return studentService.addOne(student);
     }
 
     @GetMapping("/{id}")

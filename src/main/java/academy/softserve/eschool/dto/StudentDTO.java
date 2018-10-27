@@ -29,6 +29,10 @@ public class StudentDTO {
 
     @ApiModelProperty(notes = "contains student class")
     private String classe;
+
+    @ApiModelProperty(notes = "contains class id")
+    private int classId;
+
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd")

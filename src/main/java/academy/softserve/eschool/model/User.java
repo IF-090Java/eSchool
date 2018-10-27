@@ -13,16 +13,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 @Entity
-@AllArgsConstructor
 @Table(name="user")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
+@AllArgsConstructor
 @EqualsAndHashCode(of="id")
 @NoArgsConstructor
 @ToString(of = {"id", "login"})
 public class User {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@NotBlank
 	@Size(max=100, min=5)

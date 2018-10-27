@@ -46,7 +46,7 @@
     <form>
         <div class="main">
             <fieldset>
-                <legend style="font-size: 19px">Особита інформація</legend>
+                <legend style="font-size: 19px" class="needCleen">Особита інформація</legend>
                 <div class="row">
                     <label for="lastName">Прізвище:</label>
                     <input id="lastName" type="text" name="lastname" required>
@@ -93,13 +93,24 @@
 	</script>
  <script type="text/javascript">
         $(document).ready(function () {
+            $.getJSON('http://localhost:8080/classes', function (data2) {
+                console.log(data2);
+
+                $.each(data2, function (i, item) {
+                    $('#selectClass').append($('<option>', {
+                        value: data2[i].id,
+                        text : data2[i].className
+                    }));
+                });
+            });
+
             $('form').on('submit', function (e) {
 
                 e.preventDefault();
                 var firstName   = $("#firstName").val();
                 var lastName    = $("#lastName").val();
                 var patronymic  = $("#patronymic").val();
-                var classe      = $("#selectClass option:selected").text();
+                var classe      = $("#selectClass option:selected").val();
                 var dateOfBirth = $("#dateOfBirth").val();
                 var login       = $("#login").val();
                 var mail        = $("#mail").val();
@@ -113,7 +124,7 @@
                         "firstname"  :   firstName,
                         "lastname"   :   lastName,
                         "patronymic" :   patronymic,
-                        "classe"     :   classe,
+                        "classId"    :   classe,
                         "dateOfBirth":   dateOfBirth,
                         "login"      :   login,
                         "email"      :   mail,
@@ -122,20 +133,12 @@
                     contentType: "application/json",
 
                     success: function (responce) {
-                        $("*").val("");
+                        $(":input").val("");
                         $("#message").html("Учнь " + lastName + " " + firstName + " доданий введіть дані наступного учня");
+                    },
+                    error: function(){
+                        $("#message").html("помилка");
                     }
-                });
-            });
-
-            $.getJSON('http://localhost:8080/classes', function (data2) {
-                console.log(data2);
-
-                $.each(data2, function (i, item) {
-                    $('#selectClass').append($('<option>', {
-                        value: data2[i].id,
-                        text : data2[i].className
-                    }));
                 });
             });
         })

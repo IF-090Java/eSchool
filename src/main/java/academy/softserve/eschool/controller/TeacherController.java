@@ -1,5 +1,6 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.model.Teacher;
 import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.service.TeacherService;
 import academy.softserve.eschool.dto.EditUserDTO;
@@ -49,8 +50,8 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public TeacherDTO addTeacher(@RequestBody TeacherDTO teacher) {
-        return teacher;
+    public Teacher addTeacher(@RequestBody TeacherDTO teacher) {
+        return teacherService.addOne(teacher);
     }
   
     @ApiOperation(value = "Get all info about teacher")
