@@ -4,88 +4,91 @@
  	<meta charset="UTF-8">
     <title>Додавання учня</title>
 	<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<style>
-	.main {
-		margin-left: 27%;
-		margin-right: 27%;
-	}
+        fieldset.scheduler-border {
+            border: 3px groove #4caf50;
+            padding: 0 1.4em 1.4em 1.4em;
+            margin: 0;
+            -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+        }
 
-	.row {
-		display: table-row;
-	}
+        legend.scheduler-border {
+            width:inherit;
+            padding:0 10px;
+            border-bottom:none;
+        }
 
-	label {
-		display: table-cell;
-		vertical-align: middle;
-		font-size: 18px;
-	}
+        #selectClass {
+            margin-top: 0px;
+            margin-left: 15%;
+            height: 25px;
+            width: 304px;
+            margin-bottom: 20px;
+        }
 
-	#selectClass {
-		margin-top: 0px;
-		margin-left: 15%;
-		height: 25px;
-		width: 304px;
-		margin-bottom: 20px;
-	}
-
-</style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    </style>
 </head>
 <body>
-<div class="header">
-    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/admin">Домашня сторінка</a></span>
-    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
-    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
-    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
-</div>
-    <div id="message" align="center" style="border: medium solid black; background: lightgoldenrodyellow; color: red;"></div>
+<div class="container">
+
+    <div class="header">
+        <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/admin">Домашня сторінка</a></span>
+        <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
+        <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
+        <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+    </div>
+    <div id="message" align="center"></div>
 
     <div align="center" style="margin-bottom: 50px">
-        <h1>ДОДАВАННЯ НОВОГО УЧНЯ</h1>
+        <h1 class="h1">ДОДАВАННЯ НОВОГО УЧНЯ</h1>
     </div>
-    <form>
-        <div class="main">
-            <fieldset>
-                <legend style="font-size: 19px" class="needCleen">Особита інформація</legend>
-                <div class="row">
-                    <label for="lastName">Прізвище:</label>
-                    <input id="lastName" type="text" name="lastname" required>
+    <form class="form-horizontal">
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Особита інформація</legend>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="lastName">Прізвище:</label>
+                    <div class="col-sm-10"><input class="form-control" id="lastName" type="text" name="lastname" required></div>
                 </div>
-                <div class="row">
-                    <label for="firstName">Ім'я:</label>
-                    <input id="firstName" type="text" name="firstname" required>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="firstName">Ім'я:</label>
+                    <div class="col-sm-10"><input class="form-control" id="firstName" type="text" name="firstname" required></div>
                 </div>
 
-                <div class="row">
-                    <label for="patronymic">По-батькові:</label>
-                    <input id="patronymic" type="text" name="patronymic" required>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="patronymic">По-батькові:</label>
+                    <div class="col-sm-10"><input class="form-control" id="patronymic" type="text" name="patronymic" required></div>
                 </div>
-                <div class="row">
-                    <label for="login">Логін:</label>
-                    <input id="login" type="text" name="login">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="login">Логін:</label>
+                    <div class="col-sm-10"><input class="form-control" id="login" type="text" name="login"></div>
                 </div>
-                <div class="row">
-                    <label for="selectClass">Класс:</label>
-                    <select id="selectClass" name="select" required><option></option></select>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="selectClass">Класс:</label>
+                    <div class="col-sm-1"><select class="form-select-button" id="selectClass" name="select" required><option></option></select></div>
                 </div>
-                <div class="row">
-                    <label for="dateOfBirth">Дата народження:</label>
-                    <input id="dateOfBirth" type="date" name="dateOfBirth" required>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="dateOfBirth">Дата народження:</label>
+                    <div class="col-sm-10"><input class="date-picker-popup" id="dateOfBirth" type="date" name="dateOfBirth" required></div>
                 </div>
-                <div class="row">
-                    <label for="mail">Електронна адреса:</label>
-                    <input id="mail" type="text" name="email">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="mail">Електронна адреса:</label>
+                    <div class="col-sm-10"><input class="form-control" id="mail" type="text" name="email"></div>
                 </div>
-                <div class="row">
-                    <label for="mobile">Телефон:</label>
-                    <input id="mobile" type="text" name="phone">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="mobile">Телефон:</label>
+                    <div class="col-sm-10"><input class="form-control" id="mobile" type="text" name="phone"></div>
                 </div>
-                <div align="center">
-                    <button id="submitButton" type="Submit">Зберегти</button>
+                <div class="form-group">
+                    <button class="btn btn-success center-block" id="submitButton" type="Submit" style="margin: 0 auto">Зберегти</button>
                 </div>
             </fieldset>
-        </div>
         <hr>
+    </form>
+</div>
  <script type="text/javascript">
 		$(function() {
 			$(".header").load("/views/header.html");
@@ -134,10 +137,12 @@
 
                     success: function (responce) {
                         $(":input").val("");
-                        $("#message").html("Учнь " + lastName + " " + firstName + " доданий введіть дані наступного учня");
+                        $("#message").attr("class", "alert alert-success");
+                        $("#message").html("<strong>Учнь " + lastName + " " + firstName + " доданий</strong> введіть дані наступного учня");
                     },
                     error: function(){
-                        $("#message").html("помилка");
+                        $("#message").attr("class", "alert alert-danger");
+                        $("#message").html("<strong>Помилка</strong>");
                     }
                 });
             });

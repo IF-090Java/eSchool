@@ -3,6 +3,8 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/css/Style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
             var pathArray = window.location.pathname.split('/');
@@ -16,6 +18,7 @@
                 $('#date').append(date);
                 $('#login').append(data.login);
                 $('#class').append(data.classe);
+                $('#email').attr("href", "mailto:" + data.email);
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
                 if(data.avatar !== null) {
@@ -29,6 +32,15 @@
         });
     </script>
     <style type="text/css">
+        .table-user-information > tbody > tr {
+            border-top: 1px solid rgb(221, 221, 221);
+            font-size: 20px;
+        }
+
+        .toppad
+        {margin-top:20px;
+        }
+
         a{
             text-decoration: none;
         }
@@ -37,26 +49,59 @@
     <title id="title"></title>
 </head>
 <body>
-    <fieldset/>
-    <legend>[ Ваш профіль ]</legend>
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title" id="initials"></h3>
+        </div>
+        <div class="panel-body">
+            <hr><br>
+            <div>
+                <a id="diary" data-original-title="Show diary" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary">Переглянути щоденик</a>
+            </div>
+            <br><hr>
 
-    <hr><br>
-    <div>
-        <a id="diary">Переглянути щоденик</a>
+            <img class="img-thumbnail pull-left" id="avatar" src="/img/profile.png">
+
+            <div class="row center-block">
+                <div class=" col-md-9 col-lg-9 ">
+                    <table class="table table-user-information">
+                        <tbody>
+                        <tr>
+                            <td>Логін: </td>
+                            <td><div id="login"></div></td>
+                        </tr>
+                        <tr>
+                            <td>Клас: </td>
+                            <td><div id="class">Клас: </div></td>
+                        </tr>
+                        <tr>
+                            <td>Дата народження: </td>
+                            <td><div id="date"></div></td>
+                        </tr>
+
+                            <td>Електронна пошта: </td>
+                            <td><a id="email"></a></td>
+                        </tr>
+                        <td>Номер телефону: </td>
+                        <td><div id="phone"></div></td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <a id="edit" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning "><i class="glyphicon glyphicon-edit"> Редагувати профіль</i></a>
+
+        </div>
+
     </div>
-    <br><hr>
 
-    <img id="avatar" src="/img/profile.png">
-    <div class="div">
-        <h2 id="initials"></h2>
-        <h3 id="login">Логін: </h3>
-        <h4 id="class">Клас: </h4>
-    </div><br>
-
-    <div id="date" style="font-size: 20px">Дата народження: </div>
-    <div id="email" style="font-size: 20px">Електронна пошта: </div>
-    <div id="phone" style="font-size: 20px">Номер телефону: </div>
-
-    <br><a id="edit" style="font-size: 15px; width: 30px">Редагувати профіль</a>
+</div>
 </body>
 </html>
