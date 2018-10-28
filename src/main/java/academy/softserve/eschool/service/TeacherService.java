@@ -2,8 +2,12 @@ package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
+import academy.softserve.eschool.model.Role;
+import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.model.Teacher;
 import academy.softserve.eschool.model.User;
+import academy.softserve.eschool.repository.StudentRepository;
+import academy.softserve.eschool.repository.TeacherRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,11 +15,18 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static academy.softserve.eschool.auxiliary.LoginGeneratorController.transliteration;
+import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
+
 @Service
 public class TeacherService {
 
     @Autowired
     private  UserRepository userRepository;
+
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     public List<TeacherDTO> getAll(List<Teacher> resultset){
 
@@ -56,5 +67,20 @@ public class TeacherService {
         }
         oldUser.setLogin(edited.getLogin());
         userRepository.save(oldUser);
+    }
+
+    public Teacher addOne(TeacherDTO teacherDTO) {
+        Teacher teacher = Teacher.builder()
+                .lastName(teacherDTO.getLastname())
+                .firstName(teacherDTO.getFirstname())
+                .patronymic(teacherDTO.getPatronymic())
+                .login(transliteration(teacherDTO.getLastname()))
+                .password(generatePassword(7))
+                .phone(teacherDTO.getPhone())
+                .email(teacherDTO.getEmail())
+                .dateOfBirth(teacherDTO.getDateOfBirth())
+                .role(Role.ROLE_TEACHER)
+                .build();
+        return teacherRepository.save(teacher);
     }
 }
