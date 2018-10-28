@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,7 @@ public class Student extends User{
     @JsonIgnore
     private List<@NotNull Mark> marks = new ArrayList<>();
 
+    @Builder
 	public Student(String login, String password, String email, Role role, String firstName, String lastName,
 			String patronymic, Date dateOfBirth, Sex sex, String phone, String avatar, String description) {
 		super(login, password, email, role, firstName, lastName, patronymic, dateOfBirth, sex, phone, avatar,
