@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import academy.softserve.eschool.dto.MarkDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,4 +53,9 @@ public class MarkService implements MarkServiceBase{
 		return dataPoints;
 	}
 
+	@Override
+	public void saveMark(MarkDTO dto) {
+		System.out.println(dto);
+		markRepo.saveMarkByLesson(dto.getIdStudent(),dto.getIdLesson(),dto.getMark(),dto.getNote());
+	}
 }

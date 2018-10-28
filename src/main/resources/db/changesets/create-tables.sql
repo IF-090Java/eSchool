@@ -121,6 +121,7 @@ CREATE TABLE IF NOT EXISTS `mark` (
     REFERENCES `lesson` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+create unique index unique_index on mark(lesson_id,student_id);
 
 
 CREATE TABLE IF NOT EXISTS `students_classes` (
