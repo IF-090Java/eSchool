@@ -3,6 +3,7 @@ package academy.softserve.eschool.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
