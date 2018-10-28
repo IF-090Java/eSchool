@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset serhiiboiko:marks
+--changeset serhiiboiko:marks_insert
 
 INSERT INTO mark(student_id, lesson_id, mark, note) VALUES
 ((SELECT id FROM user WHERE login = 'kPolyan16'), (SELECT id FROM lesson WHERE date = '2018-09-03' AND clazz_id = (SELECT id FROM clazz WHERE name = '7-А') AND lesson_number = 1), 9, ''),
