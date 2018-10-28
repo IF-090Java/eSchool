@@ -8,7 +8,7 @@
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[2];
             $.ajax({
-                url: "http://localhost:8080/students/" + id
+                url: host + "students/" + id
             }).then(function(data) {
                 var date = new Date(data.dateOfBirth).toLocaleDateString();
                 $('#title').append(data.firstname + ' ' + data.lastname );
@@ -35,6 +35,7 @@
     </style>
     <meta charset="UTF-8">
     <title id="title"></title>
+    <script src="/js/JS.js"></script>
 </head>
 <body>
     <fieldset/>
