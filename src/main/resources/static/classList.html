@@ -34,6 +34,7 @@
 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/js/JS.js"></script>
 </head>
 <body>
 <div class="header"></div>
@@ -60,12 +61,13 @@
 			$(".header").load("/views/header.html");
 		});
 	</script>
+
 <script type="text/javascript">
     if (window.location.href.toString() == "http://localhost:8080/classes/classList"){
         $("h2").html("Виберіть клас");
         $("button").remove();
         $(document).ready(function () {
-            $.getJSON('http://localhost:8080/classes', function (data) {
+            $.getJSON(host + 'classes', function (data) {
                 $.each(data, function (i, item) {
                     $('#classeslist').append($('<tr>').append($('<a>').attr('href','/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
                 });
@@ -73,7 +75,7 @@
         });
 
         $(document).ready(function () {
-            $.getJSON('http://localhost:8080/classes/inactive', function (data) {
+            $.getJSON(host + 'classes/inactive', function (data) {
                 console.log(data);
                 $.each(data, function (i, item) {
                     $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href','/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
@@ -82,7 +84,7 @@
         });
     } else {
         $(document).ready(function () {
-            $.getJSON('http://localhost:8080/classes', function (data) {
+            $.getJSON(host + 'classes', function (data) {
                 $.each(data, function (i, item) {
                     $('#classeslist').append($('<tr>').append($('<a>').attr('href', '/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
                 });
@@ -90,7 +92,7 @@
         });
 
         $(document).ready(function () {
-            $.getJSON('http://localhost:8080/classes/inactive', function (data) {
+            $.getJSON(host + 'classes/inactive', function (data) {
                 console.log(data);
                 $.each(data, function (i, item) {
                     $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href', '/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))

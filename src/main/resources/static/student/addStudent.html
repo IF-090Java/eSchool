@@ -30,6 +30,7 @@
 
 </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
 </head>
 <body>
 <div class="header">
@@ -107,7 +108,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/students",
+                    url: host + "students",
                     dataType: "json",
                     data: JSON.stringify({
                         "firstname"  :   firstName,
@@ -128,7 +129,7 @@
                 });
             });
 
-            $.getJSON('http://localhost:8080/classes', function (data2) {
+            $.getJSON(host + 'classes', function (data2) {
                 console.log(data2);
 
                 $.each(data2, function (i, item) {

@@ -1054,6 +1054,7 @@ width: 150px;
 </style>
 <head>
   <title>Schedule</title>
+  <script src="/js/JS.js"></script>
 </head>
 <body>
 
@@ -1399,7 +1400,7 @@ width: 150px;
 
 		$(document).ready(function() {
 
-			$.getJSON('http://localhost:8080/subjects', function (data) {
+			$.getJSON(host + 'subjects', function (data) {
 
 				var subjectNames = [];
 				var id = [];
@@ -1413,7 +1414,7 @@ width: 150px;
 				}
 			});
 			
-			$.getJSON('http://localhost:8080/classes', function(data){
+			$.getJSON(host + 'classes', function(data){
 
 					var classNames = [];
 					var id = [];
@@ -1491,7 +1492,7 @@ width: 150px;
 
 				$.ajax({
                 type: "post",
-                url: "/classes/" + id_class + "/schedule",
+                url: host + "classes/" + id_class + "/schedule",
                 dataType: "json",
                 data: JSON.stringify({
                   "startOfSemester":startdate,

@@ -52,6 +52,8 @@
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
+
 </head>
 <body>
     <div class="header">
@@ -72,10 +74,10 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/journals/teachers/3', function (data) {
+        $.getJSON(host + 'journals/teachers/3', function (data) {
             $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
-                var ref = 'http://localhost:8080/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
+                var ref = host + 'journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
                 $('<td>'+'<a href='+ref+'>'+val.subjectName+'</a>'+'</td>').appendTo(tr);
                 $('<td>'+val.className+'</td>').appendTo(tr);
                 $('<td>'+val.academicYear+'</td>').appendTo(tr);
