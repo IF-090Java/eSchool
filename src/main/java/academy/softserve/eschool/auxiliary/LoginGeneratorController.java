@@ -44,7 +44,7 @@ public class LoginGeneratorController {
      * @param word word for transliteration
      * @return transliterated word
      */
-    public String transliteration(String word) {
+    public static String transliteration(String word) {
         word = word.toLowerCase();
         char[] chars = word.toCharArray();
         String result = firstTwo(chars[0], chars[1]);

@@ -92,6 +92,7 @@
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
 </head>
 <body>
 <div class="header"></div>
@@ -133,7 +134,7 @@
     });
     </script>
 <script type="text/javascript">
-    if (window.location.href.toString() == "http://localhost:8080/classes/add"){
+    if (window.location.href.indexOf("classes/add")>-1){
 
         $(document).ready(function () {
             $("title").html("Додати клас")
@@ -148,7 +149,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/classes",
+                    url: host + "classes",
                     dataType: "json",
                     data: JSON.stringify({
                         "className": className,
@@ -169,7 +170,7 @@
             var pathArray = window.location.pathname.split('/');
             var classId = pathArray[2];
 
-            $.getJSON('http://localhost:8080/classes/'+classId, function (data) {
+            $.getJSON(host + 'classes/'+classId, function (data) {
                 console.log(data);
                 $("#clsName").attr("value", data.className);
                 $("#clsYear").attr("value", data.classYear)
@@ -191,7 +192,7 @@
                 var classId = pathArray[2];
                 $.ajax({
                     type: "put",
-                    url: "/classes/" + classId,
+                    url: host + "classes/" + classId,
                     dataType: "json",
                     data: JSON.stringify({
                         "className": className,

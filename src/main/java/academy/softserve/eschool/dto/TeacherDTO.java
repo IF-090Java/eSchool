@@ -27,6 +27,7 @@ public class TeacherDTO {
     private String patronymic;
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
+            timezone = "Europe/Kiev",
             pattern = "yyyy-MM-dd")
     @ApiModelProperty(notes = "contains date of birth of the teacher")
     private Date dateOfBirth;

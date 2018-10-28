@@ -29,8 +29,13 @@ public class StudentDTO {
 
     @ApiModelProperty(notes = "contains student class")
     private String classe;
+
+    @ApiModelProperty(notes = "contains class id")
+    private int classId;
+
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
+            timezone = "Europe/Kiev",
             pattern = "yyyy-MM-dd")
     @ApiModelProperty(notes = "contains date of birth of the student yyyy-mm-dd")
     private Date dateOfBirth;
