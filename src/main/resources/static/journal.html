@@ -51,6 +51,7 @@
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
 </head>
 <body>
 <div class="header">
@@ -101,15 +102,15 @@
         var currentCell;
 
 
-        $.getJSON('http://localhost:8080/classes/'+idClass, function (data) {
+        $.getJSON(host + 'classes/'+idClass, function (data) {
           $('<span>'+data.className+'</span>').appendTo('#classTitle');
         });
 
-        $.getJSON('http://localhost:8080/subjects/'+idSubject, function (data) {
+        $.getJSON(host + 'subjects/'+idSubject, function (data) {
           $('<span>'+data.subjectName+'</span>').appendTo('#subjectTitle');
         });
 
-        $.getJSON('http://localhost:8080/homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
+        $.getJSON(host + 'homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
           $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
                 $('<td>'+val.date+'</td>').appendTo(tr);
@@ -120,7 +121,7 @@
             });
         });
 
-        $.getJSON('http://localhost:8080/journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {
+        $.getJSON(host + 'journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {
             $.each(data, function(key, val) {
                 var tr1=$('<tr></tr>');
                 var tr2=$('<tr></tr>');
@@ -182,7 +183,7 @@
 
             $.ajax({
                 type: "post",
-                url: "/marks",
+                url: host + "marks",
                 dataType: "json",
                 data: JSON.stringify({
                     "mark": mark,
