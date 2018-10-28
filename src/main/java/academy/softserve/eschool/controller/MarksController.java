@@ -3,12 +3,11 @@ package academy.softserve.eschool.controller;
 import java.util.Date;
 import java.util.List;
 
+import academy.softserve.eschool.dto.ClassDTO;
+import academy.softserve.eschool.dto.MarkDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.service.base.MarkServiceBase;
@@ -45,4 +44,12 @@ public class MarksController {
 		return response;
 	}
 
+	@ApiOperation(value = "Save mark of students by lesson")
+	@PostMapping
+	public MarkDTO postMark(
+		@ApiParam(value = "mark,note,lesson and student id", required = true)@RequestBody MarkDTO markDTO){
+		if(markDTO.getIdLesson()!=0 && markDTO.getIdStudent()!=0)
+		markService.saveMark(markDTO);
+		return markDTO;
+	}
 }

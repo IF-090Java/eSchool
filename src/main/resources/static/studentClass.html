@@ -25,6 +25,7 @@
 	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/js/JS.js"></script>
 </head>
 <body>
 	<div class="header"></div>
@@ -46,7 +47,7 @@
 	$(document).ready(function () {
         var pathArray = window.location.pathname.split('/');
         var classId = pathArray[3];
-		$.getJSON('http://localhost:8080/students/classes/' + classId, function (data) {
+		$.getJSON(host + 'students/classes/' + classId, function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
 				$('#studentList').append($('<li>').append($('<a>').attr('href','/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))

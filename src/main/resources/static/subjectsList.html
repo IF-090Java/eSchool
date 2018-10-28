@@ -25,6 +25,7 @@
 	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/js/JS.js"></script>
 </head>
 <body>
 	<div class="header"></div>
@@ -49,7 +50,7 @@
     </script> 
 <script type="text/javascript">
 	$(document).ready(function () {
-		$.getJSON('http://localhost:8080/subjects', function (data) {
+		$.getJSON(host + 'subjects', function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
 				$('#subjectslist').append($('<li>').append($('<a>').attr('href','/subjects/'+item.subjectId+'/edit').append(item.subjectName)))

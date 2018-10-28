@@ -11,7 +11,7 @@
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[2];
             $.ajax({
-                url: "http://localhost:8080/teachers/"+id
+                url: host + "teachers/"+id
             }).then(function(data) {
                 var date = new Date(data.dateOfBirth).toLocaleDateString();
                 $('#title').append(data.firstname + ' ' + data.lastname );
@@ -30,7 +30,7 @@
                 $('#statistics').attr("href", "/stats");
                 $('#edit').attr("href", "/teacher/" + id + "/edit");
             });
-            $.getJSON('http://localhost:8080/subjects/teachers/3', function (data) {
+            $.getJSON(host + 'subjects/teachers/3', function (data) {
                 $.each(data, function(key, val) {
                      $('<li>'+val.subjectName+'</li>').appendTo('#list');
                 });
@@ -63,6 +63,7 @@
     </style>
 <meta charset="UTF-8">
 <title id="title"></title>
+<script src="/js/JS.js"></script>
 </head>
 <body>
 <div class="container">

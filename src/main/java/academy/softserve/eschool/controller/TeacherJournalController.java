@@ -1,6 +1,9 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.TeacherJournalDTO;
+import academy.softserve.eschool.model.ClassTeacherSubjectLink;
+import academy.softserve.eschool.model.ClassTeacherSubjectLinkId;
+import academy.softserve.eschool.repository.ClassTeacherSubjectLinkRepository;
 import academy.softserve.eschool.service.ClassTeacherSubjectServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-//END POINTS  /teachers/{id}/classes/{id}/subjects/{id}/journal
+//END POINT  /teachers/{id}/classes/{id}/subjects/{id}/journal
 
 @RestController
 @RequestMapping("")
@@ -23,9 +26,10 @@ public class TeacherJournalController {
     @Autowired
     private ClassTeacherSubjectServiceImpl classTeacherSubject;
 
-    private static List<TeacherJournalDTO> list = new ArrayList<>();
+    @Autowired
+    private ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository;
 
-    @ApiOperation(value = "Gets a teacher with a journal")
+    @ApiOperation(value = "Gets a teacher-class-subject connection")
     @ApiResponses(
             value={
                     @ApiResponse(code = 200, message = "OK"),
@@ -37,13 +41,11 @@ public class TeacherJournalController {
                                            @PathVariable("class_id") final int class_id,
                                            @PathVariable("subject_id") final int subject_id)
     {
-        TeacherJournalDTO teacherJournalDTO = new TeacherJournalDTO();
-        for (int i = 0; i < list.size(); i ++)
-        {
-            if (list.get(i).getTeacher_id() == teacher_id && list.get(i).getSubject_id() == subject_id
-                    && list.get(i).getClass_id() == class_id) teacherJournalDTO = list.get(i);
-        }
-        return teacherJournalDTO;
+        ClassTeacherSubjectLink classTeacherSubjectLink =
+                classTeacherSubjectLinkRepository.findByIds(teacher_id, class_id, subject_id);
+
+        return new TeacherJournalDTO(classTeacherSubjectLink.getTeacher_id(), classTeacherSubjectLink.getClazz_id(),
+                classTeacherSubjectLink.getSubject_id());
     }
 
     @ApiOperation(value = "Connects a teacher with a journal")
@@ -60,8 +62,7 @@ public class TeacherJournalController {
     {
         classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacher_id, class_id, subject_id), true);
 
-        list.add(new TeacherJournalDTO(teacher_id, class_id, subject_id));
-        return list.get(list.size() - 1); //get new connection
+        return new TeacherJournalDTO(teacher_id, class_id, subject_id);
 
     }
 

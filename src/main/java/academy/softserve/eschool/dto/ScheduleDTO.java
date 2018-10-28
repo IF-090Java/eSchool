@@ -3,22 +3,20 @@ package academy.softserve.eschool.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 //END POINT  /classes/{id}/schedule
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ScheduleDTO {
-
-    @ApiModelProperty(notes = "id of the schedule")
-    private int id_schedule;
 
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,

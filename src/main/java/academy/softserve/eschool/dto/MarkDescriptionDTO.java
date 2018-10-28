@@ -13,6 +13,8 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 public class MarkDescriptionDTO {
+    @ApiModelProperty(notes = "id of lesson")
+    private int idLesson;
     @ApiModelProperty(notes = "mark value")
     private Byte mark;
     @JsonFormat(
@@ -22,5 +24,7 @@ public class MarkDescriptionDTO {
     private Date dateMark;
     @ApiModelProperty(notes = "type of mark")
     private String typeMark;
+    @ApiModelProperty(notes = "note for mark")
+    private String note;
 
 }
