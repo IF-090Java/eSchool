@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <title>Додавання вчителя</title>
-	<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -22,15 +22,14 @@
             border-bottom:none;
         }
 
-	label {
-		display: table-cell;
-		vertical-align: middle;
-		font-size: 18px;
-	}
+        label {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 18px;
+        }
 
-</style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
+    </style>
+    <script src="/js/JS.js"></script>
 </head>
 <body>
 <div class="container">
@@ -40,10 +39,10 @@
         <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Адміністратор</span>
         <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
     </div>
-        <div id="message" align="center"></div>
-        <div align="center" style="margin-bottom: 50px">
-            <h1>ДОДАВАННЯ НОВОГО ВЧИТЕЛЯ</h1>
-        </div>
+    <div id="message" align="center"></div>
+    <div align="center" style="margin-bottom: 50px">
+        <h1>ДОДАВАННЯ НОВОГО ВЧИТЕЛЯ</h1>
+    </div>
     <form class="form-horizontal">
         <fieldset class="scheduler-border">
             <legend class="scheduler-border">Особита інформація</legend>
@@ -83,51 +82,51 @@
         <hr>
     </form>
 </div>
-       <script type="text/javascript">
-            $(function() {
-                $(".header").load("/views/header.html");
+<script type="text/javascript">
+    $(function() {
+        $(".header").load("/views/header.html");
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('form').on('submit', function (e) {
+
+            e.preventDefault();
+            var firstName   = $("#firstName").val();
+            var lastName    = $("#lastName").val();
+            var patronymic  = $("#patronymic").val();
+            var dateOfBirth = $("#dateOfBirth").val();
+            var login       = $("#login").val();
+            var mail        = $("#mail").val();
+            var mobile      = $("#mobile").val();
+
+            $.ajax({
+                type: "post",
+                url: host + "teachers",
+                dataType: "json",
+                data: JSON.stringify({
+                    "firstname"  :   firstName,
+                    "lastname"   :   lastName,
+                    "patronymic" :   patronymic,
+                    "dateOfBirth":   dateOfBirth,
+                    "login"      :   login,
+                    "email"      :   mail,
+                    "phone"      :   mobile
+                }),
+                contentType: "application/json",
+
+                success: function (responce) {
+                    $(":input").val("");
+                    $("#message").attr("class", "alert alert-success");
+                    $("#message").html("<strong>Вчитель " + lastName + " " + firstName + " доданий</strong> введіть дані наступного вчителя");
+                },
+                error: function(){
+                    $("#message").attr("class", "alert alert-danger");
+                    $("#message").html("<strong>Помилка</strong>");
+                }
             });
-        </script>
-      <script type="text/javascript">
-            $(document).ready(function () {
-                $('form').on('submit', function (e) {
-
-                    e.preventDefault();
-                    var firstName   = $("#firstName").val();
-                    var lastName    = $("#lastName").val();
-                    var patronymic  = $("#patronymic").val();
-                    var dateOfBirth = $("#dateOfBirth").val();
-                    var login       = $("#login").val();
-                    var mail        = $("#mail").val();
-                    var mobile      = $("#mobile").val();
-
-                    $.ajax({
-                        type: "post",
-                        url: host + "teachers",
-                        dataType: "json",
-                        data: JSON.stringify({
-                            "firstname"  :   firstName,
-                            "lastname"   :   lastName,
-                            "patronymic" :   patronymic,
-                            "dateOfBirth":   dateOfBirth,
-                            "login"      :   login,
-                            "email"      :   mail,
-                            "phone"      :   mobile
-                        }),
-                        contentType: "application/json",
-
-                        success: function (responce) {
-                            $(":input").val("");
-                            $("#message").attr("class", "alert alert-success");
-                            $("#message").html("<strong>Вчитель " + lastName + " " + firstName + " доданий</strong> введіть дані наступного вчителя");
-                        },
-                        error: function(){
-                            $("#message").attr("class", "alert alert-danger");
-                            $("#message").html("<strong>Помилка</strong>");
-                        }
-                    });
-                });
-            })
-      </script>
+        });
+    })
+</script>
 </body>
 </html>
