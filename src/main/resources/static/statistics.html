@@ -5,6 +5,8 @@
 		<title>Шкільна статистика</title>
 		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="/js/JS.js"></script>
+
 		<style> 
 		
 			.header{
@@ -58,11 +60,11 @@
 			</fieldset>
 		</div>
 		<script type="text/javascript">
-			var baseUrl = 'http://localhost:8080'
-			var marksUrl = baseUrl + '/marks';
-			var classesUrl = baseUrl + '/classes';
-			var studentsUrl = baseUrl + '/students/classes/';
-			var subjectsUrl = baseUrl + '/subjects';
+			var baseUrl = host
+			var marksUrl = baseUrl + 'marks';
+			var classesUrl = baseUrl + 'classes';
+			var studentsUrl = baseUrl + 'students/classes/';
+			var subjectsUrl = baseUrl + 'subjects';
 			
 			var studentOptions = [];
 			
@@ -124,7 +126,7 @@
 			function fillSubjectsSelect(data){
 				$.each(data, function(i, subj){
 					var option = $('<option>');
-					option.val(subj.id_subject);
+					option.val(subj.subjectId);
 					option.text(subj.subjectName);
 					$('#subject').append(option);
 				});

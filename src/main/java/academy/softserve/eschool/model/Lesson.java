@@ -9,18 +9,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name="lesson")
 @Data
 @EqualsAndHashCode(exclude = {"marks","subject","clazz"})
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Lesson {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@NotNull
 	@Positive

@@ -1054,6 +1054,7 @@ width: 150px;
 </style>
 <head>
   <title>Schedule</title>
+  <script src="/js/JS.js"></script>
 </head>
 <body>
 
@@ -1399,26 +1400,30 @@ width: 150px;
 
 		$(document).ready(function() {
 
-			$.getJSON('http://localhost:8080/subjects', function (data) {
+			$.getJSON(host + 'subjects', function (data) {
 
 				var subjectNames = [];
+				var id = [];
 				$.each(data, function(key, value) {
 						subjectNames.push(value.subjectName);
+						id.push(value.subjectId);
 					});
 				for (i=0; i < subjectNames.length; i++)
 				{
-					$('.ax_default_droplist').append('<option value="' + (i+1) + '">' + subjectNames[i] + '</option>');
+					$('.ax_default_droplist').append('<option value="' + id[i] + '">' + subjectNames[i] + '</option>');
 				}
 			});
 			
-			$.getJSON('http://localhost:8080/classes', function(data){
+			$.getJSON(host + 'classes', function(data){
 
 					var classNames = [];
+					var id = [];
 					$.each(data, function(key, value) {
 						classNames.push(value.className);
+						id.push(value.id);
 					});
 					for (i=0; i < classNames.length; i++)
-					$('#u15_input').append('<option value="' + (i+1) + '">' + classNames[i] + '</option>');
+					$('#u15_input').append('<option value="' + id[i] + '">' + classNames[i] + '</option>');
 				});
 
 
@@ -1487,7 +1492,7 @@ width: 150px;
 
 				$.ajax({
                 type: "post",
-                url: "/classes/" + id_class + "/schedule",
+                url: host + "classes/" + id_class + "/schedule",
                 dataType: "json",
                 data: JSON.stringify({
                   "startOfSemester":startdate,

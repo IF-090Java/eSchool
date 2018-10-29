@@ -10,21 +10,19 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name="user")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
+@AllArgsConstructor
 @EqualsAndHashCode(of="id")
 @NoArgsConstructor
 @ToString(of = {"id", "login"})
 public class User {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@NotBlank
 	@Size(max=100, min=5)
