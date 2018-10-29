@@ -3,8 +3,6 @@ package academy.softserve.eschool.repository;
 import java.util.List;
 import java.util.Map;
 
-import academy.softserve.eschool.dto.MarkTypeDTO;
-import academy.softserve.eschool.model.MarkType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
