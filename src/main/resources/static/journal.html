@@ -48,9 +48,22 @@
             margin: auto;
             width: 40%;
         }
+
+        select{
+            display: inline-block;
+        }
+
+       #table_mark{
+           width: 100%;
+           display: block;
+           overflow-x: auto;
+           white-space: nowrap;
+        }
+
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
 </head>
 <body>
 <div class="header">
@@ -96,20 +109,18 @@
         var pathArray = window.location.pathname.split('/');
         var idSubject = pathArray[3];
         var idClass = pathArray[5];
-        //var idLessonValue;
-        //var idStudentValue;
         var currentCell;
 
 
-        $.getJSON('http://localhost:8080/classes/'+idClass, function (data) {
+        $.getJSON(host + 'classes/'+idClass, function (data) {
           $('<span>'+data.className+'</span>').appendTo('#classTitle');
         });
 
-        $.getJSON('http://localhost:8080/subjects/'+idSubject, function (data) {
+        $.getJSON(host + 'subjects/'+idSubject, function (data) {
           $('<span>'+data.subjectName+'</span>').appendTo('#subjectTitle');
         });
 
-        $.getJSON('http://localhost:8080/homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
+        $.getJSON(host + 'homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
           $.each(data, function(key, val) {
                 var tr=$('<tr></tr>');
                 $('<td>'+val.date+'</td>').appendTo(tr);
@@ -120,14 +131,44 @@
             });
         });
 
-        $.getJSON('http://localhost:8080/journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {
+        $.getJSON(host + 'journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {
             $.each(data, function(key, val) {
                 var tr1=$('<tr></tr>');
                 var tr2=$('<tr></tr>');
                 $('<th>'+"Тип оцінки"+'</th>').appendTo(tr1);
                 $('<th>'+"Дата"+'</th>').appendTo(tr2);
                 $.each(val.marks, function(k, v) {
-                    $('<th >'+v.typeMark+'</th>').appendTo(tr1);
+                    //$('<th >'+v.typeMark+'</th>').appendTo(tr1);
+                    var th = $('<th></th>');
+                    var select = $('<select class="type"></select>').attr("idLes",v.idLesson);
+
+                    if(v.typeMark=="Control") {
+                        $('<option value="Control" selected>' + "Control" + '</option>').appendTo(select);
+                    }
+                    else {
+                        $('<option value="Control">' + "Control" + '</option>').appendTo(select);
+                    }
+                    if(v.typeMark=="Practic") {
+                        $('<option value="Practic" selected>' + "Practic" + '</option>').appendTo(select);
+                    }
+                    else {
+                        $('<option value="Practic">' + "Practic" + '</option>').appendTo(select);
+                    }
+                    if(v.typeMark=="Module") {
+                        $('<option value="Module" selected>' + "Module" + '</option>').appendTo(select);
+                    }
+                    else {
+                        $('<option value="Module">' + "Module" + '</option>').appendTo(select);
+                    }
+                    if(v.typeMark=="Labaratorna") {
+                        $('<option value="Labaratorna" selected>' + "Labaratorna" + '</option>').appendTo(select);
+                    }
+                    else {
+                        $('<option value="Labaratorna">' + "Labaratorna" + '</option>').appendTo(select);
+                    }
+                    select.appendTo(th);
+
+                    th.appendTo(tr1);
                     $('<th>'+v.dateMark+'</th>').appendTo(tr2);
                 });
                 $('<th>'+'С.'+'</th>').appendTo(tr2);
@@ -152,6 +193,7 @@
             });
             averageMark();
             $('td.mark').click(markClick);
+            $("select.type").change(dropClick);
         });
 
 
@@ -170,7 +212,7 @@
             }
             $.ajax({
                 type: "post",
-                url: "/marks",
+                url: host + "marks",
                 dataType: "json",
                 data: JSON.stringify({
                     "mark": mark,
@@ -225,6 +267,22 @@
                 currentCell = $(this);
                 $(this).css("background-color", "#83AF86");
             }
+        }
+
+        function dropClick() {
+            $.ajax({
+                type: "put",
+                url: host + "marks/lessons/"+$(this).attr("idLes")+"/marktype",
+                dataType: "json",
+                data: JSON.stringify({
+                    "markType": $(this).val(),
+                }),
+                contentType: "application/json",
+                success: function (response) {
+                    alert("success");
+                }
+            });
+            console.log($(this).attr("idLes")+" "+$(this).val());
         }
 
     });

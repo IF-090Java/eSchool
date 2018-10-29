@@ -1,139 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Редагування класу</title>
-     <link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
-    <style type="text/css">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
 
-        .container {
-            display: block;
-            position: relative;
-            padding-left: 35px;
-            margin-bottom: 12px;
-            margin-top: 20px;
-            cursor: pointer;
-            font-size: 18px;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        .container input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .checkmark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 25px;
-            width: 25px;
-            background-color: #eee;
-            border-radius: 50%;
-        }
-
-        .container:hover input ~ .checkmark {
-            background-color: #ccc;
-        }
-
-        .container input:checked ~ .checkmark {
-            background-color: #4caf50;
-        }
-
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-        }
-
-        .container input:checked ~ .checkmark:after {
-            display: block;
-        }
-
-        .container .checkmark:after {
-            top: 9px;
-            left: 9px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: white;
-        }
-
-        .main {
-            margin-left: 30%;
-            margin-right: 30%;
-        }
-
-        .row {
-            display: table-row;
-        }
-
-        label {
-            display: table-cell;
-            vertical-align: middle;
-            font-size: 18px;
-        }
-
-        .form-input {
-            margin-top: 0px;
-            margin-left: 15%;
-            height: 25px;
-            width: 300px;
-            margin-bottom: 20px;
-        }
-
-        textarea {
-            margin-left: 15%;
-            width: 300px;
-        }
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="/js/JS.js"></script>
 </head>
 <body>
-<div class="header"></div>
-<div class="main">
-    <div align="center" style="margin-bottom: 50px">
-        <h1>РЕДАГУВАТИ КЛАС</h1>
+
+<div class="wrapper">
+    <div class="admin-sidebar"></div>
+
+    <div class="container" style="padding-left: 0px; padding-right: 0px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
+            <span class="navbar-text">Ви увійшли як Адміністратор</span>
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Вийти</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container">
+            <div class="row justify-content-center mt-5">
+                <h1>Редагувати клас</h1>
+            </div>
+            <div class="row justify-content-center mt-5">
+                <div class="col-8">
+                    <form>
+                        <fieldset style="border: 2px solid #4CAF50; padding: 40px;">
+                            <div class="form-group row">
+                                <label for="clsName" class="col-3 col-form-label">Назва класу</label>
+                                <div class="col-9">
+                                    <input class="form-control" id="clsName" type="text" name="className">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="clsYear" class="col-3 col-form-label">Навчальний рік</label>
+                                <div class="col-9">
+                                    <input class="form-control" id="clsYear" type="text" name="classYear">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="txtArea" class="col-3 col-form-label">Опис класу</label>
+                                <div class="col-9">
+                                    <textarea id="txtArea" rows="5" name="className" class="form-control"></textarea>
+                                </div>
+                                <span class="checkmark"></span>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radioButton" id="exampleRadios1" value="true">
+                                <label class="form-check-label" for="exampleRadios1">Активний</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radioButton" id="exampleRadios2" value="false" checked>
+                                <label class="form-check-label" for="exampleRadios2">Неакивний</label>
+                            </div>
+                            <div align="center" style="text-align: center; margin: 0 auto;">
+                                <button class="btn btn-success" type="submit">Зберегти</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <form>
-        <fieldset style="border: 2px solid #4CAF50; padding: 40px;">
-            <div class="row">
-                <label for="clsName">Назва класу</label>
-                <input class="form-input" id="clsName" type="text" name="className">
-            </div>
-            <div class="row">
-                <label for="clsYear">Навчальний рік</label>
-                <input class="form-input" id="clsYear" type="text" name="classYear">
-            </div>
-            <div class="row">
-                <label for="txtArea">Опис класу</label>
-                <textarea id="txtArea" rows="5" name="className"></textarea>
-            </div>
-            <label class="container">Активний
-                <input type="radio" class="isActive" name="radioButton" value="true">
-                <span class="checkmark"></span>
-            </label>
-            <label class="container">Неактивний
-                <input type="radio" class="isActive" name="radioButton" value="false" checked="checked">
-                <span class="checkmark"></span>
-            </label>
-            <div align="center" style="text-align: center; margin: 0 auto;">
-                <button class="button" type="submit">Зберегти</button>
-            </div>
-        </fieldset>
-    </form>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script type="text/javascript">
-	 $(function() {
-      $(".header").load("/views/header.html");
+    $(function() {
+        $(".admin-sidebar").load("/views/admin-sidebar.html");
     });
-    </script>
+</script>
+</body>
+
 <script type="text/javascript">
-    if (window.location.href.toString() == "http://localhost:8080/classes/add"){
+    if (window.location.href.indexOf("classes/add")>-1){
 
         $(document).ready(function () {
             $("title").html("Додати клас")
@@ -148,7 +95,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/classes",
+                    url: host + "classes",
                     dataType: "json",
                     data: JSON.stringify({
                         "className": className,
@@ -169,7 +116,7 @@
             var pathArray = window.location.pathname.split('/');
             var classId = pathArray[2];
 
-            $.getJSON('http://localhost:8080/classes/'+classId, function (data) {
+            $.getJSON(host + 'classes/'+classId, function (data) {
                 console.log(data);
                 $("#clsName").attr("value", data.className);
                 $("#clsYear").attr("value", data.classYear)
@@ -191,7 +138,7 @@
                 var classId = pathArray[2];
                 $.ajax({
                     type: "put",
-                    url: "/classes/" + classId,
+                    url: host + "classes/" + classId,
                     dataType: "json",
                     data: JSON.stringify({
                         "className": className,

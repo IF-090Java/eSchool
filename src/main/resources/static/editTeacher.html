@@ -64,7 +64,7 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/imagePreview.js" type="text/javascript"></script>
-
+<script src="/js/JS.js"></script>
 </head>
 <body>
 	<div class="header">
@@ -231,7 +231,7 @@
 	var formData = JSON.stringify(obj);
 	$.ajax({
 		type: "PUT",
-		url: "http://localhost:8080/" + endpoint + "/" + subjectId,
+		url: host + endpoint + "/" + subjectId,
 		data: formData,
 		success: function(){ 
 			console.log(formData);
@@ -242,12 +242,12 @@
             window.history.back();
 })
 		if (window.location.href.indexOf("student") > -1) {
-			$.getJSON('http://localhost:8080/students/' + subjectId, function (data) {
+			$.getJSON(host + 'students/' + subjectId, function (data) {
 				setData(data);
 			});
 		}
 		else{
-			$.getJSON('http://localhost:8080/teachers/' + subjectId, function (data) {
+			$.getJSON(host + 'teachers/' + subjectId, function (data) {
 				setData(data);
             });
 		}

@@ -1,11 +1,8 @@
 package academy.softserve.eschool.repository;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import academy.softserve.eschool.dto.HomeworkDTO;
-import academy.softserve.eschool.model.Student;
-import academy.softserve.eschool.model.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,10 +21,19 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 			"    where lesson.date between :startDate and :endDate" + 
 			"    and students_classes.student_id = :studentId" + 
 			"    order by lesson.date, lesson.lesson_number", nativeQuery=true)
-	List<Object[]> getDiary(@Param("studentId")int studentId, @Param("startDate")String startDate,
+	
+	public List<Map<String, Object>> getDiary(@Param("studentId")int studentId, @Param("startDate")String startDate,
 			@Param("endDate")String endDate);
 
 	@Query(value = "select * from lesson where lesson.clazz_id=:idClass and lesson.subject_id=:idSubject\n" +
 			"order by lesson.date", nativeQuery=true)
 	List<Lesson> findHomework(@Param("idSubject")int idSubject, @Param("idClass")int idClass);
+
+	@Query(value = "select s.id, s.name, s.description" +
+			"		from lesson l" +
+			"		left join clazz c on l.clazz_id = c.id" +
+			"		left join subject s on l.subject_id = s.id" +
+			"		where weekday(l.date)= :weekday and clazz_id = :classId and c.is_active = 1 " +
+			"		group by s.name order by l.id", nativeQuery=true)
+	List<Object[]> scheduleByClassId(@Param("weekday")int weekday, @Param("classId")int class_id);
 }

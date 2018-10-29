@@ -85,6 +85,7 @@
 
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
 </head>
 <body>
 <div class="header"></div>
@@ -126,7 +127,7 @@
         e.preventDefault();
         $.ajax({
             type: "post",
-            url: "/students/transition",
+            url: host + "students/transition",
             dataType: "json",
             contentType: "application/json",
             success: function (responce) {
@@ -141,8 +142,8 @@
     })
 
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/students/transition', function (oldClasses) {
-        $.getJSON('http://localhost:8080/classes', function (newClasses) {
+        $.getJSON(host + 'students/transition', function (oldClasses) {
+        $.getJSON(host + 'classes', function (newClasses) {
             var activeClasses = [];
             var counter = 0;
             $.each(newClasses, function (j, jitem) {
@@ -150,7 +151,7 @@
             })
                 console.log(oldClasses);
                 $.each(oldClasses, function (i, item) {
-                    $.getJSON('http://localhost:8080/students/classes/'+item.id, function (studList) {
+                    $.getJSON(host + 'students/classes/'+item.id, function (studList) {
                         $('#old_new_classes').append('<tr>')
                             .append($('<td>')
                             .append($('<div>').attr('class', 'spoiler')

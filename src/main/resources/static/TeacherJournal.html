@@ -40,6 +40,7 @@ select {
  }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/js/JS.js"></script>
 </head>
 
 	<body>
@@ -92,7 +93,7 @@ select {
 		<script type="text/javascript">
 		
 			$(document).ready(function() {
-				$.getJSON('http://localhost:8080/teachers', function(data) {
+				$.getJSON(host + 'teachers', function(data) {
 					console.log(data);
 					var teachers = [];
 					var id = [];
@@ -106,7 +107,7 @@ select {
 						$('#teacher_input').append('<option value="' + id[i] + '">' + teachers[i] + '</option>');
 				});
 				
-				$.getJSON('http://localhost:8080/classes', function(data){
+				$.getJSON(host + 'classes', function(data){
 					console.log(data);
 					var classes = [];
 					var id = [];
@@ -120,7 +121,7 @@ select {
 						$('#class_input').append('<option value="' + id[i] + '">' + classes[i] + '</option>');
 				});
 				
-				$.getJSON('http://localhost:8080/subjects', function(data){
+				$.getJSON(host + 'subjects', function(data){
 					console.log(data);
 					var subjects = [];
 					var id = [];
@@ -140,7 +141,7 @@ select {
 				var subjectid = $('#subject_input').find(":selected").val();
 				$.ajax({
                 type: "post",
-                url: "/teachers/" + teacherid + "/classes/" + classid + "/subjects/" + subjectid + "/journal",
+                url: host + "teachers/" + teacherid + "/classes/" + classid + "/subjects/" + subjectid + "/journal",
                 dataType: "json",
                 data: JSON.stringify({
                     "teacher_id": teacherid,

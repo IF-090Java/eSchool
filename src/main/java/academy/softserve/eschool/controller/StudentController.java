@@ -1,9 +1,10 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.EditUserDTO;
-import academy.softserve.eschool.service.StudentService;
 import academy.softserve.eschool.dto.StudentDTO;
+import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.repository.StudentRepository;
+import academy.softserve.eschool.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -36,8 +37,8 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    public StudentDTO addStudent(@RequestBody StudentDTO student) {
-        return student;
+    public Student addStudent(@RequestBody StudentDTO student) {
+        return studentService.addOne(student);
     }
 
     @GetMapping("/{id}")
