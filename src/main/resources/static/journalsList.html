@@ -78,7 +78,7 @@
                 var ref = 'http://localhost:8080/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
                 $('<td>'+'<a href='+ref+'>'+val.subjectName+'</a>'+'</td>').appendTo(tr);
                 $('<td>'+val.className+'</td>').appendTo(tr);
-                $('<td>'+val.academicYear+'</td>').appendTo(tr);
+                $('<td>'+val.academicYear+'/'+(val.academicYear++)+'</td>').appendTo(tr);
                 tr.appendTo('#table');
             });
         });

@@ -69,16 +69,16 @@
 
 <div id="markPick">
     <div id="st">
-    Студент: <span id="spanStudent"></span>
-</div>
+        Студент: <span id="spanStudent"></span>
+    </div>
     <div id="les">
-    Урок: <span id="spanLesson"></span>
-</div>
-    <form >
-    Mark: <input type="number" id="mark_form" min="1" max="12"><br>
-    Note:<input type="text" id="note_form"><br><br>
-    <input type="submit" value="Submit">
-</form>
+        Урок: <span id="spanLesson"></span>
+    </div>
+    <form id="formInput">
+        Mark: <input type="number" id="mark_form" min="1" max="12"><br>
+        Note:<input type="text" id="note_form"><br><br>
+        <input type="submit" value="Submit">
+    </form>
 </div>
 
 <table id="table_home">
@@ -96,8 +96,8 @@
         var pathArray = window.location.pathname.split('/');
         var idSubject = pathArray[3];
         var idClass = pathArray[5];
-        var idLessonValue;
-        var idStudentValue;
+        //var idLessonValue;
+        //var idStudentValue;
         var currentCell;
 
 
@@ -137,9 +137,6 @@
             });
             var countStudents = 0;
             $.each(data, function(key, val) {
-                var countMarks = 0;
-                var sum=0;
-                var average = "";
                 var tr=$('<tr class="markValues"></tr>');
                 $('<td>'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr);
                 $.each(val.marks, function(k, v) {
@@ -148,30 +145,13 @@
                     }
                     else {
                         $('<td class="mark" title="'+v.note+'">' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
-                        countMarks++;
-                        sum+=v.mark;
                     }
                 });
-                if(countMarks>0){
-                    average = Math.round(sum/countMarks*100)/100;
-                }
-                $('<td class="average">' + average + '</td>').appendTo(tr);
+                $('<td class="average">'+' '+'</td>').appendTo(tr);
                 tr.appendTo('#table_mark');
             });
-            $('td.mark').click( function() {
-                if(currentCell!=undefined) {
-                    currentCell.css("background-color", "");
-                }
-                var idS = $(this).attr("idSt");
-                var idL = $(this).attr("idLes");
-                $('#spanStudent').text(idS);
-                $('#spanLesson').text(idL);
-                $('#note_form').val($(this).attr("title"));
-                idLessonValue = idL;
-                idStudentValue = idS;
-                currentCell = $(this);
-                $(this).css("background-color", "#83AF86");
-            });
+            averageMark();
+            $('td.mark').click(markClick);
         });
 
 
@@ -180,6 +160,14 @@
             var mark = $("#mark_form").val();
             var note = $("#note_form").val();
 
+            if(currentCell==undefined){
+                alert("Не вибрано клітинки");
+                return;
+            }
+            if(mark<1 || mark>12){
+                alert("Неправильна оцінка");
+                return;
+            }
             $.ajax({
                 type: "post",
                 url: "/marks",
@@ -187,35 +175,57 @@
                 data: JSON.stringify({
                     "mark": mark,
                     "note": note,
-                    "idStudent": idStudentValue,
-                    "idLesson": idLessonValue
-
+                    "idStudent":  currentCell.attr("idSt"),
+                    "idLesson":  currentCell.attr("idLes")
                 }),
                 contentType: "application/json",
                 success: function (response) {
                     currentCell.text(mark);
                     currentCell.prop("title",note);
-                    currentCell.css("background-color", "");
-
-                    $('#table_mark .markValues').each(function() {
-                        var sum = 0;
-                        var total = 0;
-                        var average = "";
-                        $(this).find('.mark').each (function() {
-                            if($(this).text()){
-                                total+=1;
-                                sum+=parseInt($(this).text());
-                            }
-                        });
-                        if(total!=0){
-                            average = (sum / total).toFixed(2);
-                        }
-                        $(this).find('.average').text(average);
-                    });
-
+                    averageMark();
                 }
             });
         })
+
+        function averageMark() {
+            $('#table_mark .markValues').each(function () {
+                var sum = 0;
+                var total = 0;
+                var average = "";
+                $(this).find('.mark').each(function () {
+                    if ($(this).text()) {
+                        total += 1;
+                        sum += parseInt($(this).text());
+                    }
+                });
+                if (total != 0) {
+                    average = (sum / total).toFixed(2);
+                }
+                $(this).find('.average').text(average);
+            });
+        }
+
+        function markClick(){
+            if(currentCell != undefined && (currentCell.attr("idSt")==$(this).attr("idSt") && currentCell.attr("idLes")==$(this).attr("idLes"))){
+                currentCell.css("background-color", "");
+                $('#spanStudent').text("");
+                $('#spanLesson').text("");
+                currentCell = undefined;
+            }
+            else {
+                if (currentCell != undefined) {
+                    currentCell.css("background-color", "");
+                }
+                var idS = $(this).attr("idSt");
+                var idL = $(this).attr("idLes");
+                $('#spanStudent').text(idS);
+                $('#spanLesson').text(idL);
+                $('#note_form').val($(this).attr("title"));
+                $('#mark_form').val($(this).text());
+                currentCell = $(this);
+                $(this).css("background-color", "#83AF86");
+            }
+        }
 
     });
     </script>
