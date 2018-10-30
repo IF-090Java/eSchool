@@ -5,6 +5,8 @@ import java.util.List;
 
 import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.dto.MarkDTO;
+import academy.softserve.eschool.dto.MarkTypeDTO;
+import academy.softserve.eschool.model.MarkType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -51,5 +53,15 @@ public class MarksController {
 		if(markDTO.getIdLesson()!=0 && markDTO.getIdStudent()!=0)
 		markService.saveMark(markDTO);
 		return markDTO;
+	}
+
+	@ApiOperation("Update mark's type of lesson")
+	@PutMapping("/lessons/{idLesson}/marktype")
+	public ClassDTO editClass(
+			@ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson,
+			@ApiParam(value = "type of mark", required = true) @RequestBody MarkTypeDTO markType){
+		System.out.println(markType+" "+markType.getMarkType());
+		markService.updateType(idLesson, markType.getMarkType());
+		return null;
 	}
 }
