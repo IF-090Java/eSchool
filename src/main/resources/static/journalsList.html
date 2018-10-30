@@ -4,88 +4,69 @@
     <meta charset="UTF-8">
     <title>Журнали</title>
 
-    <style type="text/css">
-       .journals{
-           font-family: Garamond;
-           font-size: 30px;
-           margin: 50px auto 35px auto;
-           width: 200px;
-           padding: 20px;
-           text-align: center;
-       }
-       table,td,th{
-           border: 1px solid #ddd;
-       }
-       table {
-           border-collapse: collapse;
-           width: 40%;
-           margin: auto;
-       }
-
-       th, td {
-           text-align: left;
-           padding: 8px;
-       }
-
-
-       .header{
-           color: white;
-           height: 50px;
-           background: #4CAF50;
-           border: solid 1px black;
-       }
-
-       .header a{
-           color:white;
-       }
-
-       #table a{
-           color:black;
-       }
-
-       tr:nth-child(even){background-color: #f2f2f2}
-
-       th {
-           background-color: #4CAF50;
-           color: white;
-       }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/JS.js"></script>
 
 </head>
 <body>
-    <div class="header">
-        <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/teachers/1/profile">Домашня сторінка</a></span>
-        <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
-        <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
-        <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
-    </div>
+    <div class="wrapper">
+        <div class="teacher-sidebar"></div>
 
-    <div class="journals">Журнали</div>
-    <table id="table">
-        <tr>
-            <th>Предмет</th>
-            <th>Клас</th>
-            <th>Рік навчання</th>
-        </tr>
-    </table>
+        <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
+                <span class="navbar-text">Ви увійшли як Вчитель</span>
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Вийти</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="row justify-content-center mt-5" style="margin:40px">
+                    <h2>Журнали</h2>
+            </div>
+            <div class="container">
+                <table class="table table-bordered ">
+                    <thead class="thead-dark">
+                        <tr class="d-flex">
+                            <th class="col-3 ">Предмет</th>
+                            <th class="col-3 ">Клас</th>
+                            <th class="col-3 ">Рік навчання</th>
+                            <th class="col-3 ">Посилання</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <script type="text/javascript">
     $(document).ready(function () {
         $.getJSON(host + 'journals/teachers/3', function (data) {
+            var tableBody = $('<tbody></tbody>');
             $.each(data, function(key, val) {
-                var tr=$('<tr></tr>');
+                var tr=$('<tr class="d-flex"></tr>');
                 var ref = host + 'journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
-                $('<td>'+'<a href='+ref+'>'+val.subjectName+'</a>'+'</td>').appendTo(tr);
-                $('<td>'+val.className+'</td>').appendTo(tr);
-                $('<td>'+val.academicYear+'/'+(val.academicYear++)+'</td>').appendTo(tr);
-                tr.appendTo('#table');
+                $('<td class="col-3 ">'+val.subjectName+'</a>'+'</td>').appendTo(tr);
+                $('<td class="col-3 ">'+val.className+'</td>').appendTo(tr);
+                $('<td class="col-3 ">'+val.academicYear+'/'+(val.academicYear++)+'</td>').appendTo(tr);
+                $('<td class="col-3 ">'+'<a href="'+ref+'">Перейти</a>'+'</td>').appendTo(tr);
+                tr.appendTo(tableBody);
             });
+            tableBody.appendTo('.table');
         });
     });
-
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function() {
+            $(".teacher-sidebar").load("/views/teacher-sidebar.html");
+        });
+</script>
 </body>
 </html>
