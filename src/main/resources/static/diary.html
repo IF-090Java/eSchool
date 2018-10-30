@@ -4,14 +4,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Щоденник</title>
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		
 		<style> 
-		
-		.header{
-			height: 50px;
-			background: #BCC8D2;
-			border: solid 1px black; 
-		}		
-		
+
 		.diary-container {
 			-webkit-columns: 500px 2; /* Chrome, Safari, Opera */
 			-moz-columns: 500px 2; /* Firefox */
@@ -23,12 +20,7 @@
 			-webkit-column-break-inside: avoid;
           	page-break-inside: avoid;
             break-inside: avoid;
-            border: 2px solid #4CAF50;
-            padding: 5px;
-            margin-bottom: 5px;
-		}
-		.day-name{
-			padding: 10px;
+            margin-bottom: 1rem;
 		}
 
 		table,td,th{
@@ -51,62 +43,70 @@
            color: white;
        	}
        	
-       	legend {
-       		font-size: 20px;
+       	.card-title {
+       		font-size: 1.5rem;
+       		padding-top: 0.75rem;
+       		padding-left: 0.75rem;
        	}
+       	
 		
 		</style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="/js/JS.js"></script>
 	</head>
 	<body>
-		<div class="header">
-			<span style="float: right; margin-right: 10px; margin-top: 15px"><a id="homePage">Домашня сторінка</a></span>
-			<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Student01</span>
-			<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Учень</span>
-			<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
-		</div>
-		<div class="controls-container">
-			<button id="previous-week-btn"><-</button>
-			<button id="next-week-btn">-></button>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
+            <span class="navbar-text">Ви увійшли як Учень</span>
+            <ul class="navbar-nav">
+            	<li class="nav-item active">
+                    <a class="nav-link" href="/student/profile">Профіль</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Вийти</a>
+                </li>
+            </ul>
+        </nav>
+		<div class="container-fluid pb-1 pt-1">
+			<button class="btn btn-light" id="previous-week-btn">&laquo;</button>
+			<button class="btn btn-light" id="next-week-btn">&raquo;</button>
 			<span id="date-period"></span>
-			<button id="current-week-btn">Поточний тиждень</button>
+			<button class="btn btn-light" id="current-week-btn">Поточний тиждень</button>
 		</div>
-		<div class="diary-container">
-			<fieldset class="diary-day-container">
-				<legend class="day-name">Понеділок</legend>
+		<div class="diary-container container-fluid">
+			<div class="diary-day-container  card">
+				<div class="card-title">Понеділок</div>
 				<table class="diary-day" id="monday"> 
 					
 				</table>
-			</fieldset>
+			</div>
 			
-			<fieldset class="diary-day-container">
-				<legend class="day-name">Вівторок</legend>
+			<div class="diary-day-container card">
+				<div class="card-title">Вівторок</div>
 				<table class="diary-day" id="tuesday"> 
 				
 				</table>
-			</fieldset>
+			</div>
 			
-			<fieldset class="diary-day-container">
-				<legend class="day-name">Середа</legend>
+			<div class="diary-day-container card">
+				<div class="card-title">Середа</div>
 				<table class="diary-day" id="wednsday"> 
 					
 				</table>
-			</fieldset>
+			</div>
 			
-			<fieldset class="diary-day-container">
-				<legend class="day-name">Четвер</legend>
+			<div class="diary-day-container card">
+				<div class="card-title">Четвер</div>
 				<table class="diary-day" id="thursday"> 
 					
 				</table>
-			</fieldset>
+			</div>
 			
-			<fieldset class="diary-day-container">
-				<legend class="day-name">П'ятниця</legend>
+			<div class="diary-day-container card">
+				<div class="card-title">П'ятниця</div>
 				<table class="diary-day" id="friday"> 
 					
 				</table>
-			</fieldset>
+			</div>
 			
 			
 		</div>
