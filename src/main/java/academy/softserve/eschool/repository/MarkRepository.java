@@ -32,4 +32,9 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
 			"on duplicate key update mark=values(mark),note = values(note)", nativeQuery = true)
 	void saveMarkByLesson(@Param("idStudent") int idStudent,@Param("idLesson") int idLesson,
 								@Param("mark") byte mark,@Param("note") String note);
+
+	@Modifying
+	@Transactional
+	@Query(value = "update lesson set mark_type=:markType where id=:idLesson", nativeQuery = true)
+	void saveTypeByLesson(@Param("idLesson") int idStudent,@Param("markType") String markType);
 }
