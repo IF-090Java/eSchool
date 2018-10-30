@@ -135,7 +135,7 @@ public class PageMappingController {
 
     @RequestMapping("admin")
     public String adminHome(){
-        return "/adminHome.html";
+        return "/admin-home.html";
     }
 
     @RequestMapping("/")
