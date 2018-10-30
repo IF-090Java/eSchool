@@ -147,8 +147,7 @@ select {
 					for (i=0; i < subjects.length; i++)
 						$('#subject_input').append('<option value="' + id[i] + '">' + subjects[i] + '</option>');
 				});
-				$('form').on('submit', function (e) {
-				e.preventDefault();
+				$('#submitButton').click(function(){
 				var teacherid = $('#teacher_input').find(":selected").val();
 				var classid = $('#class_input').find(":selected").val();
 				var subjectid = $('#subject_input').find(":selected").val();
