@@ -54,6 +54,7 @@ select {
     </nav>
 
     <div class="container">
+      <div id="message" align="center"></div>
       <!-- Text -->
       <div id="u1" align="center" style="padding-bottom:35px; padding-top:35px">
         <p><h1><span>Внесення розкладу</span></h1></p>
@@ -71,7 +72,7 @@ select {
                 <!-- Unnamed (Rectangle) -->
                 <div id="u3" class="ax_default label">
                   <div class="col" for="start" style="padding-bottom:15px; padding-top:35px">Введіть початок семетру:</div>
-                  <input class="col" type="date" id="start" name="start" required>
+                  <input id="start" class="col" type="date" id="start" name="start" required>
                 </div>
                 <div class="w-100"></div>
               </div>
@@ -79,7 +80,7 @@ select {
                 <!-- Unnamed (Rectangle) -->
                 <div id="u6" class="ax_default label">
                   <div class="col" for="end" style="padding-bottom:15px; padding-top:35px">Введіть кінець семетру:</div>
-                  <input class="col" type="date" id="end" name="end" align="center" required>
+                  <input id="end" class="col" type="date" id="end" name="end" align="center" required>
                 </div>
               </div>
             </div>
@@ -499,18 +500,62 @@ select {
                 }),
                 contentType: "application/json",
   				  statusCode: {
-                      200: function() {
-                      alert( "Операція успішна" );
+                       200: function() {
+                        $("#message").attr("class", "alert alert-success");
+                        $("#message").html("<strong>Розклад успішно створений</strong>");
                     },
                       201: function() {
-                      alert( "Розклад успішно створений" );
+                      $("#message").attr("class", "alert alert-success");
+                      $("#message").html("<strong>Розклад успішно створений</strong>");
                     },
                       500: function() {
-                      alert( "Внутрішня помилка сервера" );
+                      $("#message").attr("class", "alert alert-danger");
+                      $("#message").html("<strong>Внутрішня помилка сервера</strong>");
                     }
                   },
                     success: function (responce) {
-                        window.location.href = "/schedule/create";
+                        $("#start").val("");
+                        $("#end").val("");
+                          document.getElementById('u21_input').selectedIndex = 0;
+                          document.getElementById('u23_input').selectedIndex = 0;
+                          document.getElementById('u25_input').selectedIndex = 0;
+                          document.getElementById('u27_input').selectedIndex = 0;
+                          document.getElementById('u29_input').selectedIndex = 0;
+                          document.getElementById('u31_input').selectedIndex = 0;
+                          document.getElementById('u33_input').selectedIndex = 0;
+
+                          document.getElementById('u69_input').selectedIndex = 0;
+                          document.getElementById('u71_input').selectedIndex = 0;
+                          document.getElementById('u73_input').selectedIndex = 0;
+                          document.getElementById('u75_input').selectedIndex = 0;
+                          document.getElementById('u77_input').selectedIndex = 0;
+                          document.getElementById('u79_input').selectedIndex = 0;
+                          document.getElementById('u81_input').selectedIndex = 0;
+
+                          document.getElementById('u85_input').selectedIndex = 0;
+                          document.getElementById('u87_input').selectedIndex = 0;
+                          document.getElementById('u89_input').selectedIndex = 0;
+                          document.getElementById('u91_input').selectedIndex = 0;
+                          document.getElementById('u93_input').selectedIndex = 0;
+                          document.getElementById('u95_input').selectedIndex = 0;
+                          document.getElementById('u97_input').selectedIndex = 0;
+
+                          document.getElementById('u37_input').selectedIndex = 0;
+                          document.getElementById('u39_input').selectedIndex = 0;
+                          document.getElementById('u41_input').selectedIndex = 0;
+                          document.getElementById('u43_input').selectedIndex = 0;
+                          document.getElementById('u45_input').selectedIndex = 0;
+                          document.getElementById('u47_input').selectedIndex = 0;
+                          document.getElementById('u49_input').selectedIndex = 0;
+
+                          document.getElementById('u53_input').selectedIndex = 0;
+                          document.getElementById('u55_input').selectedIndex = 0;
+                          document.getElementById('u57_input').selectedIndex = 0;
+                          document.getElementById('u59_input').selectedIndex = 0;
+                          document.getElementById('u61_input').selectedIndex = 0;
+                          document.getElementById('u63_input').selectedIndex = 0;
+                          document.getElementById('u65_input').selectedIndex = 0;
+
                     }
 
             });
