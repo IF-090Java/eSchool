@@ -33,7 +33,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 			"		from lesson l" +
 			"		left join clazz c on l.clazz_id = c.id" +
 			"		left join subject s on l.subject_id = s.id" +
-			"		where weekday(l.date)= :weekday and clazz_id = :classId and c.is_active = 1 " +
+			"		where YEARWEEK(l.date, 1) = YEARWEEK(CURDATE(), 1)" +
+			"		and weekday(l.date)= :weekday and clazz_id = :classId and c.is_active = 1 " +
 			"		group by s.name order by l.id", nativeQuery=true)
-	List<Object[]> scheduleByClassId(@Param("weekday")int weekday, @Param("classId")int class_id);
+	List<Map<String, Object>> scheduleByClassId(@Param("weekday")int weekday, @Param("classId")int class_id);
 }
