@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import academy.softserve.eschool.model.Lesson;
+
+import javax.transaction.Transactional;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Integer> {
@@ -35,6 +38,12 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 			"		left join subject s on l.subject_id = s.id" +
 			"		where YEARWEEK(l.date, 1) = YEARWEEK(CURDATE(), 1)" +
 			"		and weekday(l.date)= :weekday and clazz_id = :classId and c.is_active = 1 " +
-			"		group by s.name order by l.id", nativeQuery=true)
+			"		group by s.name", nativeQuery=true)
 	List<Map<String, Object>> scheduleByClassId(@Param("weekday")int weekday, @Param("classId")int class_id);
+
+	@Modifying
+	@Transactional
+	@Query(value = "delete from lesson where lesson.date between :startDate and :endDate" +
+			"		and clazz_id = :classId", nativeQuery=true)
+	void deleteScheduleByBounds(@Param("startDate")String startDate, @Param("endDate")String endDate, @Param("classId")int class_id);
 }
