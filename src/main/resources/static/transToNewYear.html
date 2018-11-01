@@ -32,6 +32,7 @@
                     <button type="button" class="transitButton btn btn-success btn-block">Новий навчальний рік. Додати класи</button>
                 </div>
             </div>
+            <hr />
             <div class="row justify-content-center mt-5">
                 <div class="col-5"><h3>Зміна поточних класів для учнів</h3></div>
             </div>
@@ -47,6 +48,12 @@
                         </thead>
                         <tbody id="tbody"></tbody>
                     </table>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-5 mb-5">
+                <div class="col-5">
+                <button type="button" class="bindingButton btn btn-success btn-block">Перевести учнів в нові класи</button>
                 </div>
             </div>
         </div>
@@ -79,12 +86,17 @@
     })
 
 $(document).ready(function () {
-    $.getJSON(host + 'students/transition', function (oldClasses) {
-    $.getJSON(host + 'classes', function (newClasses) {
+    $.getJSON(host + 'classes/active', function (oldClasses) {
+    $.getJSON(host + 'classes/active/students/none', function (newClasses) {
         var activeClasses = [];
+        var activeClassesId = [];
 
         $.each(newClasses, function (j, item) {
             activeClasses.push(item.className +' - '+item.classYear)
+        })
+
+        $.each(newClasses, function (i, item) {
+            activeClassesId.push(item.id)
         })
 
         $.each(oldClasses, function (i, item) {
@@ -93,7 +105,7 @@ $(document).ready(function () {
                 var spoiler =
                     $('<td><div class="spoiler">' +
                     '<input type="checkbox" id="spoiler_'+item.id+'">' +
-                    '<label for="spoiler_'+item.id+'">Учні '+item.className+'</label>' +
+                    '<label for="spoiler_'+item.id+'">Учні '+item.className+' класу</label>' +
                     '<div class="spoiler_body">' +
                     '<list id="studId_'+item.id+'"></list></div>' +
                     '</div></td>')
@@ -101,17 +113,17 @@ $(document).ready(function () {
                 tr.appendTo('#tbody');
 
                 $.each(studList, function (k, v) {
-                    $('<li>'+v.firstname+' '+v.lastname +'</li>').appendTo('#studId_'+item.id);
+                    $('<li><a href="/students/'+v.id+'/edit" target="_blank">'+v.firstname+' ' +v.lastname +'</a></li>').appendTo('#studId_'+item.id);
                 })
 
-                var oldClass = $('<td id="transitionTable">'+item.className+' - '+item.classYear+'</td>')
+                var oldClass = $('<td class="transitionTableOldClass" title="'+item.id+'">'+item.className+' - '+item.classYear+'</td>')
                 oldClass.appendTo(tr);
 
-                var newClassesList = $('<td id="transitionTable"><select id="newClassesList_'+item.id+'"></select></td>')
+                var newClassesList = $('<td class="transitionTableNewClass"><select id="newClassesList_'+item.id+'"></select></td>')
                 newClassesList.appendTo(tr);
 
                 for (i=0; i<activeClasses.length; i++){
-                    $('#newClassesList_'+item.id).append('<option value="'+activeClasses[i]+'">'+activeClasses[i]+'</option>')
+                    $('#newClassesList_'+item.id).append('<option value="'+activeClassesId[i]+'">'+activeClasses[i]+'</option>')
                 }
 
                 })
@@ -119,6 +131,35 @@ $(document).ready(function () {
         })
     })
 })
+
+    $('.bindingButton').on('click', function (e) {
+        e.preventDefault();
+        var old_classes = document.getElementsByClassName("transitionTableOldClass");
+
+        var classesList = [];
+
+        for (var j = 0; j < old_classes.length; j++) {
+            var old_class_id = old_classes[j].title;
+            var new_class = $('#newClassesList_'+old_class_id).find(":selected").val();
+            var dto = {
+                newClassId: new_class,
+                oldClassId: old_class_id
+            };
+            classesList.push(dto);
+        }
+
+        $.ajax({
+            type: "put",
+            url: host + "students/transition",
+            dataType: "json",
+            data: JSON.stringify(classesList),
+            contentType: "application/json",
+            success: function (responce) {
+                alert('Перехід на новий навчальний рік виконано успішно!')
+                window.location.href = "/students/new-year-transition";
+            }
+        });
+    })
 </script>
 </body>
 </html>

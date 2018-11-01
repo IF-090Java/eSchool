@@ -44,7 +44,7 @@ a, a:hover, a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    min-height: 100vh;
+    min-height: 120vh;
     background: #343a40;
     color: #fff;
     transition: all 0.3s;
@@ -122,6 +122,10 @@ ul ul a {
     border: 3px solid #ffffff;
     border-top: none;}
 
-#transitionTable {
-    vertical-align: middle;
+.transitionTableOldClass {
+    vertical-align: middle !important;
+}
+
+.transitionTableNewClass {
+    vertical-align: middle !important;
 }
