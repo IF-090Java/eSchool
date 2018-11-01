@@ -12,7 +12,7 @@ docker network create eschool-network
 
 # starting container with mysql DB
 docker run --name eschool-mysql \
-    -p 3306:3306 \
+    -p 3307:3307 \
     --network eschool-network \
     -e MYSQL_ROOT_PASSWORD=$DATASOURCE_PASSWORD \
     -e MYSQL_DATABASE=$MYSQL_DATABASE \
