@@ -19,7 +19,7 @@ docker run --name eschool-mysql \
     -d mysql:5.6
 
 # building app image
-docker build -f ../Dockerfile -t eschool:1.0 ../
+docker build -t eschool:1.0 .
 
 # starting app container
 docker run --name eschool-backend \
