@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Add teacher to journal</title>
-<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
-<style type="text/css">
-.main {
+	<meta charset="UTF-8">
+	<title>Teacher journal connection</title>
+	<link rel="stylesheet" type="text/css" href="/css/global-style.css">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
+	<style type="text/css">
+	.main {
 	margin-left: 25%;
 	margin-right: 25%;
 }
@@ -38,59 +42,68 @@ select {
    white-space: nowrap;
    width: 300px;
  }
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="/js/JS.js"></script>
 </head>
+<body>
+	<div class="wrapper">
+		<div class="admin-sidebar"></div>
+	<div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
+			<span class="navbar-text">Ви увійшли як Адміністратор</span>
+			<ul class="navbar-nav">
+				<li class="nav-item active">
+					<a class="nav-link" href="/">Вийти</a>
+				</li>
+			</ul>
+		</nav>
 
-	<body>
-	<div class="header"></div>
-	<form>
-		<div class="main">
-			<div align="center" style="margin-bottom: 50px">
+		<div class="container">
+			<div align="center" style="padding-bottom:35px; padding-top:35px">
 				<h1>ПРИВ'ЯЗКА ВЧИТЕЛЯ ДО ЖУРНАЛУ</h1>
 			</div>
-			
-				<fieldset style="border: 2px solid #4CAF50; padding: 40px;">
-					<legend style="font-size: 20px;">[ Прив'язка вчителя до журналу ]</legend>
-					
-					<div class="row">
-						<label for="teacher_input">Вчитель</label>
-						<div id="drop1" class="ax_default_droplist">
-							<select id="teacher_input">	 
-							</select>
-						</div>
-					</div>
-					
-					<div class="row">
-						<label for="class_input">Клас</label>
-						<div id="drop2" class="ax_default_droplist">
-							<select id="class_input">	 
-							</select>
-						</div>
-					</div>
-					
-					<div class="row">
-						<label for="subject_input">Предмет</label>
-						<div id="drop3" class="ax_default_droplist">
-							<select id="subject_input">		 
-							</select>
-						</div>
-					</div>
-					
-					<div align="center" style="text-align: center; margin: 0 auto;">
-						<button id="submitButton">Зберегти</button>
-					</div>
-				</fieldset>
+			<div class="row">
+				<div class="col">
+					<div class="main">
 
+						<div class="row">
+							<label for="teacher_input">Вчитель</label>
+							<div id="drop1" class="ax_default_droplist">
+								<select id="teacher_input">
+								</select>
+							</div>
+						</div>
+
+						<div class="row">
+							<label for="class_input">Клас</label>
+							<div id="drop2" class="ax_default_droplist">
+								<select id="class_input">
+								</select>
+							</div>
+						</div>
+
+						<div class="row">
+							<label for="subject_input">Предмет</label>
+							<div id="drop3" class="ax_default_droplist">
+								<select id="subject_input">
+								</select>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+			<div align="center" style="text-align: center; margin: 0 auto; padding-top: 25px">
+				<button id="submitButton" class="btn btn-success" type="submit">Зберегти</button>
+			</div>
 		</div>
-	</form>
-	<script type="text/javascript"> 
-	 $(function() {
-      $(".header").load("/views/header.html");
-    });
-    </script> 
-		<script type="text/javascript">
+	</div>
+</div>
+	<script type="text/javascript">
 		
 			$(document).ready(function() {
 				$.getJSON(host + 'teachers', function(data) {
@@ -134,8 +147,7 @@ select {
 					for (i=0; i < subjects.length; i++)
 						$('#subject_input').append('<option value="' + id[i] + '">' + subjects[i] + '</option>');
 				});
-				$('form').on('submit', function (e) {
-				e.preventDefault();
+				$('#submitButton').click(function(){
 				var teacherid = $('#teacher_input').find(":selected").val();
 				var classid = $('#class_input').find(":selected").val();
 				var subjectid = $('#subject_input').find(":selected").val();
@@ -167,6 +179,12 @@ select {
 			})
 			})
 		</script>
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+    $(function() {
+        $(".admin-sidebar").load("/views/admin-sidebar.html");
+    });
+</script>
 	</body>
 </html>
