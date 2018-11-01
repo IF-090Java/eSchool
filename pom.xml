@@ -69,8 +69,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-
-
     </dependencies>
 
     <!-- Package as an executable jar -->

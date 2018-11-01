@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/Style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script>
         $(document).ready(function() {
             var pathArray = window.location.pathname.split('/');
@@ -16,6 +19,7 @@
                 $('#date').append(date);
                 $('#login').append(data.login);
                 $('#class').append(data.classe);
+                $('#email').attr("href", "mailto:" + data.email);
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
                 if(data.avatar !== null) {
@@ -29,6 +33,16 @@
         });
     </script>
     <style type="text/css">
+        .table-user-information > tbody > tr {
+            border-top: 1px solid rgb(221, 221, 221);
+            font-size: 20px;
+        }
+
+        img{
+            max-width: 250px;
+            max-height: 200px;
+        }
+
         a{
             text-decoration: none;
         }
@@ -38,26 +52,130 @@
     <script src="/js/JS.js"></script>
 </head>
 <body>
-    <fieldset/>
-    <legend>[ Ваш профіль ]</legend>
+<div class="wrapper">
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <img id="logo" src="/img/logo.png" width="216" height="68" alt="logo"/>
+        </div>
 
-    <hr><br>
-    <div>
-        <a id="diary">Переглянути щоденик</a>
+        <ul class="list-unstyled components">
+            <li>
+                <a class="navLink" id="diary">Переглянути щоденник</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
+            <span class="navbar-text">Ви увійшли як учень</span>
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Вийти</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title" id="initials"></h3>
+                </div>
+                <div class="panel-body">
+
+                    <img class="img-thumbnail pull-left" id="avatar" src="/img/profile.png">
+
+                    <div class="row center-block">
+                        <div class=" col-md-9 col-lg-9 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                <tr>
+                                    <td>Логін: </td>
+                                    <td><div id="login"></div></td>
+                                </tr>
+                                <tr>
+                                    <td>Клас: </td>
+                                    <td><div id="class">Клас: </div></td>
+                                </tr>
+                                <tr>
+                                    <td>Дата народження: </td>
+                                    <td><div id="date"></div></td>
+                                </tr>
+
+                                <td>Електронна пошта: </td>
+                                <td><a id="email"></a></td>
+                                </tr>
+                                <td>Номер телефону: </td>
+                                <td><div id="phone"></div></td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <a id="edit" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"> Редагувати профіль</i></a>
+                </div>
+            </div>
+        </div>
     </div>
-    <br><hr>
+</div>
+<!--<div class="container">-->
+    <!--<div class="panel panel-success">-->
+        <!--<div class="panel-heading">-->
+            <!--<h3 class="panel-title" id="initials"></h3>-->
+        <!--</div>-->
+        <!--<div class="panel-body">-->
+            <!--<hr><br>-->
+            <!--<div>-->
+                <!--<a id="diary" data-original-title="Show diary" data-toggle="tooltip" type="button" class="btn btn-sm btn-success">Переглянути щоденик</a>-->
+            <!--</div>-->
+            <!--<br><hr>-->
 
-    <img id="avatar" src="/img/profile.png">
-    <div class="div">
-        <h2 id="initials"></h2>
-        <h3 id="login">Логін: </h3>
-        <h4 id="class">Клас: </h4>
-    </div><br>
+            <!--<img class="img-thumbnail pull-left" id="avatar" src="/img/profile.png">-->
 
-    <div id="date" style="font-size: 20px">Дата народження: </div>
-    <div id="email" style="font-size: 20px">Електронна пошта: </div>
-    <div id="phone" style="font-size: 20px">Номер телефону: </div>
+            <!--<div class="row center-block">-->
+                <!--<div class=" col-md-9 col-lg-9 ">-->
+                    <!--<table class="table table-user-information">-->
+                        <!--<tbody>-->
+                        <!--<tr>-->
+                            <!--<td>Логін: </td>-->
+                            <!--<td><div id="login"></div></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Клас: </td>-->
+                            <!--<td><div id="class">Клас: </div></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Дата народження: </td>-->
+                            <!--<td><div id="date"></div></td>-->
+                        <!--</tr>-->
 
-    <br><a id="edit" style="font-size: 15px; width: 30px">Редагувати профіль</a>
+                            <!--<td>Електронна пошта: </td>-->
+                            <!--<td><a id="email"></a></td>-->
+                        <!--</tr>-->
+                        <!--<td>Номер телефону: </td>-->
+                        <!--<td><div id="phone"></div></td>-->
+
+                        <!--</tr>-->
+
+                        <!--</tbody>-->
+                    <!--</table>-->
+
+
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="panel-footer">-->
+            <!--<a id="edit" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"> Редагувати профіль</i></a>-->
+
+        <!--</div>-->
+
+    <!--</div>-->
+
+<!--</div>-->
 </body>
 </html>
