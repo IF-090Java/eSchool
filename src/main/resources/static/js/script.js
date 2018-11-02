@@ -4,6 +4,7 @@
 
 		oFReader.onload = function (oFREvent) {
 			document.getElementById("avatar").src = oFREvent.target.result;
+			$("#deletebutton").show();
 		};
 	};
 
@@ -21,17 +22,17 @@ function checkPasswordMatch() {
 		var confirmPassword = $("#newPassRepeat").val();
 		if ((password.length === 0) && (confirmPassword.length === 0)) {
 			$("#divCheckPasswordMatch").hide();
-			$("#submitButton").css('background-color','#4CAF50');
+			$("#submitButton").prop("disabled", false);
 		}
 		else{
 			$("#divCheckPasswordMatch").show();
 			if (password != confirmPassword){
 				$("#divCheckPasswordMatch").html("Passwords do not match!").css('color','red');
-				$("#submitButton").prop("disabled", true).css('background-color','grey');
+				$("#submitButton").prop("disabled", true);
 			}
 			else{
 				$("#divCheckPasswordMatch").html("Passwords match.").css('color','green');
-				$("#submitButton").prop("disabled", false).css('background-color','#4CAF50');
+				$("#submitButton").prop("disabled", false);
 			}
 		}
 	};
