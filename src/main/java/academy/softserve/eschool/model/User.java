@@ -64,7 +64,7 @@ public class User {
     private Sex sex;
     @Size(max=20)
     private String phone;
-    @Size(max=20)
+    @Size(max=200)
     private String avatar;
     @Size(max=200)
     private String description;
