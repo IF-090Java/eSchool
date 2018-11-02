@@ -3,10 +3,14 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="/css/global-style.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
 <!-- CSS -->
 <style type="text/css">
+.error {
+    color: red;
+}
 .main {
 	margin-left: 15%;
 	margin-right: 15%;
@@ -15,7 +19,7 @@ input {
 	margin-left: 150px
 }
 select {
-     -webkit-appearance: button;
+   -webkit-appearance: button;
    -webkit-border-radius: 2px;
    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
    -webkit-padding-end: 20px;
@@ -54,6 +58,7 @@ select {
     </nav>
 
     <div class="container">
+      <form action="#" method="POST" id="myForm">
       <div id="message" align="center"></div>
       <!-- Text -->
       <div id="u1" align="center" style="padding-bottom:35px; padding-top:35px">
@@ -64,30 +69,33 @@ select {
           <div class="main">
             <!-- Text -->
             <div id="u13">
-              <p>Виберіть межі семестру</p>
+              <p class="control-label col-4 requiredField font-weight-bold">Виберіть межі семестру<span class="asteriskField">*</span></p>
             </div>
 
             <div class="container">
               <div class="row">
                 <!-- Unnamed (Rectangle) -->
                 <div id="u3" class="ax_default label">
-                  <div class="col" for="start" style="padding-bottom:15px; padding-top:35px">Введіть початок семетру:</div>
-                  <input id="start" class="col" type="date" id="start" name="start" required>
+                  <label for="start" style="padding-bottom:15px; padding-top:25px">Введіть початок семетру:<span class="asteriskField">*</span></label>
+                  <div class="controls col-8">
+                    <input class="input-md form-control" id="start" type="date" name="startDate" >
+                  </div>
                 </div>
-                <div class="w-100"></div>
               </div>
               <div class="row">
                 <!-- Unnamed (Rectangle) -->
                 <div id="u6" class="ax_default label">
-                  <div class="col" for="end" style="padding-bottom:15px; padding-top:35px">Введіть кінець семетру:</div>
-                  <input id="end" class="col" type="date" id="end" name="end" align="center" required>
+                  <label for="end" style="padding-bottom:15px; padding-top:25px">Введіть кінець семетру:<span class="asteriskField">*</span></label>
+                  <div class="controls col-8">
+                    <input class="input-md form-control" id="end" type="date" name="endDate" >
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Unnamed (Rectangle) -->
             <div id="u14" class="ax_default label">
-              <p style="padding-top:35px">Виберіть клас</p>
+              <p class="control-label col-4 requiredField font-weight-bold" style="padding-top:35px">Виберіть клас<span class="asteriskField">*</span></p>
             </div>
 
             <!-- Classes Droplist -->
@@ -95,7 +103,6 @@ select {
               <select id="u15_input">
               </select>
             </div>
-
 
             <!-- Unnamed (Rectangle) -->
             <div id="u19" class="ax_default label">
@@ -387,12 +394,49 @@ select {
           </div>
         </div>
       </div>
+      </form>
     </div>
   </div>
 </div>
 <script type="text/javascript">
 
 		$(document).ready(function() {
+
+            var today = new Date();
+            var one_day_ago=new Date().setDate(today.getDate()-1);
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+             if(dd<10){
+                    dd='0'+dd
+                }
+                if(mm<10){
+                    mm='0'+mm
+                }
+
+            today = yyyy+'-'+mm+'-'+dd;
+
+            jQuery.validator.addMethod("minDate", function(value, element) {
+                 var inputDate = new Date(value);
+                  if (inputDate > one_day_ago)
+                      return true;
+                  return false;
+          }, "Дата повинна бути більшою чи рівною " + today);
+
+          $("#myForm").validate({
+            rules: {
+                startDate: {
+                    required: true,
+                    date: true,
+                    minDate: true
+                },
+                endDate: {
+                    required: true,
+                    date: true,
+                    minDate: true
+                }
+            }
+        });
 
 			$.getJSON(host + 'subjects', function (data) {
 
