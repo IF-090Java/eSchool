@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import academy.softserve.eschool.constraint.annotation.SubjectName;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,6 +34,7 @@ public class Subject {
 	private int id;
 	@NotBlank
 	@Size(max=50)
+	@SubjectName
 	private String name;
 	@Size(max=255)
 	private String description;

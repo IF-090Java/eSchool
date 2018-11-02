@@ -10,6 +10,8 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import academy.softserve.eschool.constraint.annotation.Name;
 import lombok.*;
 
 @Entity
@@ -38,14 +40,17 @@ public class User {
 	private Role role;
 	@NotBlank
 	@Size(max=25, min=3)
+	@Name
 	@Column(name="first_name")
     private String firstName;
 	@NotBlank
 	@Size(max=25, min=3)
+	@Name
 	@Column(name="last_name")
     private String lastName;
 	@NotBlank
 	@Size(max=25, min=3)
+	@Name
     private String patronymic;
 	@Past
 	@Temporal(TemporalType.DATE)
@@ -59,7 +64,7 @@ public class User {
     private Sex sex;
     @Size(max=20)
     private String phone;
-    @Size(max=9999999)
+    @Size(max=20)
     private String avatar;
     @Size(max=200)
     private String description;
