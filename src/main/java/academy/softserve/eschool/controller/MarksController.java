@@ -50,14 +50,13 @@ public class MarksController {
 	@PostMapping
 	public MarkDTO postMark(
 		@ApiParam(value = "mark,note,lesson and student id", required = true)@RequestBody MarkDTO markDTO){
-		if(markDTO.getIdLesson()!=0 && markDTO.getIdStudent()!=0)
 		markService.saveMark(markDTO);
 		return markDTO;
 	}
 
 	@ApiOperation("Update mark's type of lesson")
 	@PutMapping("/lessons/{idLesson}/marktype")
-	public ClassDTO editClass(
+	public MarkTypeDTO editType(
 			@ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson,
 			@ApiParam(value = "type of mark", required = true) @RequestBody MarkTypeDTO markType){
 		System.out.println(markType+" "+markType.getMarkType());

@@ -85,18 +85,10 @@
                 </div>
             </div>
 
-            <div id="markPick">
-                <div id="st">
-                    Студент: <span id="spanStudent"></span>
-                </div>
-                <div id="les">
-                    Урок: <span id="spanLesson"></span>
-                </div>
-                <form id="formInput">
-                    Mark: <input type="number" id="mark_form" min="1" max="12"><br>
-                    Note:<input type="text" id="note_form"><br><br>
-                    <input type="submit" value="Submit">
-                </form>
+            <div class="container" id="markPick">
+                   <div id="les">
+                        Урок: <span id="spanLesson"></span>
+                    </div>
             </div>
 
             <div class="container">
@@ -110,6 +102,31 @@
                     </thead>
                 </table>
             </div>
+
+            <div class="popover-content hide" style="display: none" >
+                    <div class="form-group">
+                        <label class="control-label">Оцінка</label>
+                        <select id="mark_form">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label >Нотатка</label>
+                        <textarea class="form-control" id="note_form" rows="3"></textarea>
+                    </div>
+                    <button type="button" id="test" class="btn btn-primary">Зберегти</button>
+            </div>
         </div>
     </div>
 </div>
@@ -121,7 +138,8 @@
         var idSubject = pathArray[3];
         var idClass = pathArray[5];
         var currentCell;
-
+        var currentIdStudent;
+        var currentIdLesson;
 
         $.getJSON(host + 'classes/'+idClass, function (data) {
           $('<span>'+data.className+'</span>').appendTo('#classTitle');
@@ -166,7 +184,7 @@
                         $('<option value="Practic" selected>' + "Pr." + '</option>').appendTo(select);
                     }
                     else {
-                        $('<option value="Practic">' + "Prn" + '</option>').appendTo(select);
+                        $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
                     }
                     if(v.typeMark=="Module") {
                         $('<option value="Module" selected>' + "Md." + '</option>').appendTo(select);
@@ -182,7 +200,7 @@
                     }
                     select.appendTo(th);
                     th.appendTo(tr1);
-                    var date = data[0].marks[0].dateMark.split(".");
+                    var date = v.dateMark.split(".");
                     $('<th class="dateCell">'+date[1]+'.'+date[2]+'</th>').appendTo(tr2);
                 });
                 $('<th>'+'С.'+'</th>').appendTo(tr2);
@@ -197,34 +215,48 @@
                 $('<td>'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr);
                 $.each(val.marks, function(k, v) {
                     if(!v.mark){
-                        $('<td class="mark">'+""+'</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
+                        $('<td class="mark" data-toggle="popover" >'+""+'</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).attr("note",v.note).appendTo(tr);
                     }
                     else {
-                        $('<td class="mark" title="'+v.note+'">' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
+                        $('<td class="mark" title="'+v.note+'" data-toggle="popover" >' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).attr("note",v.note).appendTo(tr);
                     }
                 });
                 $('<td class="average">'+' '+'</td>').appendTo(tr);
                 tr.appendTo('#table_mark');
+                $('[data-toggle="popover"]').popover({
+                    html : true,
+                    container: 'body',
+                    content: function() {
+                        currentIdStudent = $(this).attr("idSt");
+                        currentIdLesson = $(this).attr("idLes");
+                        var anchorText = $(this).text();
+                        $('.popover-content').find('input[id=txtContent]').attr('value', anchorText);
+                        $(".popover-content textarea#note_form").val(anchorText);
+                        return $(".popover-content").html();
+                    }
+                });
+
+                $('body').on('click', function (e) {
+                    $('[data-toggle=popover]').each(function () {
+                        // hide any open popovers when the anywhere else in the body is clicked
+                        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                            $(this).popover('hide');
+                        }
+                    });
+                });
+
+
             });
             averageMark();
             $('td.mark').click(markClick);
             $("select.type").change(dropClick);
         });
 
+        $(document).on('click', '#test', function(){
+            var mark = $(".popover #mark_form").val();
+            var note = $(".popover #note_form").val();
+            alert(currentCell+" aaa")
 
-        $('form').on('submit', function (e) {
-            e.preventDefault();
-            var mark = $("#mark_form").val();
-            var note = $("#note_form").val();
-
-            if(currentCell==undefined){
-                alert("Не вибрано клітинки");
-                return;
-            }
-            if(mark<1 || mark>12){
-                alert("Неправильна оцінка");
-                return;
-            }
             $.ajax({
                 type: "post",
                 url: host + "marks",
@@ -238,11 +270,16 @@
                 contentType: "application/json",
                 success: function (response) {
                     currentCell.text(mark);
-                    currentCell.prop("title",note);
+                    currentCell.prop("note",note);
                     averageMark();
+                    $(".popover textarea#note_form").val(note);
+                    currentCell.popover('hide');
+                    currentCell.css("background-color", "");
                 }
             });
-        })
+
+        });
+
 
         function averageMark() {
             $('#table_mark .markValues').each(function () {
@@ -264,21 +301,18 @@
 
         function markClick(){
             if(currentCell != undefined && (currentCell.attr("idSt")==$(this).attr("idSt") && currentCell.attr("idLes")==$(this).attr("idLes"))){
+                alert('1');
                 currentCell.css("background-color", "");
-                $('#spanStudent').text("");
-                $('#spanLesson').text("");
                 currentCell = undefined;
             }
+            else if( currentCell != undefined && currentCell.attr("idSt")!=$(this).attr("idSt") && currentCell.attr("idLes")!=$(this).attr("idLes")){
+                alert('2');
+                currentCell.css("background-color", "");
+                $(this).css("background-color", "#83AF86");
+                currentCell = $(this);
+            }
             else {
-                if (currentCell != undefined) {
-                    currentCell.css("background-color", "");
-                }
-                var idS = $(this).attr("idSt");
-                var idL = $(this).attr("idLes");
-                $('#spanStudent').text(idS);
-                $('#spanLesson').text(idL);
-                $('#note_form').val($(this).attr("title"));
-                $('#mark_form').val($(this).text());
+                alert('3');
                 currentCell = $(this);
                 $(this).css("background-color", "#83AF86");
             }
@@ -290,14 +324,13 @@
                 url: host + "marks/lessons/"+$(this).attr("idLes")+"/marktype",
                 dataType: "json",
                 data: JSON.stringify({
-                    "markType": $(this).val(),
+                    "markType": $(this).val()
                 }),
                 contentType: "application/json",
                 success: function (response) {
                     alert("success");
                 }
             });
-            console.log($(this).attr("idLes")+" "+$(this).val());
         }
 
     });

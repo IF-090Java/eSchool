@@ -47,6 +47,9 @@
                 </thead>
             </table>
         </div>
+        <div id="popover-content" class="hide" style="display: none">
+            <!-- MyForm -->das
+        </div>
     </div>
 </div>
 
@@ -61,16 +64,28 @@
             $.each(data, function(key, val) {
                 var tr=$('<tr class="d-flex"></tr>');
                 var ref = host + 'journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
-                $('<td class="col-3 ">'+val.subjectName+'</a>'+'</td>').appendTo(tr);
+                $('<td class="col-3 " data-toggle="popover" title="Popover Header" >'+val.subjectName+'</td>').appendTo(tr);
                 $('<td class="col-3 ">'+val.className+'</td>').appendTo(tr);
                 $('<td class="col-3 ">'+val.academicYear+'/'+(val.academicYear++)+'</td>').appendTo(tr);
                 $('<td class="col-3 ">'+'<a href="'+ref+'">Перейти</a>'+'</td>').appendTo(tr);
                 tr.appendTo(tableBody);
             });
             tableBody.appendTo('.table');
+            $('[data-toggle="popover"]').popover({
+                html : true,
+                content: function() {
+                    return $("#popover-content").html();
+                }
+            });
+            $('html').on('click', function(e) {
+                if (!$(e.target).is('[data-toggle="popover"]') && $(e.target).closest('.popover').length == 0) {
+                    $('[data-toggle="popover"]').popover('hide');
+                }
+            });
         });
     });
 </script>
+
 <script type="text/javascript">
     $(function() {
         $(".teacher-sidebar").load("/views/teacher-sidebar.html");
