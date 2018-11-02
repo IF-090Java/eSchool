@@ -416,12 +416,19 @@ select {
 
             today = yyyy+'-'+mm+'-'+dd;
 
-            jQuery.validator.addMethod("minDate", function(value, element) {
+           jQuery.validator.addMethod("minDate", function(value, element) {
                  var inputDate = new Date(value);
                   if (inputDate > one_day_ago)
                       return true;
                   return false;
           }, "Дата повинна бути більшою чи рівною " + today);
+
+          jQuery.validator.addMethod("enddate", function(value, element) {
+            var startdatevalue = $("#start").val();
+            if (new Date(startdatevalue) < new Date(value))
+                      return true;
+                  return false;
+            }, "Дата кінця семетру повинна бути більшою чим дата початку семестру");
 
           $("#myForm").validate({
             rules: {
@@ -433,7 +440,7 @@ select {
                 endDate: {
                     required: true,
                     date: true,
-                    minDate: true
+                    enddate : true
                 }
             }
         });
