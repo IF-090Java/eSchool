@@ -17,7 +17,7 @@ import academy.softserve.eschool.constraint.validator.SubjectNameValidator;
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SubjectName {
-    String message() default "Input must match [А-ЯІЇЄ]([а-яіїє']+[ -]?)+";
+    String message() default "Input must match [А-ЯІЇЄ]([А-ЯІЇЄ]*[а-яіїє]*[' -]?)+";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

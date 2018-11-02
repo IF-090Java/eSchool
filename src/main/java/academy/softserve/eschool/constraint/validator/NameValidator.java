@@ -6,10 +6,10 @@ import javax.validation.ConstraintValidatorContext;
 import academy.softserve.eschool.constraint.annotation.Name;
 
 public class NameValidator implements ConstraintValidator<Name, String> {
-
+	private final static String PATTERN = "[А-ЯІЇЄ][а-яіїє']+";
 	@Override
 	public boolean isValid(String name, ConstraintValidatorContext context) {
-		return name != null && name.matches("[А-ЯІЇЄ][а-яіїє']+");
+		return name != null && name.matches(PATTERN);
 	}
 
 }
