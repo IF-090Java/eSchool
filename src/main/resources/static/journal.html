@@ -5,6 +5,7 @@
     <title>Журнали</title>
 
     <link rel="stylesheet" type="text/css" href="/css/global-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -80,15 +81,42 @@
 
             <div class="container-fluid">
                 <div class="row justify-content-center" >
-                    <table class="table" id="table_mark" style="margin: 0 auto" >
+                    <table class="table" id="table_mark" style="margin: 20px auto" >
                     </table>
                 </div>
             </div>
 
             <div class="container" id="markPick">
-                   <div id="les">
-                        Урок: <span id="spanLesson"></span>
-                    </div>
+                <div class="row justify-content-center">
+                    <form class="form-horizontal col-6" id="formJournal">
+                        <div class="form-group">
+                            <label for="student_data">Студент:</label>
+                            <input type="text" id="student_data" class="form-control" placeholder="" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="mark_form">Оцінка</label>
+                            <select id="mark_form" class="selectpicker show-tick" name="mark_form" data-width="auto" data-size="5" data-dropup-auto="false">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="note_form">Нотатка</label>
+                            <textarea class="form-control" id="note_form" rows="3"></textarea>
+                        </div>
+                        <input type="button" class="btn btn-secondary " value="Зберегти" id="saveMarkB">
+                    </form>
+                </div>
             </div>
 
             <div class="container">
@@ -102,31 +130,6 @@
                     </thead>
                 </table>
             </div>
-
-            <div class="popover-content hide" style="display: none" >
-                    <div class="form-group">
-                        <label class="control-label">Оцінка</label>
-                        <select id="mark_form">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label >Нотатка</label>
-                        <textarea class="form-control" id="note_form" rows="3"></textarea>
-                    </div>
-                    <button type="button" id="test" class="btn btn-primary">Зберегти</button>
-            </div>
         </div>
     </div>
 </div>
@@ -138,8 +141,6 @@
         var idSubject = pathArray[3];
         var idClass = pathArray[5];
         var currentCell;
-        var currentIdStudent;
-        var currentIdLesson;
 
         $.getJSON(host + 'classes/'+idClass, function (data) {
           $('<span>'+data.className+'</span>').appendTo('#classTitle');
@@ -215,70 +216,54 @@
                 $('<td>'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr);
                 $.each(val.marks, function(k, v) {
                     if(!v.mark){
-                        $('<td class="mark" data-toggle="popover" >'+""+'</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).attr("note",v.note).appendTo(tr);
+                        $('<td class="mark" ></td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
                     }
                     else {
-                        $('<td class="mark" title="'+v.note+'" data-toggle="popover" >' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).attr("note",v.note).appendTo(tr);
+                        $('<td class="mark" title="'+v.note+'" >' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
                     }
                 });
                 $('<td class="average">'+' '+'</td>').appendTo(tr);
                 tr.appendTo('#table_mark');
-                $('[data-toggle="popover"]').popover({
-                    html : true,
-                    container: 'body',
-                    content: function() {
-                        currentIdStudent = $(this).attr("idSt");
-                        currentIdLesson = $(this).attr("idLes");
-                        var anchorText = $(this).text();
-                        $('.popover-content').find('input[id=txtContent]').attr('value', anchorText);
-                        $(".popover-content textarea#note_form").val(anchorText);
-                        return $(".popover-content").html();
-                    }
-                });
-
-                $('body').on('click', function (e) {
-                    $('[data-toggle=popover]').each(function () {
-                        // hide any open popovers when the anywhere else in the body is clicked
-                        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-                            $(this).popover('hide');
-                        }
-                    });
-                });
-
-
             });
             averageMark();
             $('td.mark').click(markClick);
             $("select.type").change(dropClick);
         });
 
-        $(document).on('click', '#test', function(){
-            var mark = $(".popover #mark_form").val();
-            var note = $(".popover #note_form").val();
-            alert(currentCell+" aaa")
+        $( "#saveMarkB" ).click(function() {
+            if(currentCell==undefined){
+                alert('error');
+            }
+            else {
+                var mark = $("#mark_form").val();
+                var note = $("#note_form").val();
 
-            $.ajax({
-                type: "post",
-                url: host + "marks",
-                dataType: "json",
-                data: JSON.stringify({
-                    "mark": mark,
-                    "note": note,
-                    "idStudent":  currentCell.attr("idSt"),
-                    "idLesson":  currentCell.attr("idLes")
-                }),
-                contentType: "application/json",
-                success: function (response) {
-                    currentCell.text(mark);
-                    currentCell.prop("note",note);
-                    averageMark();
-                    $(".popover textarea#note_form").val(note);
-                    currentCell.popover('hide');
-                    currentCell.css("background-color", "");
-                }
-            });
-
+                $.ajax({
+                    type: "post",
+                    url: host + "marks",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "mark": mark,
+                        "note": note,
+                        "idStudent": currentCell.attr("idSt"),
+                        "idLesson": currentCell.attr("idLes")
+                    }),
+                    contentType: "application/json",
+                    success: function (response) {
+                        currentCell.text(mark);
+                        currentCell.attr("title", note);
+                        averageMark();
+                        currentCell.css("background-color", "");
+                        currentCell.css("color", "#212529");
+                        currentCell = undefined;
+                        $("#student_data").val("");
+                        $("#note_form").val("");
+                        $(".selectpicker").selectpicker("refresh");
+                    }
+                });
+            }
         });
+
 
 
         function averageMark() {
@@ -301,21 +286,44 @@
 
         function markClick(){
             if(currentCell != undefined && (currentCell.attr("idSt")==$(this).attr("idSt") && currentCell.attr("idLes")==$(this).attr("idLes"))){
-                alert('1');
                 currentCell.css("background-color", "");
+                currentCell.css("color", "#212529");
                 currentCell = undefined;
+                $("#student_data").val("");
+                $("#note_form").val("");
+
             }
-            else if( currentCell != undefined && currentCell.attr("idSt")!=$(this).attr("idSt") && currentCell.attr("idLes")!=$(this).attr("idLes")){
-                alert('2');
+            else if( currentCell != undefined && (currentCell.attr("idSt")!=$(this).attr("idSt") || currentCell.attr("idLes")!=$(this).attr("idLes"))){
                 currentCell.css("background-color", "");
-                $(this).css("background-color", "#83AF86");
+                $(this).css("background-color", "#6c757d");
+                $(this).css("color", "#ffffff");
                 currentCell = $(this);
+                getStudent(currentCell.attr('idSt'));
+                $("#note_form").val(currentCell.attr('title'));
+                var mark = currentCell.text();
+                if(mark!='') {
+                    $('#mark_form').val(mark).prop('selected', true);
+                }
+                $(".selectpicker").selectpicker("refresh");
             }
             else {
-                alert('3');
                 currentCell = $(this);
-                $(this).css("background-color", "#83AF86");
+                $(this).css("background-color", "#6c757d");
+                $(this).css("color", "#ffffff");
+                getStudent(currentCell.attr('idSt'));
+                $("#note_form").val(currentCell.attr('title'));
+                var mark = currentCell.text();
+                if(mark!='') {
+                    $('#mark_form').val(mark).prop('selected', true);
+                }
+                $(".selectpicker").selectpicker("refresh");
             }
+        }
+
+        function getStudent(idStudent){
+            $.getJSON(host + 'students/'+idStudent, function (data) {
+                $("#student_data").val(data.firstname+" "+data.lastname);
+            });
         }
 
         function dropClick() {
@@ -333,15 +341,20 @@
             });
         }
 
+        $('.selectpicker').selectpicker();
     });
     </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
     <script type="text/javascript">
         $(function() {
             $(".teacher-sidebar").load("/views/teacher-sidebar.html");
         });
     </script>
+
 </body>
 </html>
