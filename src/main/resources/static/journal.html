@@ -114,7 +114,8 @@
                             <label for="note_form">Нотатка</label>
                             <textarea class="form-control" id="note_form" rows="3"></textarea>
                         </div>
-                        <input type="button" class="btn btn-secondary " value="Зберегти" id="saveMarkB">
+                        <input type="button" class="btn btn-secondary" value="Зберегти" id="saveMarkB">
+                        <span id="status" style="display:none">das</span>
                     </form>
                 </div>
             </div>
@@ -232,7 +233,9 @@
 
         $( "#saveMarkB" ).click(function() {
             if(currentCell==undefined){
-                alert('error');
+                $("#status").text('Поле не вибрано!');
+                $("#status").css("color", "#d23c44");
+                $("#status").show();
             }
             else {
                 var mark = $("#mark_form").val();
@@ -259,6 +262,9 @@
                         $("#student_data").val("");
                         $("#note_form").val("");
                         $(".selectpicker").selectpicker("refresh");
+                        $("#status").text('Успішно додано!');
+                        $("#status").css("color", "#3fa85f");
+                        $("#status").show();
                     }
                 });
             }
@@ -285,6 +291,7 @@
         }
 
         function markClick(){
+            $("#status").hide();
             if(currentCell != undefined && (currentCell.attr("idSt")==$(this).attr("idSt") && currentCell.attr("idLes")==$(this).attr("idLes"))){
                 currentCell.css("background-color", "");
                 currentCell.css("color", "#212529");
