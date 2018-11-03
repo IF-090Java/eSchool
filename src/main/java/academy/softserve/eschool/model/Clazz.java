@@ -9,6 +9,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import academy.softserve.eschool.constraint.annotation.ClassName;
+import academy.softserve.eschool.constraint.annotation.SubjectName;
 import lombok.*;
 
 @Entity
@@ -25,6 +27,7 @@ public class Clazz {
 	private int id;
 	@NotBlank
 	@Size(max=4)
+	@ClassName
 	private String name;
 	@Size(max=500)
 	private String description;

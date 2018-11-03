@@ -1,6 +1,7 @@
 package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.dto.ClassDTO;
+import academy.softserve.eschool.dto.NYTransitionDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.repository.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,5 +87,21 @@ public class ClassServiceImpl implements ClassService{
         }
     }
 
+    @Override
+    public List<ClassDTO> getActiveClassesWithoutStudents() {
+        List<Clazz> classesWithoutStudents = classRepository.getActiveClassesWithoutStudents();
+        return classesWithoutStudents.stream().map(i -> ClassDTO.builder()
+                .id(i.getId())
+                .className(i.getName())
+                .classYear(i.getAcademicYear())
+                .classDescription(i.getDescription()).build()
+        ).collect(Collectors.toCollection(ArrayList::new));
+    }
 
+    @Override
+    public void updateClassStatusById(List<NYTransitionDTO> transitionDTOS, boolean status) {
+        for (NYTransitionDTO dto: transitionDTOS){
+            classRepository.updateClassStatusById(dto.getOldClassId(), status);
+        }
+    }
 }
