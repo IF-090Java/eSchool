@@ -38,4 +38,14 @@ public class RestExceptionHandler {
 				.build();
 		return response;
 	}
+	
+	@ResponseStatus(code=HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(Exception.class)
+	public GeneralResponseWrapper<Object> handleAll(Exception ex) {
+		Status status = new Status(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getLocalizedMessage());
+		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+				.status(status)
+				.build();
+		return response;
+	}
 }
