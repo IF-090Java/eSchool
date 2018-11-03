@@ -62,7 +62,6 @@ public class MarkService implements MarkServiceBase{
 
 	@Override
 	public void updateType(int idLesson, String markType) {
-		System.out.println(idLesson+" "+markType);
 		markRepo.saveTypeByLesson(idLesson,markType);
 	}
 }

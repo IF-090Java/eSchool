@@ -59,8 +59,7 @@ public class MarksController {
 	public MarkTypeDTO editType(
 			@ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson,
 			@ApiParam(value = "type of mark", required = true) @RequestBody MarkTypeDTO markType){
-		System.out.println(markType+" "+markType.getMarkType());
 		markService.updateType(idLesson, markType.getMarkType());
-		return null;
+		return markType;
 	}
 }
