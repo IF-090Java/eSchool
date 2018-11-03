@@ -1,6 +1,7 @@
 package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.dto.ClassDTO;
+import academy.softserve.eschool.dto.NYTransitionDTO;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface ClassService {
     void addNewYearClasses();
     List<ClassDTO> getActiveClassesWithStudents();
     String updateClassName(String className);
+    List<ClassDTO> getActiveClassesWithoutStudents();
+    void updateClassStatusById(List<NYTransitionDTO> transitionDTOS, boolean status);
 }
