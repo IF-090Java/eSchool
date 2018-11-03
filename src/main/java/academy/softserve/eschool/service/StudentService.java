@@ -1,6 +1,7 @@
 package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.dto.EditUserDTO;
+import academy.softserve.eschool.dto.NYTransitionDTO;
 import academy.softserve.eschool.dto.StudentDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Role;
@@ -87,5 +88,17 @@ public class StudentService {
         Clazz clazz = classRepository.getOne(Integer.valueOf(studentDTO.getClassId()));
         student.getClasses().add(clazz);
         return studentRepository.save(student);
+    }
+
+    public void studentClassesRebinding(List<NYTransitionDTO> nyTransitionDTOS){
+         for (NYTransitionDTO nDTO : nyTransitionDTOS){
+             List<Student> studentList = studentRepository.findByClazzId(nDTO.getOldClassId());
+             for (Student student : studentList) {
+                 List<Clazz> clazzes = student.getClasses();
+                 clazzes.add(classRepository.findById(nDTO.getNewClassId()).orElse(null));
+                 student.setClasses(clazzes);
+                 studentRepository.save(student);
+             }
+         }
     }
 }
