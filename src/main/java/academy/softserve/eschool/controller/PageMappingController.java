@@ -8,12 +8,12 @@ import springfox.documentation.annotations.ApiIgnore;
 @Controller
 @ApiIgnore
 public class PageMappingController {
-    @RequestMapping("classes/{id}/edit")
+    @RequestMapping("classes/{id}/edit")//TODO UI FORM VALID
     public String editClassPage() {
         return "/addEditClass.html";
     }
 
-    @RequestMapping("journals/subjects/{idSubject}/classes/{idClass}/view")
+    @RequestMapping("journals/subjects/{idSubject}/classes/{idClass}/view")//TODO BOOTSTRAP AND UI FORM VALID ????
     public String journal() {
         return "/journal.html";
     }

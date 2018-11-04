@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,16 +28,16 @@ public class TeacherJournalController {
     private ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository;
 
     @ApiOperation(value = "Gets a teacher-class-subject connection")
-    @ApiResponses(
-            value={
-                    @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 500, message = "Server error")
-            }
-    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
     @GetMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
-    public GeneralResponseWrapper<TeacherJournalDTO> getConections(@PathVariable("teacher_id") final int teacher_id,
-                                           @PathVariable("class_id") final int class_id,
-                                           @PathVariable("subject_id") final int subject_id)
+    public GeneralResponseWrapper<TeacherJournalDTO> getConections(
+            @ApiParam(value = "id of teacher", required = true) @PathVariable("teacher_id") final int teacher_id,
+            @ApiParam(value = "id of class", required = true) @PathVariable("class_id") final int class_id,
+            @ApiParam(value = "id of subject", required = true) @PathVariable("subject_id") final int subject_id)
     {
         ClassTeacherSubjectLink classTeacherSubjectLink =
                 classTeacherSubjectLinkRepository.findByIds(teacher_id, class_id, subject_id);
@@ -52,12 +53,14 @@ public class TeacherJournalController {
     @ApiResponses(
             value={
                     @ApiResponse(code = 201, message = "Teacher successfully added to the journal"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public GeneralResponseWrapper<TeacherJournalDTO> postConection(@PathVariable("teacher_id") final int teacher_id,
-                                                                   @PathVariable("class_id") final int class_id,
-                                                                   @PathVariable("subject_id") final int subject_id)//creates connection
+    public GeneralResponseWrapper<TeacherJournalDTO> postConection(
+            @ApiParam(value = "id of teacher", required = true) @PathVariable("teacher_id") final int teacher_id,
+            @ApiParam(value = "id of class", required = true) @PathVariable("class_id") final int class_id,
+            @ApiParam(value = "id of subject", required = true) @PathVariable("subject_id") final int subject_id)
     {
         classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacher_id, class_id, subject_id), true);
 

@@ -9,10 +9,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,11 +34,14 @@ public class ScheduleController {
     @ApiResponses(
             value={
                     @ApiResponse(code = 201, message = "Schedule successfully created"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
     @PostMapping("/classes/{id_class}/schedule")
-    public GeneralResponseWrapper<ScheduleDTO> postSchedule(@PathVariable("id_class") final int id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
+    public GeneralResponseWrapper<ScheduleDTO> postSchedule(
+            @ApiParam(value = "id of class", required = true) @PathVariable("id_class") final int id_class,
+            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String start = dateFormat.format(scheduleDTO.getStartOfSemester());
@@ -55,10 +58,12 @@ public class ScheduleController {
     @ApiResponses(
             value={
                     @ApiResponse(code = 200, message = "OK"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public  GeneralResponseWrapper<ScheduleDTO> getSchedule(@PathVariable("id_class") final int id_class){
+
+    public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "id of class", required = true) @PathVariable("id_class") final int id_class){
 
         GeneralResponseWrapper<ScheduleDTO> response;
         response = new GeneralResponseWrapper<>(new Status(200, "OK"), scheduleService.getScheduleByClassId(id_class));

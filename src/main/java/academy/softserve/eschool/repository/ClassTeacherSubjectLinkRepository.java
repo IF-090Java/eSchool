@@ -23,6 +23,13 @@ public interface ClassTeacherSubjectLinkRepository extends JpaRepository<ClassTe
     @Query(value = "select distinct * from class_teacher_subject_link ct\n" +
             "left join clazz on ct.clazz_id=clazz.id\n" +
             "left join subject on subject.id=ct.subject_id\n" +
+            "left join teacher on teacher.id=ct.teacher_id\n" +
+            "where ct.teacher_id = :idTeacher and clazz.is_active=true ", nativeQuery=true)
+    List<ClassTeacherSubjectLink> findActiveJournalsByTeacher(@Param("idTeacher") int idTeacher);
+
+    @Query(value = "select distinct * from class_teacher_subject_link ct\n" +
+            "left join clazz on ct.clazz_id=clazz.id\n" +
+            "left join subject on subject.id=ct.subject_id\n" +
             "left join teacher on teacher.id=ct.teacher_id\n", nativeQuery=true)
     List<ClassTeacherSubjectLink> findJournals();
 
