@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +46,7 @@ public class LoginGeneratorController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Create login")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/generate")
     public DataForLoginDTO getLogin(@RequestBody DataForLoginDTO person) {
         StringBuffer login = new StringBuffer(transliteration(person.getFirstName().substring(0,0)));
