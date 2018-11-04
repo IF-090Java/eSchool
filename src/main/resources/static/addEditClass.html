@@ -50,7 +50,7 @@
                             <div class="form-group row">
                                 <label for="txtArea" class="col-3 col-form-label">Опис класу</label>
                                 <div class="col-9">
-                                    <textarea id="txtArea" rows="5" name="className" class="form-control"></textarea>
+                                    <textarea id="txtArea" rows="5" name="classDescription" class="form-control"></textarea>
                                 </div>
                                 <span class="checkmark"></span>
                             </div>
@@ -85,6 +85,7 @@
 
 <script type="text/javascript">
         $(document).ready(function () {
+
         	jQuery.validator.addMethod("grade", function(value, element) {
                  var inputGrade = value;
                  if(isNaN(inputGrade)){
@@ -103,12 +104,22 @@
 			 return false;
           }, "Введіть правильну назву класу, наприклад : 10-A або 10 (тільки англійські букви)");
 
+          jQuery.validator.addMethod("year", function(value, element) {
+                 var year = value;
+                 if (year.length == 4 && year >= 2006 && year <= 2030)
+                    return true;
+                 return false;
+          }, "Рік не правильно введений");
+
 
 		  $("#myForm").validate({
             rules: {
                 className: {
                     required: true,
 					grade: true
+                    },
+                classYear: {
+                    year: true
                     }
                 }
             });
