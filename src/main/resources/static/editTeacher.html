@@ -162,7 +162,6 @@
 
 			$("#deletebutton").hide();
 
-			//$("#newPass, #newPassRepeat").keyup(checkPasswordMatch);
 			$("#avatarFile").on('change', function () {
 				var file = document.getElementById('avatarFile').files[0];
 				var promise = getBase64(file);
@@ -172,21 +171,7 @@
 				});
 			});
 
-			// function checkMail(){
-			// 	var inputemail = $("#mail").val();
-			// 	var regex = /^([\w-\.]+@.*)$/;
 
-			// 	if (regex.test(inputemail)) {
-			// 		$("#submitButton").prop("disabled", false);
-			// 		$("#mail").css('border-color' , 'green');
-			// 	}
-			// 	else{
-			// 		$("#submitButton").prop("disabled", true);
-			// 		$("#mail").css('border-color' , 'red');
-			// 	}
-			// }
-
-			// $("#mail").keyup(checkMail);
 
 			function setData(data){
 				if(window.location.href.indexOf("teacher/") > -1  || window.location.href.indexOf("student/") > -1){

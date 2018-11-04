@@ -27,7 +27,7 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/JS.js"></script>
-
+    <script src="/js/jwt-decode.min.js"></script>
 </head>
 <body>
 <div class="main">
@@ -60,20 +60,38 @@
 
             $.ajax({
                 type: "post",
-                url: host,
+                url: host + "signin",
                 dataType: "json",
                 data: JSON.stringify({
-                    "login": login,
+                    "username": login,
                     "password": password
                 }),
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data)
-                    window.location.href = data.url;
+                    console.log(data);
+                    localStorage.setItem("jwtToken", data.token);
+                    if (data.token){
+                        var url = '/ui/';
+                        var jwtToken = getJwtToken();
+                        var decodedToken = jwt_decode(jwtToken);
+                        if (decodedToken.Roles.authority === 'ROLE_ADMIN') {
+                            console.log("HERE!");
+                            url += "admin";
+                        }
+                        if (decodedToken.Roles.authority === 'ROLE_TEACHER') {
+                            url += "teachers/" + decodedToken.jti + '/profile';
+                        }
+                        if (decodedToken.Roles.authority === 'ROLE_USER') {
+                            url += "students/" + decodedToken.jti + '/profile';
+                        }
+                        window.location.href = url;
+                    }
+
                 }
             });
         })
     })
 </script>
+<script src="/js/JS.js"></script>
 </body>
 </html>

@@ -45,20 +45,50 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON(host + 'journals/teachers/3', function (data) {
-            var tableBody = $('<tbody></tbody>');
-            $.each(data, function(key, val) {
-                var tr=$('<tr class="d-flex"></tr>');
-                var ref = host + 'journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
-                $('<td class="col-3 ">'+val.subjectName+'</a>'+'</td>').appendTo(tr);
-                $('<td class="col-3 ">'+val.className+'</td>').appendTo(tr);
-                $('<td class="col-3 ">'+val.academicYear+'/'+(val.academicYear++)+'</td>').appendTo(tr);
-                $('<td class="col-3 ">'+'<a href="'+ref+'">Перейти</a>'+'</td>').appendTo(tr);
-                tr.appendTo(tableBody);
-            });
-            tableBody.appendTo('.table');
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr)
+            {
+                xhr.setRequestHeader("Authorization","Bearer " + localStorage.getItem("jwtToken"));
+            }
         });
+
+        $.ajax({
+            type: "GET",
+            url: host + 'journals/teachers/3',
+            success: function(data){
+                var tableBody = $('<tbody></tbody>');
+                $.each(data, function(key, val) {
+                    var tr=$('<tr class="d-flex"></tr>');
+                    var ref = host + 'journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
+                    $('<td class="col-3 ">'+val.subjectName+'</a>'+'</td>').appendTo(tr);
+                    $('<td class="col-3 ">'+val.className+'</td>').appendTo(tr);
+                    $('<td class="col-3 ">'+val.academicYear+'/'+(val.academicYear++)+'</td>').appendTo(tr);
+                    $('<td class="col-3 ">'+'<a href="'+ref+'">Перейти</a>'+'</td>').appendTo(tr);
+                    tr.appendTo(tableBody);
+                });
+                tableBody.appendTo('.table');
+            },
+            dataType: "json",
+            contentType : "application/json"
+        })
     });
+
+
+    //     $.getJSON(host + 'journals/teachers/3', function (data) {
+    //         var tableBody = $('<tbody></tbody>');
+    //         $.each(data, function(key, val) {
+    //             var tr=$('<tr class="d-flex"></tr>');
+    //             var ref = host + 'journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
+    //             $('<td class="col-3 ">'+val.subjectName+'</a>'+'</td>').appendTo(tr);
+    //             $('<td class="col-3 ">'+val.className+'</td>').appendTo(tr);
+    //             $('<td class="col-3 ">'+val.academicYear+'/'+(val.academicYear++)+'</td>').appendTo(tr);
+    //             $('<td class="col-3 ">'+'<a href="'+ref+'">Перейти</a>'+'</td>').appendTo(tr);
+    //             tr.appendTo(tableBody);
+    //         });
+    //         tableBody.appendTo('.table');
+    //     });
+    // });
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

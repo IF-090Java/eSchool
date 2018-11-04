@@ -5,6 +5,7 @@ import academy.softserve.eschool.dto.JournalMarkDTO;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class JournalController {
             }
     )
     @GetMapping("")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<JournalDTO> getJournals(){
         return journalServiceImpl.getJournals();
     }
@@ -36,6 +38,7 @@ public class JournalController {
             }
     )
     @GetMapping("/teachers/{idTeacher}")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<JournalDTO> getJournalsTeacher(@PathVariable int idTeacher){
         return journalServiceImpl.getJournalsByTeacher(idTeacher);
     }
