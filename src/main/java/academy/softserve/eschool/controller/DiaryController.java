@@ -18,7 +18,7 @@ import academy.softserve.eschool.wrapper.Status;
 
 @RestController
 @RequestMapping("/diaries")
-@Api(value = "Reads students' diaries")
+@Api(value = "Reads students' diaries", description="Reads students' diaries")
 public class DiaryController {
 	
 	@Autowired
@@ -32,13 +32,13 @@ public class DiaryController {
 	})
 	@ApiOperation(value = "Get student's diary")
 	GeneralResponseWrapper<List<DiaryEntryDTO>> getDiary(
-			@ApiParam(value = "first day of required week", required = true) @RequestParam Date weekStartDate, 
+			@ApiParam(value = "first day of required week, accepts date in format 'MMM dd yyyy'", required = true) @RequestParam Date weekStartDate, 
 			@ApiParam(value = "id of required student", required = true) @PathVariable Integer studentId){
 		
 		List<DiaryEntryDTO> diary = diaryService.getDiary(weekStartDate, studentId);
 		GeneralResponseWrapper<List<DiaryEntryDTO>> response;
 		response = new GeneralResponseWrapper<>(new Status(200, "OK"), diary);
-			
+		
 		return response;
 	}
 }

@@ -40,8 +40,9 @@
 			<select id="student" disabled="true">
 				<option value="">Учень</option>				
 			</select>
-			<input class="border rounded" id="startDate" type="date" name="start">
-			<input class="border rounded" id="endDate" type="date" name="end">
+			<span>Початок періоду <input class="border rounded" id="startDate" type="date" name="start"></span>
+			
+			<span>Кінець періоду <input class="border rounded" id="endDate" type="date" name="end"></span>
 			<div class="statisticsContainer card">
 				<div id="average"></div>
 				<div id="chartContainer"></div>
@@ -170,10 +171,12 @@
 			
 			function setAverageMark(data){
 				var sum = 0;
+				var totalWeight = 0;
 				$.each(data, function(i, dataPoint){
-					sum = sum + dataPoint.y;
+					sum += dataPoint.y*dataPoint.weight;
+					totalWeight += dataPoint.weight;
 				});
-				var average = sum/data.length;
+				var average = sum/totalWeight;
 				$('#average').text('Середня оцінка: ' + average.toFixed(2));
 			}
 			
@@ -181,7 +184,7 @@
 				var chart = new CanvasJS.Chart("chartContainer", {
 					animationEnabled: true,
 					axisX: {
-						valueFormatString: "DD/MM/YYYY",
+						valueFormatString: "DD.MM.YYYY",
 						minimum: new Date($('#startDate').val()),
 						maximum: new Date($('#endDate').val())
 					},
