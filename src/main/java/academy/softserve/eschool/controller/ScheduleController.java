@@ -48,13 +48,14 @@ public class ScheduleController {
     }
 
     @ApiOperation(value = "Gets schedule for the class with id")
-    @GetMapping("/classes/{id_class}/schedule")
     @ApiResponses(
             value={
                     @ApiResponse(code = 200, message = "OK"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/classes/{id_class}/schedule")
     public ScheduleDTO getSchedule(@PathVariable("id_class") final int id_class){
 
         return scheduleService.getScheduleByClassId(id_class);

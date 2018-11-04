@@ -31,7 +31,6 @@ public class TeacherController {
     @Autowired
     private TeacherService teacherService;
 
-    @GetMapping("")
     @ApiOperation(value = "Get list of teacher(only id and names)")
     @ApiResponses(
             value = {
@@ -39,6 +38,8 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
+    @GetMapping("")
     public List<TeacherDTO> getall(){
         return teacherService.getAll(teacherRepository.findAll());
     }
@@ -57,13 +58,14 @@ public class TeacherController {
     }
   
     @ApiOperation(value = "Get all info about teacher")
-    @GetMapping("/{id}")
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )
+    @PreAuthorize("hasRole('TEACHER')")
+    @GetMapping("/{id}")
     public TeacherDTO getTeacher(@PathVariable int id){
         return teacherService.getOne(teacherRepository.findById(id).get());
     }
@@ -76,7 +78,7 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
     @PutMapping("/{id}")
     public void updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int id){
 

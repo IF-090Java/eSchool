@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +26,9 @@ public class DiaryController {
 	
 	@Autowired
 	DiaryServiceBase diaryService;
-	
-	@GetMapping("/{studentId}")
 	@ApiOperation(value = "Get student's diary")
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("/{studentId}")
 	GeneralResponseWrapper<List<DiaryEntryDTO>> getDiary(
 			@ApiParam(value = "first day of required week", required = true) @RequestParam Date weekStartDate, 
 			@ApiParam(value = "id of required student", required = true) @PathVariable Integer studentId){

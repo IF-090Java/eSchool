@@ -3,6 +3,7 @@ import academy.softserve.eschool.dto.HomeworkDTO;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ public class HomeworkController {
     @Autowired
     JournalServiceImpl journalServiceImpl;
 
-    @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     @ApiOperation(value = "Get homeworks by subjects and classes")
     @ApiResponses(
             value = {
@@ -24,6 +24,8 @@ public class HomeworkController {
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )
+    @PreAuthorize("hasRole('TEACHER')")
+    @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     public List<HomeworkDTO> getHomeworks(
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass) {

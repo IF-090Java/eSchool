@@ -28,6 +28,7 @@ public class SubjectController {
 	@ApiResponses(value = { @ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
 	@ApiOperation(value = "Get all subjects", response = SubjectDTO.class)
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
 	@GetMapping()
 	public List<SubjectDTO> getAll() {
 		return subjectServiceImpl.getAll();
@@ -36,6 +37,7 @@ public class SubjectController {
 	@ApiResponses(value = { @ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
 	@ApiOperation(value = "Get a subject by Id", response = SubjectDTO.class)
+	@PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
 	@GetMapping("/{id}")
 	public SubjectDTO getSubjectById(@PathVariable int id) {
 		return subjectServiceImpl.getSubjectById(id);
@@ -44,6 +46,7 @@ public class SubjectController {
 	@ApiResponses(value = { @ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
 	@ApiOperation(value = "Get all subjects by teacher", response = SubjectDTO.class)
+	@PreAuthorize("hasRole('TEACHER')")
 	@GetMapping("/teachers/{idTeacher}")
 	public List<SubjectDTO> getSubjectsTeacher(@PathVariable int idTeacher) {
 		return subjectServiceImpl.getSubjectsByTeacher(idTeacher);
