@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import java.util.List;
 
 @RestController
@@ -58,6 +59,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get true active classes with students", response = ClassDTO.class)
+    @PermitAll
     @GetMapping("/active")
     public List<ClassDTO> getActiveClassesWithStudents(){
         return classService.getActiveClassesWithStudents();
@@ -67,7 +69,9 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad data"),
             @ApiResponse(code = 500, message = "Server error")
     })
+
     @ApiOperation(value = "Get active classes without students", response = ClassDTO.class)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/active/students/none")
     public List<ClassDTO> getActiveClassesWithoutStudents() {
         return classService.getActiveClassesWithoutStudents();
