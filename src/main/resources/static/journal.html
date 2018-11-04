@@ -55,7 +55,6 @@
 </head>
 <body>
 <div class="wrapper">
-
     <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
 
         <div class="container-fluid teacher_nav" style="position: fixed;z-index: 3"> </div>
@@ -64,7 +63,7 @@
 
             <table class="table" id="description">
                 <thead>
-                    <tr>
+                    <tr class="d-flex">
                         <th class="col-4 text-center" id="classTitle">Клас: </th>
                         <th class="col-4 text-center" id="subjectTitle">Предмет: </th>
                         <th class="col-4 text-center" id="yearTitle">Навчальний рік: </th>
@@ -172,18 +171,33 @@
                     switch (v.typeMark) {
                         case "Control":
                             $('<option value="Control" selected>' + "Cn." + '</option>').appendTo(select);
+                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
+                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
+                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
                             break;
                         case "Practic":
                             $('<option value="Practic" selected>' + "Pr." + '</option>').appendTo(select);
+                            $('<option value="Control">' + "Cn." + '</option>').appendTo(select);
+                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
+                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
                             break;
                         case "Module":
                             $('<option value="Module" selected>' + "Md." + '</option>').appendTo(select);
+                            $('<option value="Control">' + "Cn." + '</option>').appendTo(select);
+                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
+                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
                             break;
                         case "Labaratorna":
                             $('<option value="Labaratorna" selected>' + "Lb." + '</option>').appendTo(select);
+                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
+                            $('<option value="Control">' + "Cn." + '</option>').appendTo(select);
+                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
                             break;
                         default:
-                            $('<option value="Control">' + "Cn." + '</option>').appendTo(select);
+                            $('<option value="Control" selected>' + "Cn." + '</option>').appendTo(select);
+                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
+                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
+                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
                     }
                     select.appendTo(th);
                     th.appendTo(tr1);
@@ -287,9 +301,10 @@
             }
             else if( currentCell != undefined && (currentCell.attr("idSt")!=$(this).attr("idSt") || currentCell.attr("idLes")!=$(this).attr("idLes"))){
                 currentCell.css("background-color", "");
+                currentCell.css("color", "#212529");
+                currentCell = $(this);
                 $(this).css("background-color", "#6c757d");
                 $(this).css("color", "#ffffff");
-                currentCell = $(this);
                 getStudent(currentCell.attr('idSt'));
                 $("#note_form").val(currentCell.attr('title'));
                 var mark = currentCell.text();
