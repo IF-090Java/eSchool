@@ -15,8 +15,8 @@ public class MarkDTO {
     private int idStudent;
     @ApiModelProperty(notes = "lesson's id",required = true)
     private int idLesson;
-    @ApiModelProperty(notes = "mark value",required = true)
-    private byte mark;
+    @ApiModelProperty(notes = "mark value",required = false)
+    private Byte mark;
     @ApiModelProperty(notes = "note for mark",required = false)
     private String note;
 }

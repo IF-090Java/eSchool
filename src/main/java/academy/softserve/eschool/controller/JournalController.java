@@ -38,12 +38,13 @@ public class JournalController {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 400, message = "Bad data"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
     @GetMapping("/teachers/{idTeacher}")
-    public GeneralResponseWrapper<List<JournalDTO>> getJournalsTeacher(@PathVariable int idTeacher){
+    public GeneralResponseWrapper<List<JournalDTO>> getJournalsTeacher(
+            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
         GeneralResponseWrapper<List<JournalDTO>> response;
         response = new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getJournalsByTeacher(idTeacher));
         return response;
@@ -53,12 +54,13 @@ public class JournalController {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 400, message = "Bad data"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
     @GetMapping("/teachers/{idTeacher}/active")
-    public GeneralResponseWrapper<List<JournalDTO>> getActiveJournalsTeacher(@PathVariable int idTeacher){
+    public GeneralResponseWrapper<List<JournalDTO>> getActiveJournalsTeacher(
+            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
         GeneralResponseWrapper<List<JournalDTO>> response;
         response = new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getActiveJournalsByTeacher(idTeacher));
         return response;
@@ -67,7 +69,7 @@ public class JournalController {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 400, message = "Bad data"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )

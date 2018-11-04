@@ -25,7 +25,7 @@ public class HomeworkController {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 400, message = "Bad data"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
@@ -42,13 +42,13 @@ public class HomeworkController {
     @PostMapping
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 201, message = "OK"),
-                    @ApiResponse(code = 400, message = "Bad data"),
+                    @ApiResponse(code = 201, message = "Homework successfully created"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
     public GeneralResponseWrapper<HomeworkDTO>  postMark(
-            @ApiParam(value = "id of lesson,description of homework and file", required = true)@RequestBody HomeworkDTO homeworkDTO){
+            @ApiParam(value = "homework object", required = true)@RequestBody HomeworkDTO homeworkDTO){
         GeneralResponseWrapper<HomeworkDTO> response;
         response = new GeneralResponseWrapper<>(new Status(201, "OK"), homeworkDTO);
         return response;

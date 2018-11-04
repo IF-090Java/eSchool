@@ -42,13 +42,13 @@ public class MarksController {
 
 	@ApiOperation(value = "Save mark of students by lesson")
 	@ApiResponses(value = {
-			@ApiResponse(code = 201, message = "Successfully created"),
+			@ApiResponse(code = 201, message = "Mark successfully created"),
 			@ApiResponse(code = 400, message = "Bad data"),
 			@ApiResponse(code = 500, message = "Server error")
 	})
 	@PostMapping
 	public GeneralResponseWrapper<MarkDTO> postMark(
-		@ApiParam(value = "mark,note,lesson's id and student's id", required = true)@RequestBody MarkDTO markDTO){
+		@ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
 		markService.saveMark(markDTO);
 		GeneralResponseWrapper<MarkDTO> response;
 		response = new GeneralResponseWrapper<>(new Status(201, "OK"), markDTO);
