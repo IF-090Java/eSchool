@@ -1,6 +1,7 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.ScheduleDTO;
+import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.service.ScheduleServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 //END POINT  /classes/{id}/schedule
 
@@ -21,6 +24,9 @@ public class ScheduleController {
 
     @Autowired
     ScheduleServiceImpl scheduleService;
+
+    @Autowired
+    LessonRepository lessonRepository;
 
     @ApiOperation(value = "Creates a schedule for a class")
     @ApiResponses(
@@ -33,8 +39,12 @@ public class ScheduleController {
     @PostMapping("/classes/{id_class}/schedule")
     public ScheduleDTO postSchedule(@PathVariable("id_class") final int id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
-      scheduleService.saveSchedule(scheduleDTO);
-      return scheduleDTO;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String start = dateFormat.format(scheduleDTO.getStartOfSemester());
+        String end = dateFormat.format(scheduleDTO.getEndOfSemester());
+        lessonRepository.deleteScheduleByBounds(start, end, scheduleDTO.getClassName().getId());
+        scheduleService.saveSchedule(scheduleDTO);
+        return scheduleDTO;
     }
 
     @ApiOperation(value = "Gets schedule for the class with id")

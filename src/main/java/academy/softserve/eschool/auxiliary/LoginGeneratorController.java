@@ -1,18 +1,31 @@
 package academy.softserve.eschool.auxiliary;
 
+import academy.softserve.eschool.dto.DataForLoginDTO;
+import academy.softserve.eschool.model.User;
+import academy.softserve.eschool.repository.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RestController("/login")
 @Api(description = "Login generator controller")
 public class LoginGeneratorController {
+    /**
+     * Contains users who have generated login as part of their own login.
+     */
+    private List<User> users;
+
+    @Autowired
+    private UserRepository userRepository;
+
     private static HashMap<Character, String> letters = new HashMap<>();
 
     static {
@@ -28,14 +41,28 @@ public class LoginGeneratorController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Login successfully generated"),
+            @ApiResponse(code = 200, message = "Login successfully generated"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Create class")
-    public String getLogin(String firstName, String lastName) {
-        return firstName != null && lastName != null ?
-                transliteration(firstName) + "." + transliteration(lastName)
-                : "";
+    @ApiOperation(value = "Create login")
+    @GetMapping("/generate")
+    public DataForLoginDTO getLogin(@RequestBody DataForLoginDTO person) {
+        StringBuffer login = new StringBuffer(transliteration(person.getFirstName().substring(0,0)));
+        login.append(transliteration(person.getLastName()));
+        users = userRepository.findByPartOfLogin(login.toString());
+        if (!users.isEmpty())
+            makeUnique(login);
+        person.setLogin(login.toString());
+        return null;
+    }
+
+    /**
+         * Add to login number of users who have this login as part of their own login.
+     * @param login
+     */
+    private void makeUnique(StringBuffer login) {
+        int usersLength = users.size();
+        login.insert(login.length() - 1, usersLength);
     }
 
 
@@ -69,22 +96,22 @@ public class LoginGeneratorController {
      * @param second letter
      * @return transliterated letters
      */
-    private static String firstTwo(char first, char second) {
+    private static String firstTwo(Character first, Character second) {
         String result = "";
-        if (first == 'з' && second == 'г')
+        if (second != null && (first.equals('з') && second.equals('г'))) {
             return "zgh";
-        else if (first == 'є')
-            result += "ye";
-        else if (first == 'ї')
+        } else if (first.equals('є'))
+                result += "ye";
+        else if (first.equals('ї'))
             result += "yi";
-        else if (first == 'й')
+        else if (first.equals('й'))
             result += "y";
-        else if (first == 'ю')
+        else if (first.equals('ю'))
             result += "yu";
-        else if (first == 'я')
+        else if (first.equals('я'))
             result += "ia";
         else result = letters.get(first);
-        result += letters.get(second);
+        result += second != null ? letters.get(second) : "";
 
         return result;
     }

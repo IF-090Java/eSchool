@@ -45,12 +45,31 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad data"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Get classes list with active status", response = ClassDTO.class)
+    @ApiOperation(value = "Get classes with active status", response = ClassDTO.class)
     @GetMapping
     public List<ClassDTO> getActiveClasses(){
         return classService.findClassesByStatus(true);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad data"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
+    @ApiOperation(value = "Get true active classes with students", response = ClassDTO.class)
+    @GetMapping("/active")
+    public List<ClassDTO> getActiveClassesWithStudents(){
+        return classService.getActiveClassesWithStudents();
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad data"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
+    @ApiOperation(value = "Get active classes without students", response = ClassDTO.class)
+    @GetMapping("/active/students/none")
+    public List<ClassDTO> getActiveClassesWithoutStudents() {
+        return classService.getActiveClassesWithoutStudents();
+    }
 
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Bad data"),
