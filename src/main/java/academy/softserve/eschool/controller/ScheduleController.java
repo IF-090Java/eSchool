@@ -3,6 +3,8 @@ package academy.softserve.eschool.controller;
 import academy.softserve.eschool.dto.ScheduleDTO;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.service.ScheduleServiceImpl;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -10,6 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,14 +38,16 @@ public class ScheduleController {
             }
     )
     @PostMapping("/classes/{id_class}/schedule")
-    public ScheduleDTO postSchedule(@PathVariable("id_class") final int id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
+    public GeneralResponseWrapper<ScheduleDTO> postSchedule(@PathVariable("id_class") final int id, @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String start = dateFormat.format(scheduleDTO.getStartOfSemester());
         String end = dateFormat.format(scheduleDTO.getEndOfSemester());
         lessonRepository.deleteScheduleByBounds(start, end, scheduleDTO.getClassName().getId());
         scheduleService.saveSchedule(scheduleDTO);
-        return scheduleDTO;
+        GeneralResponseWrapper<ScheduleDTO> response;
+        response = new GeneralResponseWrapper<>(new Status(201, "OK"), null);
+        return response;
     }
 
     @ApiOperation(value = "Gets schedule for the class with id")
@@ -53,8 +58,10 @@ public class ScheduleController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public ScheduleDTO getSchedule(@PathVariable("id_class") final int id_class){
+    public  GeneralResponseWrapper<ScheduleDTO> getSchedule(@PathVariable("id_class") final int id_class){
 
-        return scheduleService.getScheduleByClassId(id_class);
+        GeneralResponseWrapper<ScheduleDTO> response;
+        response = new GeneralResponseWrapper<>(new Status(200, "OK"), scheduleService.getScheduleByClassId(id_class));
+        return response;
     }
 }
