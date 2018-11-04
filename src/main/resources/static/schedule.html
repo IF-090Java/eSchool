@@ -463,7 +463,11 @@ select {
 				{
 					$('.ax_default_droplist').append('<option value="' + id[i] + '">' + subjectNames[i] + '</option>');
 				}
-			});
+			}).fail(function (data) {
+                if (data.status == 403){
+                    window.location.href='/ui/login'
+                }
+            });
 
 			$.getJSON(host + 'classes', function(data){
 

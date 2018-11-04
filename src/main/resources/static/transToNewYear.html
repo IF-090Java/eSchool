@@ -9,6 +9,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/JS.js"></script>
+    <script src="/js/jwt-decode.min.js"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -71,12 +72,23 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        refreshToken();
-        $.ajaxSetup({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+        var jwtToken = getJwtToken();
+        if (jwtToken == null) {
+            window.location.href = "/ui/login";
+        } else {
+            console.log(jwtToken);
+            var decodedToken = jwt_decode(jwtToken);
+            if (decodedToken.Roles.authority !== 'ROLE_ADMIN') {
+                logOut();
+            } else {
+                refreshToken();
+                $.ajaxSetup({
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                    }
+                })
             }
-        })
+        }
     })
 
     $('.transitButton').on('click', function (e) {
@@ -137,7 +149,11 @@ $(document).ready(function () {
 
                 })
             })
-        })
+        }).fail(function (data) {
+        if (data.status == 403){
+            window.location.href='/ui/login'
+        }
+    });
     })
 })
 

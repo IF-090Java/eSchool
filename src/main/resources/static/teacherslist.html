@@ -48,8 +48,11 @@
 					$('#teacherslist').append($('<li class="list-group-item">').append($('<a>').attr('href','/ui/teachers/'+item.id+'/edit').append(item.firstname)
 						.append(' ' + item.lastname).append(' ' + item.patronymic)))
 				});		
-			});
-
+			}).fail(function (data) {
+				if (data.status == 403){
+                    window.location.href='/ui/login'
+				}
+            });
 		});
 	</script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

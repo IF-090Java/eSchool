@@ -9,6 +9,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/JS.js"></script>
+    <script src="/js/jwt-decode.min.js"></script>
 
 </head>
 <body>
@@ -44,25 +45,41 @@
     </div>
 
     <script type="text/javascript">
-    $(document).ready(function () {
-        refreshToken();
-        $.ajaxSetup({
-            beforeSend: function (xhr)
-            {
-                if (localStorage.getItem("jwtToken")) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"));
+        $(document).ready(function () {
+            var jwtToken = getJwtToken();
+            if (jwtToken == null) {
+                window.location.href = "/ui/login";
+            } else {
+                console.log(jwtToken);
+                var decodedToken = jwt_decode(jwtToken);
+                if (decodedToken.Roles.authority !== 'ROLE_TEACHER') {
+                    logOut();
+                } else {
+                    refreshToken();
+                    $.ajaxSetup({
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                        }
+                    })
                 }
             }
-        });
+        })
+
+    $(document).ready(function () {
 
         $.ajax({
             type: "GET",
             url: host + 'journals/teachers/3',
+            statusCode : {
+                403: function(){
+                    window.location.href='/ui/login'
+                }
+            },
             success: function(data){
                 var tableBody = $('<tbody></tbody>');
                 $.each(data, function(key, val) {
                     var tr=$('<tr class="d-flex"></tr>');
-                    var ref = host + 'journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
+                    var ref = host + 'ui/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
                     $('<td class="col-3 ">'+val.subjectName+'</a>'+'</td>').appendTo(tr);
                     $('<td class="col-3 ">'+val.className+'</td>').appendTo(tr);
                     $('<td class="col-3 ">'+val.academicYear+'/'+(val.academicYear++)+'</td>').appendTo(tr);

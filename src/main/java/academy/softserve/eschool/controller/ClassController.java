@@ -36,7 +36,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get Class", response = ClassDTO.class)
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'TEACHER')")
     @GetMapping("/{id}")
     public ClassDTO getClassById(@PathVariable int id){
         return classService.findClassById(id);
@@ -48,7 +48,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get classes list with active status", response = ClassDTO.class)
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'TEACHER')")
     @GetMapping
     public List<ClassDTO> getActiveClasses(){
         return classService.findClassesByStatus(true);

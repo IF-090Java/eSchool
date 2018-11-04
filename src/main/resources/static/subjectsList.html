@@ -26,6 +26,7 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="/js/JS.js"></script>
+	<script src="/js/jwt-decode.min.js"></script>
 </head>
 <body>
 	<div class="header"></div>
@@ -45,6 +46,7 @@
 </div>	
 <script type="text/javascript">
     $(document).ready(function () {
+        validateUserPermissions();
         refreshToken();
         $.ajaxSetup({
             beforeSend: function (xhr) {

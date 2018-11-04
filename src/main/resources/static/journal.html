@@ -116,8 +116,8 @@
     $(document).ready(function () {
 
         var pathArray = window.location.pathname.split('/');
-        var idSubject = pathArray[3];
-        var idClass = pathArray[5];
+        var idSubject = pathArray[4];
+        var idClass = pathArray[6];
         var currentCell;
 
 
@@ -138,6 +138,10 @@
                 $('<td>'+'file.txt'+'</td>').appendTo(tr);
                 tr.appendTo('#table_home');
             });
+        }).fail(function (data) {
+            if (data.status == 403){
+                window.location.href='/ui/login'
+            }
         });
 
         $.getJSON(host + 'journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {

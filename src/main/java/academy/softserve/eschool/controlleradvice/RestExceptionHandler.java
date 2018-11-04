@@ -9,6 +9,7 @@ import javax.validation.ConstraintViolationException;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -66,6 +67,16 @@ public class RestExceptionHandler {
 	@ExceptionHandler(ExpiredJwtException.class)
 	public GeneralResponseWrapper<Object> expToken(ExpiredJwtException ex) {
 		Status status = new Status(HttpStatus.BAD_REQUEST.value(), "Token expired");
+		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+				.status(status)
+				.build();
+		return response;
+	}
+
+	@ResponseStatus(code=HttpStatus.FORBIDDEN)
+	@ExceptionHandler(AccessDeniedException.class)
+	public GeneralResponseWrapper<Object> noPrivilegies(AccessDeniedException ex) {
+		Status status = new Status(HttpStatus.FORBIDDEN.value(), "No privilegies");
 		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
 				.status(status)
 				.build();

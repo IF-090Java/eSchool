@@ -4,6 +4,21 @@ function getJwtToken() {
     return localStorage.getItem(TOKEN_KEY);
 }
 
+function validateUserPermissions() {
+    $(document).ready(function () {
+        var jwtToken = getJwtToken();
+        if (jwtToken == null) {
+            window.location.href = "/ui/login";
+        } else {
+            var decodedToken = jwt_decode(jwtToken);
+        }
+
+        if (decodedToken.Roles.authority !== 'ROLE_ADMIN') {
+            logOut();
+        }
+    })
+    }
+
 function createAuthorizationTokenHeader() {
     var token = getJwtToken();
     if (token) {

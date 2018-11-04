@@ -82,6 +82,10 @@
                 $.each(data, function (i, item) {
                     $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href','/ui/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
                 });
+            }).fail(function (data) {
+                if (data.status == 403){
+                    window.location.href='/ui/login'
+                }
             });
         });
     } else {
@@ -99,6 +103,10 @@
                 $.each(data, function (i, item) {
                     $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href', '/ui/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
                 });
+            }).fail(function (data) {
+                if (data.status == 403){
+                    window.location.href='/ui/login'
+                }
             });
         });
     }
