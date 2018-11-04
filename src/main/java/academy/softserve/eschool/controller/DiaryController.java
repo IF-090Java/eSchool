@@ -3,6 +3,7 @@ package academy.softserve.eschool.controller;
 import java.util.Date;
 import java.util.List;
 
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +15,6 @@ import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.service.base.DiaryServiceBase;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/diaries")
@@ -27,6 +25,11 @@ public class DiaryController {
 	DiaryServiceBase diaryService;
 	
 	@GetMapping("/{studentId}")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 400, message = "Bad Request"),
+			@ApiResponse(code = 500, message = "Internal Server Error")
+	})
 	@ApiOperation(value = "Get student's diary")
 	GeneralResponseWrapper<List<DiaryEntryDTO>> getDiary(
 			@ApiParam(value = "first day of required week, accepts date in format 'MMM dd yyyy'", required = true) @RequestParam Date weekStartDate, 
