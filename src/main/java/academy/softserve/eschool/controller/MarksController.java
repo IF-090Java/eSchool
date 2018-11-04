@@ -7,6 +7,7 @@ import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkTypeDTO;
 import academy.softserve.eschool.model.MarkType;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +16,10 @@ import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.service.base.MarkServiceBase;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/marks")
-@Api(value = "Reads studets' marks", description="Reads studets' marks")
+@Api(value = "Operations about marks", description="Operations about marks")
 public class MarksController {
 	
 	@Autowired
@@ -43,21 +41,33 @@ public class MarksController {
 	}
 
 	@ApiOperation(value = "Save mark of students by lesson")
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "Mark successfully created"),
+			@ApiResponse(code = 400, message = "Bad request"),
+			@ApiResponse(code = 500, message = "Server error")
+	})
 	@PostMapping
-	public MarkDTO postMark(
-		@ApiParam(value = "mark,note,lesson and student id", required = true)@RequestBody MarkDTO markDTO){
-		if(markDTO.getIdLesson()!=0 && markDTO.getIdStudent()!=0)
+	public GeneralResponseWrapper<MarkDTO> postMark(
+		@ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
 		markService.saveMark(markDTO);
-		return markDTO;
+		GeneralResponseWrapper<MarkDTO> response;
+		response = new GeneralResponseWrapper<>(new Status(201, "OK"), markDTO);
+		return response;
 	}
 
 	@ApiOperation("Update mark's type of lesson")
+	@ApiResponses(value = {
+			@ApiResponse(code = 201, message = "Successfully updated"),
+			@ApiResponse(code = 400, message = "Bad request"),
+			@ApiResponse(code = 500, message = "Server error")
+	})
 	@PutMapping("/lessons/{idLesson}/marktype")
-	public ClassDTO editClass(
+	public GeneralResponseWrapper editType(
 			@ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson,
 			@ApiParam(value = "type of mark", required = true) @RequestBody MarkTypeDTO markType){
-		System.out.println(markType+" "+markType.getMarkType());
 		markService.updateType(idLesson, markType.getMarkType());
-		return null;
+		GeneralResponseWrapper<MarkTypeDTO> response;
+		response = new GeneralResponseWrapper<>(new Status(201, "OK"), null);
+		return response;
 	}
 }

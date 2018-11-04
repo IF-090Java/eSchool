@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MarkDTO {
-    @ApiModelProperty(notes = "student's id")
+    @ApiModelProperty(notes = "student's id",required = true)
     private int idStudent;
-    @ApiModelProperty(notes = "lesson's id")
+    @ApiModelProperty(notes = "lesson's id",required = true)
     private int idLesson;
-    @ApiModelProperty(notes = "mark value")
-    private byte mark;
-    @ApiModelProperty(notes = "note for mark")
+    @ApiModelProperty(notes = "mark value",required = false)
+    private Byte mark;
+    @ApiModelProperty(notes = "note for mark",required = false)
     private String note;
 }

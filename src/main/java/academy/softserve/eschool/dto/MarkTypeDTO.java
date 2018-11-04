@@ -1,6 +1,6 @@
 package academy.softserve.eschool.dto;
 
-import academy.softserve.eschool.model.MarkType;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MarkTypeDTO {
+    @ApiModelProperty(notes = "type of mark",required = true)
     private String markType;
 }

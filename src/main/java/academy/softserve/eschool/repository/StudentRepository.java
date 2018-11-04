@@ -21,6 +21,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
             "right join lesson on students_classes.class_id=lesson.clazz_id\n" +
             "left join mark on (lesson.id=mark.lesson_id and mark.student_id = student.id)\n" +
             "where lesson.clazz_id=:idClass and lesson.subject_id=:idSubject\n" +
-            "order by student.id,lesson.date", nativeQuery=true)
+            "order by student.id,lesson.id", nativeQuery=true)
     List<Map<String,Object>> findJournal(@Param("idSubject")int idSubject, @Param("idClass")int idClass);
 }

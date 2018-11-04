@@ -40,6 +40,23 @@ public class JournalServiceImpl implements JournalService {
     }
 
     @Override
+    public List<JournalDTO> getActiveJournalsByTeacher(int idTeacher) {
+        List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findActiveJournalsByTeacher(idTeacher);
+        List<JournalDTO> listDTO = new ArrayList<>();
+        for(ClassTeacherSubjectLink link: listCTS){
+            JournalDTO dto = JournalDTO.builder()
+                    .idClass(link.getClazz().getId())
+                    .idSubject(link.getSubject().getId())
+                    .className(link.getClazz().getName())
+                    .subjectName(link.getSubject().getName())
+                    .academicYear(link.getClazz().getAcademicYear())
+                    .build();
+            listDTO.add(dto);
+        }
+        return listDTO;
+    }
+
+    @Override
     public List<JournalDTO> getJournals() {
         List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findJournals();
         List<JournalDTO> listDTO = new ArrayList<>();
@@ -96,6 +113,7 @@ public class JournalServiceImpl implements JournalService {
         List<HomeworkDTO> homeworkDTOS = new ArrayList<>();
         for(Lesson lesson: list){
             HomeworkDTO dto = HomeworkDTO.builder()
+                    .idLesson(lesson.getId())
                     .date(lesson.getDate())
                     .file(lesson.getFile())
                     .homework(lesson.getHometask())
