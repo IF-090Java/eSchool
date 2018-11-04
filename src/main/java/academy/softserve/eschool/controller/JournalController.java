@@ -24,8 +24,8 @@ public class JournalController {
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )
-    @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("")
     public List<JournalDTO> getJournals(){
         return journalServiceImpl.getJournals();
     }
@@ -37,6 +37,7 @@ public class JournalController {
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )
+    @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("/teachers/{idTeacher}")
     public List<JournalDTO> getJournalsTeacher(@PathVariable int idTeacher){
         return journalServiceImpl.getJournalsByTeacher(idTeacher);
@@ -50,6 +51,7 @@ public class JournalController {
             }
     )
     @ApiOperation(value = "Get journal by subjects and classes")
+    @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     public List<JournalMarkDTO> getJournalTable(
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,

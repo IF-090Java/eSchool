@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class TeacherJournalController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
     public TeacherJournalDTO getConections(@PathVariable("teacher_id") final int teacher_id,
                                            @PathVariable("class_id") final int class_id,
@@ -49,13 +51,14 @@ public class TeacherJournalController {
     }
 
     @ApiOperation(value = "Connects a teacher with a journal")
-    @PostMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
     @ApiResponses(
             value={
                     @ApiResponse(code = 201, message = "Teacher successfully added to the journal"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
     public TeacherJournalDTO postConection(@PathVariable("teacher_id") final int teacher_id,
                                            @PathVariable("class_id") final int class_id,
                                            @PathVariable("subject_id") final int subject_id)//creates connection

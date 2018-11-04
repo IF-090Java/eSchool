@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import java.util.List;
 
 @RestController
@@ -35,6 +36,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get Class", response = ClassDTO.class)
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
     @GetMapping("/{id}")
     public ClassDTO getClassById(@PathVariable int id){
         return classService.findClassById(id);
@@ -45,7 +47,8 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad data"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Get classes with active status", response = ClassDTO.class)
+    @ApiOperation(value = "Get classes list with active status", response = ClassDTO.class)
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
     @GetMapping
     public List<ClassDTO> getActiveClasses(){
         return classService.findClassesByStatus(true);
@@ -56,6 +59,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get true active classes with students", response = ClassDTO.class)
+    @PermitAll
     @GetMapping("/active")
     public List<ClassDTO> getActiveClassesWithStudents(){
         return classService.getActiveClassesWithStudents();
@@ -65,7 +69,9 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad data"),
             @ApiResponse(code = 500, message = "Server error")
     })
+
     @ApiOperation(value = "Get active classes without students", response = ClassDTO.class)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/active/students/none")
     public List<ClassDTO> getActiveClassesWithoutStudents() {
         return classService.getActiveClassesWithoutStudents();
@@ -76,6 +82,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get inactive classes list", response = ClassDTO.class)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/inactive")
     public List<ClassDTO> getNonActiveClasses(){
         return classService.findClassesByStatus(false);
