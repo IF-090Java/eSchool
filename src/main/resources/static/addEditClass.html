@@ -88,25 +88,14 @@
 
         	jQuery.validator.addMethod("grade", function(value, element) {
                  var inputGrade = value;
-                 if(isNaN(inputGrade)){
-				 //not a number
-				 if (inputGrade.match(/.*-.*/)) {
-						var valuesList = inputGrade.split("-");
-						if (!isNaN(valuesList[0]) && valuesList[0]>= 5 && valuesList[0] <= 11)
-						{
-						if (valuesList[1] == 'A' || valuesList[1] =='B' || valuesList[1] =='C' || valuesList[1] =='D') return true;
-						}
-					}
-			 }else{
-				//a number
-				if (inputGrade >= 5 && inputGrade <= 11) return true;
-			 }
-			 return false;
-          }, "Введіть правильну назву класу, наприклад : 10-A або 10 (тільки англійські букви)");
+				 if (inputGrade.match(/^(?:[5-9]|1[0-1])-([а-г]|[А-Г])$/) || inputGrade.match(/^(?:[5-9]|1[0-1])$/))
+					return true;
+			     return false;
+          }, "Введіть правильну назву класу, наприклад : 10-A або 10 (тільки українські букви)");
 
           jQuery.validator.addMethod("year", function(value, element) {
                  var year = value;
-                 if (year.length == 4 && year >= 2006 && year <= 2030)
+                 if (year.length == 4 && year >= 2000)
                     return true;
                  return false;
           }, "Рік не правильно введений");
