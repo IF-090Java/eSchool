@@ -40,11 +40,7 @@ public class MarksController {
 		
 		GeneralResponseWrapper<List<MarkDataPointDTO>> response;
 		List<MarkDataPointDTO> dataPoints = markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd);
-		if (!dataPoints.isEmpty()) {
-			response = new GeneralResponseWrapper<>(new Status(200, "OK"), dataPoints);
-		} else {
-			response = new GeneralResponseWrapper<>(new Status(204, "No data for this request"), dataPoints);
-		}
+		response = new GeneralResponseWrapper<>(new Status(200, "OK"), dataPoints);
 		return response;
 	}
 

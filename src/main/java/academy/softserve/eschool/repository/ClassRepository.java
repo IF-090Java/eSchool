@@ -1,5 +1,6 @@
 package academy.softserve.eschool.repository;
 
+import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.model.Clazz;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,4 +29,14 @@ public interface ClassRepository extends JpaRepository<Clazz, Integer> {
             + "on c.id = s.class_id where c.is_active=true "
             + "group by s.class_id", nativeQuery = true)
     List<Clazz> getActiveClassesWithStudents();
+
+    @Query(value = "select c.* from clazz c " +
+            "left join students_classes sc " +
+            "on c.id = sc.class_id where sc.student_id is null", nativeQuery = true)
+    List<Clazz> getActiveClassesWithoutStudents();
+
+    @Modifying
+    @Transactional
+    @Query(value = "update clazz set is_active=:status where id=:classId", nativeQuery = true)
+    void updateClassStatusById(@Param("classId") int classId, @Param("status") boolean status);
 }

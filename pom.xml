@@ -58,7 +58,7 @@
             <version>1.18.0</version>
             <scope>provided</scope>
         </dependency>
-        
+
         <dependency>
 	        <groupId>javax.xml.bind</groupId>
 	        <artifactId>jaxb-api</artifactId>
