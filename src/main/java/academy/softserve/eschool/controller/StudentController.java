@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,7 +30,6 @@ public class StudentController {
     private static List<StudentDTO> list = new ArrayList<>();
 
 
-    @PostMapping
     @ApiOperation(value = "Add student, first name, last name and class passed in html")
     @ApiResponses(
             value={
@@ -37,11 +37,13 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
     public Student addStudent(@RequestBody StudentDTO student) {
         return studentService.addOne(student);
     }
 
-    @GetMapping("/{id}")
+
     @ApiOperation(value = "get student")
     @ApiResponses(
             value={
@@ -49,11 +51,11 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
+    @GetMapping("/{id}")
     public StudentDTO getStudent(@PathVariable int id) {
         return studentService.getOne(studentRepository.findById(id).get());
     }
 
-    @GetMapping("/classes/{id}")
     @ApiOperation(value = "get students from class")
     @ApiResponses(
             value={
@@ -61,10 +63,11 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
+    @GetMapping("/classes/{id}")
     public List<StudentDTO> getStudentsByClass(@PathVariable int id){
         return studentService.getAll(studentRepository.findByClazzId(id));
     }
-    @PutMapping("/{id}")
+
     @ApiOperation(value = "update profile of student")
     @ApiResponses(
             value = {
@@ -73,6 +76,8 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}")
     public void updateStudent(@RequestBody EditUserDTO student, @PathVariable int id){
 
         studentService.updateStudent(studentRepository.findById(id).get(),student);

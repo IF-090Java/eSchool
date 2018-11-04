@@ -1,17 +1,15 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.model.Clazz;
-import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.service.ClassServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,6 +23,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Create class")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ClassDTO addClass(@RequestBody ClassDTO newClassDTO){
         classService.saveClass(newClassDTO);
@@ -68,6 +67,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation("Update class")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ClassDTO editClass(@PathVariable int id, @RequestBody ClassDTO editClass){
         classService.updateClass(id, editClass);
