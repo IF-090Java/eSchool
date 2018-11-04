@@ -1,5 +1,6 @@
 package academy.softserve.eschool.controller;
 import academy.softserve.eschool.dto.HomeworkDTO;
+import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,12 @@ public class HomeworkController {
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass
     ){
        return journalServiceImpl.getHomework(idSubject,idClass);
+    }
+
+    @ApiOperation(value = "Save homework")
+    @PostMapping
+    public HomeworkDTO postMark(
+            @ApiParam(value = "id of lesson,description of homework and file", required = true)@RequestBody HomeworkDTO homeworkDTO){
+        return homeworkDTO;
     }
 }

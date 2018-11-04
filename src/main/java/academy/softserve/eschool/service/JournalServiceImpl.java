@@ -96,6 +96,7 @@ public class JournalServiceImpl implements JournalService {
         List<HomeworkDTO> homeworkDTOS = new ArrayList<>();
         for(Lesson lesson: list){
             HomeworkDTO dto = HomeworkDTO.builder()
+                    .idLesson(lesson.getId())
                     .date(lesson.getDate())
                     .file(lesson.getFile())
                     .homework(lesson.getHometask())
