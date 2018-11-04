@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/marks")
-@Api(value = "Reads studets' marks")
+@Api(value = "Reads studets' marks", description="Reads studets' marks")
 public class MarksController {
 	
 	@Autowired
@@ -33,8 +33,8 @@ public class MarksController {
 			@ApiParam(value = "filter results by student id", required = false) @RequestParam(value = "student_id", required = false) Integer studentId,
 			@ApiParam(value = "filter results by subject id", required = false) @RequestParam(value = "subject_id", required = false) Integer subjectId,
 			@ApiParam(value = "filter results by class id", required = false) @RequestParam(value = "class_id", required = false) Integer classId,
-			@ApiParam(value = "get marks received after specified date", required = false) @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodStart,
-			@ApiParam(value = "get marks received before specified date", required = false) @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodEnd){
+			@ApiParam(value = "get marks received after specified date, accepts date in format 'yyyy-MM-dd'", required = false) @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodStart,
+			@ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'", required = false) @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodEnd){
 		
 		GeneralResponseWrapper<List<MarkDataPointDTO>> response;
 		List<MarkDataPointDTO> dataPoints = markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd);
