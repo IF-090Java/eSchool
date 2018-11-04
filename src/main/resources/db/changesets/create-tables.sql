@@ -106,8 +106,8 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `mark` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `mark` TINYINT(2) NOT NULL,
-  `note` VARCHAR(255) NULL DEFAULT NULL,
+  `mark` TINYINT(2),
+  `note` VARCHAR(255),
   `lesson_id` INT(11) NOT NULL,
   `student_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
