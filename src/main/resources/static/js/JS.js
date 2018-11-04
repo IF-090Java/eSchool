@@ -44,7 +44,10 @@ function refreshToken() {
 function setJwtToken(token) {
     localStorage.setItem(TOKEN_KEY, token);
 }
-function logOut() {
+function removeJwtToken() {
     localStorage.removeItem(TOKEN_KEY);
+}
+function logOut() {
+    removeJwtToken();
     window.location.href = '/ui/login';
 }

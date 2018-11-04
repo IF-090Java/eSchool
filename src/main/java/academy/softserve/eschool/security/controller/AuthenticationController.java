@@ -61,7 +61,7 @@ public class AuthenticationController {
             String refreshedToken = jwtTokenUtil.refreshToken(token);
             return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
         } else {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.status(400).body("Token cannot be refreshed");
         }
     }
 

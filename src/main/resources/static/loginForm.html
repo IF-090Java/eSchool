@@ -88,11 +88,11 @@
                     }
 
                 },
-                error: function(jqXHR, status, errorThrown){
-                    console.log('jqXHR:');
-                    console.log(jqXHR);
-                    console.log('Status:');
-                    console.log(status);
+                error: function(jqXHR, exception){
+                    var status = jqXHR.responseText;
+                    if (jqXHR.responseJSON.status.message == 'Bad Credentials'){
+                        alert("Невірні дані");
+                    }
                 }
             });
         })

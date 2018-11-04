@@ -49,7 +49,9 @@
         $.ajaxSetup({
             beforeSend: function (xhr)
             {
-                xhr.setRequestHeader("Authorization","Bearer " + localStorage.getItem("jwtToken"));
+                if (localStorage.getItem("jwtToken")) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"));
+                }
             }
         });
 

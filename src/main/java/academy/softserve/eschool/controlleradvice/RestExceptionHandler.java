@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletException;
 import javax.validation.ConstraintViolationException;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -63,11 +64,12 @@ public class RestExceptionHandler {
 
 	@ResponseStatus(code=HttpStatus.UNAUTHORIZED)
 	@ExceptionHandler(ExpiredJwtException.class)
-	public GeneralResponseWrapper<Object> badCreds(ExpiredJwtException ex) {
+	public GeneralResponseWrapper<Object> expToken(ExpiredJwtException ex) {
 		Status status = new Status(HttpStatus.BAD_REQUEST.value(), "Token expired");
 		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
 				.status(status)
 				.build();
 		return response;
 	}
+
 }
