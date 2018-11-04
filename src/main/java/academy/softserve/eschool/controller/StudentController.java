@@ -78,7 +78,7 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PutMapping("/{id}")
     public void updateStudent(@RequestBody EditUserDTO student, @PathVariable int id){
 

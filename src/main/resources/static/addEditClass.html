@@ -18,7 +18,7 @@
             <span class="navbar-text">Ви увійшли як Адміністратор</span>
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/ui/login">Вийти</a>
+                    <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
                 </li>
             </ul>
         </nav>
@@ -113,7 +113,7 @@
                     contentType: "application/json",
                     success: function (responce) {
                         alert('Клас створений!')
-                        window.location.href = "/classes/add";
+                        window.location.href = "/ui/classes/add";
                     }
                 });
             })
@@ -121,7 +121,7 @@
     } else {
         $(document).ready(function() {
             var pathArray = window.location.pathname.split('/');
-            var classId = pathArray[2];
+            var classId = pathArray[3];
 
             $.getJSON(host + 'classes/'+classId, function (data) {
                 console.log(data);
@@ -142,7 +142,7 @@
                 var isActive = document.querySelector("input[name=radioButton]:checked").value;
 
                 var pathArray = window.location.pathname.split('/');
-                var classId = pathArray[2];
+                var classId = pathArray[3];
                 $.ajax({
                     type: "put",
                     url: host + "classes/" + classId,
@@ -155,7 +155,7 @@
                     }),
                     contentType: "application/json",
                     success: function (responce) {
-                        window.location.href = "/classes/list";
+                        window.location.href = "/ui/classes/list";
                     }
                 });
             })

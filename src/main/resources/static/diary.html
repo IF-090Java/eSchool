@@ -61,7 +61,7 @@
                     <a class="nav-link" id="homePage">Профіль</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/ui/login">Вийти</a>
+                    <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
                 </li>
             </ul>
         </nav>
@@ -125,7 +125,7 @@
 		    	var weekEnd = getWeekEnd(offset);
 		    	var pathArray = window.location.pathname.split('/');
         		var studentId = pathArray[2];
-                $("#homePage").attr("href", "/students/" + studentId + "/profile");
+                $("#homePage").attr("href", "/ui/students/" + studentId + "/profile");
                 var ulr = host + 'diaries/' + studentId;
 		    	var months = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
 		    			"Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];

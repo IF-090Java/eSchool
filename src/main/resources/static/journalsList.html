@@ -20,7 +20,7 @@
                 <span class="navbar-text">Ви увійшли як Вчитель</span>
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/ui/login">Вийти</a>
+                        <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
                     </li>
                 </ul>
             </nav>
@@ -54,14 +54,6 @@
             })
         })
 
-        refreshToken();
-        $.ajaxSetup({
-            beforeSend: function (xhr)
-            {
-                xhr.setRequestHeader("Authorization","Bearer " + localStorage.getItem("jwtToken"));
-            }
-        });
-
         $.ajax({
             type: "GET",
             url: host + 'journals/teachers/3',
@@ -69,7 +61,7 @@
                 var tableBody = $('<tbody></tbody>');
                 $.each(data, function(key, val) {
                     var tr=$('<tr class="d-flex"></tr>');
-                    var ref = host + 'journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
+                    var ref = host + 'ui/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
                     $('<td class="col-3 ">'+val.subjectName+'</a>'+'</td>').appendTo(tr);
                     $('<td class="col-3 ">'+val.className+'</td>').appendTo(tr);
                     $('<td class="col-3 ">'+val.academicYear+'/'+(val.academicYear++)+'</td>').appendTo(tr);

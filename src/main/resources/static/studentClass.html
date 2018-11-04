@@ -16,7 +16,7 @@
 				<span id="loggeduser" class="navbar-text ml-5">Ви увійшли як Адміністратор</span>
 				<ul class="navbar-nav ml-md-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="/ui/login">Вийти</a>
+						<a class="nav-link" href="#" onclick="logOut()">Вийти</a>
 					</li>
 				</ul>
 			</nav>
@@ -47,11 +47,11 @@
 <script type="text/javascript">
 	$(document).ready(function () {
         var pathArray = window.location.pathname.split('/');
-        var classId = pathArray[3];
+        var classId = pathArray[4];
 		$.getJSON(host + 'students/classes/' + classId, function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
-				$('#studentList').append($('<li class="list-group-item">').append($('<a>').attr('href','/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
+				$('#studentList').append($('<li class="list-group-item">').append($('<a>').attr('href','/ui/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
 			});		
 		});
 

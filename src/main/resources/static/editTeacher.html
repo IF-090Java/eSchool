@@ -32,7 +32,7 @@
 				<span id="loggeduser" class="navbar-text ml-5">Ви увійшли як </span>
 				<ul class="navbar-nav ml-md-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="/ui/login">Вийти</a>
+						<a class="nav-link" href="#" onclick="logOut()">Вийти</a>
 					</li>
 				</ul>
 			</nav>
@@ -160,7 +160,7 @@
 
 		$(document).ready(function() {
 			var pathArray = window.location.pathname.split('/');
-			var subjectId = pathArray[2];
+			var subjectId = pathArray[3];
 			var fileBase64;
 			var referrer =  document.referrer;
 
@@ -183,7 +183,7 @@
 
 
 			function setData(data){
-				if(window.location.href.indexOf("teacher/") > -1  || window.location.href.indexOf("student/") > -1){
+				if(window.location.href.indexOf("ui/teacher/") > -1  || window.location.href.indexOf("ui/student/") > -1){
 					$("#loggeduser").append(data.login);
 				} else {
 					$("#loggeduser").append("Адміністратор");
@@ -203,18 +203,18 @@
 					}
 				}
 			}
-			if ((window.location.href.indexOf("teacher/") > -1)||(window.location.href.indexOf("student/") > -1)) {
+			if ((window.location.href.indexOf("ui/teacher/") > -1)||(window.location.href.indexOf("ui/student/") > -1)) {
 				$("#fname").prop('disabled',true);
 				$("#lname").prop('disabled',true);
 				$("#patronymic").prop('disabled',true);
 				$("#username").prop('disabled',true);
 			}
 
-			if ((window.location.href.indexOf("teachers/") > -1)||(window.location.href.indexOf("students/") > -1)) {
+			if ((window.location.href.indexOf("ui/teachers/") > -1)||(window.location.href.indexOf("ui/students/") > -1)) {
 				$("#oldPass").prop('disabled',true);
 			}
 
-			if (window.location.href.indexOf("teacher") > -1) {
+			if (window.location.href.indexOf("ui/teacher") > -1) {
 				var endpoint = 'teachers';
 			}
 			else var endpoint = 'students';
@@ -304,14 +304,14 @@
 				},
 
 				submitHandler: function(form) {
-					if (window.location.href.indexOf("teacher") > -1) {
+					if (window.location.href.indexOf("ui/teacher") > -1) {
 						var obj = {
 							firstname : $("#fname").val() , lastname: $("#lname").val(),
 							patronymic: $("#patronymic").val(), dateOfBirth: $("#dateOfBirth").val(),
 							login: $("#username").val(),oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),
 							email: $("#mail").val(), phone : $("#mobile").val(), avatar: fileBase64
 						};
-						if (window.location.href.indexOf("teachers/")> -1) {
+						if (window.location.href.indexOf("ui/teachers/")> -1) {
 							obj.oldPass = "adminchangedpass"
 						}
 					}
@@ -322,7 +322,7 @@
 							login: $("#username").val(), oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),
 							email: $("#mail").val(), phone : $("#mobile").val(), avatar: fileBase64
 						}
-						if (window.location.href.indexOf("students/")> -1) {
+						if (window.location.href.indexOf("ui/students/")> -1) {
 							obj.oldPass = "adminchangedpass"
 						}
 					}
@@ -344,7 +344,7 @@
 
             });
 
-            if (window.location.href.indexOf("student") > -1) {
+            if (window.location.href.indexOf("ui/student") > -1) {
 			$.getJSON(host + 'students/' + subjectId, function (data) {
 				setData(data);
 			});
@@ -359,7 +359,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script type="text/javascript">
         	$(function() {
-        		if ((window.location.href.indexOf("teachers/") > -1)||(window.location.href.indexOf("students/") > -1)) {
+        		if ((window.location.href.indexOf("ui/teachers/") > -1)||(window.location.href.indexOf("ui/students/") > -1)) {
         			$(".admin-sidebar").load("/views/admin-sidebar.html");
         			$("#homepage").hide();
         		}
