@@ -16,7 +16,7 @@
 				<span id="loggeduser" class="navbar-text ml-5">Ви увійшли як Адміністратор</span>
 				<ul class="navbar-nav ml-md-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="/">Вийти</a>
+						<a class="nav-link" href="/ui/login">Вийти</a>
 					</li>
 				</ul>
 			</nav>
@@ -30,7 +30,16 @@
 		</div>
 	</div>	
 </div>	
-<script type="text/javascript"> 
+<script type="text/javascript">
+    $(document).ready(function () {
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+            }
+        })
+    })
+
 	 $(function() {
       $(".header").load("/views/header.html");
     });

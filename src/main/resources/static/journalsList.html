@@ -20,7 +20,7 @@
                 <span class="navbar-text">Ви увійшли як Вчитель</span>
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/">Вийти</a>
+                        <a class="nav-link" href="/ui/login">Вийти</a>
                     </li>
                 </ul>
             </nav>
@@ -45,6 +45,15 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
+        $(document).ready(function () {
+            refreshToken();
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                }
+            })
+        })
+
         refreshToken();
         $.ajaxSetup({
             beforeSend: function (xhr)

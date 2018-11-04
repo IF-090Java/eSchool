@@ -43,7 +43,16 @@
 			</div>
 	</ul>
 </div>	
-<script type="text/javascript"> 
+<script type="text/javascript">
+    $(document).ready(function () {
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+            }
+        })
+    })
+
 	 $(function() {
       $(".header").load("/views/header.html");
     });
