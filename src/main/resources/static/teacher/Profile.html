@@ -35,9 +35,9 @@
                         $("#avatar").attr("src", data.avatar);
                     }
                 }
-                $('#classes').attr("href", "/ui/journalsList/view");
-                $('#statistics').attr("href", "/ui/stats");
-                $('#edit').attr("href", "/ui/teacher/" + id + "/edit");
+                $('#classes').attr("href", host + "ui/journalsList/view");
+                $('#statistics').attr("href", host + "ui/stats");
+                $('#edit').attr("href", host + "ui/teacher/" + id + "/edit");
             });
             $.getJSON(host + 'subjects/teachers/3', function (data) {
                 $.each(data, function(key, val) {
