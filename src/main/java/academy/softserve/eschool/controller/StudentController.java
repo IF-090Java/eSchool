@@ -51,7 +51,7 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
     public StudentDTO getStudent(@PathVariable int id) {
         return studentService.getOne(studentRepository.findById(id).get());

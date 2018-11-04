@@ -64,7 +64,7 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Serever error")
             }
     )
-    @PreAuthorize("hasRole('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
     public TeacherDTO getTeacher(@PathVariable int id){
         return teacherService.getOne(teacherRepository.findById(id).get());
