@@ -28,7 +28,7 @@ public class JournalController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping("")
     public GeneralResponseWrapper<List<JournalDTO>> getJournals(){
         GeneralResponseWrapper<List<JournalDTO> > response;
@@ -61,6 +61,7 @@ public class JournalController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("/teachers/{idTeacher}/active")
     public GeneralResponseWrapper<List<JournalDTO>> getActiveJournalsTeacher(
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
