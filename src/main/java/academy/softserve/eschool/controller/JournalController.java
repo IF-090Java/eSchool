@@ -23,7 +23,7 @@ public class JournalController {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 400, message = "Bad data"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )

@@ -28,7 +28,7 @@ public class StudentController {
     @ApiResponses(
             value={
                     @ApiResponse(code = 201, message = "student created"),
-                    @ApiResponse(code = 400, message = "Bad data"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "server error")
             }
     )
@@ -42,7 +42,7 @@ public class StudentController {
     @ApiResponses(
             value={
                     @ApiResponse(code = 200, message = "student found and passed"),
-                    @ApiResponse(code = 400, message = "Bad data"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "server error")
             }
     )
@@ -56,7 +56,7 @@ public class StudentController {
     @ApiResponses(
             value={
                     @ApiResponse(code = 200, message = "student found and passed"),
-                    @ApiResponse(code = 400, message = "Bad data"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "server error")
             }
     )
@@ -68,8 +68,8 @@ public class StudentController {
     @ApiOperation(value = "update profile of student")
     @ApiResponses(
             value = {
-                    @ApiResponse( code = 201 , message = "Successfully updated"),
-                    @ApiResponse( code = 400, message = "Bad data"),
+                    @ApiResponse( code = 201 , message = "Student successfully updated"),
+                    @ApiResponse( code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )

@@ -29,7 +29,7 @@ public class TeacherJournalController {
     @ApiOperation(value = "Gets a teacher-class-subject connection")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad data"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
     @GetMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
@@ -49,7 +49,7 @@ public class TeacherJournalController {
     @PostMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully created"),
-            @ApiResponse(code = 400, message = "Bad data"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
     public TeacherJournalDTO postConection(

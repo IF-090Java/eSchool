@@ -43,7 +43,7 @@ public class MarksController {
 	@ApiOperation(value = "Save mark of students by lesson")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Mark successfully created"),
-			@ApiResponse(code = 400, message = "Bad data"),
+			@ApiResponse(code = 400, message = "Bad request"),
 			@ApiResponse(code = 500, message = "Server error")
 	})
 	@PostMapping
@@ -58,7 +58,7 @@ public class MarksController {
 	@ApiOperation("Update mark's type of lesson")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Successfully updated"),
-			@ApiResponse(code = 400, message = "Bad data"),
+			@ApiResponse(code = 400, message = "Bad request"),
 			@ApiResponse(code = 500, message = "Server error")
 	})
 	@PutMapping("/lessons/{idLesson}/marktype")

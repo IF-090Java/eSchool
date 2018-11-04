@@ -20,7 +20,7 @@ public class NYTransitionController {
     @ApiOperation(value = "Add new classes based on currently classes with new year and name")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully created"),
-            @ApiResponse(code = 400, message = "Bad data"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
     public Boolean addNewYearClasses(){
@@ -32,7 +32,7 @@ public class NYTransitionController {
     @ApiOperation(value = "Binding students to new classes, deactivate previous year classes")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully updated"),
-            @ApiResponse(code = 400, message = "Bad data"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
     public List<NYTransitionDTO> bindingStudentsToNewClasses(

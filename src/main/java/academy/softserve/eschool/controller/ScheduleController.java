@@ -28,7 +28,7 @@ public class ScheduleController {
     @ApiResponses(
             value={
                     @ApiResponse(code = 201, message = "Schedule successfully created"),
-                    @ApiResponse(code = 400, message = "Bad data"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
@@ -50,7 +50,7 @@ public class ScheduleController {
     @ApiResponses(
             value={
                     @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 400, message = "Bad data"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )

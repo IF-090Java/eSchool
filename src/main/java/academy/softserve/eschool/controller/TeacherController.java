@@ -31,7 +31,7 @@ public class TeacherController {
     @ApiOperation(value = "Get list of teacher(only id and names)")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad data"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
     public List<TeacherDTO> getall(){
@@ -42,7 +42,7 @@ public class TeacherController {
     @ApiOperation(value = "Add teacher, first name and last name passed in html")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Teacher successfully created"),
-            @ApiResponse(code = 400, message = "Bad data"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
     public Teacher addTeacher(
@@ -54,7 +54,7 @@ public class TeacherController {
     @GetMapping("/{idTeacher}")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad data"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
     public TeacherDTO getTeacher(
@@ -67,7 +67,7 @@ public class TeacherController {
     @ApiResponses(
             value = {
                     @ApiResponse( code = 201 , message = "Teacher successfully updated"),
-                    @ApiResponse( code = 400, message = "Bad data"),
+                    @ApiResponse( code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
