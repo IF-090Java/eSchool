@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -43,6 +45,26 @@ public class RestExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public GeneralResponseWrapper<Object> handleAll(Exception ex) {
 		Status status = new Status(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getLocalizedMessage());
+		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+				.status(status)
+				.build();
+		return response;
+	}
+
+	@ResponseStatus(code=HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(BadCredentialsException.class)
+	public GeneralResponseWrapper<Object> badCreds(BadCredentialsException ex) {
+		Status status = new Status(HttpStatus.BAD_REQUEST.value(), "Bad Credentials");
+		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+				.status(status)
+				.build();
+		return response;
+	}
+
+	@ResponseStatus(code=HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler(ExpiredJwtException.class)
+	public GeneralResponseWrapper<Object> badCreds(ExpiredJwtException ex) {
+		Status status = new Status(HttpStatus.BAD_REQUEST.value(), "Token expired");
 		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
 				.status(status)
 				.build();
