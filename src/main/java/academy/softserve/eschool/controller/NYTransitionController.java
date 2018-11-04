@@ -16,16 +16,18 @@ import java.util.List;
 public class NYTransitionController {
     @Autowired ClassServiceImpl classService;
 
-    @PostMapping
     @ApiOperation(value = "Add new classes based on currently classes with new year and name")
     @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
     public Boolean addNewYearClasses(){
         classService.addNewYearClasses();
         return true;
     }
 
-    @GetMapping
+
     @ApiOperation(value = "Get true active classes with students", response = ClassDTO.class)
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
     public List<ClassDTO> getActiveClassesWithStudents(){
         return classService.getActiveClassesWithStudents();
     }

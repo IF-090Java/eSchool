@@ -9,6 +9,7 @@ import academy.softserve.eschool.dto.MarkTypeDTO;
 import academy.softserve.eschool.model.MarkType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import academy.softserve.eschool.dto.MarkDataPointDTO;
@@ -27,8 +28,9 @@ public class MarksController {
 	@Autowired
 	private MarkServiceBase markService;
 	
-	@GetMapping("")
 	@ApiOperation(value = "Get marks by date filtered by specified params")
+	@PreAuthorize("hasRole('TEACHER')")
+	@GetMapping("")
 	GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
 			@ApiParam(value = "filter results by student id", required = false) @RequestParam(value = "student_id", required = false) Integer studentId,
 			@ApiParam(value = "filter results by subject id", required = false) @RequestParam(value = "subject_id", required = false) Integer subjectId,
@@ -47,6 +49,7 @@ public class MarksController {
 	}
 
 	@ApiOperation(value = "Save mark of students by lesson")
+	@PreAuthorize("hasRole('TEACHER')")
 	@PostMapping
 	public MarkDTO postMark(
 		@ApiParam(value = "mark,note,lesson and student id", required = true)@RequestBody MarkDTO markDTO){
@@ -56,6 +59,7 @@ public class MarksController {
 	}
 
 	@ApiOperation("Update mark's type of lesson")
+	@PreAuthorize("hasRole('TEACHER')")
 	@PutMapping("/lessons/{idLesson}/marktype")
 	public ClassDTO editClass(
 			@ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson,
