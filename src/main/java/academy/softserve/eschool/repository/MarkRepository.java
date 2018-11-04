@@ -15,7 +15,7 @@ import academy.softserve.eschool.model.Mark;
 @Repository
 public interface MarkRepository extends JpaRepository<Mark, Integer> {
 	
-	@Query(value="select AVG(m.mark) as avg_mark, l.date as date "
+	@Query(value="select AVG(m.mark) as avg_mark, COUNT(m.mark) as count, l.date as date "
 			+ "from mark m left join lesson l on m.lesson_id = l.id "
 			+ "where (:subjectId is null or l.subject_id = :subjectId)"
 			+ "and (:classId is null or l.clazz_id = :classId)"
