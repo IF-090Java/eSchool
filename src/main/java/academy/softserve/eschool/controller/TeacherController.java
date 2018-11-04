@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,7 +43,6 @@ public class TeacherController {
         return teacherService.getAll(teacherRepository.findAll());
     }
   
-    @PostMapping
     @ApiOperation(value = "Add teacher, first name and last name passed in html")
     @ApiResponses(
             value={
@@ -50,6 +50,8 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
     public Teacher addTeacher(@RequestBody TeacherDTO teacher) {
         return teacherService.addOne(teacher);
     }
@@ -65,7 +67,7 @@ public class TeacherController {
     public TeacherDTO getTeacher(@PathVariable int id){
         return teacherService.getOne(teacherRepository.findById(id).get());
     }
-    @PutMapping("/{id}")
+
     @ApiOperation(value = "update profile of teacher")
     @ApiResponses(
             value = {
@@ -74,6 +76,8 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}")
     public void updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int id){
 
         teacherService.updateTeacher(userRepository.findById(id).get(),teacher);

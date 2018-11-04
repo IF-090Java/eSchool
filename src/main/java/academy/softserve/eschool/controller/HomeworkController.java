@@ -26,8 +26,7 @@ public class HomeworkController {
     )
     public List<HomeworkDTO> getHomeworks(
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
-            @ApiParam(value = "id of class", required = true) @PathVariable int idClass
-    ){
+            @ApiParam(value = "id of class", required = true) @PathVariable int idClass) {
        return journalServiceImpl.getHomework(idSubject,idClass);
     }
 }

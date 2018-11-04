@@ -38,7 +38,6 @@ public class JournalController {
             }
     )
     @GetMapping("/teachers/{idTeacher}")
-    @PreAuthorize("hasRole('ADMIN')")
     public List<JournalDTO> getJournalsTeacher(@PathVariable int idTeacher){
         return journalServiceImpl.getJournalsByTeacher(idTeacher);
     }

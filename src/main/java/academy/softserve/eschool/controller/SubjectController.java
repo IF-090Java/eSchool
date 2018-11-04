@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -51,6 +52,7 @@ public class SubjectController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successfully created"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
 	@ApiOperation(value = "Add new subject")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
 	public SubjectDTO addSubject(@RequestBody SubjectDTO newSubject) {
 		 subjectServiceImpl.addSubject(newSubject);
@@ -59,6 +61,7 @@ public class SubjectController {
 
 	@ApiResponses(value = { @ApiResponse(code = 500, message = "Internal Server Error") })
 	@ApiOperation("Edit a subject")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public SubjectDTO editSubject(@PathVariable int id, @RequestBody SubjectDTO editSubject) {
 		subjectServiceImpl.editSubject(id, editSubject);

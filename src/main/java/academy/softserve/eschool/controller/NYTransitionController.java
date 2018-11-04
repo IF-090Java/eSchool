@@ -5,6 +5,7 @@ import academy.softserve.eschool.service.ClassServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class NYTransitionController {
 
     @PostMapping
     @ApiOperation(value = "Add new classes based on currently classes with new year and name")
+    @PreAuthorize("hasRole('ADMIN')")
     public Boolean addNewYearClasses(){
         classService.addNewYearClasses();
         return true;
