@@ -87,6 +87,12 @@
                         window.location.href = url;
                     }
 
+                },
+                error: function(jqXHR, status, errorThrown){
+                    console.log('jqXHR:');
+                    console.log(jqXHR);
+                    console.log('Status:');
+                    console.log(status);
                 }
             });
         })

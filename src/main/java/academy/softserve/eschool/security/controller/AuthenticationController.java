@@ -79,13 +79,8 @@ public class AuthenticationController {
 
         //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-        try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new AuthenticationException("User is disabled!", e);
-        } catch (BadCredentialsException e) {
-            throw new AuthenticationException("Bad credentials!", e);
-        }
+
     }
 
 }
