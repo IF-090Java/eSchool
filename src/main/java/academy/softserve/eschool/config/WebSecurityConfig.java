@@ -1,5 +1,6 @@
 package academy.softserve.eschool.config;
 
+import academy.softserve.eschool.security.ExceptionHandlerFilter;
 import academy.softserve.eschool.security.JwtAuthenticationEntryPoint;
 import academy.softserve.eschool.security.JwtAuthorizationTokenFilter;
 import academy.softserve.eschool.security.service.JwtUserDetailsService;
@@ -19,6 +20,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -33,6 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     JwtAuthorizationTokenFilter authenticationTokenFilter;
+
+    @Autowired
+    ExceptionHandlerFilter exceptionHandlerFilter;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -67,9 +72,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/signin/**").permitAll()
                 .antMatchers("/refresh").permitAll()
                 .antMatchers("/resources/**").permitAll()
-                .antMatchers("/ui/**").anonymous()
+                .antMatchers("/ui/**").permitAll()
                 .anyRequest().authenticated();
         httpSecurity
+                .addFilterBefore(exceptionHandlerFilter , CorsFilter.class)
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching

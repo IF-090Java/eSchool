@@ -96,7 +96,7 @@ public class JwtTokenUtil implements Serializable {
         final Date created = getIssuedAtDateFromToken(token);
         final Date curDate = clock.now();
 
-        return ((curDate.getTime() - created.getTime())<globalExpiration)
+        return ((curDate.getTime() - created.getTime())<globalExpiration * 1000)
                 && (!isTokenExpired(token) || ignoreTokenExpiration(token));
     }
 

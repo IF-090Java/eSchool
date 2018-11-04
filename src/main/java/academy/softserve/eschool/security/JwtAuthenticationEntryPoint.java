@@ -1,5 +1,7 @@
 package academy.softserve.eschool.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -14,12 +16,14 @@ import java.io.Serializable;
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final long serialVersionUID = -7060530738989399327L;
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-        redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/ui/login");
+
+        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+
     }
 }

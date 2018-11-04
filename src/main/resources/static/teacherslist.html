@@ -16,7 +16,7 @@
 				<span id="loggeduser" class="navbar-text ml-5">Ви увійшли як Адміністратор</span>
 				<ul class="navbar-nav ml-md-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="/">Вийти</a>
+						<a class="nav-link" href="#" onclick="logOut()">Вийти</a>
 					</li>
 				</ul>
 			</nav>
@@ -32,11 +32,20 @@
 		</div>
 	</div>	
 	<script type="text/javascript">
+        $(document).ready(function () {
+            refreshToken();
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                }
+            })
+        })
+
 		$(document).ready(function () {
 			$.getJSON(host + 'teachers', function (data) {
 				console.log(data);
 				$.each(data, function (i, item) {
-					$('#teacherslist').append($('<li class="list-group-item">').append($('<a>').attr('href','/teachers/'+item.id+'/edit').append(item.firstname)
+					$('#teacherslist').append($('<li class="list-group-item">').append($('<a>').attr('href','/ui/teachers/'+item.id+'/edit').append(item.firstname)
 						.append(' ' + item.lastname).append(' ' + item.patronymic)))
 				});		
 			});

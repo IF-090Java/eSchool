@@ -27,14 +27,6 @@ public class NYTransitionController {
         return true;
     }
 
-
-    @ApiOperation(value = "Get true active classes with students", response = ClassDTO.class)
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
-    public List<ClassDTO> getActiveClassesWithStudents() {
-        return classService.getActiveClassesWithStudents();
-    }
-
     @PutMapping
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Binding students to new classes, deactivate previous year classes")

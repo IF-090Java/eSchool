@@ -17,7 +17,7 @@
             <span class="navbar-text">Ви увійшли як Адміністратор</span>
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Вийти</a>
+                    <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
                 </li>
             </ul>
         </nav>
@@ -94,6 +94,15 @@
     });
 </script>
  <script type="text/javascript">
+     $(document).ready(function () {
+         refreshToken();
+         $.ajaxSetup({
+             beforeSend: function (xhr) {
+                 xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+             }
+         })
+     })
+
 		$(function() {
 			$(".header").load("/views/header.html");
 		});

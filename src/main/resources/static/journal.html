@@ -70,7 +70,7 @@
     <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/teachers/1/profile">Домашня сторінка</a></span>
     <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
     <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
-    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="#" onclick="logOut()"> Вийти</a></span>
 </div>
 
     <div class="description" id="classTitle">Клас: </div>
@@ -104,6 +104,15 @@
 
 
     <script type="text/javascript">
+        $(document).ready(function () {
+            refreshToken();
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                }
+            })
+        })
+
     $(document).ready(function () {
 
         var pathArray = window.location.pathname.split('/');
