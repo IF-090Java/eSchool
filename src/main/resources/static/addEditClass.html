@@ -29,6 +29,7 @@
         </nav>
 
         <div class="container">
+            <div id="message" align="center"></div>
             <div class="row justify-content-center mt-5">
                 <h1>Редагувати клас</h1>
             </div>
@@ -95,20 +96,33 @@
 
           jQuery.validator.addMethod("year", function(value, element) {
                  var year = value;
-                 if (year.length == 4 && year >= 2000)
+                 if (year >= 2000)
                     return true;
                  return false;
-          }, "Рік не правильно введений");
+          }, "Не правильно введений рік");
 
 
 		  $("#myForm").validate({
             rules: {
                 className: {
                     required: true,
-					grade: true
+                    grade: true
                     },
                 classYear: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 25,
                     year: true
+                    }
+                },
+            messages: {
+                className: {
+                    required: "Це поле обов'язкове"
+                    },
+                classYear: {
+                    required:  "Це поле обов'язкове",
+                    minlength: "Рік повинен містити 4 символи",
+                    maxlength: "Рік повинен містити 4 символи"
                     }
                 }
             });
@@ -139,8 +153,9 @@
                     }),
                     contentType: "application/json",
                     success: function (responce) {
-                        alert('Клас створений!')
-                        window.location.href = "/classes/add";
+                        $("#message").attr("class", "alert alert-success");
+                        $("#message").html("<strong>Клас створений!</strong>");
+                        $(":input").val("");
                     }
                 });
             })
