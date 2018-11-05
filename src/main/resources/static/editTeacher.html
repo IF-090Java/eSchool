@@ -208,7 +208,7 @@
 				$("#lname").prop('disabled',true);
 				$("#patronymic").prop('disabled',true);
 				$("#username").prop('disabled',true);
-			}
+            }
 
 			if ((window.location.href.indexOf("ui/teachers/") > -1)||(window.location.href.indexOf("ui/students/") > -1)) {
 				$("#oldPass").prop('disabled',true);
@@ -216,7 +216,7 @@
 
             var endpoint;
 			if (window.location.href.indexOf("ui/teacher") > -1) {
-                if (window.location.href.indexOf("ui/teaches") > -1)
+                if (window.location.href.indexOf("ui/teachers") > -1)
 					endpoint = 'admin/teachers';
                 else endpoint = 'teachers'
 			}
