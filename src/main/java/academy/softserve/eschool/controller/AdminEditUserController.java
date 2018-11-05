@@ -54,7 +54,7 @@ public class AdminEditUserController {
             }
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/{id}")
+    @PutMapping("/teachers/{id}")
     public void updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int id){
 
         teacherService.updateTeacher(userRepository.findById(id).get(),teacher);

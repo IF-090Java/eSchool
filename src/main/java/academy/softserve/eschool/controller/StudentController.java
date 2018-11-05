@@ -77,7 +77,7 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('USER')")
     public void updateStudent(
             @ApiParam(value = "user object", required = true)  @RequestBody EditUserDTO student,
             @ApiParam(value = "id of student", required = true)  @PathVariable int idStudent){
