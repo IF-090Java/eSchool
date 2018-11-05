@@ -1,5 +1,6 @@
 package academy.softserve.eschool.auxiliary;
 
+//todo bk ++ always clear unused imports
 import academy.softserve.eschool.dto.DataForLoginDTO;
 import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.UserRepository;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 
+//todo bk why did you put controller into academy.softserve.eschool.auxiliary package. Refactor it
+//todo bk extract custom translit logic into service.
+//todo bk ++ guys how long should i remind you to put javadocs
 @RestController("/login")
 @Api(description = "Login generator controller")
 public class LoginGeneratorController {
@@ -62,6 +66,7 @@ public class LoginGeneratorController {
      * @param word word for transliteration
      * @return transliterated word
      */
+    //todo bk ++ too many 'magic numbers and character. Refactor it'
     public static String transliteration(String word) {
         word = word.toLowerCase();
         char[] chars = word.toCharArray();
@@ -87,6 +92,7 @@ public class LoginGeneratorController {
      * @param second letter
      * @return transliterated letters
      */
+    //todo bk too many if statements. Refactor it
     private static String firstTwo(Character first, Character second) {
         String result = "";
         if (second != null && (first.equals('з') && second.equals('г'))) {

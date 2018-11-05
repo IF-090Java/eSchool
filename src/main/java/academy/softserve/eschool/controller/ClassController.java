@@ -61,6 +61,9 @@ public class ClassController {
     })
     @ApiOperation(value = "Get true active classes with students")
     @GetMapping("/active")
+    //todo bk TOO MANY endpoints. !!!Do you whnt to make UI team go crazy !!!
+    //todo bk make single endpoint that returns all classes with a two  properties that indicate class state and number of students.
+    //todo bk the rest endpoints should be deleted.
     public List<ClassDTO> getActiveClassesWithStudents(){
         return classService.getActiveClassesWithStudents();
     }
@@ -94,10 +97,14 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation("Update class")
+    //todo bk ++ it's better to name param as classId instead. But I'd name it as 'id' in current case.
+    //todo bk It's too obvious that 'classId' belongs to the class. But in case you have few ids then name it properly
     @PutMapping("/{idClass}")
     public ClassDTO editClass(
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass,
             @ApiParam(value = "object of class", required = true) @RequestBody ClassDTO editClass){
+        //todo bk ++ updating objects with native queries bring a lot af mess into the app. And it's hard to support them. Use entity and repository for it.
+
         classService.updateClass(idClass, editClass);
         return editClass;
     }

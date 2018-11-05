@@ -45,7 +45,8 @@ public class Clazz {
 	private Set<@NotNull ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "clazz")
 	private Set<@NotNull Lesson> schedule = new HashSet<>();
-	
+
+	//todo bk ++ remove all unused constructors.
 	public Clazz(String name, String description, int academicYear, boolean isActive) {
 		super();
 		this.name = name;
