@@ -15,7 +15,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/ui/")
 @Secured("permitAll")
 public class PageMappingController {
-    @RequestMapping("classes/{id}/edit")//TODO : ADD VALIDATION
+    @RequestMapping("classes/{id}/edit")
     public String editClassPage() {
         return "/addEditClass.html";
     }
@@ -41,7 +41,7 @@ public class PageMappingController {
         return "/classList.html";
     }
 
-    @RequestMapping("classes/add")//TODO : ADD ALERT AND VALIDATION
+    @RequestMapping("/classes/add")
     public String addClassPage() {
         return "/addEditClass.html";
     }
@@ -51,12 +51,12 @@ public class PageMappingController {
         return "/diary.html";
     }
 
-    @RequestMapping("stats")//TODO : ADD VALIDATION(NOT ALLOW TO PUT NOT CORRECT DATE)
+    @RequestMapping("stats")
     public String statisticsPage() {
         return "/statistics.html";
     }
 
-    @RequestMapping("teachers/add")//TODO: ADD VALIDATION TO ALL FORMS, back-end works
+    @RequestMapping("teachers/add")
     public String addTeacher() {
         return "/teacher/addTeacher.html";
     }
