@@ -43,7 +43,7 @@ public class PageMappingController {
         return "/diary.html";
     }
 
-    @RequestMapping("stats")//TODO : ADD VALIDATION(NOT ALLOW TO PUT NOT CORRECT DATE)
+    @RequestMapping("stats")
     public String statisticsPage() {
         return "/statistics.html";
     }
