@@ -214,10 +214,17 @@
 				$("#oldPass").prop('disabled',true);
 			}
 
+            var endpoint;
 			if (window.location.href.indexOf("ui/teacher") > -1) {
-				var endpoint = 'teachers';
+                if (window.location.href.indexOf("ui/teaches") > -1)
+					endpoint = 'admin/teachers';
+                else endpoint = 'teachers'
 			}
-			else var endpoint = 'students';
+			else{
+                if (window.location.href.indexOf("ui/students") > -1)
+			    	endpoint = 'admin/students';
+                else endpoint = 'students';
+            }
 
 			$("#deleteAvatar").click(function(){
 				fileBase64 = null;
