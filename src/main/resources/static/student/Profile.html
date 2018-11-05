@@ -20,12 +20,7 @@
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[3];
             $.ajax({
-                url: host + "students/" + id,
-                statusCode: {
-                    403: function(data) {
-                        window.location.href='/ui/login'
-                    }
-                }
+                url: host + "students/" + id
             }).then(function(data) {
                 var date = new Date(data.dateOfBirth).toLocaleDateString();
                 $('#title').append(data.firstname + ' ' + data.lastname );

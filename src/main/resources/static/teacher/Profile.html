@@ -22,12 +22,7 @@
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[3];
             $.ajax({
-                url: host + "teachers/"+id,
-                statusCode: {
-                    403: function(data) {
-                        window.location.href='/ui/login'
-                    }
-                }
+                url: host + "teachers/"+id
             }).then(function(data) {
                 var date = new Date(data.dateOfBirth).toLocaleDateString();
                 $('#title').append(data.firstname + ' ' + data.lastname );
@@ -50,6 +45,10 @@
                 $.each(data, function(key, val) {
                      $('<li class="force-overflow">'+val.subjectName+'</li>').appendTo('#list');
                 });
+            }).fail(function (data) {
+                if (data.status == 403){
+                    window.location.href='/ui/login'
+                }
             });
         });
 
