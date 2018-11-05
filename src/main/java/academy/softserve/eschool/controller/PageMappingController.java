@@ -8,7 +8,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Controller
 @ApiIgnore
 public class PageMappingController {
-    @RequestMapping("classes/{id}/edit")//TODO : ADD VALIDATION
+    @RequestMapping("classes/{id}/edit")
     public String editClassPage() {
         return "/addEditClass.html";
     }
@@ -33,7 +33,7 @@ public class PageMappingController {
         return "/classList.html";
     }
 
-    @RequestMapping("/classes/add")//TODO : ADD ALERT AND VALIDATION
+    @RequestMapping("/classes/add")
     public String addClassPage() {
         return "/addEditClass.html";
     }
