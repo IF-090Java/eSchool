@@ -11,6 +11,7 @@ import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.management.loading.ClassLoaderRepository;
@@ -31,6 +32,9 @@ public class StudentService {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bcryptEncoder;
 
     public StudentDTO getOne(Student s){
         return StudentDTO.builder().firstname(s.getFirstName())
@@ -67,7 +71,7 @@ public class StudentService {
         oldUser.setPhone(edited.getPhone());
         if((oldUser.getPassword().equals(edited.getOldPass()) || edited.getOldPass().equals("adminchangedpass"))
                 && edited.getNewPass().length()>0){
-            oldUser.setPassword(edited.getNewPass());
+            oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
         oldUser.setLogin(edited.getLogin());
         userRepository.save(oldUser);
@@ -79,7 +83,7 @@ public class StudentService {
                 .firstName(studentDTO.getFirstname())
                 .patronymic(studentDTO.getPatronymic())
                 .login(transliteration(studentDTO.getLastname()))
-                .password(generatePassword(7))
+                .password(bcryptEncoder.encode(generatePassword(7)))
                 .phone(studentDTO.getPhone())
                 .email(studentDTO.getEmail())
                 .dateOfBirth(studentDTO.getDateOfBirth())
