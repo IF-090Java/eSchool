@@ -10,6 +10,7 @@ import academy.softserve.eschool.model.MarkType;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import academy.softserve.eschool.dto.MarkDataPointDTO;
@@ -28,16 +29,16 @@ public class MarksController {
 	@GetMapping("")
 	@ApiOperation(value = "Get marks by date filtered by specified params")
 	GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
-			@ApiParam(value = "filter results by student id", required = false) @RequestParam(value = "student_id", required = false) Integer studentId,
-			@ApiParam(value = "filter results by subject id", required = false) @RequestParam(value = "subject_id", required = false) Integer subjectId,
-			@ApiParam(value = "filter results by class id", required = false) @RequestParam(value = "class_id", required = false) Integer classId,
+			//todo bk Don't you see that IDEA marks @ApiParam 'required = false' by grey color??
+			//todo bk Look into javaDocs and remove the option: 'Path parameters will always be set as required, whether you set this property or not'
+			@ApiParam(value = "filter results by student id") @RequestParam(value = "student_id", required = false) Integer studentId,
+			@ApiParam(value = "filter results by subject id") @RequestParam(value = "subject_id", required = false) Integer subjectId,
+			@ApiParam(value = "filter results by class id") @RequestParam(value = "class_id", required = false) Integer classId,
 			@ApiParam(value = "get marks received after specified date, accepts date in format 'yyyy-MM-dd'", required = false) @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodStart,
 			@ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'", required = false) @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodEnd){
 		
-		GeneralResponseWrapper<List<MarkDataPointDTO>> response;
 		List<MarkDataPointDTO> dataPoints = markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd);
-		response = new GeneralResponseWrapper<>(new Status(200, "OK"), dataPoints);
-		return response;
+		return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), dataPoints);
 	}
 
 	@ApiOperation(value = "Save mark of students by lesson")

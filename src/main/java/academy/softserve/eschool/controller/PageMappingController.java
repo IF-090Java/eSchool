@@ -53,7 +53,7 @@ public class PageMappingController {
         return "/teacher/addTeacher.html";
     }
 
-    @RequestMapping("students/add")
+    @RequestMapping("students/add")//TODO: ADD VALIDATION TO ALL FORMS, back-end works
     public String addStudent() {
         return "/student/addStudent.html";
     }
@@ -78,17 +78,17 @@ public class PageMappingController {
         return "/schedule.html";
     }
 
-    @RequestMapping("subjectList")
+    @RequestMapping("subjectList")//TODO: BOOTSTRAP
     public String subjectList() {
         return "/subjectsList.html";
     }
 
-    @RequestMapping("subjects/{id}/edit")
+    @RequestMapping("subjects/{id}/edit")//TODO: BOOTSTRAP + VALIDATION
     public String editSubjectPage() {
         return "/editSubject.html";
     }
 
-    @RequestMapping("subjects/add")
+    @RequestMapping("subjects/add")//TODO: BOOTSTRAP + VALIDATION
     public String addSubjectPage() {
         return "/addSubject.html";
     }
@@ -98,7 +98,7 @@ public class PageMappingController {
         return "/studentClass.html";
     }
 
-    @RequestMapping("studentsList")
+    @RequestMapping("studentsList")//?????
     public String listClasses() {
         return "/chooseClass.html";
     }
@@ -118,17 +118,17 @@ public class PageMappingController {
         return "/teacherslist.html";
     }
 
-    @RequestMapping("teachers/{id}/edit")
+    @RequestMapping("teachers/{id}/edit")//TODO: VALIDATION OF SOME FIELDS
     public String editTeacher(){
         return "/editTeacher.html";
     }
 
-    @RequestMapping("student/{id}/edit")
+    @RequestMapping("student/{id}/edit")//TODO: VALIDATION OF SOME FIELDS
     public String edit_Student(){
         return "/editTeacher.html";
     }
 
-    @RequestMapping("teacher/{id}/edit")
+    @RequestMapping("teacher/{id}/edit")//TODO: VALIDATION OF SOME FIELDS
     public String edit_Teacher(){
         return "/editTeacher.html";
     }
