@@ -63,6 +63,7 @@ textarea {
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="/js/JS.js"></script>
+	<script src="/js/jwt-decode.min.js"></script>
 </head>
 <body>
 <div class="header"></div>
@@ -97,6 +98,15 @@ textarea {
     });
     </script> 
 	<script type="text/javascript">
+        $(document).ready(function () {
+            validateUserPermissions();
+            refreshToken();
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                }
+            })
+        })
 	
 	$(document).ready(function() {
 		$('form').on('submit', function(e) {

@@ -6,12 +6,9 @@ import academy.softserve.eschool.repository.ClassTeacherSubjectLinkRepository;
 import academy.softserve.eschool.service.ClassTeacherSubjectServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 //END POINT  /teachers/{id}/classes/{id}/subjects/{id}/journal
@@ -33,6 +30,7 @@ public class TeacherJournalController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
     public GeneralResponseWrapper<TeacherJournalDTO> getConections(
             @ApiParam(value = "id of teacher", required = true) @PathVariable("teacher_id") final int teacher_id,

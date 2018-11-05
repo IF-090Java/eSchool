@@ -1,12 +1,19 @@
 package academy.softserve.eschool.controller;
 
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
+
 
 @Controller
 @ApiIgnore
+@RequestMapping("/ui/")
+@Secured("permitAll")
 public class PageMappingController {
     @RequestMapping("classes/{id}/edit")
     public String editClassPage() {
@@ -23,12 +30,13 @@ public class PageMappingController {
         return "/journalsList.html";
     }
 
-    @RequestMapping("/classes/classList")
+    @RequestMapping("classes/classList")
     public String getClassListShowStudents() {
         return "/classList.html";
     }
 
-    @RequestMapping("/classes/list")
+    @RequestMapping("classes/list")
+
     public String getClassesListForEdit() {
         return "/classList.html";
     }
@@ -108,7 +116,7 @@ public class PageMappingController {
         return "/editTeacher.html";
     }
 
-    @RequestMapping("/students/new-year-transition")
+    @RequestMapping("students/new-year-transition")
     public String transitionToNewYear(){
         return "/transToNewYear.html";
     }
@@ -138,7 +146,7 @@ public class PageMappingController {
         return "/admin-home.html";
     }
 
-    @RequestMapping("/")
+    @RequestMapping("login")
     public String getLoginPage(){
         return "/loginForm.html";
     }

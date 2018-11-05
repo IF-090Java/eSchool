@@ -10,6 +10,7 @@ import academy.softserve.eschool.model.MarkType;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import academy.softserve.eschool.dto.MarkDataPointDTO;
@@ -24,9 +25,10 @@ public class MarksController {
 	
 	@Autowired
 	private MarkServiceBase markService;
-	
-	@GetMapping("")
+
 	@ApiOperation(value = "Get marks by date filtered by specified params")
+	@PreAuthorize("hasRole('TEACHER')")
+	@GetMapping("")
 	GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
 			//todo bk Don't you see that IDEA marks @ApiParam 'required = false' by grey color??
 			//todo bk Look into javaDocs and remove the option: 'Path parameters will always be set as required, whether you set this property or not'
@@ -43,11 +45,13 @@ public class MarksController {
 	}
 
 	@ApiOperation(value = "Save mark of students by lesson")
+
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Mark successfully created"),
 			@ApiResponse(code = 400, message = "Bad request"),
 			@ApiResponse(code = 500, message = "Server error")
 	})
+    @PreAuthorize("hasRole('TEACHER')")
 	@PostMapping
 	public GeneralResponseWrapper<MarkDTO> postMark(
 		@ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
@@ -58,6 +62,7 @@ public class MarksController {
 	}
 
 	@ApiOperation("Update mark's type of lesson")
+	@PreAuthorize("hasRole('TEACHER')")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Successfully updated"),
 			@ApiResponse(code = 400, message = "Bad request"),

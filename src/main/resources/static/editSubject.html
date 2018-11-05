@@ -38,6 +38,7 @@ textarea {
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/js/JS.js"></script>
 </head>
 	<body>
 	<div class="header"></div>
@@ -64,19 +65,32 @@ textarea {
 	</div>
 	<script type="text/javascript"> 
 	 $(function() {
-      $(".header").load("/views//header.html");
+      $(".header").load("/views/header.html");
     });
-    </script> 
+    </script>
 		<script type="text/javascript">
+            $(document).ready(function () {
+                refreshToken();
+                $.ajaxSetup({
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                    }
+                })
+            })
+
 		 $(document).ready(function() {
 		        var pathArray = window.location.pathname.split('/');
-		        var subjectId = pathArray[2];
+		        var subjectId = pathArray[3];
 
-		        $.getJSON('http://localhost:8080/subjects/'+subjectId, function (data) {
+		        $.getJSON('/subjects/'+subjectId, function (data) {
 		            console.log(data);
 		            $("#subjectName").attr("value", data.subjectName);
 		            $("#subjectDesc").append(data.subjectDescription);
-		        });
+		        }).fail(function (data) {
+                    if (data.status == 403){
+                        window.location.href='/ui/login'
+                    }
+                });
 		    })
 		    
 		     $(document).ready(function () {
@@ -87,7 +101,7 @@ textarea {
             var subjectDescription = $("#subjectDesc").val();
 
             var pathArray = window.location.pathname.split('/');
-            var subjectId = pathArray[2];
+            var subjectId = pathArray[3];
             $.ajax({
                 type: "put",
                 url: "/subjects/" + subjectId,
@@ -98,7 +112,7 @@ textarea {
                 }),
                 contentType: "application/json",
                 success: function (responce) {
-                    window.location.href = "/subjectList";
+                    window.location.href = "/ui/subjectList";
                 }
             });
         })

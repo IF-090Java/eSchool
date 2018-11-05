@@ -1,14 +1,12 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.model.Clazz;
-import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.service.ClassServiceImpl;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,6 +21,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Create class")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ClassDTO addClass(
             @ApiParam(value = "class object", required = true) @RequestBody ClassDTO newClassDTO){
@@ -36,6 +35,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get Class")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'TEACHER')")
     @GetMapping("/{idClass}")
     public ClassDTO getClassById(
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass){
@@ -49,6 +49,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get classes with active status")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'TEACHER')")
     @GetMapping
     public List<ClassDTO> getActiveClasses(){
         return classService.findClassesByStatus(true);
@@ -60,6 +61,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get true active classes with students")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/active")
     //todo bk TOO MANY endpoints. !!!Do you whnt to make UI team go crazy !!!
     //todo bk make single endpoint that returns all classes with a two  properties that indicate class state and number of students.
@@ -74,6 +76,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get active classes without students")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/active/students/none")
     public List<ClassDTO> getActiveClassesWithoutStudents() {
         return classService.getActiveClassesWithoutStudents();
@@ -85,6 +88,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get inactive classes list", response = ClassDTO.class)
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/inactive")
     public List<ClassDTO> getNonActiveClasses(){
         return classService.findClassesByStatus(false);
@@ -97,6 +101,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation("Update class")
+    @PreAuthorize("hasRole('ADMIN')")
     //todo bk ++ it's better to name param as classId instead. But I'd name it as 'id' in current case.
     //todo bk It's too obvious that 'classId' belongs to the class. But in case you have few ids then name it properly
     @PutMapping("/{idClass}")

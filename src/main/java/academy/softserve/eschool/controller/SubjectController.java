@@ -1,18 +1,15 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.SubjectDTO;
-import academy.softserve.eschool.service.ClassServiceImpl;
-import academy.softserve.eschool.service.SubjectService;
 import academy.softserve.eschool.service.SubjectServiceImpl;
 import io.swagger.annotations.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/subjects")
@@ -27,6 +24,7 @@ public class SubjectController {
 			@ApiResponse(code = 500, message = "Internal Server Error")
 			})
 	@ApiOperation(value = "Get all subjects")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
 	@GetMapping()
 	public List<SubjectDTO> getAll() {
 		return subjectServiceImpl.getAll();
@@ -38,6 +36,7 @@ public class SubjectController {
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@ApiOperation(value = "Get a subject by Id")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
 	@GetMapping("/{idSubject}")
 	public SubjectDTO getSubjectById(
 			@ApiParam(value = "id of subject", required = true) @PathVariable int idSubject) {
@@ -50,6 +49,7 @@ public class SubjectController {
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@ApiOperation(value = "Get all subjects by teacher", response = SubjectDTO.class)
+	@PreAuthorize("hasRole('TEACHER')")
 	@GetMapping("/teachers/{idTeacher}")
 	public List<SubjectDTO> getSubjectsTeacher(
 			@ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher) {
@@ -62,6 +62,7 @@ public class SubjectController {
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@ApiOperation(value = "Add new subject")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
 	public SubjectDTO addSubject(
 			@ApiParam(value = "subject object", required = true) @RequestBody SubjectDTO newSubject) {
@@ -75,6 +76,7 @@ public class SubjectController {
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@ApiOperation("Edit a subject")
+    @PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{idSubject}")
 	public SubjectDTO editSubject(
 			@ApiParam(value = "id of object", required = true) @PathVariable int idSubject,
