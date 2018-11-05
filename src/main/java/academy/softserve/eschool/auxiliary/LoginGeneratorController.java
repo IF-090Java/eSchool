@@ -8,7 +8,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,26 +47,17 @@ public class LoginGeneratorController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Create login")
-    @GetMapping("/generate")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/generate")
     public DataForLoginDTO getLogin(@RequestBody DataForLoginDTO person) {
-        StringBuffer login = new StringBuffer(transliteration(person.getFirstName().substring(0,0)));
-        login.append(transliteration(person.getLastName()));
-        users = userRepository.findByPartOfLogin(login.toString());
+        String login = transliteration(person.getFirstName().substring(0,0));
+        login += transliteration(person.getLastName());
+        users = userRepository.findByPartOfLogin(login);
         if (!users.isEmpty())
-            makeUnique(login);
-        person.setLogin(login.toString());
-        return null;
+            login += users.size();
+        person.setLogin(login);
+        return person;
     }
-
-    /**
-         * Add to login number of users who have this login as part of their own login.
-     * @param login
-     */
-    private void makeUnique(StringBuffer login) {
-        int usersLength = users.size();
-        login.insert(login.length() - 1, usersLength);
-    }
-
 
     /**
      *

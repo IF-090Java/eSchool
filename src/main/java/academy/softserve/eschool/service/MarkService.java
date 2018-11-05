@@ -1,6 +1,7 @@
 package academy.softserve.eschool.service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +49,8 @@ public class MarkService implements MarkServiceBase{
 		dataPoints = data.stream().map((obj) -> {
 				double averageMark = ((BigDecimal)obj.get("avg_mark")).doubleValue();
 				Date date = (Date)obj.get("date");
-				return new MarkDataPointDTO(averageMark, date);
+				int count = ((BigInteger)obj.get("count")).intValue();
+				return new MarkDataPointDTO(averageMark, date, count);
 			})
 			.collect(Collectors.toList());
 		System.out.println(dataPoints.toString());
@@ -62,7 +64,6 @@ public class MarkService implements MarkServiceBase{
 
 	@Override
 	public void updateType(int idLesson, String markType) {
-		System.out.println(idLesson+" "+markType);
 		markRepo.saveTypeByLesson(idLesson,markType);
 	}
 }

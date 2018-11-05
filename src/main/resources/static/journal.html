@@ -4,44 +4,22 @@
     <meta charset="UTF-8">
     <title>Журнали</title>
 
+    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
     <style type="text/css">
-       .description{
-           font-family: Garamond;
-           font-size: 22px;
-           margin-left: 25%;
-           width: 500px;
-           padding: 20px;
-       }
-       table,td,th{
-           border: 1px solid #ddd;
-       }
        table {
            border-collapse: collapse;
            width: 40%;
            margin: 20px auto;
        }
 
-       th, td {
-           text-align: left;
+       .mark,.dateCell {
+           text-align: center;
            padding: 8px;
-       }
-
-       .header{
-           color: white;
-           height: 50px;
-           background: #4CAF50;
-           border: solid 1px black;
-       }
-
-       .header a{
-           color:white;
-       }
-
-       tr:nth-child(even){background-color: #f2f2f2}
-
-       th {
-           background-color: #4CAF50;
-           color: white;
        }
 
         #markPick{
@@ -60,48 +38,95 @@
            white-space: nowrap;
         }
 
-    </style>
+       #table_mark thead th,#table_home thead th{
+            border: 2px solid #ffffff;
+            background-color: #343A40;
+            color:white;
+        }
+       #table_mark td,#table_home td{
+           background-color: #ffffff;
+       }
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="/js/JS.js"></script>
+       td,th{
+           border: 2px solid #ddd;
+           background-color: #ffffff;
+       }
+    </style>
 </head>
 <body>
-<div class="header">
-    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/teachers/1/profile">Домашня сторінка</a></span>
-    <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
-    <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
-    <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="#" onclick="logOut()"> Вийти</a></span>
-</div>
+<div class="wrapper">
 
-    <div class="description" id="classTitle">Клас: </div>
-    <div class="description" id="subjectTitle">Предмет: </div>
+    <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
 
-    <table id="table_mark">
+        <div class="container-fluid teacher_nav" style="position: fixed;z-index: 3"> </div>
 
-    </table>
+        <div class="container-fluid" style="margin: 120px auto">
 
-<div id="markPick">
-    <div id="st">
-        Студент: <span id="spanStudent"></span>
+            <table class="table" id="description">
+                <thead>
+                    <tr>
+                        <th class="col-4 text-center" id="classTitle">Клас: </th>
+                        <th class="col-4 text-center" id="subjectTitle">Предмет: </th>
+                        <th class="col-4 text-center" id="yearTitle">Навчальний рік: </th>
+                    </tr>
+                </thead>
+            </table>
+
+            <div class="container-fluid">
+                <div class="row justify-content-center" >
+                    <table class="table" id="table_mark" style="margin: 20px auto" >
+                    </table>
+                </div>
+            </div>
+
+            <div class="container" id="markPick">
+                <div class="row justify-content-center">
+                    <form class="form-horizontal col-6" id="formJournal">
+                        <div class="form-group">
+                            <label for="student_data">Студент:</label>
+                            <input type="text" id="student_data" class="form-control" placeholder="" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="mark_form">Оцінка</label>
+                            <select id="mark_form" class="selectpicker show-tick" name="mark_form" data-width="auto" data-size="5" data-dropup-auto="false">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="note_form">Нотатка</label>
+                            <textarea class="form-control" id="note_form" rows="3"></textarea>
+                        </div>
+                        <input type="button" class="btn btn-secondary" value="Зберегти" id="saveMarkB">
+                        <span id="status" style="display:none">das</span>
+                    </form>
+                </div>
+            </div>
+
+            <div class="container">
+                <table class="table table-bordered" id="table_home">
+                    <thead>
+                        <tr class="d-flex">
+                            <th class="col-3">Дата</th>
+                            <th class="col-6">Домашнє завдання</th>
+                            <th class="col-3">Файл</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
-    <div id="les">
-        Урок: <span id="spanLesson"></span>
-    </div>
-    <form id="formInput">
-        Mark: <input type="number" id="mark_form" min="1" max="12"><br>
-        Note:<input type="text" id="note_form"><br><br>
-        <input type="submit" value="Submit">
-    </form>
 </div>
-
-<table id="table_home">
-        <tr>
-            <th>Дата</th>
-            <th>Домашнє завдання</th>
-            <th>Файл</th>
-        </tr>
-    </table>
-
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -120,7 +145,6 @@
         var idClass = pathArray[6];
         var currentCell;
 
-
         $.getJSON(host + 'classes/'+idClass, function (data) {
           $('<span>'+data.className+'</span>').appendTo('#classTitle');
         });
@@ -130,75 +154,71 @@
         });
 
         $.getJSON(host + 'homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
-          $.each(data, function(key, val) {
-                var tr=$('<tr></tr>');
-                $('<td>'+val.date+'</td>').appendTo(tr);
-                $('<td>'+val.homework+'</td>').appendTo(tr);
+            var tableBody = $('<tbody></tbody>');
+          $.each(data.data, function(key, val) {
+                var tr=$('<tr class="d-flex"></tr>');
+                $('<td class="col-3">'+val.date+'</td>').appendTo(tr);
+                $('<td class="col-6">'+val.homework+'</td>').appendTo(tr);
                 /*$('<td>'+atob(val.file)+'</td>').appendTo(tr);*/
-                $('<td>'+'file.txt'+'</td>').appendTo(tr);
-                tr.appendTo('#table_home');
+                $('<td class="col-3">'+'file.txt'+'</td>').appendTo(tr);
+                tr.appendTo(tableBody);
             });
+          tableBody.appendTo("#table_home");
         }).fail(function (data) {
             if (data.status == 403){
                 window.location.href='/ui/login'
             }
         });
-
         $.getJSON(host + 'journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {
-            $.each(data, function(key, val) {
+            var date = data.data[0].marks[0].dateMark.split(".");
+            $('<span>'+date[0]+'/'+(++date[0])+'</span>').appendTo('#yearTitle');
+            $.each(data.data, function(key, val) {
+                var thead=$('<thead ></thead>');
                 var tr1=$('<tr></tr>');
                 var tr2=$('<tr></tr>');
                 $('<th>'+"Тип оцінки"+'</th>').appendTo(tr1);
                 $('<th>'+"Дата"+'</th>').appendTo(tr2);
                 $.each(val.marks, function(k, v) {
-                    //$('<th >'+v.typeMark+'</th>').appendTo(tr1);
                     var th = $('<th></th>');
                     var select = $('<select class="type"></select>').attr("idLes",v.idLesson);
 
-                    if(v.typeMark=="Control") {
-                        $('<option value="Control" selected>' + "Control" + '</option>').appendTo(select);
-                    }
-                    else {
-                        $('<option value="Control">' + "Control" + '</option>').appendTo(select);
-                    }
-                    if(v.typeMark=="Practic") {
-                        $('<option value="Practic" selected>' + "Practic" + '</option>').appendTo(select);
-                    }
-                    else {
-                        $('<option value="Practic">' + "Practic" + '</option>').appendTo(select);
-                    }
-                    if(v.typeMark=="Module") {
-                        $('<option value="Module" selected>' + "Module" + '</option>').appendTo(select);
-                    }
-                    else {
-                        $('<option value="Module">' + "Module" + '</option>').appendTo(select);
-                    }
-                    if(v.typeMark=="Labaratorna") {
-                        $('<option value="Labaratorna" selected>' + "Labaratorna" + '</option>').appendTo(select);
-                    }
-                    else {
-                        $('<option value="Labaratorna">' + "Labaratorna" + '</option>').appendTo(select);
+                    switch (v.typeMark) {
+                        case "Control":
+                            $('<option value="Control" selected>' + "Cn." + '</option>').appendTo(select);
+                            break;
+                        case "Practic":
+                            $('<option value="Practic" selected>' + "Pr." + '</option>').appendTo(select);
+                            break;
+                        case "Module":
+                            $('<option value="Module" selected>' + "Md." + '</option>').appendTo(select);
+                            break;
+                        case "Labaratorna":
+                            $('<option value="Labaratorna" selected>' + "Lb." + '</option>').appendTo(select);
+                            break;
+                        default:
+                            $('<option value="Control">' + "Cn." + '</option>').appendTo(select);
                     }
                     select.appendTo(th);
-
                     th.appendTo(tr1);
-                    $('<th>'+v.dateMark+'</th>').appendTo(tr2);
+                    var date = v.dateMark.split(".");
+                    $('<th class="dateCell">'+date[1]+'.'+date[2]+'</th>').appendTo(tr2);
                 });
                 $('<th>'+'С.'+'</th>').appendTo(tr2);
-                tr1.appendTo('#table_mark');
-                tr2.appendTo('#table_mark');
+                tr1.appendTo(thead);
+                tr2.appendTo(thead);
+                thead.appendTo("#table_mark");
                 return false;
             });
             var countStudents = 0;
-            $.each(data, function(key, val) {
+            $.each(data.data, function(key, val) {
                 var tr=$('<tr class="markValues"></tr>');
                 $('<td>'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr);
                 $.each(val.marks, function(k, v) {
                     if(!v.mark){
-                        $('<td class="mark">'+""+'</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
+                        $('<td class="mark" ></td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
                     }
                     else {
-                        $('<td class="mark" title="'+v.note+'">' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
+                        $('<td class="mark" title="'+v.note+'" >' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
                     }
                 });
                 $('<td class="average">'+' '+'</td>').appendTo(tr);
@@ -209,38 +229,46 @@
             $("select.type").change(dropClick);
         });
 
-
-        $('form').on('submit', function (e) {
-            e.preventDefault();
-            var mark = $("#mark_form").val();
-            var note = $("#note_form").val();
-
+        $( "#saveMarkB" ).click(function() {
             if(currentCell==undefined){
-                alert("Не вибрано клітинки");
-                return;
+                $("#status").text('Поле не вибрано!');
+                $("#status").css("color", "#d23c44");
+                $("#status").show();
             }
-            if(mark<1 || mark>12){
-                alert("Неправильна оцінка");
-                return;
+            else {
+                var mark = $("#mark_form").val();
+                var note = $("#note_form").val();
+
+                $.ajax({
+                    type: "post",
+                    url: host + "marks",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "mark": mark,
+                        "note": note,
+                        "idStudent": currentCell.attr("idSt"),
+                        "idLesson": currentCell.attr("idLes")
+                    }),
+                    contentType: "application/json",
+                    success: function (response) {
+                        currentCell.text(mark);
+                        currentCell.attr("title", note);
+                        averageMark();
+                        currentCell.css("background-color", "");
+                        currentCell.css("color", "#212529");
+                        currentCell = undefined;
+                        $("#student_data").val("");
+                        $("#note_form").val("");
+                        $(".selectpicker").selectpicker("refresh");
+                        $("#status").text('Успішно додано!');
+                        $("#status").css("color", "#3fa85f");
+                        $("#status").show();
+                    }
+                });
             }
-            $.ajax({
-                type: "post",
-                url: host + "marks",
-                dataType: "json",
-                data: JSON.stringify({
-                    "mark": mark,
-                    "note": note,
-                    "idStudent":  currentCell.attr("idSt"),
-                    "idLesson":  currentCell.attr("idLes")
-                }),
-                contentType: "application/json",
-                success: function (response) {
-                    currentCell.text(mark);
-                    currentCell.prop("title",note);
-                    averageMark();
-                }
-            });
-        })
+        });
+
+
 
         function averageMark() {
             $('#table_mark .markValues').each(function () {
@@ -261,25 +289,46 @@
         }
 
         function markClick(){
+            $("#status").hide();
             if(currentCell != undefined && (currentCell.attr("idSt")==$(this).attr("idSt") && currentCell.attr("idLes")==$(this).attr("idLes"))){
                 currentCell.css("background-color", "");
-                $('#spanStudent').text("");
-                $('#spanLesson').text("");
+                currentCell.css("color", "#212529");
                 currentCell = undefined;
+                $("#student_data").val("");
+                $("#note_form").val("");
+
+            }
+            else if( currentCell != undefined && (currentCell.attr("idSt")!=$(this).attr("idSt") || currentCell.attr("idLes")!=$(this).attr("idLes"))){
+                currentCell.css("background-color", "");
+                $(this).css("background-color", "#6c757d");
+                $(this).css("color", "#ffffff");
+                currentCell = $(this);
+                getStudent(currentCell.attr('idSt'));
+                $("#note_form").val(currentCell.attr('title'));
+                var mark = currentCell.text();
+                if(mark!='') {
+                    $('#mark_form').val(mark).prop('selected', true);
+                }
+                $(".selectpicker").selectpicker("refresh");
             }
             else {
-                if (currentCell != undefined) {
-                    currentCell.css("background-color", "");
-                }
-                var idS = $(this).attr("idSt");
-                var idL = $(this).attr("idLes");
-                $('#spanStudent').text(idS);
-                $('#spanLesson').text(idL);
-                $('#note_form').val($(this).attr("title"));
-                $('#mark_form').val($(this).text());
                 currentCell = $(this);
-                $(this).css("background-color", "#83AF86");
+                $(this).css("background-color", "#6c757d");
+                $(this).css("color", "#ffffff");
+                getStudent(currentCell.attr('idSt'));
+                $("#note_form").val(currentCell.attr('title'));
+                var mark = currentCell.text();
+                if(mark!='') {
+                    $('#mark_form').val(mark).prop('selected', true);
+                }
+                $(".selectpicker").selectpicker("refresh");
             }
+        }
+
+        function getStudent(idStudent){
+            $.getJSON(host + 'students/'+idStudent, function (data) {
+                $("#student_data").val(data.firstname+" "+data.lastname);
+            });
         }
 
         function dropClick() {
@@ -288,17 +337,28 @@
                 url: host + "marks/lessons/"+$(this).attr("idLes")+"/marktype",
                 dataType: "json",
                 data: JSON.stringify({
-                    "markType": $(this).val(),
+                    "markType": $(this).val()
                 }),
                 contentType: "application/json",
                 success: function (response) {
-                    alert("success");
                 }
             });
-            console.log($(this).attr("idLes")+" "+$(this).val());
         }
 
+        $('.selectpicker').selectpicker();
     });
     </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $(".teacher_nav").load("/views/menu_teacher.html");
+        });
+    </script>
+
 </body>
 </html>
