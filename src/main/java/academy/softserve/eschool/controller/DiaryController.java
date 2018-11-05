@@ -1,7 +1,6 @@
 package academy.softserve.eschool.controller;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,18 +20,23 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/diaries")
 @Api(value = "Reads students' diaries", description="Reads students' diaries")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DiaryController {
 	
+	@NonNull
 	DiaryServiceBase diaryService;
 	
 	/**
-	 * Gets diary of student with specified id and for week that starts at weekStartDate
+	 * Returns list of {@link DiaryEntryDTO} that describe one week of diary wrapped in {@link GeneralResponseWrapper}
+	 * @param weekStartDate first day of required week
+	 * @param studentId id of student
+	 * @return List of {@link DiaryEntryDTO} wrapped in {@link GeneralResponseWrapper}
 	 */
 	@GetMapping("/{studentId}")
 	@ApiResponses(value = {
