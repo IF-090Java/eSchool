@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.validation.ConstraintViolationException;
 
+import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -63,15 +64,6 @@ public class RestExceptionHandler {
 		return response;
 	}
 
-	@ResponseStatus(code=HttpStatus.UNAUTHORIZED)
-	@ExceptionHandler(ExpiredJwtException.class)
-	public GeneralResponseWrapper<Object> expToken(ExpiredJwtException ex) {
-		Status status = new Status(HttpStatus.BAD_REQUEST.value(), "Token expired");
-		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
-				.status(status)
-				.build();
-		return response;
-	}
 
 	@ResponseStatus(code=HttpStatus.FORBIDDEN)
 	@ExceptionHandler(AccessDeniedException.class)
@@ -83,4 +75,14 @@ public class RestExceptionHandler {
 		return response;
 	}
 
+
+	@ResponseStatus(code=HttpStatus.FORBIDDEN)
+	@ExceptionHandler(TokenGlobalTimeExpiredException.class)
+	public GeneralResponseWrapper<Object> globalTimeExpired(TokenGlobalTimeExpiredException ex) {
+		Status status = new Status(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+				.status(status)
+				.build();
+		return response;
+	}
 }

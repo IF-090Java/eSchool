@@ -84,8 +84,8 @@
                 contentType: "application/json",
                 success: function (data) {
                     console.log(data);
-                    localStorage.setItem("jwtToken", data.token);
-                    if (data.token){
+                    localStorage.setItem("jwtToken", data.data.token);
+                    if (data.data.token){
                         var url = '/ui/';
                         var jwtToken = getJwtToken();
                         var decodedToken = jwt_decode(jwtToken);

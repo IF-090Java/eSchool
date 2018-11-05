@@ -43,10 +43,20 @@ function refreshToken() {
                 type: "GET",
                 headers: {"Authorization": "Bearer " + getJwtToken()},
                 url: host + 'refresh',
+                statusCode: {
+                    403: function () {
+                        removeJwtToken();
+                        window.location.href = '/ui/login'
+                    },
+                    401: function () {
+                        removeJwtToken();
+                        window.location.href = '/ui/login'
+                    }
+                },
                 success: function (data) {
                     console.log("Old token: " + getJwtToken())
                     removeJwtToken();
-                    setJwtToken(data.token);
+                    setJwtToken(data.data.token);
                     console.log("New token: " + getJwtToken())
                 },
                 dataType: "json",

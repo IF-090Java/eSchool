@@ -3,10 +3,18 @@ package academy.softserve.eschool.security.controller;
 import academy.softserve.eschool.security.JwtAuthenticationRequest;
 import academy.softserve.eschool.security.JwtTokenUtil;
 import academy.softserve.eschool.security.JwtUser;
+import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
 import academy.softserve.eschool.security.service.JwtAuthenticationResponse;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -38,7 +46,17 @@ public class AuthenticationController {
     private UserDetailsService userDetailsService;
 
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+    @ApiOperation("Login to site with username and password. Returns token")
+    @ApiResponses(
+            value = {
+                    @ApiResponse( code = 200 , message = "Successfully signed in"),
+                    @ApiResponse( code = 400, message = "Bad credentials"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    public GeneralResponseWrapper<JwtAuthenticationResponse> createAuthenticationToken
+            (@ApiParam(value = "Login and Password", required = true) @RequestBody JwtAuthenticationRequest authenticationRequest)
+            throws AuthenticationException {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -47,11 +65,19 @@ public class AuthenticationController {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         // Return the token
-        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+        return new GeneralResponseWrapper<> (new Status(HttpStatus.OK.value() , "OK") , new JwtAuthenticationResponse(token));
     }
-
+    @ApiOperation("Refresh token. Requires valid and active token. Returns new token")
+    @ApiResponses(
+            value = {
+                    @ApiResponse( code = 200 , message = "Token refreshed"),
+                    @ApiResponse( code = 401, message = "Token expired"),
+                    @ApiResponse( code = 403, message = "Token cannot be refreshed(Global lifetime expired)"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
+    public GeneralResponseWrapper<JwtAuthenticationResponse> refreshAndGetAuthenticationToken(HttpServletRequest request) throws TokenGlobalTimeExpiredException {
         String authToken = request.getHeader(tokenHeader);
         final String token = authToken.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
@@ -59,9 +85,9 @@ public class AuthenticationController {
 
         if (jwtTokenUtil.canTokenBeRefreshed(token)) {
             String refreshedToken = jwtTokenUtil.refreshToken(token);
-            return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
+            return new GeneralResponseWrapper<>(new Status(200, "OK"), new JwtAuthenticationResponse(refreshedToken));
         } else {
-            return ResponseEntity.status(400).body("Token cannot be refreshed");
+            throw new TokenGlobalTimeExpiredException("Token global lifetime expired");
         }
     }
 

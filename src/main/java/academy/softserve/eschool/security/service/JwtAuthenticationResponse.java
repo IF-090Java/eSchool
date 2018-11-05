@@ -1,5 +1,6 @@
 package academy.softserve.eschool.security.service;
 
+
 import java.io.Serializable;
 
 public class JwtAuthenticationResponse implements Serializable {

@@ -1,6 +1,6 @@
 package academy.softserve.eschool.config;
 
-import academy.softserve.eschool.security.ExceptionHandlerFilter;
+import academy.softserve.eschool.security.exceptions.ExceptionHandlerFilter;
 import academy.softserve.eschool.security.JwtAuthenticationEntryPoint;
 import academy.softserve.eschool.security.JwtAuthorizationTokenFilter;
 import academy.softserve.eschool.security.service.JwtUserDetailsService;
@@ -70,7 +70,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/signin/**").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/refresh").permitAll()
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger-resources/configuration/ui","/swagger-ui.html").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/ui/**").permitAll()
                 .anyRequest().authenticated();
@@ -104,8 +106,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js"
-                );
-
+                ).antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**");
     }
 
 }

@@ -1,4 +1,4 @@
-package academy.softserve.eschool.security;
+package academy.softserve.eschool.security.exceptions;
 
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
