@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -22,15 +23,18 @@ public class ScheduleDTO {
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd")
     @ApiModelProperty(required = true, notes = "date")
+    @NotNull
     private Date startOfSemester;
 
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd")
     @ApiModelProperty(notes = "end of the semester")
+    @NotNull
     private Date endOfSemester;
 
     @ApiModelProperty(notes = "name of the class")
+    @NotNull
     private ClassDTO className;
 
     @ApiModelProperty(notes = "schedule for Monday")

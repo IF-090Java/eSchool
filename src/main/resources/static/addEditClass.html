@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="uk">
+<style type="text/css">
+.error {
+    color: red;
+}
+</style>
 <head>
     <meta charset="UTF-8">
     <title>Редагувати клас</title>
@@ -29,7 +34,7 @@
             </div>
             <div class="row justify-content-center mt-5">
                 <div class="col-8">
-                    <form>
+                    <form id="myForm">
                             <div class="form-group row">
                                 <label for="clsName" class="col-3 col-form-label">Назва класу</label>
                                 <div class="col-9">
@@ -45,7 +50,7 @@
                             <div class="form-group row">
                                 <label for="txtArea" class="col-3 col-form-label">Опис класу</label>
                                 <div class="col-9">
-                                    <textarea id="txtArea" rows="5" name="className" class="form-control"></textarea>
+                                    <textarea id="txtArea" rows="5" name="classDescription" class="form-control"></textarea>
                                 </div>
                                 <span class="checkmark"></span>
                             </div>
@@ -68,6 +73,7 @@
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -78,6 +84,36 @@
 </body>
 
 <script type="text/javascript">
+        $(document).ready(function () {
+
+        	jQuery.validator.addMethod("grade", function(value, element) {
+                 var inputGrade = value;
+				 if (inputGrade.match(/^(?:[5-9]|1[0-1])-([а-г]|[А-Г])$/) || inputGrade.match(/^(?:[5-9]|1[0-1])$/))
+					return true;
+			     return false;
+          }, "Введіть правильну назву класу, наприклад : 10-A або 10 (тільки українські букви)");
+
+          jQuery.validator.addMethod("year", function(value, element) {
+                 var year = value;
+                 if (year.length == 4 && year >= 2000)
+                    return true;
+                 return false;
+          }, "Рік не правильно введений");
+
+
+		  $("#myForm").validate({
+            rules: {
+                className: {
+                    required: true,
+					grade: true
+                    },
+                classYear: {
+                    year: true
+                    }
+                }
+            });
+        })
+
     if (window.location.href.indexOf("classes/add")>-1){
 
         $(document).ready(function () {
