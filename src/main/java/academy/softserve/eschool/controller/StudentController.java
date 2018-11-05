@@ -47,13 +47,12 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'TEACHER')")
     public StudentDTO getStudent(
             @ApiParam(value = "id of lesson", required = true) @PathVariable int idStudent) {
         return studentService.getOne(studentRepository.findById(idStudent).get());
     }
 
-    @GetMapping("/classes/{idClass}")
     @ApiOperation(value = "get students from class")
     @ApiResponses(
             value={
@@ -63,11 +62,12 @@ public class StudentController {
             }
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
-    @GetMapping("/classes/{id}")
+    @GetMapping("/classes/{idClass}")
     public List<StudentDTO> getStudentsByClass(
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass){
         return studentService.getAll(studentRepository.findByClazzId(idClass));
     }
+
     @PutMapping("/{idStudent}")
     @ApiOperation(value = "update profile of student")
     @ApiResponses(

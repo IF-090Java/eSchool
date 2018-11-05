@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
     <script src="/js/jwt-decode.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/global-style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -9,23 +10,12 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script>
         $(document).ready(function () {
-            var jwtToken = getJwtToken();
-            if (jwtToken == null) {
-                window.location.href = "/ui/login";
-            } else {
-                console.log(jwtToken);
-                var decodedToken = jwt_decode(jwtToken);
-                if (decodedToken.Roles.authority !== 'ROLE_TEACHER') {
-                    logOut();
-                } else {
-                    refreshToken();
-                    $.ajaxSetup({
-                        beforeSend: function (xhr) {
-                            xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
-                        }
-                    })
+            refreshToken();
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
                 }
-            }
+            })
         })
 
         $(document).ready(function() {
@@ -101,7 +91,6 @@
     </style>
 <meta charset="UTF-8">
 <title id="title"></title>
-<script src="/js/JS.js"></script>
 </head>
 <body>
 <div class="wrapper">

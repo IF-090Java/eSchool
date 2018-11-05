@@ -149,7 +149,11 @@
 				});
 				
 				function getData(){
-					$.getJSON(ulr, {weekStartDate:getWeekStart(offset)}, setData);
+					$.getJSON(ulr, {weekStartDate:getWeekStart(offset)}, setData).fail(function (data) {
+                        if (data.status == 403){
+                            window.location.href='/ui/login'
+                        }
+                    });
 				}
 				
 				
