@@ -48,7 +48,7 @@ public class PageMappingController {
         return "/statistics.html";
     }
 
-    @RequestMapping("teachers/add")//TODO: ADD VALIDATION TO ALL FORMS, back-end works
+    @RequestMapping("teachers/add")
     public String addTeacher() {
         return "/teacher/addTeacher.html";
     }

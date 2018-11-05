@@ -142,16 +142,27 @@
             rules: {
                 lastname: {
                     required: true,
+                    minlength: 3,
+					maxlength: 25,
                     isUkrainian: true
                     },
                 firstname: {
                     required: true,
+                    minlength: 3,
+				    maxlength: 25,
                     isUkrainian: true
                     },
                 patronymic: {
                     required: true,
+                    minlength: 3,
+					maxlength: 25,
                     isUkrainian: true
                     },
+                login:{
+					required: true,
+					minlength: 5,
+					maxlength: 40
+					},
                 dateOfBirth: {
                     required: true,
                     dateOfB: true
@@ -162,14 +173,25 @@
                 },
             messages: {
                 lastname: {
-                    required: "Це поле обов'язкове"
+                    required: "Це поле обов'язкове",
+					minlength: 'Мінімальна довжина - 3 символи',
+					maxlength: 'Максимальна довжина - 25 символів'
                     },
                 firstname: {
-                    required: "Це поле обов'язкове"
+                    required: "Це поле обов'язкове",
+                    minlength: 'Мінімальна довжина - 3 символи',
+					maxlength: 'Максимальна довжина - 25 символів'
                     },
                 patronymic: {
-                    required: "Це поле обов'язкове"
+                    required: "Це поле обов'язкове",
+                    minlength: 'Мінімальна довжина - 3 символи',
+					maxlength: 'Максимальна довжина - 25 символів'
                     },
+                login:{
+					required: "Це поле обов'язкове",
+					minlength: 'Мінімальна довжина - 5 символsd',
+					maxlength: 'Максимальна довжина - 40 символів'
+					},
                 dateOfBirth: {
                     required: "Це поле обов'язкове"
                     },
