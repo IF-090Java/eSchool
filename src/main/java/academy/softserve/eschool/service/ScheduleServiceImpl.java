@@ -1,9 +1,6 @@
 package academy.softserve.eschool.service;
 
-import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.dto.DiaryEntryDTO;
-import academy.softserve.eschool.dto.ScheduleDTO;
-import academy.softserve.eschool.dto.SubjectDTO;
+import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Lesson;
 import academy.softserve.eschool.repository.ClassRepository;
@@ -85,7 +82,7 @@ public class ScheduleServiceImpl implements ScheduleService{
                 if (dow == dayOfWeek) {
                     lessonRepository.save(
                             Lesson.builder()
-                                    .lessonNumber((byte)(i+1))
+                                    .lessonNumber((byte) (i + 1))
                                     .date(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()))
                                     .hometask(null)
                                     .markType(null)

@@ -72,6 +72,7 @@ select {
             </div>
 
             <div class="container">
+              <form id = "myForm">
               <div class="row">
                 <!-- Unnamed (Rectangle) -->
                 <div id="u3" class="ax_default label">
@@ -90,6 +91,7 @@ select {
                   </div>
                 </div>
               </div>
+              </form>
             </div>
 
             <!-- Unnamed (Rectangle) -->
@@ -436,7 +438,7 @@ select {
                   return false;
             }, "Дата кінця семетру повинна бути більшою чим дата початку семестру");
 
-          $("#container").validate({
+          $("#myForm").validate({
             rules: {
                 startDate: {
                     required: true,

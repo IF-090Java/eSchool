@@ -3,6 +3,8 @@ package academy.softserve.eschool.controller;
 import academy.softserve.eschool.dto.ScheduleDTO;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.service.ScheduleServiceImpl;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,7 +37,7 @@ public class ScheduleController {
     )
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/classes/{id_class}/schedule")
-    public ScheduleDTO postSchedule(
+    public GeneralResponseWrapper<ScheduleDTO> postSchedule(
             @ApiParam(value = "id of class", required = true) @PathVariable("id_class") final int id_class,
             @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
@@ -44,7 +46,9 @@ public class ScheduleController {
         String end = dateFormat.format(scheduleDTO.getEndOfSemester());
         lessonRepository.deleteScheduleByBounds(start, end, scheduleDTO.getClassName().getId());
         scheduleService.saveSchedule(scheduleDTO);
-        return scheduleDTO;
+        GeneralResponseWrapper<ScheduleDTO> response;
+        response = new GeneralResponseWrapper<>(new Status(201, "OK"), null);
+        return response;
     }
 
     @ApiOperation(value = "Gets schedule for the class with id")
@@ -57,9 +61,10 @@ public class ScheduleController {
     )
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/classes/{id_class}/schedule")
-    public ScheduleDTO getSchedule(
-            @ApiParam(value = "id of class", required = true) @PathVariable("id_class") final int id_class){
+    public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "id of class", required = true) @PathVariable("id_class") final int id_class){
 
-        return scheduleService.getScheduleByClassId(id_class);
+        GeneralResponseWrapper<ScheduleDTO> response;
+        response = new GeneralResponseWrapper<>(new Status(200, "OK"), scheduleService.getScheduleByClassId(id_class));
+        return response;
     }
 }

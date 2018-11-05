@@ -4,6 +4,8 @@ import academy.softserve.eschool.dto.TeacherJournalDTO;
 import academy.softserve.eschool.model.ClassTeacherSubjectLink;
 import academy.softserve.eschool.repository.ClassTeacherSubjectLinkRepository;
 import academy.softserve.eschool.service.ClassTeacherSubjectServiceImpl;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,7 +32,7 @@ public class TeacherJournalController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
-    public TeacherJournalDTO getConections(
+    public GeneralResponseWrapper<TeacherJournalDTO> getConections(
             @ApiParam(value = "id of teacher", required = true) @PathVariable("teacher_id") final int teacher_id,
             @ApiParam(value = "id of class", required = true) @PathVariable("class_id") final int class_id,
             @ApiParam(value = "id of subject", required = true) @PathVariable("subject_id") final int subject_id)
@@ -38,26 +40,31 @@ public class TeacherJournalController {
         ClassTeacherSubjectLink classTeacherSubjectLink =
                 classTeacherSubjectLinkRepository.findByIds(teacher_id, class_id, subject_id);
 
-        return new TeacherJournalDTO(classTeacherSubjectLink.getTeacher_id(), classTeacherSubjectLink.getClazz_id(),
-                classTeacherSubjectLink.getSubject_id());
+        GeneralResponseWrapper<TeacherJournalDTO> response;
+        response = new GeneralResponseWrapper<>(new Status(200, "OK"), new TeacherJournalDTO(classTeacherSubjectLink.getTeacher_id(), classTeacherSubjectLink.getClazz_id(),
+                classTeacherSubjectLink.getSubject_id()));
+        return response;
     }
 
     @ApiOperation(value = "Connects a teacher with a journal")
     @PostMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully created"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 500, message = "Server error")
-    })
-    @PreAuthorize("hasRole('ADMIN')")
-    public TeacherJournalDTO postConection(
+    @ApiResponses(
+            value={
+                    @ApiResponse(code = 201, message = "Teacher successfully added to the journal"),
+                    @ApiResponse(code = 400, message = "Bad request"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    public GeneralResponseWrapper<TeacherJournalDTO> postConection(
             @ApiParam(value = "id of teacher", required = true) @PathVariable("teacher_id") final int teacher_id,
             @ApiParam(value = "id of class", required = true) @PathVariable("class_id") final int class_id,
             @ApiParam(value = "id of subject", required = true) @PathVariable("subject_id") final int subject_id)
     {
         classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacher_id, class_id, subject_id), true);
 
-        return new TeacherJournalDTO(teacher_id, class_id, subject_id);
+        GeneralResponseWrapper<TeacherJournalDTO> response;
+        response = new GeneralResponseWrapper<>(new Status(201, "OK"), null);
+        return response;
 
     }
 
