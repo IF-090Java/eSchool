@@ -39,10 +39,12 @@ public class ScheduleController {
             }
     )
     @PostMapping("/classes/{id_class}/schedule")
+    //todo bk ++ 'id_class' really? did you try to look into java code convention???
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
             @ApiParam(value = "id of class", required = true) @PathVariable("id_class") final int id_class,
             @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
+        //todo bk use java8 date api
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String start = dateFormat.format(scheduleDTO.getStartOfSemester());
         String end = dateFormat.format(scheduleDTO.getEndOfSemester());

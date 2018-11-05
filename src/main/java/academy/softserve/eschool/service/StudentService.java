@@ -32,6 +32,7 @@ public class StudentService {
     @Autowired
     StudentRepository studentRepository;
 
+    //todo bk ++ move all of your transfomers into some util class. Don't keep it within services
     public StudentDTO getOne(Student s){
         return StudentDTO.builder().firstname(s.getFirstName())
                 .lastname(s.getLastName())
