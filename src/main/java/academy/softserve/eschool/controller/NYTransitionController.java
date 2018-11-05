@@ -14,6 +14,8 @@ import java.util.List;
 @RequestMapping("/students/transition")
 @Api(value = "transition", description = "Endpoints for transition to new school year")
 public class NYTransitionController {
+
+    //todo bk ++ use autowiring via constructors.
     @Autowired ClassServiceImpl classService;
     @Autowired StudentService studentService;
 
@@ -27,6 +29,7 @@ public class NYTransitionController {
     })
     public Boolean addNewYearClasses(){
         classService.addNewYearClasses();
+        //todo bk what is the purpose of this boolean attribute. It always be true!
         return true;
     }
 

@@ -41,6 +41,8 @@ public class DiaryController {
 		GeneralResponseWrapper<List<DiaryEntryDTO>> response;
 		response = new GeneralResponseWrapper<>(new Status(200, "OK"), diary);
 
+		//todo bk ++ instead of 3 lines of code use just one. Keep it simple.
+		//return new GeneralResponseWrapper<>(new Status(200, "OK"), diaryService.getDiary(weekStartDate, studentId))
 		return response;
 	}
 }
