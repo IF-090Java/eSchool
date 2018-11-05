@@ -41,7 +41,7 @@ public class AdminEditUserController {
     @PutMapping("/students/{id}")
     public void updateStudent(@RequestBody EditUserDTO student, @PathVariable int id){
 
-        studentService.updateStudent(studentRepository.findById(id).get(),student);
+        studentService.updateStudent(studentRepository.findById(id).get(),student, "ADMIN");
 
     }
 
@@ -57,6 +57,6 @@ public class AdminEditUserController {
     @PutMapping("/teachers/{id}")
     public void updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int id){
 
-        teacherService.updateTeacher(userRepository.findById(id).get(),teacher);
+        teacherService.updateTeacher(userRepository.findById(id).get(),teacher, "ADMIN");
     }
 }

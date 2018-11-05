@@ -56,11 +56,14 @@ public class TeacherService {
                 .build();
     }
 
-    public void updateTeacher(User oldUser, EditUserDTO edited){
+    public void updateTeacher(User oldUser, EditUserDTO edited, String role){
 
-        oldUser.setFirstName(edited.getFirstname());
-        oldUser.setLastName(edited.getLastname());
-        oldUser.setPatronymic(edited.getPatronymic());
+        if (role.equals("ADMIN")) {
+            oldUser.setFirstName(edited.getFirstname());
+            oldUser.setLastName(edited.getLastname());
+            oldUser.setPatronymic(edited.getPatronymic());
+            oldUser.setLogin(edited.getLogin());
+        }
         oldUser.setDateOfBirth(edited.getDateOfBirth());
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
@@ -69,7 +72,6 @@ public class TeacherService {
                  && edited.getNewPass().length()>0){
             oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
-        oldUser.setLogin(edited.getLogin());
         userRepository.save(oldUser);
     }
 

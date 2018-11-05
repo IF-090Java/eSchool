@@ -65,7 +65,7 @@ textarea {
 	</div>
 	<script type="text/javascript"> 
 	 $(function() {
-      $(".header").load("/views//header.html");
+      $(".header").load("/views/header.html");
     });
     </script>
 		<script type="text/javascript">
@@ -82,7 +82,7 @@ textarea {
 		        var pathArray = window.location.pathname.split('/');
 		        var subjectId = pathArray[3];
 
-		        $.getJSON('http://localhost:8080/subjects/'+subjectId, function (data) {
+		        $.getJSON('/subjects/'+subjectId, function (data) {
 		            console.log(data);
 		            $("#subjectName").attr("value", data.subjectName);
 		            $("#subjectDesc").append(data.subjectDescription);
@@ -101,7 +101,7 @@ textarea {
             var subjectDescription = $("#subjectDesc").val();
 
             var pathArray = window.location.pathname.split('/');
-            var subjectId = pathArray[2];
+            var subjectId = pathArray[3];
             $.ajax({
                 type: "put",
                 url: "/subjects/" + subjectId,

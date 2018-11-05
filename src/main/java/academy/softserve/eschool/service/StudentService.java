@@ -60,11 +60,14 @@ public class StudentService {
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public void updateStudent(User oldUser, EditUserDTO edited){
+    public void updateStudent(User oldUser, EditUserDTO edited, String role){
 
-        oldUser.setFirstName(edited.getFirstname());
-        oldUser.setLastName(edited.getLastname());
-        oldUser.setPatronymic(edited.getPatronymic());
+        if (role.equals("ADMIN")) {
+            oldUser.setFirstName(edited.getFirstname());
+            oldUser.setLastName(edited.getLastname());
+            oldUser.setPatronymic(edited.getPatronymic());
+            oldUser.setLogin(edited.getLogin());
+        }
         oldUser.setDateOfBirth(edited.getDateOfBirth());
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
@@ -73,7 +76,6 @@ public class StudentService {
                 && edited.getNewPass().length()>0){
             oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
-        oldUser.setLogin(edited.getLogin());
         userRepository.save(oldUser);
     }
 
