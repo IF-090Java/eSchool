@@ -480,15 +480,16 @@ select {
             });
 
 			$.getJSON(host + 'classes', function(data){
-
-					var classNames = [];
-					var id = [];
-					$.each(data, function(key, value) {
-						classNames.push(value.className);
-						id.push(value.id);
-					});
-					for (i=0; i < classNames.length; i++)
-					$('#u15_input').append('<option value="' + id[i] + '">' + classNames[i] + '</option>');
+                    var classNames = [];
+                    var id = [];
+                    $.each(data, function(key, value) {
+                        if (value.isActive == 'true') {
+                            classNames.push(value.className);
+                            id.push(value.id);
+                        }
+                    });
+                    for (i=0; i < classNames.length; i++)
+                        $('#u15_input').append('<option value="' + id[i] + '">' + classNames[i] + '</option>');
 				});
 
 

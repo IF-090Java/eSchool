@@ -71,16 +71,20 @@
         $(document).ready(function () {
             $.getJSON(host + 'classes', function (data) {
                 $.each(data, function (i, item) {
-                    $('#classeslist').append($('<tr>').append($('<a>').attr('href','/ui/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                    if (item.isActive == true) {
+                        $('#classeslist').append($('<tr>').append($('<a>').attr('href','/ui/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+					}
                 });
             });
         });
 
         $(document).ready(function () {
-            $.getJSON(host + 'classes/inactive', function (data) {
+            $.getJSON(host + 'classes', function (data) {
                 console.log(data);
                 $.each(data, function (i, item) {
-                    $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href','/ui/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                    if (item.isActive == false) {
+                        $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href','/ui/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+					}
                 });
             }).fail(function (data) {
                 if (data.status == 403){
@@ -92,16 +96,20 @@
         $(document).ready(function () {
             $.getJSON(host + 'classes', function (data) {
                 $.each(data, function (i, item) {
-                    $('#classeslist').append($('<tr>').append($('<a>').attr('href', '/ui/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                    if (item.isActive == true) {
+                        $('#classeslist').append($('<tr>').append($('<a>').attr('href', '/ui/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                    }
                 });
             });
         });
 
         $(document).ready(function () {
-            $.getJSON(host + 'classes/inactive', function (data) {
+            $.getJSON(host + 'classes', function (data) {
                 console.log(data);
                 $.each(data, function (i, item) {
-                    $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href', '/ui/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                    if (item.isActive == false) {
+                        $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href', '/ui/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                    }
                 });
             }).fail(function (data) {
                 if (data.status == 403){

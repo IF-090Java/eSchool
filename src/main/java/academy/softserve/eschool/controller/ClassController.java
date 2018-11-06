@@ -1,6 +1,7 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.ClassDTO;
+import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.service.ClassServiceImpl;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,7 @@ public class ClassController {
     @PostMapping
     public ClassDTO addClass(
             @ApiParam(value = "class object", required = true) @RequestBody ClassDTO newClassDTO){
-        classService.saveClass(newClassDTO);
-        return newClassDTO;
+        return classService.saveClass(newClassDTO);
     }
 
     @ApiResponses(value = {
@@ -36,64 +36,23 @@ public class ClassController {
     })
     @ApiOperation(value = "Get Class")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'TEACHER')")
-    @GetMapping("/{idClass}")
+    @GetMapping("/{id}")
     public ClassDTO getClassById(
-            @ApiParam(value = "id of class", required = true) @PathVariable int idClass){
-        return classService.findClassById(idClass);
+            @ApiParam(value = "id of class", required = true) @PathVariable int id){
+        return classService.findClassById(id);
     }
-
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Get classes with active status")
+    @ApiOperation(value = "Get all classes")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'TEACHER')")
     @GetMapping
-    public List<ClassDTO> getActiveClasses(){
-        return classService.findClassesByStatus(true);
+    public List<ClassDTO> getAllClasses(){
+        return classService.getAllClasses();
     }
-
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 500, message = "Server error")
-    })
-    @ApiOperation(value = "Get true active classes with students")
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/active")
-    //todo bk TOO MANY endpoints. !!!Do you whnt to make UI team go crazy !!!
-    //todo bk make single endpoint that returns all classes with a two  properties that indicate class state and number of students.
-    //todo bk the rest endpoints should be deleted.
-    public List<ClassDTO> getActiveClassesWithStudents(){
-        return classService.getActiveClassesWithStudents();
-    }
-
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 500, message = "Server error")
-    })
-    @ApiOperation(value = "Get active classes without students")
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/active/students/none")
-    public List<ClassDTO> getActiveClassesWithoutStudents() {
-        return classService.getActiveClassesWithoutStudents();
-    }
-
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 500, message = "Server error")
-    })
-    @ApiOperation(value = "Get inactive classes list", response = ClassDTO.class)
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/inactive")
-    public List<ClassDTO> getNonActiveClasses(){
-        return classService.findClassesByStatus(false);
-    }
-
 
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Class successfully updated"),
@@ -104,13 +63,12 @@ public class ClassController {
     @PreAuthorize("hasRole('ADMIN')")
     //todo bk ++ it's better to name param as classId instead. But I'd name it as 'id' in current case.
     //todo bk It's too obvious that 'classId' belongs to the class. But in case you have few ids then name it properly
-    @PutMapping("/{idClass}")
+    @PutMapping("/{id}")
     public ClassDTO editClass(
-            @ApiParam(value = "id of class", required = true) @PathVariable int idClass,
+            @ApiParam(value = "id of class", required = true) @PathVariable int id,
             @ApiParam(value = "object of class", required = true) @RequestBody ClassDTO editClass){
         //todo bk ++ updating objects with native queries bring a lot af mess into the app. And it's hard to support them. Use entity and repository for it.
 
-        classService.updateClass(idClass, editClass);
-        return editClass;
+        return classService.updateClass(id, editClass);
     }
 }

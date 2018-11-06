@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="txtArea" class="col-3 col-form-label">Опис класу</label>
+                                <label for="txtArea" class="col-3 col-form-label">Додаткова інформація</label>
                                 <div class="col-9">
                                     <textarea id="txtArea" rows="5" name="classDescription" class="form-control"></textarea>
                                 </div>
@@ -66,7 +66,7 @@
                                 <label class="custom-control-label" for="exampleRadios2">Неакивний</label>
                             </div>
                             <div align="center" style="text-align: center; margin: 0 auto;">
-                                <button class="btn btn-success" type="submit">Зберегти</button>
+                                <button class="btn btn-primary btn-lg" type="submit">Зберегти</button>
                             </div>
                     </form>
                 </div>
@@ -98,7 +98,7 @@
 
         $(document).ready(function () {
 
-        	jQuery.validator.addMethod("grade", function(value, element) {
+        jQuery.validator.addMethod("grade", function(value, element) {
                  var inputGrade = value;
 				 if (inputGrade.match(/^(?:[5-9]|1[0-1])-([а-г]|[А-Г])$/) || inputGrade.match(/^(?:[5-9]|1[0-1])$/))
 					return true;
@@ -110,7 +110,14 @@
                  if (year >= 2000)
                     return true;
                  return false;
-          }, "Не правильно введений рік");
+          }, "Неправильно введений рік");
+
+          jQuery.validator.addMethod("description", function (value, element) {
+              var description = value;
+              if (description.length < 500)
+                  return true;
+              return false;
+          }, "Перевищено допустиму кількість символів")
 
 
 		  $("#myForm").validate({
@@ -122,9 +129,13 @@
                 classYear: {
                     required: true,
                     minlength: 4,
-                    maxlength: 25,
+                    maxlength: 4,
                     year: true
-                    }
+                    },
+                classDescription: {
+                    required: false,
+                    description: true
+                }
                 },
             messages: {
                 className: {
@@ -208,7 +219,8 @@
                     }),
                     contentType: "application/json",
                     success: function (responce) {
-                        window.location.href = "/ui/classes/list";
+                        $("#message").attr("class", "alert alert-success");
+                        $("#message").html("<strong>Клас оновлений! <a href='/ui/classes/list'>Перейти до списку класів</a></strong>");
                     }
                 });
             })

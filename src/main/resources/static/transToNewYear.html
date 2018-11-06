@@ -95,53 +95,57 @@
     })
 
 $(document).ready(function () {
-    $.getJSON(host + 'classes/active', function (oldClasses) {
-    $.getJSON(host + 'classes/active/students/none', function (newClasses) {
+    $.getJSON(host + 'classes', function (classes) {
         var activeClasses = [];
         var activeClassesId = [];
 
-        $.each(newClasses, function (j, item) {
-            activeClasses.push(item.className +' - '+item.classYear)
+        $.each(classes, function (i, item) {
+            if (item.active == true && item.numOfStudents == 0) {
+                activeClasses.push(item.className +' - '+item.classYear)
+            }
         })
 
-        $.each(newClasses, function (i, item) {
-            activeClassesId.push(item.id)
+        $.each(classes, function (i, item) {
+            if (item.active == true && item.numOfStudents == 0) {
+             activeClassesId.push(item.id)
+            }
         })
 
-        $.each(oldClasses, function (i, item) {
-            $.getJSON(host + 'students/classes/'+item.id, function (studList) {
-                var tr = $('<tr></tr>')
-                var spoiler =
-                    $('<td><div class="spoiler">' +
-                    '<input type="checkbox" id="spoiler_'+item.id+'">' +
-                    '<label for="spoiler_'+item.id+'">Учні '+item.className+' класу</label>' +
-                    '<div class="spoiler_body">' +
-                    '<list id="studId_'+item.id+'"></list></div>' +
-                    '</div></td>')
-                spoiler.appendTo(tr);
-                tr.appendTo('#tbody');
+        $.each(classes, function (i, item) {
+            if (item.active == true && item.numOfStudents > 1) {
+                $.getJSON(host + 'students/classes/'+item.id, function (studList) {
+                    var tr = $('<tr></tr>')
+                    var spoiler =
+                        $('<td><div class="spoiler">' +
+                            '<input type="checkbox" id="spoiler_'+item.id+'">' +
+                            '<label for="spoiler_'+item.id+'">Учні '+item.className+' класу</label>' +
+                            '<div class="spoiler_body">' +
+                            '<list id="studId_'+item.id+'"></list></div>' +
+                            '</div></td>')
+                    spoiler.appendTo(tr);
+                    tr.appendTo('#tbody');
 
-                $.each(studList, function (k, v) {
-                    $('<li><a href="/ui/students/'+v.id+'/edit" target="_blank">'+v.firstname+' ' +v.lastname +'</a></li>').appendTo('#studId_'+item.id);
-                })
+                    $.each(studList, function (k, v) {
+                        $('<li><a href="/ui/students/'+v.id+'/edit" target="_blank">'+v.firstname+' ' +v.lastname +'</a></li>').appendTo('#studId_'+item.id);
+                    })
 
-                var oldClass = $('<td class="transitionTableOldClass" title="'+item.id+'">'+item.className+' - '+item.classYear+'</td>')
-                oldClass.appendTo(tr);
+                    var oldClass = $('<td class="transitionTableOldClass" title="'+item.id+'">'+item.className+' - '+item.classYear+'</td>')
+                    oldClass.appendTo(tr);
 
-                var newClassesList = $('<td class="transitionTableNewClass"><select id="newClassesList_'+item.id+'"></select></td>')
-                newClassesList.appendTo(tr);
+                    var newClassesList = $('<td class="transitionTableNewClass"><select id="newClassesList_'+item.id+'"></select></td>')
+                    newClassesList.appendTo(tr);
 
-                for (i=0; i<activeClasses.length; i++){
-                    $('#newClassesList_'+item.id).append('<option value="'+activeClassesId[i]+'">'+activeClasses[i]+'</option>')
-                }
+                    for (i=0; i<activeClasses.length; i++){
+                        $('#newClassesList_'+item.id).append('<option value="'+activeClassesId[i]+'">'+activeClasses[i]+'</option>')
+                    }
 
-                })
+                }).fail(function (data) {
+                    if (data.status == 403){
+                        window.location.href='/ui/login'
+                    }
+                });
+            }
             })
-        }).fail(function (data) {
-        if (data.status == 403){
-            window.location.href='/ui/login'
-        }
-    });
     })
 })
 
