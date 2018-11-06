@@ -5,6 +5,7 @@ import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.service.StudentService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +19,9 @@ public class NYTransitionController {
     @Autowired ClassServiceImpl classService;
     @Autowired StudentService studentService;
 
-    @PostMapping
     @ApiOperation(value = "Add new classes based on currently classes with new year and name")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully created"),
             @ApiResponse(code = 400, message = "Bad request"),
@@ -38,6 +40,7 @@ public class NYTransitionController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     public List<NYTransitionDTO> bindingStudentsToNewClasses(
             @ApiParam(value = "transition class(new and old classes id)", required = true) @RequestBody List<NYTransitionDTO> transitionDTOS){
         classService.updateClassStatusById(transitionDTOS, false);

@@ -10,6 +10,7 @@ import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.TeacherRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class TeacherService {
 
     @Autowired
     private TeacherRepository teacherRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bcryptEncoder;
 
     public List<TeacherDTO> getAll(List<Teacher> resultset){
 
@@ -52,20 +56,22 @@ public class TeacherService {
                 .build();
     }
 
-    public void updateTeacher(User oldUser, EditUserDTO edited){
+    public void updateTeacher(User oldUser, EditUserDTO edited, String role){
 
-        oldUser.setFirstName(edited.getFirstname());
-        oldUser.setLastName(edited.getLastname());
-        oldUser.setPatronymic(edited.getPatronymic());
+        if (role.equals("ADMIN")) {
+            oldUser.setFirstName(edited.getFirstname());
+            oldUser.setLastName(edited.getLastname());
+            oldUser.setPatronymic(edited.getPatronymic());
+            oldUser.setLogin(edited.getLogin());
+        }
         oldUser.setDateOfBirth(edited.getDateOfBirth());
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
         if((oldUser.getPassword().equals(edited.getOldPass()) || edited.getOldPass().equals("adminchangedpass"))
                  && edited.getNewPass().length()>0){
-            oldUser.setPassword(edited.getNewPass());
+            oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
-        oldUser.setLogin(edited.getLogin());
         userRepository.save(oldUser);
     }
 
@@ -75,7 +81,7 @@ public class TeacherService {
                 .firstName(teacherDTO.getFirstname())
                 .patronymic(teacherDTO.getPatronymic())
                 .login(transliteration(teacherDTO.getLastname()))
-                .password(generatePassword(7))
+                .password(bcryptEncoder.encode(generatePassword(7)))
                 .phone(teacherDTO.getPhone())
                 .email(teacherDTO.getEmail())
                 .dateOfBirth(teacherDTO.getDateOfBirth())

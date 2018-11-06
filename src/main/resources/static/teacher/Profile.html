@@ -2,15 +2,25 @@
 <html lang="en">
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
+    <script src="/js/jwt-decode.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/global-style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script>
+        $(document).ready(function () {
+            refreshToken();
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                }
+            })
+        })
 
         $(document).ready(function() {
             var pathArray = window.location.pathname.split('/');
-            var id = pathArray[2];
+            var id = pathArray[3];
             $.ajax({
                 url: host + "teachers/"+id
             }).then(function(data) {
@@ -27,14 +37,18 @@
                         $("#avatar").attr("src", data.avatar);
                     }
                 }
-                $('#classes').attr("href", "/journalsList/view");
-                $('#statistics').attr("href", "/stats");
-                $('#edit').attr("href", "/teacher/" + id + "/edit");
+                $('#classes').attr("href", host + "ui/journalsList/view");
+                $('#statistics').attr("href", host + "ui/stats");
+                $('#edit').attr("href", host + "ui/teacher/" + id + "/edit");
             });
             $.getJSON(host + 'subjects/teachers/3', function (data) {
                 $.each(data, function(key, val) {
                      $('<li class="force-overflow">'+val.subjectName+'</li>').appendTo('#list');
                 });
+            }).fail(function (data) {
+                if (data.status == 403){
+                    window.location.href='/ui/login'
+                }
             });
         });
 
@@ -76,7 +90,6 @@
     </style>
 <meta charset="UTF-8">
 <title id="title"></title>
-<script src="/js/JS.js"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -98,7 +111,7 @@
             <span class="navbar-text">Ви увійшли як вчитель</span>
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Вийти</a>
+                    <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
                 </li>
             </ul>
         </nav>

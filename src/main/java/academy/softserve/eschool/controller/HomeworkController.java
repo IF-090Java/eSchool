@@ -1,16 +1,14 @@
 package academy.softserve.eschool.controller;
 import academy.softserve.eschool.dto.HomeworkDTO;
-import academy.softserve.eschool.dto.JournalMarkDTO;
-import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 //todo bk ++ configure and use the same code styles accross the app. It should be formatted automatically each time
@@ -30,6 +28,7 @@ public class HomeworkController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasRole('TEACHER')")
     public GeneralResponseWrapper<List<HomeworkDTO>> getHomeworks(
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass) {
@@ -48,6 +47,7 @@ public class HomeworkController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasRole('TEACHER')")
     public GeneralResponseWrapper<HomeworkDTO>  postMark(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkDTO homeworkDTO){
 

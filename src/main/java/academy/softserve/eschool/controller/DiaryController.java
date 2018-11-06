@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,13 +39,14 @@ public class DiaryController {
 	 * @param studentId id of student
 	 * @return List of {@link DiaryEntryDTO} wrapped in {@link GeneralResponseWrapper}
 	 */
-	@GetMapping("/{studentId}")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@ApiOperation(value = "Get student's diary")
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("/{studentId}")
 	GeneralResponseWrapper<List<DiaryEntryDTO>> getDiary(
 			@ApiParam(value = "first day of required week, accepts date in format 'yyyy-MM-dd'") @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate weekStartDate, 
 			@ApiParam(value = "id of required student") @PathVariable Integer studentId){

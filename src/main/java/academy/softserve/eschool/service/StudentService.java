@@ -11,6 +11,7 @@ import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.management.loading.ClassLoaderRepository;
@@ -31,6 +32,9 @@ public class StudentService {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bcryptEncoder;
 
     //todo bk ++ move all of your transfomers into some util class. Don't keep it within services
     public StudentDTO getOne(Student s){
@@ -57,20 +61,22 @@ public class StudentService {
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public void updateStudent(User oldUser, EditUserDTO edited){
+    public void updateStudent(User oldUser, EditUserDTO edited, String role){
 
-        oldUser.setFirstName(edited.getFirstname());
-        oldUser.setLastName(edited.getLastname());
-        oldUser.setPatronymic(edited.getPatronymic());
+        if (role.equals("ADMIN")) {
+            oldUser.setFirstName(edited.getFirstname());
+            oldUser.setLastName(edited.getLastname());
+            oldUser.setPatronymic(edited.getPatronymic());
+            oldUser.setLogin(edited.getLogin());
+        }
         oldUser.setDateOfBirth(edited.getDateOfBirth());
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
         if((oldUser.getPassword().equals(edited.getOldPass()) || edited.getOldPass().equals("adminchangedpass"))
                 && edited.getNewPass().length()>0){
-            oldUser.setPassword(edited.getNewPass());
+            oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
-        oldUser.setLogin(edited.getLogin());
         userRepository.save(oldUser);
     }
 
@@ -80,7 +86,7 @@ public class StudentService {
                 .firstName(studentDTO.getFirstname())
                 .patronymic(studentDTO.getPatronymic())
                 .login(transliteration(studentDTO.getLastname()))
-                .password(generatePassword(7))
+                .password(bcryptEncoder.encode(generatePassword(7)))
                 .phone(studentDTO.getPhone())
                 .email(studentDTO.getEmail())
                 .dateOfBirth(studentDTO.getDateOfBirth())

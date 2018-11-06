@@ -46,6 +46,7 @@ public class MarksController {
 	 * @param periodEnd if specified only marks received before this date are returned
 	 * @return list of {@link MarkDataPointDTO} wrapped in {@link GeneralResponseWrapper}
 	 */
+	@PreAuthorize("hasRole('TEACHER')")
 	@GetMapping("")
 	@ApiOperation(value = "Get marks by date filtered by specified params")
 	GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
@@ -68,6 +69,7 @@ public class MarksController {
 			@ApiResponse(code = 400, message = "Bad request"),
 			@ApiResponse(code = 500, message = "Server error")
 	})
+    @PreAuthorize("hasRole('TEACHER')")
 	@PostMapping
 	public GeneralResponseWrapper<MarkDTO> postMark(
 		@ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
@@ -78,6 +80,7 @@ public class MarksController {
 	}
 
 	@ApiOperation("Update mark's type of lesson")
+	@PreAuthorize("hasRole('TEACHER')")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Successfully updated"),
 			@ApiResponse(code = 400, message = "Bad request"),

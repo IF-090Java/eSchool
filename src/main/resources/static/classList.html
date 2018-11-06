@@ -19,7 +19,7 @@
 			<span class="navbar-text">Ви увійшли як Адміністратор</span>
 			<ul class="navbar-nav">
 				<li class="nav-item active">
-					<a class="nav-link" href="/">Вийти</a>
+					<a class="nav-link" href="#" onclick="logOut()">Вийти</a>
 				</li>
 			</ul>
 		</nav>
@@ -31,7 +31,7 @@
 				<div class="col-5">
 						<table class="table table-striped" style="font-size: 1.1em"><tbody id="classeslist"></tbody></table>
 						<div align="center" style="text-align: center; margin: 0 auto;">
-							<button type="submit" class="btn btn-success" onclick="window.location.href='/classes/add'">Додати клас</button>
+							<button type="submit" class="btn btn-success" onclick="window.location.href='/ui/classes/add'">Додати клас</button>
 						</div>
 						<div class="spoiler">
 							<input type="checkbox" id="spoilerid_1">
@@ -56,13 +56,22 @@
 </script>
 
 <script type="text/javascript">
-    if (window.location.href.indexOf("classes/classList") > -1){
+    $(document).ready(function () {
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+            }
+        })
+    })
+
+    if (window.location.href.indexOf("ui/classes/classList") > -1){
         $("h2").html("Виберіть клас");
         $("button").remove();
         $(document).ready(function () {
             $.getJSON(host + 'classes', function (data) {
                 $.each(data, function (i, item) {
-                    $('#classeslist').append($('<tr>').append($('<a>').attr('href','/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                    $('#classeslist').append($('<tr>').append($('<a>').attr('href','/ui/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
                 });
             });
         });
@@ -71,15 +80,19 @@
             $.getJSON(host + 'classes/inactive', function (data) {
                 console.log(data);
                 $.each(data, function (i, item) {
-                    $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href','/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                    $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href','/ui/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
                 });
+            }).fail(function (data) {
+                if (data.status == 403){
+                    window.location.href='/ui/login'
+                }
             });
         });
     } else {
         $(document).ready(function () {
             $.getJSON(host + 'classes', function (data) {
                 $.each(data, function (i, item) {
-                    $('#classeslist').append($('<tr>').append($('<a>').attr('href', '/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                    $('#classeslist').append($('<tr>').append($('<a>').attr('href', '/ui/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
                 });
             });
         });
@@ -88,8 +101,12 @@
             $.getJSON(host + 'classes/inactive', function (data) {
                 console.log(data);
                 $.each(data, function (i, item) {
-                    $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href', '/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
+                    $('#inactiveClasslist').append($('<tr>').append($('<a>').attr('href', '/ui/classes/' + item.id + '/edit').append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
                 });
+            }).fail(function (data) {
+                if (data.status == 403){
+                    window.location.href='/ui/login'
+                }
             });
         });
     }

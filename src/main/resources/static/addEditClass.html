@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="/js/JS.js"></script>
+    <script src="/js/jwt-decode.min.js"></script>
 </head>
 <body>
 
@@ -23,7 +24,7 @@
             <span class="navbar-text">Ви увійшли як Адміністратор</span>
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Вийти</a>
+                    <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
                 </li>
             </ul>
         </nav>
@@ -85,6 +86,16 @@
 </body>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        validateUserPermissions();
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+            }
+        })
+    })
+
         $(document).ready(function () {
 
         	jQuery.validator.addMethod("grade", function(value, element) {
@@ -131,7 +142,7 @@
     if (window.location.href.indexOf("classes/add")>-1){
 
         $(document).ready(function () {
-            $("title").html("Додати клас")
+            $("title").html("Додавання класу")
             $("h1").html("Додати клас");
 
             $('form').on('submit', function (e) {
@@ -163,7 +174,7 @@
     } else {
         $(document).ready(function() {
             var pathArray = window.location.pathname.split('/');
-            var classId = pathArray[2];
+            var classId = pathArray[3];
 
             $.getJSON(host + 'classes/'+classId, function (data) {
                 console.log(data);
@@ -184,7 +195,7 @@
                 var isActive = document.querySelector("input[name=radioButton]:checked").value;
 
                 var pathArray = window.location.pathname.split('/');
-                var classId = pathArray[2];
+                var classId = pathArray[3];
                 $.ajax({
                     type: "put",
                     url: host + "classes/" + classId,
@@ -197,7 +208,7 @@
                     }),
                     contentType: "application/json",
                     success: function (responce) {
-                        window.location.href = "/classes/list";
+                        window.location.href = "/ui/classes/list";
                     }
                 });
             })

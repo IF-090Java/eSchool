@@ -5,6 +5,7 @@
 	<title>Учні класу</title>
 	<link rel="stylesheet" type="text/css" href="/css/global-style.css">
 	<script src="/js/JS.js"></script>
+	<script src="/js/jwt-decode.min.js"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
@@ -16,7 +17,7 @@
 				<span id="loggeduser" class="navbar-text ml-5">Ви увійшли як Адміністратор</span>
 				<ul class="navbar-nav ml-md-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="/">Вийти</a>
+						<a class="nav-link" href="#" onclick="logOut()">Вийти</a>
 					</li>
 				</ul>
 			</nav>
@@ -30,7 +31,17 @@
 		</div>
 	</div>	
 </div>	
-<script type="text/javascript"> 
+<script type="text/javascript">
+    $(document).ready(function () {
+        validateUserPermissions();
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+            }
+        })
+    })
+
 	 $(function() {
       $(".header").load("/views/header.html");
     });
@@ -38,11 +49,11 @@
 <script type="text/javascript">
 	$(document).ready(function () {
         var pathArray = window.location.pathname.split('/');
-        var classId = pathArray[3];
+        var classId = pathArray[4];
 		$.getJSON(host + 'students/classes/' + classId, function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
-				$('#studentList').append($('<li class="list-group-item">').append($('<a>').attr('href','/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
+				$('#studentList').append($('<li class="list-group-item">').append($('<a>').attr('href','/ui/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
 			});		
 		});
 
