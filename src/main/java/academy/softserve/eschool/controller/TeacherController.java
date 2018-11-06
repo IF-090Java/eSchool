@@ -8,6 +8,7 @@ import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.repository.TeacherRepository;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class TeacherController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     public List<TeacherDTO> getall(){
         return teacherService.getAll(teacherRepository.findAll());
     }
@@ -45,6 +47,7 @@ public class TeacherController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     public Teacher addTeacher(
             @ApiParam(value = "teacher object", required = true) @RequestBody TeacherDTO teacher) {
         return teacherService.addOne(teacher);
@@ -57,6 +60,7 @@ public class TeacherController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
+    @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
     public TeacherDTO getTeacher(
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
         return teacherService.getOne(teacherRepository.findById(idTeacher).get());
@@ -71,11 +75,12 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasAnyRole('TEACHER')")
     public void updateTeacher(
             @ApiParam(value = "user object", required = true) @RequestBody EditUserDTO teacher,
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
 
-        teacherService.updateTeacher(userRepository.findById(idTeacher).get(),teacher);
+        teacherService.updateTeacher(userRepository.findById(idTeacher).get(),teacher, "TEACHER");
     }
 
 

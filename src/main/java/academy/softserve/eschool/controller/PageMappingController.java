@@ -1,14 +1,21 @@
 package academy.softserve.eschool.controller;
 
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
+
 
 @Controller
 @ApiIgnore
+@RequestMapping("/ui/")
+@Secured("permitAll")
 public class PageMappingController {
-    @RequestMapping("classes/{id}/edit")//TODO : ADD VALIDATION
+    @RequestMapping("classes/{id}/edit")
     public String editClassPage() {
         return "/addEditClass.html";
     }
@@ -23,17 +30,18 @@ public class PageMappingController {
         return "/journalsList.html";
     }
 
-    @RequestMapping("/classes/classList")
+    @RequestMapping("classes/classList")
     public String getClassListShowStudents() {
         return "/classList.html";
     }
 
-    @RequestMapping("/classes/list")
+    @RequestMapping("classes/list")
+
     public String getClassesListForEdit() {
         return "/classList.html";
     }
 
-    @RequestMapping("/classes/add")//TODO : ADD ALERT AND VALIDATION
+    @RequestMapping("/classes/add")
     public String addClassPage() {
         return "/addEditClass.html";
     }
@@ -43,12 +51,12 @@ public class PageMappingController {
         return "/diary.html";
     }
 
-    @RequestMapping("stats")//TODO : ADD VALIDATION(NOT ALLOW TO PUT NOT CORRECT DATE)
+    @RequestMapping("stats")
     public String statisticsPage() {
         return "/statistics.html";
     }
 
-    @RequestMapping("teachers/add")//TODO: ADD VALIDATION TO ALL FORMS, back-end works
+    @RequestMapping("teachers/add")
     public String addTeacher() {
         return "/teacher/addTeacher.html";
     }
@@ -78,17 +86,17 @@ public class PageMappingController {
         return "/schedule.html";
     }
 
-    @RequestMapping("subjectList")//TODO: BOOTSTRAP
+    @RequestMapping("subjectList")
     public String subjectList() {
         return "/subjectsList.html";
     }
 
-    @RequestMapping("subjects/{id}/edit")//TODO: BOOTSTRAP + VALIDATION
+    @RequestMapping("subjects/{id}/edit")//TODO: VALIDATION
     public String editSubjectPage() {
         return "/editSubject.html";
     }
 
-    @RequestMapping("subjects/add")//TODO: BOOTSTRAP + VALIDATION
+    @RequestMapping("subjects/add")
     public String addSubjectPage() {
         return "/addSubject.html";
     }
@@ -108,7 +116,7 @@ public class PageMappingController {
         return "/editTeacher.html";
     }
 
-    @RequestMapping("/students/new-year-transition")
+    @RequestMapping("students/new-year-transition")
     public String transitionToNewYear(){
         return "/transToNewYear.html";
     }
@@ -138,7 +146,7 @@ public class PageMappingController {
         return "/admin-home.html";
     }
 
-    @RequestMapping("/")
+    @RequestMapping("login")
     public String getLoginPage(){
         return "/loginForm.html";
     }

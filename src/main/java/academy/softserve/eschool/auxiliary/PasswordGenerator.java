@@ -2,6 +2,7 @@ package academy.softserve.eschool.auxiliary;
 
 import java.security.SecureRandom;
 
+//todo bk try touse http://kodejava.org/how-do-i-generate-a-random-alpha-numeric-string/ to generate password
 public class PasswordGenerator {
     private static SecureRandom random = new SecureRandom();
 
