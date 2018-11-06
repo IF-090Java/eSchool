@@ -10,11 +10,21 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.model.Mark;
 
 @Repository
 public interface MarkRepository extends JpaRepository<Mark, Integer> {
 	
+	/**
+	 * Returns list of Map objects. Each Map contains avg_mark, count and date
+	 * @param studentId if specified marks are filtered by user id
+	 * @param subjectId if specified marks are filtered by subject id
+	 * @param classId if specified marks are filtered by class id
+	 * @param startDate if specified only marks received after this date are returned
+	 * @param endDate if specified only marks received before this date are returned
+	 * @return list of Map objects
+	 */
 	@Query(value="select AVG(m.mark) as avg_mark, COUNT(m.mark) as count, l.date as date "
 			+ "from mark m left join lesson l on m.lesson_id = l.id "
 			+ "where (:subjectId is null or l.subject_id = :subjectId)"
