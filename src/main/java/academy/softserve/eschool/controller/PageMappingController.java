@@ -86,17 +86,17 @@ public class PageMappingController {
         return "/schedule.html";
     }
 
-    @RequestMapping("subjectList")//TODO: BOOTSTRAP
+    @RequestMapping("subjectList")
     public String subjectList() {
         return "/subjectsList.html";
     }
 
-    @RequestMapping("subjects/{id}/edit")//TODO: BOOTSTRAP + VALIDATION
+    @RequestMapping("subjects/{id}/edit")//TODO: VALIDATION
     public String editSubjectPage() {
         return "/editSubject.html";
     }
 
-    @RequestMapping("subjects/add")//TODO: BOOTSTRAP + VALIDATION
+    @RequestMapping("subjects/add")
     public String addSubjectPage() {
         return "/addSubject.html";
     }
