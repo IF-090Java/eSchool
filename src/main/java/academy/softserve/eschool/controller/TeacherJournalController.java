@@ -31,14 +31,14 @@ public class TeacherJournalController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
+    @GetMapping("/teachers/{teacherId}/classes/{classId}/subjects/{subjectId}/journal")
     public GeneralResponseWrapper<TeacherJournalDTO> getConections(
-            @ApiParam(value = "id of teacher", required = true) @PathVariable("teacher_id") final int teacher_id,
-            @ApiParam(value = "id of class", required = true) @PathVariable("class_id") final int class_id,
-            @ApiParam(value = "id of subject", required = true) @PathVariable("subject_id") final int subject_id)
+            @ApiParam(value = "id of teacher", required = true) @PathVariable("teacherId") final int teacherId,
+            @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
+            @ApiParam(value = "id of subject", required = true) @PathVariable("subjectId") final int subjectId)
     {
         ClassTeacherSubjectLink classTeacherSubjectLink =
-                classTeacherSubjectLinkRepository.findByIds(teacher_id, class_id, subject_id);
+                classTeacherSubjectLinkRepository.findByIds(teacherId, classId, subjectId);
 
         GeneralResponseWrapper<TeacherJournalDTO> response;
         response = new GeneralResponseWrapper<>(new Status(200, "OK"), new TeacherJournalDTO(classTeacherSubjectLink.getTeacher_id(), classTeacherSubjectLink.getClazz_id(),
@@ -47,7 +47,7 @@ public class TeacherJournalController {
     }
 
     @ApiOperation(value = "Connects a teacher with a journal")
-    @PostMapping("/teachers/{teacher_id}/classes/{class_id}/subjects/{subject_id}/journal")
+    @PostMapping("/teachers/{teacherId}/classes/{classId}/subjects/{subjectId}/journal")
     @ApiResponses(
             value={
                     @ApiResponse(code = 201, message = "Teacher successfully added to the journal"),
@@ -56,11 +56,11 @@ public class TeacherJournalController {
             }
     )
     public GeneralResponseWrapper<TeacherJournalDTO> postConection(
-            @ApiParam(value = "id of teacher", required = true) @PathVariable("teacher_id") final int teacher_id,
-            @ApiParam(value = "id of class", required = true) @PathVariable("class_id") final int class_id,
-            @ApiParam(value = "id of subject", required = true) @PathVariable("subject_id") final int subject_id)
+            @ApiParam(value = "id of teacher", required = true) @PathVariable("teacherId") final int teacherId,
+            @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
+            @ApiParam(value = "id of subject", required = true) @PathVariable("subjectId") final int subjectId)
     {
-        classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacher_id, class_id, subject_id), true);
+        classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacherId, classId, subjectId), true);
 
         GeneralResponseWrapper<TeacherJournalDTO> response;
         response = new GeneralResponseWrapper<>(new Status(201, "OK"), null);

@@ -61,7 +61,7 @@ public class PageMappingController {
         return "/teacher/addTeacher.html";
     }
 
-    @RequestMapping("students/add")//TODO: ADD VALIDATION TO ALL FORMS, back-end works
+    @RequestMapping("students/add")
     public String addStudent() {
         return "/student/addStudent.html";
     }
@@ -86,17 +86,17 @@ public class PageMappingController {
         return "/schedule.html";
     }
 
-    @RequestMapping("subjectList")//TODO: BOOTSTRAP
+    @RequestMapping("subjectList")
     public String subjectList() {
         return "/subjectsList.html";
     }
 
-    @RequestMapping("subjects/{id}/edit")//TODO: BOOTSTRAP + VALIDATION
+    @RequestMapping("subjects/{id}/edit")
     public String editSubjectPage() {
         return "/editSubject.html";
     }
 
-    @RequestMapping("subjects/add")//TODO: BOOTSTRAP + VALIDATION
+    @RequestMapping("subjects/add")
     public String addSubjectPage() {
         return "/addSubject.html";
     }
