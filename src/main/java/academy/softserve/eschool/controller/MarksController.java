@@ -54,8 +54,8 @@ public class MarksController {
 			@ApiParam(value = "filter results by student id") @RequestParam(value = "student_id", required = false) Integer studentId,
 			@ApiParam(value = "filter results by subject id") @RequestParam(value = "subject_id", required = false) Integer subjectId,
 			@ApiParam(value = "filter results by class id") @RequestParam(value = "class_id", required = false) Integer classId,
-			@ApiParam(value = "get marks received after specified date, accepts date in format 'yyyy-MM-dd'", required = false) @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodStart,
-			@ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'", required = false) @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodEnd){
+			@ApiParam(value = "get marks received after specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodStart,
+			@ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodEnd){
 		
 		return new GeneralResponseWrapper<>(
 				new Status(HttpStatus.OK.value(), "OK"),
