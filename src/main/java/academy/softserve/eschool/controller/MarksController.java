@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,7 +58,7 @@ public class MarksController {
 			@ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'", required = false) @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodEnd){
 		
 		return new GeneralResponseWrapper<>(
-				new Status(200, "OK"),
+				new Status(HttpStatus.OK.value(), "OK"),
 				markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd));
 	}
 
