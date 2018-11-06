@@ -52,8 +52,8 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public void saveSchedule(ScheduleDTO scheduleDTO) {
 
-        Date start = scheduleDTO.getStartOfSemester();
-        Date end = scheduleDTO.getEndOfSemester();
+        LocalDate start = scheduleDTO.getStartOfSemester();
+        LocalDate end = scheduleDTO.getEndOfSemester();
         List<SubjectDTO> monday = scheduleDTO.getMondaySubjects();
         List<SubjectDTO> tuesday = scheduleDTO.getTuesdaySubjects();
         List<SubjectDTO> wednesday = scheduleDTO.getWednesdaySubjects();
@@ -63,14 +63,11 @@ public class ScheduleServiceImpl implements ScheduleService{
         int id_class = scheduleDTO.getClassName().getId();
         Clazz clazz = classRepository.findById(id_class).get();
 
-        LocalDate startl = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate endl = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        saveFunction(monday, startl, endl, DayOfWeek.MONDAY, clazz);
-        saveFunction(tuesday, startl, endl, DayOfWeek.TUESDAY, clazz);
-        saveFunction(wednesday, startl, endl, DayOfWeek.THURSDAY, clazz);
-        saveFunction(thursday, startl, endl, DayOfWeek.THURSDAY, clazz);
-        saveFunction(friday, startl, endl, DayOfWeek.FRIDAY, clazz);
+        saveFunction(monday, start, end, DayOfWeek.MONDAY, clazz);
+        saveFunction(tuesday, start, end, DayOfWeek.TUESDAY, clazz);
+        saveFunction(wednesday, start, end, DayOfWeek.THURSDAY, clazz);
+        saveFunction(thursday, start, end, DayOfWeek.THURSDAY, clazz);
+        saveFunction(friday, start, end, DayOfWeek.FRIDAY, clazz);
     }
 
     //this is a method to save schedule for a particular day
