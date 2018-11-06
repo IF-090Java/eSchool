@@ -146,11 +146,20 @@
 </div>
 
     <script type="text/javascript">
+        $(document).ready(function () {
+            refreshToken();
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                }
+            })
+        })
+
     $(document).ready(function () {
 
         var pathArray = window.location.pathname.split('/');
-        var idSubject = pathArray[3];
-        var idClass = pathArray[5];
+        var idSubject = pathArray[4];
+        var idClass = pathArray[6];
         var currentCell;
 
         $.getJSON(host + 'classes/'+idClass, function (data) {
@@ -172,6 +181,10 @@
                 tr.appendTo(tableBody);
             });
           tableBody.appendTo("#table_home");
+        }).fail(function (data) {
+            if (data.status == 403){
+                window.location.href='/ui/login'
+            }
         });
         $.getJSON(host + 'journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {
             var date = data.data[0].marks[0].dateMark.split(".");

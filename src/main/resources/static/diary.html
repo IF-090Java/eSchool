@@ -61,7 +61,7 @@
                     <a class="nav-link" id="homePage">Профіль</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Вийти</a>
+                    <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
                 </li>
             </ul>
         </nav>
@@ -111,12 +111,21 @@
 		</div>
 		
 		    <script type="text/javascript">
+                $(document).ready(function () {
+                    refreshToken();
+                    $.ajaxSetup({
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                        }
+                    })
+                })
+
 		    	var offset = 0;
 		    	var weekStart = getWeekStart(offset);
 		    	var weekEnd = getWeekEnd(offset);
 		    	var pathArray = window.location.pathname.split('/');
-        		var studentId = pathArray[2];
-                $("#homePage").attr("href", "/students/" + studentId + "/profile");
+        		var studentId = pathArray[3];
+                $("#homePage").attr("href", "/ui/students/" + studentId + "/profile");
                 var ulr = host + 'diaries/' + studentId;
 		    	var months = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
 		    			"Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
@@ -140,7 +149,11 @@
 				});
 				
 				function getData(){
-					$.getJSON(ulr, {weekStartDate:getWeekStart(offset)}, setData);
+					$.getJSON(ulr, {weekStartDate:getWeekStart(offset)}, setData).fail(function (data) {
+                        if (data.status == 403){
+                            window.location.href='/ui/login'
+                        }
+                    });
 				}
 				
 				

@@ -5,12 +5,9 @@ import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.service.ScheduleServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
@@ -38,11 +35,14 @@ public class ScheduleController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/classes/{id_class}/schedule")
+    //todo bk ++ 'id_class' really? did you try to look into java code convention???
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
             @ApiParam(value = "id of class", required = true) @PathVariable("id_class") final int id_class,
             @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
     {
+        //todo bk use java8 date api
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String start = dateFormat.format(scheduleDTO.getStartOfSemester());
         String end = dateFormat.format(scheduleDTO.getEndOfSemester());
@@ -54,7 +54,6 @@ public class ScheduleController {
     }
 
     @ApiOperation(value = "Gets schedule for the class with id")
-    @GetMapping("/classes/{id_class}/schedule")
     @ApiResponses(
             value={
                     @ApiResponse(code = 200, message = "OK"),
@@ -62,7 +61,8 @@ public class ScheduleController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/classes/{id_class}/schedule")
     public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "id of class", required = true) @PathVariable("id_class") final int id_class){
 
         GeneralResponseWrapper<ScheduleDTO> response;

@@ -59,8 +59,10 @@ public class ClassServiceImpl implements ClassService{
     @Override
     public void addNewYearClasses() {
         List<ClassDTO> prevYearClasses = findClassesByStatus(true);
+        //todo bk do you really need three separate iteration??
         prevYearClasses.stream().forEach(c -> c.setClassYear(c.getClassYear()+1));
         prevYearClasses.stream().forEach(c -> c.setClassName(updateClassName(c.getClassName())));
+        //todo bk calling any repository method in loop it's a real evil. Prepare the list and save it in bulk
         prevYearClasses.stream().forEach(c -> saveClass(c));
     }
 

@@ -32,7 +32,7 @@
 				<span id="loggeduser" class="navbar-text ml-5">Ви увійшли як </span>
 				<ul class="navbar-nav ml-md-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="/">Вийти</a>
+						<a class="nav-link" href="#" onclick="logOut()">Вийти</a>
 					</li>
 				</ul>
 			</nav>
@@ -149,9 +149,18 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+        $(document).ready(function () {
+            refreshToken();
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                }
+            })
+        })
+
 		$(document).ready(function() {
 			var pathArray = window.location.pathname.split('/');
-			var subjectId = pathArray[2];
+			var subjectId = pathArray[3];
 			var fileBase64;
 			var referrer =  document.referrer;
 
@@ -162,7 +171,6 @@
 
 			$("#deletebutton").hide();
 
-			//$("#newPass, #newPassRepeat").keyup(checkPasswordMatch);
 			$("#avatarFile").on('change', function () {
 				var file = document.getElementById('avatarFile').files[0];
 				var promise = getBase64(file);
@@ -172,24 +180,10 @@
 				});
 			});
 
-			// function checkMail(){
-			// 	var inputemail = $("#mail").val();
-			// 	var regex = /^([\w-\.]+@.*)$/;
 
-			// 	if (regex.test(inputemail)) {
-			// 		$("#submitButton").prop("disabled", false);
-			// 		$("#mail").css('border-color' , 'green');
-			// 	}
-			// 	else{
-			// 		$("#submitButton").prop("disabled", true);
-			// 		$("#mail").css('border-color' , 'red');
-			// 	}
-			// }
-
-			// $("#mail").keyup(checkMail);
 
 			function setData(data){
-				if(window.location.href.indexOf("teacher/") > -1  || window.location.href.indexOf("student/") > -1){
+				if(window.location.href.indexOf("ui/teacher/") > -1  || window.location.href.indexOf("ui/student/") > -1){
 					$("#loggeduser").append(data.login);
 				} else {
 					$("#loggeduser").append("Адміністратор");
@@ -209,21 +203,28 @@
 					}
 				}
 			}
-			if ((window.location.href.indexOf("teacher/") > -1)||(window.location.href.indexOf("student/") > -1)) {
+			if ((window.location.href.indexOf("ui/teacher/") > -1)||(window.location.href.indexOf("ui/student/") > -1)) {
 				$("#fname").prop('disabled',true);
 				$("#lname").prop('disabled',true);
 				$("#patronymic").prop('disabled',true);
 				$("#username").prop('disabled',true);
-			}
+            }
 
-			if ((window.location.href.indexOf("teachers/") > -1)||(window.location.href.indexOf("students/") > -1)) {
+			if ((window.location.href.indexOf("ui/teachers/") > -1)||(window.location.href.indexOf("ui/students/") > -1)) {
 				$("#oldPass").prop('disabled',true);
 			}
 
-			if (window.location.href.indexOf("teacher") > -1) {
-				var endpoint = 'teachers';
+            var endpoint;
+			if (window.location.href.indexOf("ui/teacher") > -1) {
+                if (window.location.href.indexOf("ui/teachers") > -1)
+					endpoint = 'admin/teachers';
+                else endpoint = 'teachers'
 			}
-			else var endpoint = 'students';
+			else{
+                if (window.location.href.indexOf("ui/students") > -1)
+			    	endpoint = 'admin/students';
+                else endpoint = 'students';
+            }
 
 			$("#deleteAvatar").click(function(){
 				fileBase64 = null;
@@ -234,7 +235,7 @@
 
 			jQuery.validator.addMethod("cyrrilic", function(value, element) {
 				return this.optional(element) || /^[?!,.Є-Їа-я\s\-\_]+$/i.test(value);
-			}, "Тільки Українські символи");
+			}, "Тільки українські символи");
 
 			jQuery.validator.addMethod('filesize', function (value, element, param) {
 				return this.optional(element) || (element.files[0].size <= param)
@@ -310,14 +311,14 @@
 				},
 
 				submitHandler: function(form) {
-					if (window.location.href.indexOf("teacher") > -1) {
+					if (window.location.href.indexOf("ui/teacher") > -1) {
 						var obj = {
 							firstname : $("#fname").val() , lastname: $("#lname").val(),
 							patronymic: $("#patronymic").val(), dateOfBirth: $("#dateOfBirth").val(),
 							login: $("#username").val(),oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),
 							email: $("#mail").val(), phone : $("#mobile").val(), avatar: fileBase64
 						};
-						if (window.location.href.indexOf("teachers/")> -1) {
+						if (window.location.href.indexOf("ui/teachers/")> -1) {
 							obj.oldPass = "adminchangedpass"
 						}
 					}
@@ -328,7 +329,7 @@
 							login: $("#username").val(), oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),
 							email: $("#mail").val(), phone : $("#mobile").val(), avatar: fileBase64
 						}
-						if (window.location.href.indexOf("students/")> -1) {
+						if (window.location.href.indexOf("ui/students/")> -1) {
 							obj.oldPass = "adminchangedpass"
 						}
 					}
@@ -350,7 +351,7 @@
 
             });
 
-            if (window.location.href.indexOf("student") > -1) {
+            if (window.location.href.indexOf("ui/student") > -1) {
 			$.getJSON(host + 'students/' + subjectId, function (data) {
 				setData(data);
 			});
@@ -365,7 +366,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script type="text/javascript">
         	$(function() {
-        		if ((window.location.href.indexOf("teachers/") > -1)||(window.location.href.indexOf("students/") > -1)) {
+        		if ((window.location.href.indexOf("ui/teachers/") > -1)||(window.location.href.indexOf("ui/students/") > -1)) {
         			$(".admin-sidebar").load("/views/admin-sidebar.html");
         			$("#homepage").hide();
         		}
