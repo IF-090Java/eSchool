@@ -15,6 +15,7 @@ import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.repository.MarkRepository;
 import academy.softserve.eschool.service.base.MarkServiceBase;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +27,15 @@ public class MarkService implements MarkServiceBase{
 	private MarkRepository markRepo;
 	private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
+	/**
+	 * Returns list of {@link MarkDataPointDTO}
+	 * @param studentId if specified marks are filtered by user id
+	 * @param subjectId if specified marks are filtered by subject id
+	 * @param classId if specified marks are filtered by class id
+	 * @param periodStart if specified only marks received after this date are returned
+	 * @param periodEnd if specified only marks received before this date are returned
+	 * @return list of {@link MarkDataPointDTO}
+	 */
 	@Override
 	public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, LocalDate periodStart,
 			LocalDate periodEnd) {

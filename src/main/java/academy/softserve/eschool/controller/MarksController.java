@@ -36,6 +36,15 @@ public class MarksController {
 	@NonNull
 	private MarkServiceBase markService;
 	
+	/**
+	 * Returns list of {@link MarkDataPointDTO} wrapped in {@link GeneralResponseWrapper}
+	 * @param studentId if specified marks are filtered by user id
+	 * @param subjectId if specified marks are filtered by subject id
+	 * @param classId if specified marks are filtered by class id
+	 * @param periodStart if specified only marks received after this date are returned
+	 * @param periodEnd if specified only marks received before this date are returned
+	 * @return list of {@link MarkDataPointDTO} wrapped in {@link GeneralResponseWrapper}
+	 */
 	@GetMapping("")
 	@ApiOperation(value = "Get marks by date filtered by specified params")
 	GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
