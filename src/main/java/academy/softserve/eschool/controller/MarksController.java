@@ -1,29 +1,39 @@
 package academy.softserve.eschool.controller;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.dto.MarkDTO;
-import academy.softserve.eschool.dto.MarkTypeDTO;
-import academy.softserve.eschool.model.MarkType;
-import io.swagger.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
+import academy.softserve.eschool.dto.MarkTypeDTO;
 import academy.softserve.eschool.service.base.MarkServiceBase;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/marks")
 @Api(value = "Operations about marks", description="Operations about marks")
+@RequiredArgsConstructor
 public class MarksController {
 	
-	@Autowired
+	@NonNull
 	private MarkServiceBase markService;
 	
 	@GetMapping("")
@@ -34,11 +44,12 @@ public class MarksController {
 			@ApiParam(value = "filter results by student id") @RequestParam(value = "student_id", required = false) Integer studentId,
 			@ApiParam(value = "filter results by subject id") @RequestParam(value = "subject_id", required = false) Integer subjectId,
 			@ApiParam(value = "filter results by class id") @RequestParam(value = "class_id", required = false) Integer classId,
-			@ApiParam(value = "get marks received after specified date, accepts date in format 'yyyy-MM-dd'", required = false) @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodStart,
-			@ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'", required = false) @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date periodEnd){
+			@ApiParam(value = "get marks received after specified date, accepts date in format 'yyyy-MM-dd'", required = false) @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodStart,
+			@ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'", required = false) @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodEnd){
 		
-		List<MarkDataPointDTO> dataPoints = markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd);
-		return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), dataPoints);
+		return new GeneralResponseWrapper<>(
+				new Status(200, "OK"),
+				markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd));
 	}
 
 	@ApiOperation(value = "Save mark of students by lesson")

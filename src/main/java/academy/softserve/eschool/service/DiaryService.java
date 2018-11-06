@@ -33,8 +33,8 @@ public class DiaryService implements DiaryServiceBase{
 	@Override
 	public List<DiaryEntryDTO> getDiary(LocalDate weekStartDate, int studentId) {
 		LocalDate weekEndDate = weekStartDate.plusDays(4);
-		String startDate = weekStartDate.format(dateFormat);
-		String endDate = weekEndDate.format(dateFormat);
+		String startDate = dateFormat.format(weekStartDate);
+		String endDate = dateFormat.format(weekEndDate);
 		List<Map<String, Object>> diaryData = lessonRepo.getDiary(studentId, startDate, endDate);
 		List<DiaryEntryDTO> diary = diaryData.stream().map((obj) -> {
 					Date date = (Date)obj.get("date");

@@ -50,6 +50,8 @@ public class DiaryController {
 			@ApiParam(value = "id of required student") @PathVariable Integer studentId){
 		//todo bk ++ instead of 3 lines of code use just one. Keep it simple.
 		//return new GeneralResponseWrapper<>(new Status(200, "OK"), diaryService.getDiary(weekStartDate, studentId))
-		return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), diaryService.getDiary(weekStartDate, studentId));
+		return new GeneralResponseWrapper<>(
+				new Status(HttpStatus.OK.value(), "OK"),
+				diaryService.getDiary(weekStartDate, studentId));
 	}
 }

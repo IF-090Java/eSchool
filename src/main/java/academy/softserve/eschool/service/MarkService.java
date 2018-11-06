@@ -2,32 +2,33 @@ package academy.softserve.eschool.service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import academy.softserve.eschool.dto.MarkDTO;
-import academy.softserve.eschool.dto.MarkTypeDTO;
-import academy.softserve.eschool.model.MarkType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.repository.MarkRepository;
 import academy.softserve.eschool.service.base.MarkServiceBase;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class MarkService implements MarkServiceBase{
 
-	@Autowired
+	@NonNull
 	private MarkRepository markRepo;
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	@Override
-	public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, Date periodStart,
-			Date periodEnd) {
+	public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, LocalDate periodStart,
+			LocalDate periodEnd) {
 		
 		String startDate = null;
 		String endDate = null;
@@ -38,9 +39,7 @@ public class MarkService implements MarkServiceBase{
 		if (periodEnd != null) {
 			endDate = dateFormat.format(periodEnd);
 		}
-		List<Map<String, Object>> marks = markRepo.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate);
-		List<MarkDataPointDTO> dataPoints = formDataPoints(marks);
-		return dataPoints;
+		return formDataPoints(markRepo.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate));
 	}
 	
 
