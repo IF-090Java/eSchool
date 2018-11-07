@@ -118,6 +118,18 @@
  <script type="text/javascript">
         $(document).ready(function () {
 
+            $.getJSON(host +  'classes', function (data2) {
+                console.log(data2);
+
+                $.each(data2, function (i, item) {
+                    if (item.isActive == true) {
+                        $('#selectClass').append($('<option>', {
+                            value: data2[i].id,
+                            text: data2[i].className
+                        }));
+                    }
+                });
+            });
         jQuery.validator.addMethod("isUkrainian", function(value, element) {
                  var ukr = value;
 				 if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
@@ -207,19 +219,6 @@
             });
         })
 
-            $.getJSON(host +  'classes', function (data2) {
-                console.log(data2);
-
-                $.each(data2, function (i, item) {
-                    if (item.isActive == true) {
-                        $('#selectClass').append($('<option>', {
-                            value: data2[i].id,
-                            text: data2[i].className
-                        }));
-                    }
-                });
-            });
-
             $('form').on('submit', function (e) {
 
                 e.preventDefault();
@@ -259,22 +258,22 @@
                     }
                 });
             });
-            $("#generate").on("click", function () {
-                 $.ajax({
-                     url: "/login/generate",
-                     data: JSON.stringify({
-                         "firstName": firstName,
-                         "lastName": lastName,
-                         "patronymic": patronymic,
-
-                         contentType: "application/json",
-
-                         success: function (responce) {
-                             $('#username').attr("value",data.login);
-                         }
-                     })
-                 })
-            });
+            // $("#generate").on("click", function () {
+            //      $.ajax({
+            //          url: "/login/generate",
+            //          data: JSON.stringify({
+            //              "firstName": firstName,
+            //              "lastName": lastName,
+            //              "patronymic": patronymic,
+            //
+            //              contentType: "application/json",
+            //
+            //              success: function (responce) {
+            //                  $('#username').attr("value",data.login);
+            //              }
+            //          })
+            //      })
+            // });
     </script>
     </form>
 </body>
