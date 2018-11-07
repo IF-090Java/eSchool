@@ -13,8 +13,6 @@ import academy.softserve.eschool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.management.loading.ClassLoaderRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
