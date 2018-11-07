@@ -1,6 +1,6 @@
 package academy.softserve.eschool.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DiaryEntryDTO {
 	@ApiModelProperty(required = true, notes = "lesson date")
-	private Date date;
+	private LocalDate date;
 	@ApiModelProperty(required = true, notes = "lesson number")
 	private byte lessonNumber;
 	@ApiModelProperty(required = true, notes = "name of lesson")
