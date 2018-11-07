@@ -44,7 +44,7 @@ public class Lesson {
 	@NotNull
 	private Subject subject;
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "lesson")
-	private Set<@NotNull Mark> marks = new HashSet<>();
+	private final Set<@NotNull Mark> marks = new HashSet<>();
 	
 	public Lesson(byte lessonNumber, Date date, String hometask, MarkType markType, byte[] file, Clazz clazz,
 			Subject subject) {
