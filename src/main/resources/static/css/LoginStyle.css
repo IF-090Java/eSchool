@@ -28,10 +28,9 @@ body#LoginForm{
 
 .main-div {
     background: #ffffff none repeat scroll 0 0;
-    border-radius: 2px;
-    margin: 10px auto 30px;
-    max-width: 38%;
-    padding: 50px 70px 70px 71px;
+    border-radius: 3px;
+    margin: 0px auto;
+    padding: 25px 35px 35px 35px;
 }
 
 .login-form .form-group {
