@@ -143,11 +143,13 @@
 			
 			function fillClassesSelect(data){
 				$.each(data, function(i, clazz){
-					var option = $('<option>');
-					option.val(clazz.id);
-					option.text(clazz.className);
-					$('#class').append(option);
-					classOptions.push(option);
+                    if (clazz.isActive == true) {
+                        var option = $('<option>');
+                        option.val(clazz.id);
+                        option.text(clazz.className);
+                        $('#class').append(option);
+                        classOptions.push(option);
+                    }
 				});
 			}
 			
