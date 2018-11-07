@@ -3,42 +3,45 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Учні класу</title>
-	<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
-	<style type="text/css">
-	.left-menu{
-		width: 300px;
-		float: left;
-		height: 100vh;
-	}
-	.main{
-		padding-top: 15px;
-		margin: auto;
-    	width: 35%;
-	}	
-	.main ul li a{
-		font-size: 19px;
-		text-decoration: none;
-	}
-	
-	li{
-		margin-top: 5px;
-	}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/global-style.css">
 	<script src="/js/JS.js"></script>
+	<script src="/js/jwt-decode.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-	<div class="header"></div>
-	<div>
-		<div class="main">
-			<h2 align="center">Всі учні</h2>
-			<fieldset style="border: 2px solid #4CAF50">
-			<ul id="studentList" style="list-style-type: square;"></ul>
-			</fieldset>
+	<div class="wrapper">
+		<div class="admin-sidebar"></div>
+		<div class="container-fluid px-0">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 110px">
+				<span id="loggeduser" class="navbar-text ml-5">Ви увійшли як Адміністратор</span>
+				<ul class="navbar-nav ml-md-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#" onclick="logOut()">Вийти</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="container">
+				<div class="row justify-content-center mt-3">
+					<h1 id="h1-title">Всі учні класу</h1>
+				</div>				
+				<div class="row mainbox justify-content-center">
+			<ul id="studentList"  class="list-group-flush"></ul>
+</div>
 		</div>
-	</ul>
+	</div>	
 </div>	
-<script type="text/javascript"> 
+<script type="text/javascript">
+    $(document).ready(function () {
+        validateUserPermissions();
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+            }
+        })
+    })
+
 	 $(function() {
       $(".header").load("/views/header.html");
     });
@@ -46,15 +49,25 @@
 <script type="text/javascript">
 	$(document).ready(function () {
         var pathArray = window.location.pathname.split('/');
-        var classId = pathArray[3];
+        var classId = pathArray[4];
 		$.getJSON(host + 'students/classes/' + classId, function (data) {
 			console.log(data);
 			$.each(data, function (i, item) {
-				$('#studentList').append($('<li>').append($('<a>').attr('href','/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
+				$('#studentList').append($('<li class="list-group-item">').append($('<a>').attr('href','/ui/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
 			});		
 		});
 
+$.getJSON(host + 'classes/' + classId, function (data) {
+	console.log(data);
+				$('#h1-title').html('Учні ' + data.className + ' класу' + ' (' + data.classYear + ')');
+		});
 	});
 </script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$(function() {
+			$(".admin-sidebar").load("/views/admin-sidebar.html");
+		});
+	</script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.dto.EditUserDTO;
+import academy.softserve.eschool.dto.NYTransitionDTO;
 import academy.softserve.eschool.dto.StudentDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Role;
@@ -10,6 +11,7 @@ import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.management.loading.ClassLoaderRepository;
@@ -31,6 +33,10 @@ public class StudentService {
     @Autowired
     StudentRepository studentRepository;
 
+    @Autowired
+    BCryptPasswordEncoder bcryptEncoder;
+
+    //todo bk ++ move all of your transfomers into some util class. Don't keep it within services
     public StudentDTO getOne(Student s){
         return StudentDTO.builder().firstname(s.getFirstName())
                 .lastname(s.getLastName())
@@ -55,20 +61,22 @@ public class StudentService {
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public void updateStudent(User oldUser, EditUserDTO edited){
+    public void updateStudent(User oldUser, EditUserDTO edited, String role){
 
-        oldUser.setFirstName(edited.getFirstname());
-        oldUser.setLastName(edited.getLastname());
-        oldUser.setPatronymic(edited.getPatronymic());
+        if (role.equals("ADMIN")) {
+            oldUser.setFirstName(edited.getFirstname());
+            oldUser.setLastName(edited.getLastname());
+            oldUser.setPatronymic(edited.getPatronymic());
+            oldUser.setLogin(edited.getLogin());
+        }
         oldUser.setDateOfBirth(edited.getDateOfBirth());
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
         if((oldUser.getPassword().equals(edited.getOldPass()) || edited.getOldPass().equals("adminchangedpass"))
                 && edited.getNewPass().length()>0){
-            oldUser.setPassword(edited.getNewPass());
+            oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
-        oldUser.setLogin(edited.getLogin());
         userRepository.save(oldUser);
     }
 
@@ -78,7 +86,7 @@ public class StudentService {
                 .firstName(studentDTO.getFirstname())
                 .patronymic(studentDTO.getPatronymic())
                 .login(transliteration(studentDTO.getLastname()))
-                .password(generatePassword(7))
+                .password(bcryptEncoder.encode(generatePassword(7)))
                 .phone(studentDTO.getPhone())
                 .email(studentDTO.getEmail())
                 .dateOfBirth(studentDTO.getDateOfBirth())
@@ -87,5 +95,19 @@ public class StudentService {
         Clazz clazz = classRepository.getOne(Integer.valueOf(studentDTO.getClassId()));
         student.getClasses().add(clazz);
         return studentRepository.save(student);
+    }
+
+    public void studentClassesRebinding(List<NYTransitionDTO> nyTransitionDTOS){
+         for (NYTransitionDTO nDTO : nyTransitionDTOS){
+             if (nDTO.getNewClassId() != 0){
+                 List<Student> studentList = studentRepository.findByClazzId(nDTO.getOldClassId());
+                 for (Student student : studentList) {
+                     List<Clazz> clazzes = student.getClasses();
+                     clazzes.add(classRepository.findById(nDTO.getNewClassId()).orElse(null));
+                     student.setClasses(clazzes);
+                     studentRepository.save(student);
+                 }
+             }
+         }
     }
 }

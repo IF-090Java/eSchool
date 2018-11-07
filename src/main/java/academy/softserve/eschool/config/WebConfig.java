@@ -10,12 +10,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
+
 @Configuration
 @EnableWebMvc
+//todo bk don't use deprecated classes. Navigate to WebMvcConfigurerAdapter class and find deprecated section comments for solution
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
+        registry.addMapping("/**").allowedMethods("*");
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

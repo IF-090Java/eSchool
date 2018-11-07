@@ -1,30 +1,44 @@
 package academy.softserve.eschool.service;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import academy.softserve.eschool.dto.MarkDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.repository.MarkRepository;
 import academy.softserve.eschool.service.base.MarkServiceBase;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class MarkService implements MarkServiceBase{
 
-	@Autowired
+	@NonNull
 	private MarkRepository markRepo;
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
+	/**
+	 * Returns list of {@link MarkDataPointDTO}
+	 * @param studentId if specified marks are filtered by user id
+	 * @param subjectId if specified marks are filtered by subject id
+	 * @param classId if specified marks are filtered by class id
+	 * @param periodStart if specified only marks received after this date are returned
+	 * @param periodEnd if specified only marks received before this date are returned
+	 * @return list of {@link MarkDataPointDTO}
+	 */
 	@Override
-	public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, Date periodStart,
-			Date periodEnd) {
+	public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, LocalDate periodStart,
+			LocalDate periodEnd) {
 		
 		String startDate = null;
 		String endDate = null;
@@ -35,9 +49,7 @@ public class MarkService implements MarkServiceBase{
 		if (periodEnd != null) {
 			endDate = dateFormat.format(periodEnd);
 		}
-		List<Map<String, Object>> marks = markRepo.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate);
-		List<MarkDataPointDTO> dataPoints = formDataPoints(marks);
-		return dataPoints;
+		return formDataPoints(markRepo.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate));
 	}
 	
 
@@ -46,7 +58,8 @@ public class MarkService implements MarkServiceBase{
 		dataPoints = data.stream().map((obj) -> {
 				double averageMark = ((BigDecimal)obj.get("avg_mark")).doubleValue();
 				Date date = (Date)obj.get("date");
-				return new MarkDataPointDTO(averageMark, date);
+				int count = ((BigInteger)obj.get("count")).intValue();
+				return new MarkDataPointDTO(averageMark, date, count);
 			})
 			.collect(Collectors.toList());
 		System.out.println(dataPoints.toString());
@@ -55,7 +68,11 @@ public class MarkService implements MarkServiceBase{
 
 	@Override
 	public void saveMark(MarkDTO dto) {
-		System.out.println(dto);
 		markRepo.saveMarkByLesson(dto.getIdStudent(),dto.getIdLesson(),dto.getMark(),dto.getNote());
+	}
+
+	@Override
+	public void updateType(int idLesson, String markType) {
+		markRepo.saveTypeByLesson(idLesson,markType);
 	}
 }

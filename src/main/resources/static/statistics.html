@@ -6,42 +6,24 @@
 		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="/js/JS.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 		<style> 
-		
-			.header{
-				height: 50px;
-				background: #BCC8D2;
-				border: solid 1px black;
-			}
-				
 			#chartContainer {
 				height: 300px;
 				width: 100%;
 			}
-			.container {
-				padding: 50px;
-			}
 			
 			.statisticsContainer{
-				border: 2px solid #4CAF50;
 				padding: 20px;
 				margin-top: 20px;
+				box-shadow: 1px 2px 3px rgba(0, 0, 0, .5);
 			}
-			
-			legend {
-       			font-size: 20px;
-       		}
-			
 		</style>
 	</head>
 	<body>
-		<div class="header">
-			<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
-			<span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
-			<span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
-		</div>
-		<div class="container">
+		<div class="container-fluid px-0 teacher_nav" style="z-index: 3"> </div>
+		<div class="container pt-1">
 			<select id="subject">
 				<option value="">Предмет</option>
 			</select> 
@@ -51,28 +33,44 @@
 			<select id="student" disabled="true">
 				<option value="">Учень</option>				
 			</select>
-			<input id="startDate" type="date" name="start">
-			<input id="endDate" type="date" name="end">
-			<fieldset class="statisticsContainer">
-				<legend>Статистика</legend>
+			<span>Початок періоду <input class="border rounded" id="startDate" type="date" name="start"></span>
+			
+			<span>Кінець періоду <input class="border rounded" id="endDate" type="date" name="end"></span>
+			<div class="statisticsContainer card">
 				<div id="average"></div>
 				<div id="chartContainer"></div>
-			</fieldset>
+			</div>
 		</div>
 		<script type="text/javascript">
+            $(document).ready(function () {
+                refreshToken();
+                $.ajaxSetup({
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                    }
+                })
+            })
+
 			var baseUrl = host
 			var marksUrl = baseUrl + 'marks';
 			var classesUrl = baseUrl + 'classes';
 			var studentsUrl = baseUrl + 'students/classes/';
 			var subjectsUrl = baseUrl + 'subjects';
-			
 			var studentOptions = [];
+			
+			$(function() {
+            	$(".teacher_nav").load("/views/menu_teacher.html");
+        	});
 			
 			$(document).ready(function () {
 				var params = getParams();
 				$.getJSON(subjectsUrl, fillSubjectsSelect);
 				$.getJSON(classesUrl, fillClassesSelect);
-				$.getJSON(marksUrl, params, setData);
+				$.getJSON(marksUrl, params, setData).fail(function (data) {
+                    if (data.status == 403){
+                        window.location.href='/ui/login'
+                    }
+                });
 				setDatePickerConstraint()
 			});
 			
@@ -134,10 +132,12 @@
 			
 			function fillClassesSelect(data){
 				$.each(data, function(i, clazz){
-					var option = $('<option>');
-					option.val(clazz.id);
-					option.text(clazz.className);
-					$('#class').append(option);
+                    if (clazz.isActive == 'true') {
+                        var option = $('<option>');
+                        option.val(clazz.id);
+                        option.text(clazz.className);
+                        $('#class').append(option);
+                    }
 				});
 			}
 			
@@ -182,10 +182,12 @@
 			
 			function setAverageMark(data){
 				var sum = 0;
+				var totalWeight = 0;
 				$.each(data, function(i, dataPoint){
-					sum = sum + dataPoint.y;
+					sum += dataPoint.y*dataPoint.weight;
+					totalWeight += dataPoint.weight;
 				});
-				var average = sum/data.length;
+				var average = sum/totalWeight;
 				$('#average').text('Середня оцінка: ' + average.toFixed(2));
 			}
 			
@@ -193,7 +195,7 @@
 				var chart = new CanvasJS.Chart("chartContainer", {
 					animationEnabled: true,
 					axisX: {
-						valueFormatString: "DD/MM/YYYY",
+						valueFormatString: "DD.MM.YYYY",
 						minimum: new Date($('#startDate').val()),
 						maximum: new Date($('#endDate').val())
 					},

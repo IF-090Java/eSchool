@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StudentRepository extends JpaRepository<Student, Integer> {
 
@@ -13,13 +14,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
             "inner join clazz c on sc.class_id = c.id where c.id = :id group by u.id", nativeQuery = true)
     List<Student> findByClazzId(@Param("id") int id);
 
-    /*@Query(value="select * from student\n" +
-            "left join user on student.id=user.id\n" +
-            "left join students_classes on students_classes.student_id=student.id\n" +
-            "right join lesson on students_classes.class_id=lesson.clazz_id\n" +
-            "left join mark on (lesson.id=mark.lesson_id and mark.student_id = student.id)\n" +
-            "where lesson.clazz_id=3 and lesson.subject_id=1\n", nativeQuery=true)
-    Set<Student> findJournal(@Param("idSubject")int idSubject, @Param("idClass")int idClass);*/
 
     @Query(value="select student.id as 'id_student',user.first_name,user.last_name,lesson.id,mark.mark,lesson.date,lesson.mark_type,mark.note from student\n" +
             "left join user on student.id=user.id\n" +
@@ -27,6 +21,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
             "right join lesson on students_classes.class_id=lesson.clazz_id\n" +
             "left join mark on (lesson.id=mark.lesson_id and mark.student_id = student.id)\n" +
             "where lesson.clazz_id=:idClass and lesson.subject_id=:idSubject\n" +
-            "order by student.id,lesson.date", nativeQuery=true)
-    List<Object[]> findJournal(@Param("idSubject")int idSubject, @Param("idClass")int idClass);
+            "order by student.id,lesson.id", nativeQuery=true)
+    List<Map<String,Object>> findJournal(@Param("idSubject")int idSubject, @Param("idClass")int idClass);
 }

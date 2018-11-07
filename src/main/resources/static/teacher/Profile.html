@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/Style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
+    <script src="/js/jwt-decode.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script>
+        $(document).ready(function () {
+            refreshToken();
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                }
+            })
+        })
 
         $(document).ready(function() {
             var pathArray = window.location.pathname.split('/');
-            var id = pathArray[2];
+            var id = pathArray[3];
             $.ajax({
                 url: host + "teachers/"+id
             }).then(function(data) {
@@ -16,6 +29,7 @@
                 $('#initials').append(data.lastname + ' ' + data.firstname + ' ' + data.patronymic);
                 $('#date').append(date);
                 $('#login').append(data.login);
+                $('#email').attr("href", "mailto:" + data.email);
                 $('#email').append(data.email);
                 $('#phone').append(data.phone);
                 if(data.avatar !== null) {
@@ -23,74 +37,137 @@
                         $("#avatar").attr("src", data.avatar);
                     }
                 }
-                $('#classes').attr("href", "/journalsList/view");
-                $('#statistics').attr("href", "/stats");
-                $('#edit').attr("href", "/teacher/" + id + "/edit");
+                $('#classes').attr("href", host + "ui/journalsList/view");
+                $('#statistics').attr("href", host + "ui/stats");
+                $('#edit').attr("href", host + "ui/teacher/" + id + "/edit");
             });
             $.getJSON(host + 'subjects/teachers/3', function (data) {
                 $.each(data, function(key, val) {
-                     $('<li>'+val.subjectName+'</li>').appendTo('#list');
+                     $('<li class="force-overflow">'+val.subjectName+'</li>').appendTo('#list');
                 });
+            }).fail(function (data) {
+                if (data.status == 403){
+                    window.location.href='/ui/login'
+                }
             });
         });
 
     </script>
     <style type="text/css">
-    a{
-        text-decoration: none;
-    }
-    #icon{
-        height: 200px;
-     }
 
-    #subjectsList,#sub{
-        font-size: 16px;
-        margin-left: 30px;
-    }
-    #subjectsList{
-        display: inline-block;
-        height: 200px;
-    }
-    ul{
-        height: 180px;
-        overflow-y: scroll;
-        list-style: none;
-    }
+        #subjectsList,#sub{
+            font-size: 16px;
+            margin-left: 30px;
+        }
+        #subjectsList{
+            display: inline-block;
+            height: 200px;
+        }
+        .scrollbar {
+            margin-left: 30px;
+            float: left;
+            height: 175px;
+            width: 150px;
+            background: #fff;
+            overflow-y: scroll;
+            margin-bottom: 25px;
+        }
+        .force-overflow {
+            min-height: 15px;
+        }
+        .scrollbar-primary::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5; }
 
+        .scrollbar-primary::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #4285F4; }
+        img{
+            max-width: 250px;
+            max-height: 200px;
+        }
     </style>
 <meta charset="UTF-8">
 <title id="title"></title>
-<script src="/js/JS.js"></script>
 </head>
 <body>
-    <fieldset style="width: 800px"/>
-    <legend>[ Ваш профіль ]</legend>
+<div class="wrapper">
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <a class="text-center w-100 mx-auto d-block" id="homepage" href="#"><img id="logo" src="/img/catholic-school-logo.png" width="110" alt="logo"/></a>
+        </div>
 
-    <hr><br>
-    <div>
-        <a id="classes">Переглянути журнали</a>
-        <a id="statistics">Переглянути успішність</a>
-    </div>
-    <br><hr>
+        <ul class="list-unstyled components">
+            <li>
+                <a class="navLink" id="classes">Переглянути журнали</a>
+                <a class="navLink" id="statistics">Переглянути успішність</a>
+            </li>
+        </ul>
+    </nav>
 
-    <div id="info">
-        <img id="avatar" src="/img/profile.png" id="icon">
-        <div id="subjectsList">
-            <div id="sub">Предмети:</div>
-            <ul id="list">
+    <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
+            <span class="navbar-text">Ви увійшли як вчитель</span>
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
+                </li>
             </ul>
+        </nav>
+
+        <div class="container w-150">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title" id="initials"></h3>
+                </div>
+                <div class="panel-body">
+
+                    <img class="img-thumbnail pull-left" id="avatar" src="/img/profile.png">
+                    <div id="subjectsList" class="">
+                        <div id="sub">Предмети:</div>
+                        <ul id="list" class="scrollbar scrollbar-primary">
+                        </ul>
+                    </div>
+
+                    <div class="row center-block">
+                        <div class=" col-md-9 col-lg-9 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                <tr>
+                                    <td>Логін: </td>
+                                    <td><div id="login"></div></td>
+                                </tr>
+                                <tr>
+                                    <td>Дата народження: </td>
+                                    <td><div id="date"></div></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Електронна пошта: </td>
+                                    <td><a id="email"></a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Номер телефону: </td>
+                                    <td><div id="phone"></div></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <a id="edit" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning "><i class="glyphicon glyphicon-edit"> Редагувати профіль</i></a>
+
+                </div>
+
+            </div>
         </div>
     </div>
-    <div class="div">
-        <h2 id="initials"></h2>
-        <h3 id="login">Логін: </h3>
-    </div><br>
-
-    <div id="date" style="font-size: 20px">Дата народження: </div>
-    <div id="email" style="font-size: 20px">Електронна пошта: </div>
-    <div id="phone" style="font-size: 20px">Номер телефону: </div>
-
-    <br><a id="edit" style="font-size: 15px; width: 30px">Редагувати профіль</a>
-
+</div>
 </body>
 </html>

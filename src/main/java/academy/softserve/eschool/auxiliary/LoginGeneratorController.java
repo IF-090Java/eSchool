@@ -1,18 +1,37 @@
 package academy.softserve.eschool.auxiliary;
 
+//todo bk ++ always clear unused imports
+import academy.softserve.eschool.dto.DataForLoginDTO;
+import academy.softserve.eschool.model.User;
+import academy.softserve.eschool.repository.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 
+//todo bk why did you put controller into academy.softserve.eschool.auxiliary package. Refactor it
+//todo bk extract custom translit logic into service.
+//todo bk ++ guys how long should i remind you to put javadocs
 @RestController("/login")
 @Api(description = "Login generator controller")
 public class LoginGeneratorController {
+    /**
+     * Contains users who have generated login as part of their own login.
+     */
+    private List<User> users;
+
+    @Autowired
+    private UserRepository userRepository;
+
     private static HashMap<Character, String> letters = new HashMap<>();
 
     static {
@@ -28,22 +47,28 @@ public class LoginGeneratorController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Login successfully generated"),
+            @ApiResponse(code = 200, message = "Login successfully generated"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Create class")
-    public String getLogin(String firstName, String lastName) {
-        return firstName != null && lastName != null ?
-                transliteration(firstName) + "." + transliteration(lastName)
-                : "";
+    @ApiOperation(value = "Create login")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/generate")
+    public DataForLoginDTO getLogin(@RequestBody DataForLoginDTO person) {
+        String login = transliteration(person.getFirstName().substring(0,0));
+        login += transliteration(person.getLastName());
+        users = userRepository.findByPartOfLogin(login);
+        if (!users.isEmpty())
+            login += users.size();
+        person.setLogin(login);
+        return person;
     }
-
 
     /**
      *
      * @param word word for transliteration
      * @return transliterated word
      */
+    //todo bk ++ too many 'magic numbers and character. Refactor it'
     public static String transliteration(String word) {
         word = word.toLowerCase();
         char[] chars = word.toCharArray();
@@ -69,22 +94,23 @@ public class LoginGeneratorController {
      * @param second letter
      * @return transliterated letters
      */
-    private static String firstTwo(char first, char second) {
+    //todo bk too many if statements. Refactor it
+    private static String firstTwo(Character first, Character second) {
         String result = "";
-        if (first == 'з' && second == 'г')
+        if (second != null && (first.equals('з') && second.equals('г'))) {
             return "zgh";
-        else if (first == 'є')
-            result += "ye";
-        else if (first == 'ї')
+        } else if (first.equals('є'))
+                result += "ye";
+        else if (first.equals('ї'))
             result += "yi";
-        else if (first == 'й')
+        else if (first.equals('й'))
             result += "y";
-        else if (first == 'ю')
+        else if (first.equals('ю'))
             result += "yu";
-        else if (first == 'я')
+        else if (first.equals('я'))
             result += "ia";
         else result = letters.get(first);
-        result += letters.get(second);
+        result += second != null ? letters.get(second) : "";
 
         return result;
     }

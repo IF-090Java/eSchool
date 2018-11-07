@@ -1,32 +1,38 @@
 package academy.softserve.eschool.service;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.service.base.DiaryServiceBase;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class DiaryService implements DiaryServiceBase{
 
-	@Autowired
+	@NonNull
 	private LessonRepository lessonRepo;
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
+	/**
+	 * Returns list of {@link DiaryEntryDTO} that describe one week of diary
+	 * @param weekStartDate first day of required week
+	 * @param studentId id of student
+	 * @return List of {@link DiaryEntryDTO}
+	 */
 	@Override
-	public List<DiaryEntryDTO> getDiary(Date weekStartDate, int studentId) {
-		GregorianCalendar cal = new GregorianCalendar();
-		cal.setTime(weekStartDate);
-		cal.add(GregorianCalendar.DAY_OF_MONTH, 4);
-		Date weekEndDate = cal.getTime();
+	public List<DiaryEntryDTO> getDiary(LocalDate weekStartDate, int studentId) {
+		LocalDate weekEndDate = weekStartDate.plusDays(4);
 		String startDate = dateFormat.format(weekStartDate);
 		String endDate = dateFormat.format(weekEndDate);
 		List<Map<String, Object>> diaryData = lessonRepo.getDiary(studentId, startDate, endDate);

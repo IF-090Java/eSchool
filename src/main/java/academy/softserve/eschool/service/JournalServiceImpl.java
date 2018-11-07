@@ -40,6 +40,23 @@ public class JournalServiceImpl implements JournalService {
     }
 
     @Override
+    public List<JournalDTO> getActiveJournalsByTeacher(int idTeacher) {
+        List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findActiveJournalsByTeacher(idTeacher);
+        List<JournalDTO> listDTO = new ArrayList<>();
+        for(ClassTeacherSubjectLink link: listCTS){
+            JournalDTO dto = JournalDTO.builder()
+                    .idClass(link.getClazz().getId())
+                    .idSubject(link.getSubject().getId())
+                    .className(link.getClazz().getName())
+                    .subjectName(link.getSubject().getName())
+                    .academicYear(link.getClazz().getAcademicYear())
+                    .build();
+            listDTO.add(dto);
+        }
+        return listDTO;
+    }
+
+    @Override
     public List<JournalDTO> getJournals() {
         List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findJournals();
         List<JournalDTO> listDTO = new ArrayList<>();
@@ -58,14 +75,14 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public List<JournalMarkDTO> getJournal(int idSubject, int idClass) {
-         List<Object[]> list = studentRepository.findJournal(idSubject,idClass);
+        List<Map<String,Object>>  list = studentRepository.findJournal(idSubject,idClass);
          List<JournalMarkDTO> JMDto = new ArrayList<>();
          Map<Integer,String> students = new HashMap<>();
-         for(Object[] a: list){
-             String name = a[1]+" "+a[2];
-             students.put((Integer)a[0],name);
+         for(Map<String,Object> map: list){
+             String name = map.get("first_name")+" "+map.get("last_name");
+             students.put((Integer) map.get("id_student"),name);
         }
-        for (Map.Entry<Integer, String> entry : students.entrySet()) {
+        for(Map.Entry<Integer, String> entry : students.entrySet()) {
             JournalMarkDTO dto = JournalMarkDTO.builder()
                     .idStudent(entry.getKey())
                     .studentFullName(entry.getValue())
@@ -74,14 +91,14 @@ public class JournalServiceImpl implements JournalService {
             JMDto.add(dto);
         }
         for (JournalMarkDTO jm : JMDto){
-            for (Object[] object: list){
-                if(jm.getIdStudent()==(Integer)object[0]){
+            for (Map<String,Object> object: list){
+                if(jm.getIdStudent()==(Integer)object.get("id_student")){
                     MarkDescriptionDTO desc = MarkDescriptionDTO.builder()
-                            .idLesson((Integer)object[3])
-                            .mark((Byte)object[4])
-                            .dateMark((Date)object[5])
-                            .typeMark((String)object[6])
-                            .note((String)object[7])
+                            .idLesson((Integer)object.get("id"))
+                            .mark((Byte)object.get("mark"))
+                            .dateMark((Date)object.get("date"))
+                            .typeMark((String)object.get("mark_type"))
+                            .note((String)object.get("note"))
                             .build();
                     jm.getMarks().add(desc);
                 }
@@ -96,6 +113,7 @@ public class JournalServiceImpl implements JournalService {
         List<HomeworkDTO> homeworkDTOS = new ArrayList<>();
         for(Lesson lesson: list){
             HomeworkDTO dto = HomeworkDTO.builder()
+                    .idLesson(lesson.getId())
                     .date(lesson.getDate())
                     .file(lesson.getFile())
                     .homework(lesson.getHometask())

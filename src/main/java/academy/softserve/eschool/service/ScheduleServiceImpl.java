@@ -1,8 +1,6 @@
 package academy.softserve.eschool.service;
 
-import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.dto.ScheduleDTO;
-import academy.softserve.eschool.dto.SubjectDTO;
+import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Lesson;
 import academy.softserve.eschool.repository.ClassRepository;
@@ -14,10 +12,8 @@ import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService{
@@ -33,11 +29,11 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Override
     public ScheduleDTO getScheduleByClassId(int id_class) {
-        List<Object[]> monday = lessonRepository.scheduleByClassId(0, id_class);
-        List<Object[]> tuesday = lessonRepository.scheduleByClassId(1, id_class);
-        List<Object[]> wednesday = lessonRepository.scheduleByClassId(2, id_class);
-        List<Object[]> thursday = lessonRepository.scheduleByClassId(3, id_class);
-        List<Object[]> friday = lessonRepository.scheduleByClassId(4, id_class);
+        List<Map<String, Object>> monday = lessonRepository.scheduleByClassId(0, id_class);
+        List<Map<String, Object>> tuesday = lessonRepository.scheduleByClassId(1, id_class);
+        List<Map<String, Object>> wednesday = lessonRepository.scheduleByClassId(2, id_class);
+        List<Map<String, Object>> thursday = lessonRepository.scheduleByClassId(3, id_class);
+        List<Map<String, Object>> friday = lessonRepository.scheduleByClassId(4, id_class);
 
         Clazz clazz = classRepository.findById(id_class).get();
 
@@ -45,7 +41,7 @@ public class ScheduleServiceImpl implements ScheduleService{
                 .startOfSemester(null)
                 .endOfSemester(null)
                 .className(new ClassDTO(clazz.getId(), clazz.getAcademicYear(), clazz.getName(),
-                        clazz.getDescription(), String.valueOf(clazz.isActive())))
+                        clazz.getDescription(), clazz.isActive(), clazz.getStudents().size()))
                 .mondaySubjects(convertFromObject(monday))
                 .tuesdaySubjects(convertFromObject(tuesday))
                 .wednesdaySubjects(convertFromObject(wednesday))
@@ -86,7 +82,7 @@ public class ScheduleServiceImpl implements ScheduleService{
                 if (dow == dayOfWeek) {
                     lessonRepository.save(
                             Lesson.builder()
-                                    .lessonNumber((byte)(i+1))
+                                    .lessonNumber((byte) (i + 1))
                                     .date(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()))
                                     .hometask(null)
                                     .markType(null)
@@ -99,12 +95,16 @@ public class ScheduleServiceImpl implements ScheduleService{
         }
     }
 
-    //this is a method to convert Object[] into SubjectDTO
-    public List<SubjectDTO> convertFromObject(List<Object[]> somelist)
+    //this is a method to convert List<Map<String, Object>> into SubjectDTO
+    public List<SubjectDTO> convertFromObject(List<Map<String, Object>> somelist)
     {
-        List<SubjectDTO> list = new ArrayList<>();
-        for (int i = 0; i < somelist.size(); i ++)
-            list.add(new SubjectDTO((int)somelist.get(i)[0], (String) somelist.get(i)[1], (String) somelist.get(i)[2]));
+        List<SubjectDTO> list = somelist.stream().map((obj) -> {
+            int id = (int)obj.get("id");
+            String name = (String) obj.get("name");
+            String description = (String)obj.get("description");
+            return new SubjectDTO(id, name, description);
+        })
+                .collect(Collectors.toList());
         return list;
     }
 

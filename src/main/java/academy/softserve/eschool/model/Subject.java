@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.Builder;
+import academy.softserve.eschool.constraint.annotation.RegexPattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -28,11 +28,13 @@ import lombok.ToString;
 @Table(name="subject")
 @ToString(of = {"id", "name"})
 public class Subject {
+	private final static String SUBJECT_NAME_PATTERN = "[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+";
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@NotBlank
 	@Size(max=50)
+	@RegexPattern(pattern=SUBJECT_NAME_PATTERN, message = "Input must match " + SUBJECT_NAME_PATTERN)
 	private String name;
 	@Size(max=255)
 	private String description;
