@@ -26,8 +26,12 @@ public class SubjectController {
 	@ApiOperation(value = "Get all subjects")
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
 	@GetMapping()
-	public List<SubjectDTO> getAll() {
-		return subjectServiceImpl.getAll();
+	public List<SubjectDTO> getAll(@ApiParam("only subjects studied in specified class will be returned") @RequestParam(required=false) Integer classId) {
+		if (classId == null) {
+			return subjectServiceImpl.getAll();
+		} else {
+			return subjectServiceImpl.getSubjectsByClass(classId);
+		}
 	}
 
 	@ApiResponses(value = {
