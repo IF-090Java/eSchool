@@ -208,10 +208,12 @@
                 console.log(data2);
 
                 $.each(data2, function (i, item) {
-                    $('#selectClass').append($('<option>', {
-                        value: data2[i].id,
-                        text : data2[i].className
-                    }));
+                    if (item.isActive == true) {
+                        $('#selectClass').append($('<option>', {
+                            value: data2[i].id,
+                            text : data2[i].className
+                        }));
+                    }
                 });
             });
 
