@@ -174,17 +174,20 @@
                 lastname: {
                     required: "Це поле обов'язкове",
 					minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів'
+					maxlength: 'Максимальна довжина - 25 символів',
+                    isUkrainian: 'Тільки українські символи'
                     },
                 firstname: {
                     required: "Це поле обов'язкове",
                     minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів'
+					maxlength: 'Максимальна довжина - 25 символів',
+                    isUkrainian: 'Тільки українські символи'
                     },
                 patronymic: {
                     required: "Це поле обов'язкове",
                     minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів'
+					maxlength: 'Максимальна довжина - 25 символів',
+                    isUkrainian: 'Тільки українські символи'
                     },
                 login:{
 					required: "Це поле обов'язкове",
@@ -208,10 +211,12 @@
                 console.log(data2);
 
                 $.each(data2, function (i, item) {
-                    $('#selectClass').append($('<option>', {
-                        value: data2[i].id,
-                        text : data2[i].className
-                    }));
+                    if (item.isActive == true) {
+                        $('#selectClass').append($('<option>', {
+                            value: data2[i].id,
+                            text: data2[i].className
+                        }));
+                    }
                 });
             });
 
@@ -255,20 +260,20 @@
                 });
             });
             $("#generate").on("click", function () {
-                // $.ajax({
-                //     url: "/login/generate",
-                //     data: JSON.stringify({
-                //         "firstName": firstName,
-                //         "lastName": lastName,
-                //         "patronymic": patronymic,
-                //
-                //         contentType: "application/json",
-                //
-                //         success: function (responce) {
-                //             $('#username').attr("value",data.login);
-                //         }
-                //     })
-                // })
+                 $.ajax({
+                     url: "/login/generate",
+                     data: JSON.stringify({
+                         "firstName": firstName,
+                         "lastName": lastName,
+                         "patronymic": patronymic,
+
+                         contentType: "application/json",
+
+                         success: function (responce) {
+                             $('#username').attr("value",data.login);
+                         }
+                     })
+                 })
             });
     </script>
     </form>
