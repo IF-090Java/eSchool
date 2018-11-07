@@ -1,9 +1,8 @@
 package academy.softserve.eschool.service;
 
-import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.dto.SubjectDTO;
-
 import java.util.List;
+
+import academy.softserve.eschool.dto.SubjectDTO;
 
 public interface SubjectService {
     List<SubjectDTO> getSubjectsByTeacher(int idTeacher);
@@ -15,4 +14,6 @@ public interface SubjectService {
     void addSubject(SubjectDTO subjectDTO);
     
     void editSubject(int id, SubjectDTO subjectDTO);
+
+	List<SubjectDTO> getSubjectsByClass(Integer classId);
 }
