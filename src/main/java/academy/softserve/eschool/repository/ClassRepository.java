@@ -1,7 +1,7 @@
 package academy.softserve.eschool.repository;
 
-import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.model.Clazz;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,34 +9,25 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import academy.softserve.eschool.model.Clazz;
 
 @Repository
 public interface ClassRepository extends JpaRepository<Clazz, Integer> {
-
-    @Query(value = "SELECT * FROM clazz WHERE is_active=:isActive", nativeQuery=true)
-    List<Clazz> findClassByActiveStatus(@Param("isActive") boolean value);
-
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE clazz SET name=:className, academic_year=:classYear, description=:classDesc, is_active=:isActive WHERE id=:id", nativeQuery=true)
-    void updateClass(@Param("id") int id, @Param("className") String name,
-                     @Param("classYear") int year, @Param("classDesc") String desc,
-                     @Param("isActive") boolean isActive);
-
-    @Query(value = "select c.* from clazz c "
-            + "inner join students_classes s "
-            + "on c.id = s.class_id where c.is_active=true "
-            + "group by s.class_id", nativeQuery = true)
-    List<Clazz> getActiveClassesWithStudents();
-
-    @Query(value = "select c.* from clazz c " +
-            "left join students_classes sc " +
-            "on c.id = sc.class_id where sc.student_id is null", nativeQuery = true)
-    List<Clazz> getActiveClassesWithoutStudents();
 
     @Modifying
     @Transactional
     @Query(value = "update clazz set is_active=:status where id=:classId", nativeQuery = true)
     void updateClassStatusById(@Param("classId") int classId, @Param("status") boolean status);
+    
+    /**
+     * Finds classes that study specified subject
+     * @param subjectId id of specified subject
+     * @return list of Clazz objects
+     */
+    @Query(value = "Select distinct clazz.id, clazz.name, clazz.description, clazz.academic_year, clazz.is_active " +
+    		" from class_teacher_subject_link left join clazz " +
+            " on class_teacher_subject_link.clazz_id=clazz.id" +
+            " where subject_id=:subjectId", nativeQuery=true)
+	List<Clazz> findClassesBySubject(Integer subjectId);
+
 }

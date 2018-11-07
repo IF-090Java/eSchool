@@ -1,5 +1,6 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.dto.NYTransitionDTO;
 import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.service.StudentService;
@@ -27,10 +28,8 @@ public class NYTransitionController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    public Boolean addNewYearClasses(){
-        classService.addNewYearClasses();
-        //todo bk what is the purpose of this boolean attribute. It always be true!
-        return true;
+    public List<ClassDTO> addNewYearClasses(){
+        return classService.addNewYearClasses();
     }
 
     @PutMapping
