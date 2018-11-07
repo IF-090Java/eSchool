@@ -57,6 +57,10 @@
 			var studentsUrl = baseUrl + 'students/classes/';
 			var subjectsUrl = baseUrl + 'subjects';
 			var studentOptions = [];
+			var subjectOptions = [];
+			var classOptions = [];
+			var selectedSubjectId;
+			var selectedClassId;
 			
 			$(function() {
             	$(".teacher_nav").load("/views/menu_teacher.html");
@@ -76,24 +80,29 @@
 			
 			$('#subject').change(function(){
 				//TODO add classes that study selected subject to class select 
+				selectedSubjectId = this.value;
 				var params = getParams();
 				$.getJSON(marksUrl, params, setData);
 			});
 			
 			$('#class').change(function(){
-				//TODO add subjects studied by selected class to subjet select
-				var classId = this.value;
+				selectedClassId = this.value;
 				$.each(studentOptions, function(i, option){
 					option.remove();
 				})
-				if(classId != ''){
-					$.getJSON(studentsUrl+this.value, fillStudentsSelect);
+				$.each(subjectOptions, function(i, option){
+					option.remove();
+				})
+				if(selectedClassId != ''){
+					$.getJSON(studentsUrl+selectedClassId, fillStudentsSelect);
 					$('#student').attr("disabled", false);
 				} else {
 					$('#student').attr("disabled", true);
 				}
-				var params = getParams();
-				$.getJSON(marksUrl, params, setData);
+				$.getJSON(subjectsUrl, {classId:selectedClassId}, fillSubjectsSelect)
+						.done(function(){
+							$.getJSON(marksUrl, getParams(), setData);
+						});
 			});
 			
 			$('#student').change(function(){
@@ -127,6 +136,8 @@
 					option.val(subj.subjectId);
 					option.text(subj.subjectName);
 					$('#subject').append(option);
+					subjectOptions.push(option);
+					$('#subject option[value="'+selectedSubjectId+'"]').attr('selected','selected');
 				});
 			}
 			
@@ -136,6 +147,7 @@
 					option.val(clazz.id);
 					option.text(clazz.className);
 					$('#class').append(option);
+					classOptions.push(option);
 				});
 			}
 			

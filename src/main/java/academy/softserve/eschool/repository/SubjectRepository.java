@@ -22,4 +22,9 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     @Transactional
     @Query(value = "UPDATE subject SET name=:subjectName, description=:subjectDescription WHERE id=:id", nativeQuery=true)
     void editSubject(@Param("id") int id, @Param("subjectName") String name, @Param("subjectDescription") String description);
+    
+    @Query(value = "Select distinct subject.id,subject.name,subject.description from class_teacher_subject_link left join subject \n" +
+            "on class_teacher_subject_link.subject_id=subject.id\n" +
+            "where clazz_id=:classId", nativeQuery=true)
+	List<Subject> findSubjectsByClass(Integer classId);
 }
