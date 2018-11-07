@@ -21,10 +21,15 @@ import academy.softserve.eschool.service.base.MarkServiceBase;
 @Service
 public class MarkService implements MarkServiceBase{
 
-	@Autowired
+
 	private MarkRepository markRepo;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	
+
+	@Autowired
+	public MarkService(MarkRepository markRepo) {
+		this.markRepo = markRepo;
+	}
+
 	@Override
 	public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, Date periodStart,
 			Date periodEnd) {

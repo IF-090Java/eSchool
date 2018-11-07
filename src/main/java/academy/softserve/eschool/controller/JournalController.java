@@ -17,8 +17,13 @@ import java.util.List;
 @Api(value = "Journal's operations", description = "Get journals")
 @RequestMapping("/journals")
 public class JournalController {
+
+    private JournalServiceImpl journalServiceImpl;
+
     @Autowired
-    JournalServiceImpl journalServiceImpl;
+    public JournalController(JournalServiceImpl journalServiceImpl) {
+        this.journalServiceImpl = journalServiceImpl;
+    }
 
     @ApiOperation(value = "Get list of all journals")
     @ApiResponses(
@@ -31,9 +36,7 @@ public class JournalController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping("")
     public GeneralResponseWrapper<List<JournalDTO>> getJournals(){
-        GeneralResponseWrapper<List<JournalDTO> > response;
-        response = new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getJournals());
-        return response;
+        return new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getJournals());
     }
 
     @ApiOperation(value = "Get list of all teacher's journals")
@@ -48,9 +51,7 @@ public class JournalController {
     @GetMapping("/teachers/{idTeacher}")
     public GeneralResponseWrapper<List<JournalDTO>> getJournalsTeacher(
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
-        GeneralResponseWrapper<List<JournalDTO>> response;
-        response = new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getJournalsByTeacher(idTeacher));
-        return response;
+        return new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getJournalsByTeacher(idTeacher));
     }
 
     @ApiOperation(value = "Get list of active teacher's journals")
@@ -65,9 +66,7 @@ public class JournalController {
     @GetMapping("/teachers/{idTeacher}/active")
     public GeneralResponseWrapper<List<JournalDTO>> getActiveJournalsTeacher(
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
-        GeneralResponseWrapper<List<JournalDTO>> response;
-        response = new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getActiveJournalsByTeacher(idTeacher));
-        return response;
+        return new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getActiveJournalsByTeacher(idTeacher));
     }
 
     @ApiResponses(
@@ -84,8 +83,6 @@ public class JournalController {
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass
             ){
-        GeneralResponseWrapper<List<JournalMarkDTO>> response;
-        response = new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getJournal(idSubject,idClass));
-        return response;
+        return new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getJournal(idSubject,idClass));
     }
 }

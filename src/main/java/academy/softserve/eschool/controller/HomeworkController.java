@@ -11,13 +11,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//todo bk ++ configure and use the same code styles accross the app. It should be formatted automatically each time
 @RestController
 @RequestMapping("/homeworks")
 @Api(value = "Homework's Endpoint", description = "Get homeworks")
 public class HomeworkController {
+
+    private JournalServiceImpl journalServiceImpl;
+
     @Autowired
-    JournalServiceImpl journalServiceImpl;
+    public HomeworkController(JournalServiceImpl journalServiceImpl) {
+        this.journalServiceImpl = journalServiceImpl;
+    }
 
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     @ApiOperation(value = "Get homeworks by subject and class")
@@ -32,10 +36,7 @@ public class HomeworkController {
     public GeneralResponseWrapper<List<HomeworkDTO>> getHomeworks(
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass) {
-        //todo bk ++ instead of 3 lines of code use just one. Keep it simple.
-        GeneralResponseWrapper<List<HomeworkDTO>> response;
-        response = new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getHomework(idSubject,idClass));
-        return response;
+        return new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getHomework(idSubject,idClass));
     }
 
     @ApiOperation(value = "Save homework")
@@ -50,10 +51,6 @@ public class HomeworkController {
     @PreAuthorize("hasRole('TEACHER')")
     public GeneralResponseWrapper<HomeworkDTO>  postMark(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkDTO homeworkDTO){
-
-        //todo bk use some enum for the response codes. Don't create your own. Use existed one
-        GeneralResponseWrapper<HomeworkDTO> response;
-        response = new GeneralResponseWrapper<>(new Status(201, "OK"), homeworkDTO);
-        return response;
+        return new GeneralResponseWrapper<>(new Status(201, "Homework successfully created"), homeworkDTO);
     }
 }
