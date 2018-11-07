@@ -60,11 +60,4 @@ public class Clazz {
 	private final Set<@NotNull Lesson> schedule = new HashSet<>();
 
 	//todo bk ++ remove all unused constructors.
-	public Clazz(String name, String description, int academicYear, boolean isActive) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.academicYear = academicYear;
-		this.isActive = isActive;
-	}
 }

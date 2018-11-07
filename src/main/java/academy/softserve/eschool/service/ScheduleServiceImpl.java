@@ -41,7 +41,7 @@ public class ScheduleServiceImpl implements ScheduleService{
                 .startOfSemester(null)
                 .endOfSemester(null)
                 .className(new ClassDTO(clazz.getId(), clazz.getAcademicYear(), clazz.getName(),
-                        clazz.getDescription(), String.valueOf(clazz.isActive())))
+                        clazz.getDescription(), clazz.isActive(), clazz.getStudents().size()))
                 .mondaySubjects(convertFromObject(monday))
                 .tuesdaySubjects(convertFromObject(tuesday))
                 .wednesdaySubjects(convertFromObject(wednesday))

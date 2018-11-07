@@ -99,12 +99,14 @@ public class StudentService {
 
     public void studentClassesRebinding(List<NYTransitionDTO> nyTransitionDTOS){
          for (NYTransitionDTO nDTO : nyTransitionDTOS){
-             List<Student> studentList = studentRepository.findByClazzId(nDTO.getOldClassId());
-             for (Student student : studentList) {
-                 List<Clazz> clazzes = student.getClasses();
-                 clazzes.add(classRepository.findById(nDTO.getNewClassId()).orElse(null));
-                 student.setClasses(clazzes);
-                 studentRepository.save(student);
+             if (nDTO.getNewClassId() != 0){
+                 List<Student> studentList = studentRepository.findByClazzId(nDTO.getOldClassId());
+                 for (Student student : studentList) {
+                     List<Clazz> clazzes = student.getClasses();
+                     clazzes.add(classRepository.findById(nDTO.getNewClassId()).orElse(null));
+                     student.setClasses(clazzes);
+                     studentRepository.save(student);
+                 }
              }
          }
     }
