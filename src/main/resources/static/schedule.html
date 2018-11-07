@@ -11,13 +11,6 @@
 .error {
     color: red;
 }
-.main {
-	margin-left: 15%;
-	margin-right: 15%;
-}
-input {
-	margin-left: 150px
-}
 select {
    -webkit-appearance: button;
    -webkit-border-radius: 2px;
@@ -59,336 +52,150 @@ select {
 
     <div class="container">
       <div id="message" align="center"></div>
-      <!-- Text -->
       <div id="u1" align="center" style="padding-bottom:35px; padding-top:35px">
         <p><h1><span>Внесення розкладу</span></h1></p>
       </div>
       <div class="row">
         <div class="col">
           <div class="main">
-            <!-- Text -->
-            <div id="u13">
-              <p class="control-label col-4 requiredField font-weight-bold">Виберіть межі семестру<span class="asteriskField">*</span></p>
-            </div>
 
             <div class="container">
               <form id = "myForm">
-              <div class="row">
-                <!-- Unnamed (Rectangle) -->
-                <div id="u3" class="ax_default label">
-                  <label for="start" style="padding-bottom:15px; padding-top:25px">Введіть початок семетру:<span class="asteriskField">*</span></label>
+
+                <p for="start"  class="control-label col-4 requiredField font-weight-bold" style="padding-top:35px">Введіть початок семетру:<span class="asteriskField">*</span></p>
                   <div class="controls col-8">
-                    <input class="input-md form-control" id="start" type="date" name="startDate" >
+                    <input class="input-md form-control" id="start" type="date" name="startDate" style="width:200px">
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <!-- Unnamed (Rectangle) -->
-                <div id="u6" class="ax_default label">
-                  <label for="end" style="padding-bottom:15px; padding-top:25px">Введіть кінець семетру:<span class="asteriskField">*</span></label>
+
+                  <p for="end"  class="control-label col-4 requiredField font-weight-bold" style="padding-top:35px">Введіть кінець семетру:<span class="asteriskField">*</span></p>
                   <div class="controls col-8">
-                    <input class="input-md form-control" id="end" type="date" name="endDate" >
+                    <input class="input-md form-control" id="end" type="date" name="endDate" style="width:200px">
                   </div>
-                </div>
-              </div>
               </form>
             </div>
 
-            <!-- Unnamed (Rectangle) -->
-            <div id="u14" class="ax_default label">
               <p class="control-label col-4 requiredField font-weight-bold" style="padding-top:35px">Виберіть клас<span class="asteriskField">*</span></p>
-            </div>
 
             <!-- Classes Droplist -->
             <div id="u15" class="ax_default droplist">
-              <select id="u15_input">
+              <select id="u15_input" style="width:200px">
               </select>
             </div>
 
-            <!-- Unnamed (Rectangle) -->
-            <div id="u19" class="ax_default label">
-              <p style="text-decoration:underline;">Понеділок</p>
-            </div>
+            <p>Понеділок</p>
+            <ol id="monday">
+              <div class="controls1">
+                <form role="form" autocomplete="off">
+                  <div class="entry input-group col-xs-3">
 
-            <ol>
+                    <li>
+                      <select name="fields[]" class="ax_default_droplist">
+                        <option value="0">-</option>
+                      </select>
 
-              <!-- Subject (Droplist) -->
-              <li id="u21" data-label="Subject">
-                <select id="u21_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                      <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span>Додати урок</span>
+                            </button>
+                        </span>
+                    </li>
 
-              <!-- Subject (Droplist) -->
-              <li id="u23" data-label="Subject">
-                <select id="u23_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                  </div>
+                </form>
+              </div>
+            </ol>
+              <p>Вівторок</p>
+            <ol id="tuesday">
+              <div class="controls2">
+                <form role="form" autocomplete="off">
+                  <div class="entry input-group col-xs-3">
 
-              <!-- Subject (Droplist) -->
-              <li id="u25" data-label="Subject">
-                <select id="u25_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                    <li>
+                      <select name="fields[]" class="ax_default_droplist">
+                        <option value="0">-</option>
+                      </select>
 
-              <!-- Subject (Droplist) -->
-              <li id="u27" data-label="Subject">
-                <select id="u27_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                      <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span>Додати урок</span>
+                            </button>
+                        </span>
+                    </li>
 
-              <!-- Subject (Droplist) -->
-              <li id="u29" data-label="Subject">
-                <select id="u29_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u31" data-label="Subject">
-                <select id="u31_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u33" data-label="Subject">
-                <select id="u33_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
+                  </div>
+                </form>
+              </div>
             </ol>
 
-            <!-- Unnamed (Rectangle) -->
-            <div id="u67" class="ax_default label">
-              <p style="text-decoration:underline;">Вівторок</p>
-            </div>
+              <p>Середа</p>
+            <ol id="wednesday">
+              <div class="controls3">
+                <form role="form" autocomplete="off">
+                  <div class="entry input-group col-xs-3">
 
-            <ol>
-              <!-- Subject (Droplist) -->
-              <li id="u69" data-label="Subject">
-                <select id="u69_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                    <li>
+                      <select name="fields[]" class="ax_default_droplist">
+                        <option value="0">-</option>
+                      </select>
 
-              <!-- Subject (Droplist) -->
-              <li id="u71" data-label="Subject">
-                <select id="u71_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                      <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span>Додати урок</span>
+                            </button>
+                        </span>
+                    </li>
 
-              <!-- Subject (Droplist) -->
-              <li id="u73" data-label="Subject">
-                <select id="u73_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u75" data-label="Subject">
-                <select id="u75_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u77" data-label="Subject">
-                <select id="u77_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u79" data-label="Subject">
-                <select id="u79_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u81" data-label="Subject">
-                <select id="u81_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                  </div>
+                </form>
+              </div>
             </ol>
 
-            <!-- Unnamed (Rectangle) -->
-            <div id="u83" class="ax_default label">
-              <p style="text-decoration:underline;">Середа</p>
-            </div>
+              <p>Четвер</p>
+            <ol id="thursday">
+              <div class="controls4">
+                <form role="form" autocomplete="off">
+                  <div class="entry input-group col-xs-3">
 
-            <ol>
-              <!-- Subject (Droplist) -->
-              <li id="u85" data-label="Subject">
-                <select id="u85_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                    <li>
+                      <select name="fields[]" class="ax_default_droplist">
+                        <option value="0">-</option>
+                      </select>
 
-              <!-- Subject (Droplist) -->
-              <li id="u87" data-label="Subject">
-                <select id="u87_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                      <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span>Додати урок</span>
+                            </button>
+                        </span>
+                    </li>
 
-              <!-- Subject (Droplist) -->
-              <li id="u89" data-label="Subject">
-                <select id="u89_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u91" data-label="Subject">
-                <select id="u91_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u93" data-label="Subject">
-                <select id="u93_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u95" data-label="Subject">
-                <select id="u95_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u97" data-label="Subject">
-                <select id="u97_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                  </div>
+                </form>
+              </div>
             </ol>
 
-            <!-- Unnamed (Rectangle) -->
-            <div id="u35" class="ax_default label">
-              <p style="text-decoration:underline;">Четвер</p>
-            </div>
+              <p>П'ятниця</p>
+            <ol id="friday">
+              <div class="controls5">
+                <form role="form" autocomplete="off">
+                  <div class="entry input-group col-xs-3">
 
-            <ol>
-              <!-- Subject (Droplist) -->
-              <li id="u37" data-label="Subject">
-                <select id="u37_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                    <li>
+                      <select name="fields[]" class="ax_default_droplist">
+                        <option value="0">-</option>
+                      </select>
 
-              <!-- Subject (Droplist) -->
-              <li id="u39" data-label="Subject">
-                <select id="u39_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                      <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span>Додати урок</span>
+                            </button>
+                        </span>
+                    </li>
 
-              <!-- Subject (Droplist) -->
-              <li id="u41" data-label="Subject">
-                <select id="u41_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u43" data-label="Subject">
-                <select id="u43_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u45" data-label="Subject">
-                <select id="u45_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u47" data-label="Subject">
-                <select id="u47_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u49" data-label="Subject">
-                <select id="u49_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
+                  </div>
+                </form>
+              </div>
             </ol>
 
-            <!-- Unnamed (Rectangle) -->
-            <div id="u51" class="ax_default label">
-              <p style="text-decoration:underline;">П'ятниця</p>
-            </div>
-
-            <ol>
-              <!-- Subject (Droplist) -->
-              <li id="u53" data-label="Subject">
-                <select id="u53_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u55" data-label="Subject">
-                <select id="u55_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u57" data-label="Subject">
-                <select id="u57_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u59" data-label="Subject">
-                <select id="u59_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u61" data-label="Subject">
-                <select id="u61_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u63" data-label="Subject">
-                <select id="u63_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-
-              <!-- Subject (Droplist) -->
-              <li id="u65" data-label="Subject">
-                <select id="u65_input" class="ax_default_droplist">
-                  <option value="0">-</option>
-                </select>
-              </li>
-            </ol>
-
-
-            <!-- Unnamed (Rectangle) -->
             <div id="u17" align="center" style="text-align: center; margin: 0 auto; padding-top: 25px; padding-bottom: 100px">
               <button id="submitButton" class="btn btn-success" type="submit">Створити розклад</button>
             </div>
@@ -399,6 +206,115 @@ select {
   </div>
 </div>
 <script type="text/javascript">
+$(function()
+{
+    $('#monday').on('click', '.btn-add', function(e)
+    {
+        e.preventDefault();
+
+        var controlForm = $('.controls1 form:first'),
+            currentEntry = $(this).parents('.entry:first'),
+            newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+        newEntry.find('input').val('');
+        controlForm.find('.entry:not(:last) .btn-add')
+            .removeClass('btn-add').addClass('btn-remove')
+            .removeClass('btn-success').addClass('btn-danger')
+            .html('<span>Видалити урок</span>');
+    }).on('click', '.btn-remove', function(e)
+    {
+		$(this).parents('.entry:first').remove();
+
+		e.preventDefault();
+		return false;
+	});
+
+	$('#tuesday').on('click', '.btn-add', function(e)
+    {
+        e.preventDefault();
+
+        var controlForm =$('.controls2 form:first'),
+            currentEntry = $(this).parents('.entry:first'),
+            newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+        newEntry.find('input').val('');
+        controlForm.find('.entry:not(:last) .btn-add')
+            .removeClass('btn-add').addClass('btn-remove')
+            .removeClass('btn-success').addClass('btn-danger')
+            .html('<span>Видалити урок</span>');
+    }).on('click', '.btn-remove', function(e)
+    {
+		$(this).parents('.entry:first').remove();
+
+		e.preventDefault();
+		return false;
+	});
+
+	$('#wednesday').on('click', '.btn-add', function(e)
+    {
+        e.preventDefault();
+
+        var controlForm =$('.controls3 form:first'),
+            currentEntry = $(this).parents('.entry:first'),
+            newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+        newEntry.find('input').val('');
+        controlForm.find('.entry:not(:last) .btn-add')
+            .removeClass('btn-add').addClass('btn-remove')
+            .removeClass('btn-success').addClass('btn-danger')
+            .html('<span>Видалити урок</span>');
+    }).on('click', '.btn-remove', function(e)
+    {
+		$(this).parents('.entry:first').remove();
+
+		e.preventDefault();
+		return false;
+	});
+
+	$('#thursday').on('click', '.btn-add', function(e)
+    {
+        e.preventDefault();
+
+        var controlForm =$('.controls4 form:first'),
+            currentEntry = $(this).parents('.entry:first'),
+            newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+        newEntry.find('input').val('');
+        controlForm.find('.entry:not(:last) .btn-add')
+            .removeClass('btn-add').addClass('btn-remove')
+            .removeClass('btn-success').addClass('btn-danger')
+            .html('<span>Видалити урок</span>');
+    }).on('click', '.btn-remove', function(e)
+    {
+		$(this).parents('.entry:first').remove();
+
+		e.preventDefault();
+		return false;
+	});
+
+	$('#friday').on('click', '.btn-add', function(e)
+    {
+        e.preventDefault();
+
+        var controlForm =$('.controls5 form:first'),
+            currentEntry = $(this).parents('.entry:first'),
+            newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+        newEntry.find('input').val('');
+        controlForm.find('.entry:not(:last) .btn-add')
+            .removeClass('btn-add').addClass('btn-remove')
+            .removeClass('btn-success').addClass('btn-danger')
+            .html('<span>Видалити урок</span>');
+    }).on('click', '.btn-remove', function(e)
+    {
+		$(this).parents('.entry:first').remove();
+
+		e.preventDefault();
+		return false;
+	});
+});
+
+
     $(document).ready(function () {
         refreshToken();
         $.ajaxSetup({
@@ -499,7 +415,7 @@ select {
 				var classObj = {id: $('#u15_input').find(":selected").val(), classYear: (new Date()).getFullYear(),
 				className: $("#u15_input").find('option:selected').text(), classDescription: " ", isActive: "true"};
 				classId = $('#u15_input').find(":selected").val();
-
+/***************************************************************************************
 				var monday = [];
 				var tuesday = [];
 				var wednesday = [];
@@ -554,7 +470,7 @@ select {
                     }
                    return array2;
                 }
-
+******************************************************************************/
 				$.ajax({
                 type: "post",
                 url: host + "classes/" + classId + "/schedule",
@@ -587,46 +503,6 @@ select {
                     success: function (responce) {
                         $("#start").val("");
                         $("#end").val("");
-                          document.getElementById('u21_input').selectedIndex = 0;
-                          document.getElementById('u23_input').selectedIndex = 0;
-                          document.getElementById('u25_input').selectedIndex = 0;
-                          document.getElementById('u27_input').selectedIndex = 0;
-                          document.getElementById('u29_input').selectedIndex = 0;
-                          document.getElementById('u31_input').selectedIndex = 0;
-                          document.getElementById('u33_input').selectedIndex = 0;
-
-                          document.getElementById('u69_input').selectedIndex = 0;
-                          document.getElementById('u71_input').selectedIndex = 0;
-                          document.getElementById('u73_input').selectedIndex = 0;
-                          document.getElementById('u75_input').selectedIndex = 0;
-                          document.getElementById('u77_input').selectedIndex = 0;
-                          document.getElementById('u79_input').selectedIndex = 0;
-                          document.getElementById('u81_input').selectedIndex = 0;
-
-                          document.getElementById('u85_input').selectedIndex = 0;
-                          document.getElementById('u87_input').selectedIndex = 0;
-                          document.getElementById('u89_input').selectedIndex = 0;
-                          document.getElementById('u91_input').selectedIndex = 0;
-                          document.getElementById('u93_input').selectedIndex = 0;
-                          document.getElementById('u95_input').selectedIndex = 0;
-                          document.getElementById('u97_input').selectedIndex = 0;
-
-                          document.getElementById('u37_input').selectedIndex = 0;
-                          document.getElementById('u39_input').selectedIndex = 0;
-                          document.getElementById('u41_input').selectedIndex = 0;
-                          document.getElementById('u43_input').selectedIndex = 0;
-                          document.getElementById('u45_input').selectedIndex = 0;
-                          document.getElementById('u47_input').selectedIndex = 0;
-                          document.getElementById('u49_input').selectedIndex = 0;
-
-                          document.getElementById('u53_input').selectedIndex = 0;
-                          document.getElementById('u55_input').selectedIndex = 0;
-                          document.getElementById('u57_input').selectedIndex = 0;
-                          document.getElementById('u59_input').selectedIndex = 0;
-                          document.getElementById('u61_input').selectedIndex = 0;
-                          document.getElementById('u63_input').selectedIndex = 0;
-                          document.getElementById('u65_input').selectedIndex = 0;
-
                     }
 
             });

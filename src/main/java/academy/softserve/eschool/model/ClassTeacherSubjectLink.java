@@ -17,12 +17,15 @@ import lombok.ToString;
 public class ClassTeacherSubjectLink{
 	@Id
 	@Column(name = "clazz_id")
+	@NotNull
 	private int clazz_id;
 	@Id
 	@Column(name = "teacher_id")
+	@NotNull
 	private int teacher_id;
 	@Id
 	@Column(name = "subject_id")
+	@NotNull
 	private int subject_id;
 
 	@Id
