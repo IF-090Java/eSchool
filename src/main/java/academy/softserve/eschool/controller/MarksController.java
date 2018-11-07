@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.dto.MarkTypeDTO;
+import academy.softserve.eschool.model.Mark;
 import academy.softserve.eschool.service.base.MarkServiceBase;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;

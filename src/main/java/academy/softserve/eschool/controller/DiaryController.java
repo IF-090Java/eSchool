@@ -48,8 +48,8 @@ public class DiaryController {
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/{studentId}")
 	GeneralResponseWrapper<List<DiaryEntryDTO>> getDiary(
-			@ApiParam(value = "first day of required week, accepts date in format 'yyyy-MM-dd'") @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate weekStartDate, 
-			@ApiParam(value = "id of required student") @PathVariable Integer studentId){
+			@ApiParam(value = "first day of week, accepts date in format 'yyyy-MM-dd'", required=true) @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate weekStartDate, 
+			@ApiParam(value = "id of student", required=true) @PathVariable Integer studentId){
 		//todo bk ++ instead of 3 lines of code use just one. Keep it simple.
 		//return new GeneralResponseWrapper<>(new Status(200, "OK"), diaryService.getDiary(weekStartDate, studentId))
 		return new GeneralResponseWrapper<>(

@@ -62,7 +62,7 @@ public class ClassController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'TEACHER')")
     @GetMapping
     public List<ClassDTO> getAllClasses(
-    		@ApiParam(value="only classes that study specified subject will be returned") @RequestParam(required=false) Integer subjectId){
+    		@ApiParam(value="only classes that study subject with specified id will be returned") @RequestParam(required=false) Integer subjectId){
         if (subjectId == null) {
         	return classService.getAllClasses();
         } else {
