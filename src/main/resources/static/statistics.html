@@ -101,6 +101,7 @@
 				}
 				$.getJSON(subjectsUrl, {classId:selectedClassId}, fillSubjectsSelect)
 						.done(function(){
+							$('#subject option[value="'+selectedSubjectId+'"]').attr('selected','selected');
 							$.getJSON(marksUrl, getParams(), setData);
 						});
 			});
@@ -137,7 +138,6 @@
 					option.text(subj.subjectName);
 					$('#subject').append(option);
 					subjectOptions.push(option);
-					$('#subject option[value="'+selectedSubjectId+'"]').attr('selected','selected');
 				});
 			}
 			
