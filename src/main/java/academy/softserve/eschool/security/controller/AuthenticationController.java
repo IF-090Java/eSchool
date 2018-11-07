@@ -7,10 +7,7 @@ import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredExcep
 import academy.softserve.eschool.security.service.JwtAuthenticationResponse;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,6 +51,11 @@ public class AuthenticationController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @ApiImplicitParams({ @ApiImplicitParam(name = "Authorization",
+            value = "Access Token",
+            required = false,
+            dataType = "string",
+            paramType = "header") })
     public GeneralResponseWrapper<JwtAuthenticationResponse> createAuthenticationToken
             (@ApiParam(value = "Login and Password", required = true) @RequestBody JwtAuthenticationRequest authenticationRequest)
             throws AuthenticationException {
