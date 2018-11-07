@@ -115,4 +115,17 @@ public class ClassServiceImpl implements ClassService{
             return String.valueOf(classNum);
         }
     }
+
+	@Override
+	public List<ClassDTO> getClassesBySubject(Integer subjectId) {
+		List<Clazz> clazzList = classRepository.findClassesBySubject(subjectId);
+        return clazzList.stream().map((i) -> ClassDTO.builder()
+                .id(i.getId())
+                .className(i.getName())
+                .classDescription(i.getDescription())
+                .classYear(i.getAcademicYear())
+                .isActive(i.isActive())
+                .numOfStudents(i.getStudents().size()).build()
+        ).collect(Collectors.toCollection(ArrayList::new));
+	}
 }

@@ -9,6 +9,7 @@ import java.util.List;
 public interface ClassService {
     List<ClassDTO> getAllClasses();
     ClassDTO findClassById(int id);
+    List<ClassDTO> getClassesBySubject(Integer subjectId);
     ClassDTO saveClass(ClassDTO classDTO);
     ClassDTO updateClass(int id, ClassDTO classDTO);
     List<ClassDTO> addNewYearClasses();

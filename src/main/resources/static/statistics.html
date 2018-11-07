@@ -79,10 +79,15 @@
 			});
 			
 			$('#subject').change(function(){
-				//TODO add classes that study selected subject to class select 
 				selectedSubjectId = this.value;
-				var params = getParams();
-				$.getJSON(marksUrl, params, setData);
+				$.each(classOptions, function(i, option){
+					option.remove();
+				})
+				$.getJSON(classesUrl, {subjectId:selectedSubjectId}, fillClassesSelect)
+						.done(function(){
+							$('#class option[value="'+selectedClassId+'"]').attr('selected','selected');
+							$.getJSON(marksUrl, getParams(), setData);
+						});
 			});
 			
 			$('#class').change(function(){
