@@ -123,7 +123,7 @@
 				 if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
 					return true;
 			     return false;
-          }, "Тільки українські букви");
+          }, "Використовуйте тільки українські букви. Перша літера має бути великою");
 
           jQuery.validator.addMethod("dateOfB", function(value, element) {
                  var date = new Date(value);
