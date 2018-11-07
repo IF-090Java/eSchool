@@ -38,13 +38,13 @@
                 <div class="col-8">
                     <form id="myForm">
                             <div class="form-group row">
-                                <label for="clsName" class="col-3 col-form-label">Назва класу</label>
+                                <label for="clsName" class="col-3 col-form-label" title="Обов'язкове поле"><strong>Назва класу*</strong></label>
                                 <div class="col-9">
                                     <input class="form-control" id="clsName" type="text" name="className">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="clsYear" class="col-3 col-form-label">Навчальний рік</label>
+                                <label for="clsYear" class="col-3 col-form-label" title="Обов'язкове поле"><strong>Навчальний рік*</strong></label>
                                 <div class="col-9">
                                     <input class="form-control" id="clsYear" type="text" name="classYear">
                                 </div>
@@ -176,7 +176,7 @@
                     contentType: "application/json",
                     success: function (responce) {
                         $("#message").attr("class", "alert alert-success");
-                        $("#message").html("<strong>Клас створений!</strong>");
+                        $("#message").html("<strong>Клас створений! <a href='/ui/classes/list'>Повернутися до списку класів</a></strong>");
                         $(":input").val("");
                     }
                 });
@@ -220,7 +220,7 @@
                     contentType: "application/json",
                     success: function (responce) {
                         $("#message").attr("class", "alert alert-success");
-                        $("#message").html("<strong>Клас оновлений! <a href='/ui/classes/list'>Перейти до списку класів</a></strong>");
+                        $("#message").html("<strong>Клас оновлений! <a href='/ui/classes/list'>Повернутися до списку класів</a></strong>");
                     }
                 });
             })

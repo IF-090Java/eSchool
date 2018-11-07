@@ -29,7 +29,7 @@
             </div>
             <div class="row justify-content-center mt-5">
                 <div class="col-5">
-                    <button type="button" class="transitButton btn btn-success btn-block">Новий навчальний рік. Додати класи</button>
+                    <button type="button" class="transitButton btn btn-primary btn-block">Новий навчальний рік. Додати класи</button>
                 </div>
             </div>
             <hr />
@@ -53,7 +53,7 @@
 
             <div class="row justify-content-center mt-5 mb-5">
                 <div class="col-5">
-                <button type="button" class="bindingButton btn btn-success btn-block">Перевести учнів в нові класи</button>
+                <button type="button" class="bindingButton btn btn-primary btn-block">Перевести учнів в нові класи</button>
                 </div>
             </div>
         </div>
@@ -100,19 +100,19 @@ $(document).ready(function () {
         var activeClassesId = [];
 
         $.each(classes, function (i, item) {
-            if (item.active == true && item.numOfStudents == 0) {
+            if (item.isActive == true && item.numOfStudents == 0) {
                 activeClasses.push(item.className +' - '+item.classYear)
             }
         })
 
         $.each(classes, function (i, item) {
-            if (item.active == true && item.numOfStudents == 0) {
+            if (item.isActive == true && item.numOfStudents == 0) {
              activeClassesId.push(item.id)
             }
         })
 
         $.each(classes, function (i, item) {
-            if (item.active == true && item.numOfStudents > 1) {
+            if (item.isActive == true && item.numOfStudents > 1) {
                 $.getJSON(host + 'students/classes/'+item.id, function (studList) {
                     var tr = $('<tr></tr>')
                     var spoiler =
@@ -129,12 +129,13 @@ $(document).ready(function () {
                         $('<li><a href="/ui/students/'+v.id+'/edit" target="_blank">'+v.firstname+' ' +v.lastname +'</a></li>').appendTo('#studId_'+item.id);
                     })
 
-                    var oldClass = $('<td class="transitionTableOldClass" title="'+item.id+'">'+item.className+' - '+item.classYear+'</td>')
+                    var oldClass = $('<td class="transitionTableOldClass" id="'+item.id+'">'+item.className+' - '+item.classYear+'</td>')
                     oldClass.appendTo(tr);
 
                     var newClassesList = $('<td class="transitionTableNewClass"><select id="newClassesList_'+item.id+'"></select></td>')
                     newClassesList.appendTo(tr);
 
+                    $('#newClassesList_'+item.id).append('<option value="0">Випускний</option>')
                     for (i=0; i<activeClasses.length; i++){
                         $('#newClassesList_'+item.id).append('<option value="'+activeClassesId[i]+'">'+activeClasses[i]+'</option>')
                     }
@@ -156,7 +157,7 @@ $(document).ready(function () {
         var classesList = [];
 
         for (var j = 0; j < old_classes.length; j++) {
-            var old_class_id = old_classes[j].title;
+            var old_class_id = old_classes[j].id;
             var new_class = $('#newClassesList_'+old_class_id).find(":selected").val();
             var dto = {
                 newClassId: new_class,
