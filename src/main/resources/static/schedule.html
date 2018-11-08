@@ -431,7 +431,7 @@ select {
                   return false;
           }, "Дата повинна бути більшою чи рівною " + today);
 
-          jQuery.validator.addMethod("enddate", function(value, element) {
+          jQuery.validator.addMethod("endOfDate", function(value, element) {
             var startdatevalue = $("#start").val();
             if (new Date(startdatevalue) < new Date(value))
                       return true;
@@ -448,14 +448,14 @@ select {
                 endDate: {
                     required: true,
                     date: true,
-                    enddate : true
+                    endOfDate : true
                 }
             },
             messages: {
              startDate: {
                     required: "Це поле обов'язкове"
                 },
-                endDate: {
+             endDate: {
                     required: "Це поле обов'язкове"
                 }
             }
@@ -483,7 +483,7 @@ select {
                     var classNames = [];
                     var id = [];
                     $.each(data, function(key, value) {
-                        if (value.isActive == 'true') {
+                        if (value.isActive == true) {
                             classNames.push(value.className);
                             id.push(value.id);
                         }
@@ -499,7 +499,7 @@ select {
 
 				var classObj = {id: $('#u15_input').find(":selected").val(), classYear: (new Date()).getFullYear(),
 				className: $("#u15_input").find('option:selected').text(), classDescription: " ", isActive: "true"};
-				id_class = $('#u15_input').find(":selected").val();
+				classId = $('#u15_input').find(":selected").val();
 
 				var monday = [];
 				var tuesday = [];
@@ -558,7 +558,7 @@ select {
 
 				$.ajax({
                 type: "post",
-                url: host + "classes/" + id_class + "/schedule",
+                url: host + "classes/" + classId + "/schedule",
                 dataType: "json",
                 data: JSON.stringify({
                   "startOfSemester":startdate,

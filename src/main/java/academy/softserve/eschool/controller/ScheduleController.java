@@ -47,11 +47,11 @@ public class ScheduleController {
             }
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/classes/{id_class}/schedule")
-    //todo bk ++ 'id_class' really? did you try to look into java code convention???
+    @PostMapping("/classes/{classId}/schedule")
+    //todo bk ++
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
-            @ApiParam(value = "id of class", required = true) @PathVariable("id_class") final int id_class,
-            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO) throws ParseException//create a shedule for a class with this id
+            @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
+            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)//create a shedule for a class with this id
     {
         //todo bk use java8 date api
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -71,8 +71,8 @@ public class ScheduleController {
             }
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/classes/{id_class}/schedule")
-    public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "id of class", required = true) @PathVariable("id_class") final int id_class){
+    @GetMapping("/classes/{classId}/schedule")
+    public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId){
 
         return new GeneralResponseWrapper<>(new Status(200, "OK"), scheduleService.getScheduleByClassId(id_class));
     }
