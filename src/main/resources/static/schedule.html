@@ -89,7 +89,7 @@ select {
                   <div class="entry input-group col-xs-3">
 
                     <li>
-                      <select name="fields[]" class="ax_default_droplist">
+                      <select name="monday" class="ax_default_droplist1" data-type="answer" class="select">
                         <option value="0">-</option>
                       </select>
 
@@ -111,7 +111,7 @@ select {
                   <div class="entry input-group col-xs-3">
 
                     <li>
-                      <select name="fields[]" class="ax_default_droplist">
+                      <select name="tuesday" class="ax_default_droplist2" data-type="answer" class="select">
                         <option value="0">-</option>
                       </select>
 
@@ -134,7 +134,7 @@ select {
                   <div class="entry input-group col-xs-3">
 
                     <li>
-                      <select name="fields[]" class="ax_default_droplist">
+                      <select name="wednesday" class="ax_default_droplist3" data-type="answer" class="select">
                         <option value="0">-</option>
                       </select>
 
@@ -157,7 +157,7 @@ select {
                   <div class="entry input-group col-xs-3">
 
                     <li>
-                      <select name="fields[]" class="ax_default_droplist">
+                      <select name="thursday" class="ax_default_droplist4" data-type="answer" class="select">
                         <option value="0">-</option>
                       </select>
 
@@ -180,7 +180,7 @@ select {
                   <div class="entry input-group col-xs-3">
 
                     <li>
-                      <select name="fields[]" class="ax_default_droplist">
+                      <select name="friday" class="ax_default_droplist5" data-type="answer" class="select">
                         <option value="0">-</option>
                       </select>
 
@@ -206,6 +206,7 @@ select {
   </div>
 </div>
 <script type="text/javascript">
+/****************************************Add more selects*********************************************************************/
 $(function()
 {
     $('#monday').on('click', '.btn-add', function(e)
@@ -216,7 +217,10 @@ $(function()
             currentEntry = $(this).parents('.entry:first'),
             newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-        newEntry.find('input').val('');
+        var id = 0;
+        newEntry.each(function(){
+                   $(this).find('select').attr('id', id + 1);
+                });
         controlForm.find('.entry:not(:last) .btn-add')
             .removeClass('btn-add').addClass('btn-remove')
             .removeClass('btn-success').addClass('btn-danger')
@@ -237,7 +241,10 @@ $(function()
             currentEntry = $(this).parents('.entry:first'),
             newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-        newEntry.find('input').val('');
+          var id = 0;
+        newEntry.each(function(){
+                   $(this).find('select').attr('id', id + 1);
+                });
         controlForm.find('.entry:not(:last) .btn-add')
             .removeClass('btn-add').addClass('btn-remove')
             .removeClass('btn-success').addClass('btn-danger')
@@ -258,7 +265,10 @@ $(function()
             currentEntry = $(this).parents('.entry:first'),
             newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-        newEntry.find('input').val('');
+  var id = 0;
+        newEntry.each(function(){
+                   $(this).find('select').attr('id', id + 1);
+                });
         controlForm.find('.entry:not(:last) .btn-add')
             .removeClass('btn-add').addClass('btn-remove')
             .removeClass('btn-success').addClass('btn-danger')
@@ -279,7 +289,10 @@ $(function()
             currentEntry = $(this).parents('.entry:first'),
             newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-        newEntry.find('input').val('');
+  var id = 0;
+        newEntry.each(function(){
+                   $(this).find('select').attr('id', id + 1);
+                });
         controlForm.find('.entry:not(:last) .btn-add')
             .removeClass('btn-add').addClass('btn-remove')
             .removeClass('btn-success').addClass('btn-danger')
@@ -300,7 +313,10 @@ $(function()
             currentEntry = $(this).parents('.entry:first'),
             newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-        newEntry.find('input').val('');
+  var id = 0;
+        newEntry.each(function(){
+                   $(this).find('select').attr('id', id + 1);
+                });
         controlForm.find('.entry:not(:last) .btn-add')
             .removeClass('btn-add').addClass('btn-remove')
             .removeClass('btn-success').addClass('btn-danger')
@@ -314,7 +330,7 @@ $(function()
 	});
 });
 
-
+/****************************************Security*********************************************************************/
     $(document).ready(function () {
         refreshToken();
         $.ajaxSetup({
@@ -323,7 +339,7 @@ $(function()
             }
         })
     })
-
+/****************************************Valdation of forms*********************************************************************/
 		$(document).ready(function() {
 
             var today = new Date();
@@ -376,7 +392,7 @@ $(function()
                 }
             }
         });
-
+/****************************************Get subjects and classes from endpoints*********************************************************************/
 			$.getJSON(host + 'subjects', function (data) {
 
 				var subjectNames = [];
@@ -387,7 +403,11 @@ $(function()
 					});
 				for (i=0; i < subjectNames.length; i++)
 				{
-					$('.ax_default_droplist').append('<option value="' + id[i] + '">' + subjectNames[i] + '</option>');
+					$('.ax_default_droplist1').append('<option value="' + id[i] + '" name="monday">' + subjectNames[i] + '</option>');
+					$('.ax_default_droplist2').append('<option value="' + id[i] + '" name="tuesday">' + subjectNames[i] + '</option>');
+					$('.ax_default_droplist3').append('<option value="' + id[i] + '" name="wednesday">' + subjectNames[i] + '</option>');
+					$('.ax_default_droplist4').append('<option value="' + id[i] + '" name="thursday">' + subjectNames[i] + '</option>');
+					$('.ax_default_droplist5').append('<option value="' + id[i] + '" name="friday">' + subjectNames[i] + '</option>');
 				}
 			}).fail(function (data) {
                 if (data.status == 403){
@@ -407,7 +427,7 @@ $(function()
 					$('#u15_input').append('<option value="' + id[i] + '">' + classNames[i] + '</option>');
 				});
 
-
+/****************************************Save data when clicking on the submitButton*********************************************************************/
 			$('#submitButton').click(function(){
 				var startdate = $('#start').val();
 				var enddate = $('#end').val();
@@ -415,52 +435,26 @@ $(function()
 				var classObj = {id: $('#u15_input').find(":selected").val(), classYear: (new Date()).getFullYear(),
 				className: $("#u15_input").find('option:selected').text(), classDescription: " ", isActive: "true"};
 				classId = $('#u15_input').find(":selected").val();
-/***************************************************************************************
+
 				var monday = [];
 				var tuesday = [];
 				var wednesday = [];
 				var thursday = [];
 				var friday = [];
 
-				monday.push({subjectId: $('#u21_input').find(":selected").val(), subjectName: $('#u21_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u23_input').find(":selected").val(), subjectName: $('#u23_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u25_input').find(":selected").val(), subjectName: $('#u25_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u27_input').find(":selected").val(), subjectName: $('#u27_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u29_input').find(":selected").val(), subjectName: $('#u29_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u31_input').find(":selected").val(), subjectName: $('#u31_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u33_input').find(":selected").val(), subjectName: $('#u33_input').find("option:selected").text(), subjectDescription: ""});
+                  $('select > option:selected').each(function() {
+                   if($(this).attr('name') == 'monday')
+                   monday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   if($(this).attr('name') == 'tuesday')
+                   tuesday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   if($(this).attr('name') == 'wednesday')
+                   wednesday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   if($(this).attr('name') == 'thursday')
+                   thursday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   if($(this).attr('name') == 'friday')
+                   friday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                  });
 
-                tuesday.push({subjectId: $('#u69_input').find(":selected").val(), subjectName: $('#u69_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u71_input').find(":selected").val(), subjectName: $('#u71_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u73_input').find(":selected").val(), subjectName: $('#u73_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u75_input').find(":selected").val(), subjectName: $('#u75_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u77_input').find(":selected").val(), subjectName: $('#u77_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u79_input').find(":selected").val(), subjectName: $('#u79_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u81_input').find(":selected").val(), subjectName: $('#u81_input').find("option:selected").text(), subjectDescription: ""});
-
-				wednesday.push({subjectId: $('#u85_input').find(":selected").val(), subjectName: $('#u85_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u87_input').find(":selected").val(), subjectName: $('#u87_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u89_input').find(":selected").val(), subjectName: $('#u98_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u91_input').find(":selected").val(), subjectName: $('#u91_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u93_input').find(":selected").val(), subjectName: $('#u93_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u95_input').find(":selected").val(), subjectName: $('#u95_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u97_input').find(":selected").val(), subjectName: $('#u97_input').find("option:selected").text(), subjectDescription: ""});
-
-				thursday.push({subjectId: $('#u37_input').find(":selected").val(), subjectName: $('#u37_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u39_input').find(":selected").val(), subjectName: $('#u39_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u41_input').find(":selected").val(), subjectName: $('#u41_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u43_input').find(":selected").val(), subjectName: $('#u43_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u45_input').find(":selected").val(), subjectName: $('#u45_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u47_input').find(":selected").val(), subjectName: $('#u47_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u49_input').find(":selected").val(), subjectName: $('#u49_input').find("option:selected").text(), subjectDescription: ""});
-
-				friday.push({subjectId: $('#u53_input').find(":selected").val(), subjectName: $('#u53_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u55_input').find(":selected").val(), subjectName: $('#u55_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u57_input').find(":selected").val(), subjectName: $('#u57_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u59_input').find(":selected").val(), subjectName: $('#u59_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u61_input').find(":selected").val(), subjectName: $('#u61_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u63_input').find(":selected").val(), subjectName: $('#u63_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u65_input').find(":selected").val(), subjectName: $('#u65_input').find("option:selected").text(), subjectDescription: ""});
 
                 function deleteFromArray(array)
                 {
@@ -470,7 +464,7 @@ $(function()
                     }
                    return array2;
                 }
-******************************************************************************/
+
 				$.ajax({
                 type: "post",
                 url: host + "classes/" + classId + "/schedule",
