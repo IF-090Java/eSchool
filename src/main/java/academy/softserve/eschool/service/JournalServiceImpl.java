@@ -16,12 +16,20 @@ import java.util.*;
 
 @Service
 public class JournalServiceImpl implements JournalService {
+
+    private ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository;
+
+    private StudentRepository studentRepository;
+
+    private LessonRepository lessonRepository;
+
     @Autowired
-    ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository;
-    @Autowired
-    StudentRepository studentRepository;
-    @Autowired
-    LessonRepository lessonRepository;
+    public JournalServiceImpl(ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository, StudentRepository studentRepository, LessonRepository lessonRepository) {
+        this.classTeacherSubjectLinkRepository = classTeacherSubjectLinkRepository;
+        this.studentRepository = studentRepository;
+        this.lessonRepository = lessonRepository;
+    }
+
     @Override
     public List<JournalDTO> getJournalsByTeacher(int idTeacher) {
         List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findJournalsByTeacher(idTeacher);
