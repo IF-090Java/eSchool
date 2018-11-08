@@ -1,16 +1,5 @@
 package academy.softserve.eschool.service;
 
-import static academy.softserve.eschool.auxiliary.LoginGeneratorController.transliteration;
-import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.NYTransitionDTO;
 import academy.softserve.eschool.dto.StudentDTO;
