@@ -75,9 +75,7 @@ public class MarksController {
 	public GeneralResponseWrapper<MarkDTO> postMark(
 		@ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
 		markService.saveMark(markDTO);
-		GeneralResponseWrapper<MarkDTO> response;
-		response = new GeneralResponseWrapper<>(new Status(201, "OK"), markDTO);
-		return response;
+		return new GeneralResponseWrapper<>(new Status(201, "OK"), markDTO);
 	}
 
 	@ApiOperation("Update mark's type of lesson")
@@ -92,8 +90,6 @@ public class MarksController {
 			@ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson,
 			@ApiParam(value = "type of mark", required = true) @RequestBody MarkTypeDTO markType){
 		markService.updateType(idLesson, markType.getMarkType());
-		GeneralResponseWrapper<MarkTypeDTO> response;
-		response = new GeneralResponseWrapper<>(new Status(201, "OK"), null);
-		return response;
+		return new GeneralResponseWrapper<>(new Status(201, "OK"), null);
 	}
 }

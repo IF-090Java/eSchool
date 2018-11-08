@@ -1,13 +1,12 @@
 package academy.softserve.eschool.security;
 
-import academy.softserve.eschool.model.Role;
-import academy.softserve.eschool.model.User;
+import java.util.ArrayList;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import academy.softserve.eschool.model.User;
+import academy.softserve.eschool.model.User.Role;
 
 public class JwtUserFactory {
 
