@@ -404,7 +404,7 @@ select {
         $.ajaxSetup({
             beforeSend: function (xhr) {
                 if (getJwtToken()) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                    xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
                 }
             }
         })
