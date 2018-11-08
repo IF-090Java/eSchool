@@ -1,8 +1,14 @@
 package academy.softserve.eschool.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.repository.StudentRepository;
-import academy.softserve.eschool.repository.TeacherRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.service.StudentService;
 import academy.softserve.eschool.service.TeacherService;
@@ -10,23 +16,23 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/admin")
 @Api(description = "The administrator changes user data")
+@RequiredArgsConstructor
 public class AdminEditUserController {
 
-    @Autowired
+    @NonNull
     private StudentRepository studentRepository;
-    @Autowired
+    @NonNull
     private UserRepository userRepository;
 
-    @Autowired
+    @NonNull
     private StudentService studentService;
-    @Autowired
+    @NonNull
     private TeacherService teacherService;
 
     @ApiOperation(value = "Admin update profile of student")

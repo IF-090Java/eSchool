@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.dto.MarkTypeDTO;
-import academy.softserve.eschool.model.Mark;
 import academy.softserve.eschool.service.base.MarkServiceBase;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -76,9 +75,7 @@ public class MarksController {
 	public GeneralResponseWrapper<MarkDTO> postMark(
 		@ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
 		markService.saveMark(markDTO);
-		GeneralResponseWrapper<MarkDTO> response;
-		response = new GeneralResponseWrapper<>(new Status(201, "OK"), markDTO);
-		return response;
+		return new GeneralResponseWrapper<>(new Status(201, "OK"), markDTO);
 	}
 
 	@ApiOperation("Update mark's type of lesson")
@@ -93,8 +90,6 @@ public class MarksController {
 			@ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson,
 			@ApiParam(value = "type of mark", required = true) @RequestBody MarkTypeDTO markType){
 		markService.updateType(idLesson, markType.getMarkType());
-		GeneralResponseWrapper<MarkTypeDTO> response;
-		response = new GeneralResponseWrapper<>(new Status(201, "OK"), null);
-		return response;
+		return new GeneralResponseWrapper<>(new Status(201, "OK"), null);
 	}
 }

@@ -2,7 +2,6 @@ package academy.softserve.eschool.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +19,16 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/classes")
 @Api(value = "classes", description = "Endpoints for classes")
+@RequiredArgsConstructor
 public class ClassController {
-    @Autowired ClassServiceImpl classService;
+	@NonNull
+    ClassServiceImpl classService;
 
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Class successfully created"),
