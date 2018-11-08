@@ -2,9 +2,9 @@ package academy.softserve.eschool.service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,7 +15,6 @@ import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.repository.MarkRepository;
 import academy.softserve.eschool.service.base.MarkServiceBase;
-import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -58,7 +57,7 @@ public class MarkService implements MarkServiceBase{
 		List<MarkDataPointDTO> dataPoints;
 		dataPoints = data.stream().map((obj) -> {
 				double averageMark = ((BigDecimal)obj.get("avg_mark")).doubleValue();
-				Date date = (Date)obj.get("date");
+				LocalDate date = ((Date)obj.get("date")).toLocalDate();
 				int count = ((BigInteger)obj.get("count")).intValue();
 				return new MarkDataPointDTO(averageMark, date, count);
 			})
