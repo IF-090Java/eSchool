@@ -219,6 +219,20 @@
             });
         })
 
+
+            $.getJSON(host +  'classes', function (data2) {
+                console.log(data2);
+
+                $.each(data2, function (i, item) {
+                    if (item.isActive == true) {
+                        $('#selectClass').append($('<option>', {
+                            value: data2[i].id,
+                            text : data2[i].className
+                        }));
+                    }
+                });
+            });
+
             $('form').on('submit', function (e) {
 
                 e.preventDefault();
