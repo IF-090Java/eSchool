@@ -19,7 +19,10 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        httpServletResponse.sendRedirect("/ui/login");
+        if (httpServletRequest.getRequestURI().equals("/"))
+            httpServletResponse.sendRedirect("/ui/login");
+        else
+            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+
     }
 }
