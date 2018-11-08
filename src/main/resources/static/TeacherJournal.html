@@ -112,7 +112,9 @@ select {
             refreshToken();
             $.ajaxSetup({
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                    if (getJwtToken()) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                    }
                 }
             })
         })
@@ -130,6 +132,11 @@ select {
 					});
 					for (i=0; i < teachers.length; i++)
 						$('#teacher_input').append('<option value="' + id[i] + '">' + teachers[i] + '</option>');
+				})
+				.fail(function (data) {
+					if (new RegExp("4[0-9][0-9]").test(data.status)){
+						window.location.href='/ui/login'
+					}
 				});
 				
 				$.getJSON(host + 'classes', function(data){
@@ -137,10 +144,14 @@ select {
 					var classes = [];
 					var id = [];
 					$.each(data, function(key, value) {
-						classes.push(value.className);
+                        if (value.isActive == true) {
+                            classes.push(value.className);
+                        }
 					});
 					$.each(data, function(key, value) {
-						id.push(value.id);
+                        if (value.isActive == true) {
+                            id.push(value.id);
+                        }
 					});
 					for (i=0; i < classes.length; i++)
 						$('#class_input').append('<option value="' + id[i] + '">' + classes[i] + '</option>');

@@ -1,21 +1,34 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.dto.SubjectDTO;
-import academy.softserve.eschool.service.SubjectServiceImpl;
-import io.swagger.annotations.*;
-
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import academy.softserve.eschool.dto.SubjectDTO;
+import academy.softserve.eschool.service.SubjectServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 
 @RestController
 @RequestMapping("/subjects")
 @Api(value = "subjects", description = "API endpoints for subjects")
+@RequiredArgsConstructor
 public class SubjectController {
-	@Autowired
+	@NonNull
 	private SubjectServiceImpl subjectServiceImpl;
 
 	@ApiResponses(value = {
@@ -26,8 +39,13 @@ public class SubjectController {
 	@ApiOperation(value = "Get all subjects")
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
 	@GetMapping()
-	public List<SubjectDTO> getAll() {
-		return subjectServiceImpl.getAll();
+	public List<SubjectDTO> getAll(
+			@ApiParam("only subjects studied in specified class will be returned") @RequestParam(required=false) Integer classId) {
+		if (classId == null) {
+			return subjectServiceImpl.getAll();
+		} else {
+			return subjectServiceImpl.getSubjectsByClass(classId);
+		}
 	}
 
 	@ApiResponses(value = {

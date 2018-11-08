@@ -1,8 +1,12 @@
 package academy.softserve.eschool.dto;
 
+import academy.softserve.eschool.model.Student;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+
+import java.util.List;
 
 @ApiModel
 @Data
@@ -23,6 +27,16 @@ public class ClassDTO {
     private String classDescription;
 
     @ApiModelProperty(required = true, notes = "true or false")
-    private String isActive;
+    private boolean isActive;
 
+    @ApiModelProperty(required = false, notes = "Num of students in currently class. Only for get methods")
+    private int numOfStudents;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
 }

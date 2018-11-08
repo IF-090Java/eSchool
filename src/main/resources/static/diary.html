@@ -115,7 +115,9 @@
                     refreshToken();
                     $.ajaxSetup({
                         beforeSend: function (xhr) {
-                            xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                            if (getJwtToken()) {
+                                xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                            }
                         }
                     })
                 })
@@ -149,8 +151,8 @@
 				});
 				
 				function getData(){
-					$.getJSON(ulr, {weekStartDate:getWeekStart(offset)}, setData).fail(function (data) {
-                        if (data.status == 403){
+					$.getJSON(ulr, {weekStartDate:formatDate(getWeekStart(offset))}, setData).fail(function (data) {
+                        if (new RegExp("4[0-9][0-9]").test(data.status)){
                             window.location.href='/ui/login'
                         }
                     });
@@ -220,6 +222,13 @@
 					var weekEnd = new Date(weekStart.getTime());
 					weekEnd.setDate(weekEnd.getDate() + 4 + 7*offset);
 					return weekEnd;
+				}
+				
+				function formatDate(date){
+					var day = ("0" + date.getDate()).slice(-2);
+					var month = ("0" + (date.getMonth() + 1)).slice(-2);
+					var today = date.getFullYear()+"-"+(month)+"-"+(day);
+					return today;
 				}
 			</script>
 	</body>

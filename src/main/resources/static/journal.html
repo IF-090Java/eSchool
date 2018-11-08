@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>Журнали</title>
 
+
     <link rel="stylesheet" type="text/css" href="/css/global-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/JS.js"></script>
@@ -51,6 +53,13 @@
            border: 2px solid #ddd;
            background-color: #ffffff;
        }
+       .cl-3{
+            width: 25%;
+       }
+       .cl-6{
+           width: 50%;
+       }
+
     </style>
 </head>
 <body>
@@ -103,7 +112,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="note_form">Нотатка</label>
+                            <label for="note_form">Нотатка:</label>
                             <textarea class="form-control" id="note_form" rows="3"></textarea>
                         </div>
                         <input type="button" class="btn btn-secondary" value="Зберегти" id="saveMarkB">
@@ -118,7 +127,7 @@
                 <div class="row justify-content-center">
                     <form class="form-horizontal col-5" id="formHomework">
                         <div class="form-group">
-                            <label for="homework_form">Домашнє завдання</label>
+                            <label for="homework_form">Домашнє завдання:</label>
                             <textarea class="form-control" id="homework_form" rows="2"></textarea>
                         </div>
                         <div class="form-group">
@@ -131,9 +140,9 @@
             </div>
 
             <div class="container">
-                <table class="table table-bordered" id="table_home">
+                <table class="table table-bordered table-striped" id="table_home" style="width: 100%">
                     <thead>
-                        <tr class="d-flex">
+                        <tr class="d-flex" style="display: table-row !important;">
                             <th class="col-3">Дата</th>
                             <th class="col-6">Домашнє завдання</th>
                             <th class="col-3">Файл</th>
@@ -150,7 +159,9 @@
             refreshToken();
             $.ajaxSetup({
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                    if (getJwtToken()) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                    }
                 }
             })
         })
@@ -173,16 +184,17 @@
         $.getJSON(host + 'homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
             var tableBody = $('<tbody></tbody>');
           $.each(data.data, function(key, val) {
-                var tr=$('<tr class="d-flex"></tr>');
-                $('<td class="col-3">'+val.date+'</td>').appendTo(tr);
-                $('<td class="col-6">'+val.homework+'</td>').appendTo(tr);
+                var tr=$('<tr class="d-flex" style="display: table-row !important;"></tr>');
+                $('<td class="col-3 cl-3">'+val.date+'</td>').appendTo(tr);
+                $('<td class="col-6 cl-6">'+val.homework+'</td>').appendTo(tr);
                 /*$('<td>'+atob(val.file)+'</td>').appendTo(tr);*/
-                $('<td class="col-3">'+'file.txt'+'</td>').appendTo(tr);
+                $('<td class="col-3 cl-3">'+'file.txt'+'</td>').appendTo(tr);
                 tr.appendTo(tableBody);
             });
           tableBody.appendTo("#table_home");
+          $('#table_home').dataTable();
         }).fail(function (data) {
-            if (data.status == 403){
+            if (new RegExp("4[0-9][0-9]").test(data.status)){
                 window.location.href='/ui/login'
             }
         });
@@ -263,7 +275,7 @@
 
         $( "#saveMarkB" ).click(function() {
             if(currentCell==undefined){
-                $("#mark_status").text('Поле не вибрано!');
+                $("#mark_status").text(' Поле не вибрано!');
                 $("#mark_status").css("color", "#d23c44");
                 $("#mark_status").show();
             }
@@ -292,7 +304,7 @@
                         $("#student_data").val("");
                         $("#note_form").val("");
                         $(".selectpicker").selectpicker("refresh");
-                        $("#mark_status").text('Успішно додано!');
+                        $("#mark_status").text(' Успішно додано!');
                         $("#mark_status").css("color", "#3fa85f");
                         $("#mark_status").show();
                     }
@@ -382,11 +394,12 @@
     });
     </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript">
         $(function() {
             $(".teacher_nav").load("/views/menu_teacher.html");

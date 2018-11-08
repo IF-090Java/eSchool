@@ -2,7 +2,18 @@ package academy.softserve.eschool.model;
 
 import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,8 +22,12 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import academy.softserve.eschool.constraint.annotation.Name;
-import lombok.*;
+import academy.softserve.eschool.constraint.annotation.RegexPattern;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name="user")
@@ -23,6 +38,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString(of = {"id", "login"})
 public class User {
+	private final static String NAME_PATTERN = "[А-ЯІЇЄҐ][а-яіїєґ']+";
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -40,17 +56,17 @@ public class User {
 	private Role role;
 	@NotBlank
 	@Size(max=25, min=3)
-	@Name
+	@RegexPattern(pattern=NAME_PATTERN, message = "Input musts match " + NAME_PATTERN)
 	@Column(name="first_name")
     private String firstName;
 	@NotBlank
 	@Size(max=25, min=3)
-	@Name
+	@RegexPattern(pattern=NAME_PATTERN, message = "Input musts match " + NAME_PATTERN)
 	@Column(name="last_name")
     private String lastName;
 	@NotBlank
 	@Size(max=25, min=3)
-	@Name
+	@RegexPattern(pattern=NAME_PATTERN, message = "Input musts match " + NAME_PATTERN)
     private String patronymic;
 	@Past
 	@Temporal(TemporalType.DATE)
@@ -64,7 +80,8 @@ public class User {
     private Sex sex;
     @Size(max=20)
     private String phone;
-    @Size(max=999999)
+    //rough estimation of 500KB base64 encoded
+    @Size(max=(int)(500000*1.4))
     private String avatar;
     @Size(max=200)
     private String description;
@@ -85,4 +102,15 @@ public class User {
 		this.avatar = avatar;
 		this.description = description;
 	}
+	
+	public enum Role {
+		ROLE_TEACHER, ROLE_USER, ROLE_ADMIN
+	}
+
+	public enum Sex {
+		male, female
+	}
 }
+
+
+

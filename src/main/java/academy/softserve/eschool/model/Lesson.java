@@ -5,10 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import academy.softserve.eschool.model.Mark.MarkType;
 import lombok.*;
 
 @Entity
@@ -28,6 +30,7 @@ public class Lesson {
 	private byte lessonNumber;
 	@NotNull
 	@Temporal(TemporalType.DATE)
+	@FutureOrPresent
 	private Date date;
 	@Size(max=500)
 	private String hometask;
@@ -44,7 +47,7 @@ public class Lesson {
 	@NotNull
 	private Subject subject;
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "lesson")
-	private Set<@NotNull Mark> marks = new HashSet<>();
+	private final Set<@NotNull Mark> marks = new HashSet<>();
 	
 	public Lesson(byte lessonNumber, Date date, String hometask, MarkType markType, byte[] file, Clazz clazz,
 			Subject subject) {
