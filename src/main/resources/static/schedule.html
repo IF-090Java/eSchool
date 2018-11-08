@@ -8,6 +8,9 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
 <!-- CSS -->
 <style type="text/css">
+.nowrap {
+  white-space: nowrap ;
+}
 .error {
     color: red;
 }
@@ -29,7 +32,7 @@ select {
    padding: 5px 10px;
    text-overflow: ellipsis;
    white-space: nowrap;
-   width: 300px;
+   width: 250px;
  }
 </style>
 <head>
@@ -62,26 +65,39 @@ select {
             <div class="container">
               <form id = "myForm">
 
-                <p for="start"  class="control-label col-4 requiredField font-weight-bold" style="padding-top:35px">Введіть початок семетру:<span class="asteriskField">*</span></p>
+                <div class="row">
+                  <div class="col">
+                <p for="start"  class="control-label col-4 requiredField font-weight-bold nowrap" style="padding-top:35px">Введіть початок семетру:<span class="asteriskField">*</span></p>
                   <div class="controls col-8">
                     <input class="input-md form-control" id="start" type="date" name="startDate" style="width:200px">
                   </div>
+                  </div>
 
-                  <p for="end"  class="control-label col-4 requiredField font-weight-bold" style="padding-top:35px">Введіть кінець семетру:<span class="asteriskField">*</span></p>
+                  <div class="col">
+                  <p for="end"  class="control-label col-4 requiredField font-weight-bold nowrap" style="padding-top:35px">Введіть кінець семетру:<span class="asteriskField">*</span></p>
                   <div class="controls col-8">
                     <input class="input-md form-control" id="end" type="date" name="endDate" style="width:200px">
                   </div>
+                  </div>
+                </div>
               </form>
             </div>
 
-              <p class="control-label col-4 requiredField font-weight-bold" style="padding-top:35px">Виберіть клас<span class="asteriskField">*</span></p>
 
-            <!-- Classes Droplist -->
-            <div id="u15" class="ax_default droplist">
-              <select id="u15_input" style="width:200px">
-              </select>
+            <div class="form-group row flex-v-center" style="padding-top:35px">
+              <div class="col-xs-3 col-sm-2">
+                <label for="u15_input" class="control-label col-4 requiredField font-weight-bold nowrap" style="padding-top:20px">Виберіть клас:<span class="asteriskField">*</span></label>
+              </div>
+              <div class="col-xs-3">
+                <select id="u15_input" style="width:200px">
+                </select>
+              </div>
             </div>
 
+
+            <div class="container">
+              <div class="row">
+                <div class="col">
             <p>Понеділок</p>
             <ol id="monday">
               <div class="controls1">
@@ -104,6 +120,38 @@ select {
                 </form>
               </div>
             </ol>
+                </div>
+
+                <div class="col">
+                <p>Четвер</p>
+                <ol id="thursday">
+                  <div class="controls4">
+                    <form role="form" autocomplete="off">
+                      <div class="entry input-group col-xs-3">
+
+                        <li>
+                          <select name="thursday" class="ax_default_droplist4" data-type="answer" class="select">
+                            <option value="0">-</option>
+                          </select>
+
+                          <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span>Додати урок</span>
+                            </button>
+                        </span>
+                        </li>
+
+                      </div>
+                    </form>
+                  </div>
+                </ol>
+                </div>
+              </div>
+            </div>
+
+            <div class="container">
+              <div class="row">
+                <div class="col">
               <p>Вівторок</p>
             <ol id="tuesday">
               <div class="controls2">
@@ -126,7 +174,37 @@ select {
                 </form>
               </div>
             </ol>
+                </div>
 
+                <div class="col">
+              <p>П'ятниця</p>
+              <ol id="friday">
+                <div class="controls5">
+                  <form role="form" autocomplete="off">
+                    <div class="entry input-group col-xs-3">
+
+                      <li>
+                        <select name="friday" class="ax_default_droplist5" data-type="answer" class="select">
+                          <option value="0">-</option>
+                        </select>
+
+                        <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span>Додати урок</span>
+                            </button>
+                        </span>
+                      </li>
+
+                    </div>
+                  </form>
+                </div>
+              </ol>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col">
               <p>Середа</p>
             <ol id="wednesday">
               <div class="controls3">
@@ -149,52 +227,7 @@ select {
                 </form>
               </div>
             </ol>
-
-              <p>Четвер</p>
-            <ol id="thursday">
-              <div class="controls4">
-                <form role="form" autocomplete="off">
-                  <div class="entry input-group col-xs-3">
-
-                    <li>
-                      <select name="thursday" class="ax_default_droplist4" data-type="answer" class="select">
-                        <option value="0">-</option>
-                      </select>
-
-                      <span class="input-group-btn">
-                            <button class="btn btn-success btn-add" type="button">
-                                <span>Додати урок</span>
-                            </button>
-                        </span>
-                    </li>
-
-                  </div>
-                </form>
-              </div>
-            </ol>
-
-              <p>П'ятниця</p>
-            <ol id="friday">
-              <div class="controls5">
-                <form role="form" autocomplete="off">
-                  <div class="entry input-group col-xs-3">
-
-                    <li>
-                      <select name="friday" class="ax_default_droplist5" data-type="answer" class="select">
-                        <option value="0">-</option>
-                      </select>
-
-                      <span class="input-group-btn">
-                            <button class="btn btn-success btn-add" type="button">
-                                <span>Додати урок</span>
-                            </button>
-                        </span>
-                    </li>
-
-                  </div>
-                </form>
-              </div>
-            </ol>
+            </div>
 
             <div id="u17" align="center" style="text-align: center; margin: 0 auto; padding-top: 25px; padding-bottom: 100px">
               <button id="submitButton" class="btn btn-success" type="submit">Створити розклад</button>
