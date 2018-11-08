@@ -49,7 +49,7 @@ public class HomeworkController {
             }
     )
     @PreAuthorize("hasRole('TEACHER')")
-    public GeneralResponseWrapper<HomeworkDTO>  postMark(
+    public GeneralResponseWrapper<HomeworkDTO>  postHomework(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkDTO homeworkDTO){
         return new GeneralResponseWrapper<>(new Status(201, "Homework successfully created"), homeworkDTO);
     }
