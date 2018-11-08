@@ -40,7 +40,7 @@
            white-space: nowrap;
         }
 
-       #table_mark thead th,#table_home thead th{
+       #table_mark thead th,#table_home thead th,#table_students thead th{
             border: 2px solid #ffffff;
             background-color: #343A40;
             color:white;
@@ -58,6 +58,19 @@
        }
        .cl-6{
            width: 50%;
+       }
+
+       #table_mark th:first-child {
+           position: fixed;
+           left: 5px;
+           width: 100px;
+           overflow-x: visible;
+       }
+
+       #table_mark th:first-child, #table_mark td:first-child
+       {
+           position:sticky;
+           left:0px;
        }
 
     </style>
@@ -81,9 +94,8 @@
             </table>
 
             <div class="container-fluid">
-                <div class="row justify-content-center" >
-                    <table class="table" id="table_mark" style="margin: 20px auto" >
-                    </table>
+                <div class="row justify-content-center">
+                    <table class="table" id="table_mark" style="margin: 20px auto;" ></table>
                 </div>
             </div>
 
@@ -190,7 +202,22 @@
                 tr.appendTo(tableBody);
             });
            tableBody.appendTo("#table_home");
-            $('#table_home').dataTable();
+            $('#table_home').dataTable({
+                "language": {
+                    "lengthMenu": "Відображати _MENU_ записів на сторінці",
+                    "zeroRecords": "Записів не знайдено",
+                    "info": "Сторінка _PAGE_ з _PAGES_",
+                    "search": "Пошук:",
+                    "paginate": {
+                        "first":      "Перша",
+                        "last":       "Остання",
+                        "next":       "Наступна",
+                        "previous":   "Попередня"
+                    },
+                    "infoEmpty": "Немає записів",
+                    "infoFiltered": "(filtered from _MAX_ total records)"
+                }
+            });
         }).fail(function (data) {
             if (data.status == 403){
                 window.location.href='/ui/login'
@@ -200,71 +227,71 @@
             var date = data.data[0].marks[0].dateMark.split(".");
             $('<span>'+date[0]+'/'+(++date[0])+'</span>').appendTo('#yearTitle');
             $.each(data.data, function(key, val) {
-                var thead=$('<thead ></thead>');
-                var tr1=$('<tr></tr>');
-                var tr2=$('<tr></tr>');
-                $('<th>'+"Тип оцінки"+'</th>').appendTo(tr1);
-                $('<th>'+"Дата"+'</th>').appendTo(tr2);
+                var thead_mark=$('<thead ></thead>');
+                var tr1_mark=$('<tr></tr>');
+                var tr2_mark=$('<tr></tr>');
+                $('<th class="mer">'+"Тип оцінки"+'</th>').appendTo(tr1_mark);
+                $('<th class="mer">'+"Дата"+'</th>').appendTo(tr2_mark);
                 $.each(val.marks, function(k, v) {
-                    var th = $('<th></th>');
+                    var th_mark = $('<th></th>');
                     var select = $('<select class="type"></select>').attr("idLes",v.idLesson);
 
                     switch (v.typeMark) {
                         case "Control":
-                            $('<option value="Control" selected>' + "Cn." + '</option>').appendTo(select);
-                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
-                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
-                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
+                            $('<option title ="Control" value="Control" selected>' + "Cn." + '</option>').appendTo(select);
+                            $('<option title ="Practic" value="Practic">' + "Pr." + '</option>').appendTo(select);
+                            $('<option title ="Module" value="Module">' + "Md." + '</option>').appendTo(select);
+                            $('<option title ="Labaratorna"  value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
                             break;
                         case "Practic":
-                            $('<option value="Practic" selected>' + "Pr." + '</option>').appendTo(select);
-                            $('<option value="Control">' + "Cn." + '</option>').appendTo(select);
-                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
-                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
+                            $('<option title ="Practic" value="Practic" selected>' + "Pr." + '</option>').appendTo(select);
+                            $('<option title ="Control" value="Control">' + "Cn." + '</option>').appendTo(select);
+                            $('<option title ="Module" value="Module">' + "Md." + '</option>').appendTo(select);
+                            $('<option title ="Module" value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
                             break;
                         case "Module":
-                            $('<option value="Module" selected>' + "Md." + '</option>').appendTo(select);
-                            $('<option value="Control">' + "Cn." + '</option>').appendTo(select);
-                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
-                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
+                            $('<option title ="Module" value="Module" selected>' + "Md." + '</option>').appendTo(select);
+                            $('<option title ="Control" value="Control">' + "Cn." + '</option>').appendTo(select);
+                            $('<option title ="Practic" value="Practic">' + "Pr." + '</option>').appendTo(select);
+                            $('<option title ="Labaratorna" value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
                             break;
                         case "Labaratorna":
-                            $('<option value="Labaratorna" selected>' + "Lb." + '</option>').appendTo(select);
-                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
-                            $('<option value="Control">' + "Cn." + '</option>').appendTo(select);
-                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
+                            $('<option title ="Labaratorna" value="Labaratorna" selected>' + "Lb." + '</option>').appendTo(select);
+                            $('<option title ="Module" value="Module">' + "Md." + '</option>').appendTo(select);
+                            $('<option title ="Control" value="Control">' + "Cn." + '</option>').appendTo(select);
+                            $('<option title ="Practic" value="Practic">' + "Pr." + '</option>').appendTo(select);
                             break;
                         default:
-                            $('<option value="Control" selected>' + "Cn." + '</option>').appendTo(select);
-                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
-                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
-                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
+                            $('<option title ="Control"  value="Control" selected>' + "Cn." + '</option>').appendTo(select);
+                            $('<option title ="Practic" value="Practic">' + "Pr." + '</option>').appendTo(select);
+                            $('<option title ="Module" value="Module">' + "Md." + '</option>').appendTo(select);
+                            $('<option title ="Labaratorna" value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
                     }
-                    select.appendTo(th);
-                    th.appendTo(tr1);
+                    select.appendTo(th_mark);
+                    th_mark.appendTo(tr1_mark);
                     var date = v.dateMark.split(".");
-                    $('<th class="dateCell">'+date[1]+'.'+date[2]+'</th>').appendTo(tr2);
+                    $('<th class="dateCell">'+date[1]+'.'+date[2]+'</th>').appendTo(tr2_mark);
                 });
-                $('<th>'+'С.'+'</th>').appendTo(tr2);
-                tr1.appendTo(thead);
-                tr2.appendTo(thead);
-                thead.appendTo("#table_mark");
+                $('<th>'+'С.'+'</th>').appendTo(tr2_mark);
+                tr1_mark.appendTo(thead_mark);
+                tr2_mark.appendTo(thead_mark);
+                thead_mark.appendTo("#table_mark");
                 return false;
             });
             var countStudents = 0;
             $.each(data.data, function(key, val) {
-                var tr=$('<tr class="markValues"></tr>');
-                $('<td>'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr);
+                var tr_mark=$('<tr class="markValues"></tr>');
+                $('<td class="mer">'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr_mark);
                 $.each(val.marks, function(k, v) {
                     if(!v.mark){
-                        $('<td class="mark" ></td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
+                        $('<td class="mark" ></td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr_mark);
                     }
                     else {
-                        $('<td class="mark" title="'+v.note+'" >' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
+                        $('<td class="mark" title="'+v.note+'" >' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr_mark);
                     }
                 });
-                $('<td class="average">'+' '+'</td>').appendTo(tr);
-                tr.appendTo('#table_mark');
+                $('<td class="average">'+' '+'</td>').appendTo(tr_mark);
+                tr_mark.appendTo('#table_mark');
             });
             averageMark();
             $('td.mark').click(markClick);
