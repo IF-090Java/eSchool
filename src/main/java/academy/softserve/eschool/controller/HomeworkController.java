@@ -51,8 +51,10 @@ public class HomeworkController {
             }
     )
     @PreAuthorize("hasRole('TEACHER')")
-    public GeneralResponseWrapper<HomeworkDTO>  postHomework(
+    public GeneralResponseWrapper<HomeworkDTO> postHomework(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkDTO homeworkDTO){
+        System.out.println(homeworkDTO);
+        System.out.println(new String(homeworkDTO.getFile()));
         return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), homeworkDTO);
     }
 }
