@@ -236,7 +236,7 @@
 			});
 
 			jQuery.validator.addMethod("cyrrilic", function(value, element) {
-				return this.optional(element) || /^[?!'`ґ,.Є-Їа-я\s\-\_]+$/i.test(value);
+				return this.optional(element) || /^[?!'`Ґґ,.Є-Їа-я\s\-\_]+$/i.test(value);
 			}, "Тільки українські символи");
 
 			jQuery.validator.addMethod('filesize', function (value, element, param) {
