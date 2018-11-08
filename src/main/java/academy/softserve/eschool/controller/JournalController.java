@@ -2,28 +2,25 @@ package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.JournalDTO;
 import academy.softserve.eschool.dto.JournalMarkDTO;
-import academy.softserve.eschool.dto.MarkTypeDTO;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import lombok.NonNull;
 
 import java.util.List;
 
 @RestController
 @Api(value = "Journal's operations", description = "Get journals")
 @RequestMapping("/journals")
+@RequiredArgsConstructor
 public class JournalController {
 
+    @NonNull
     private JournalServiceImpl journalServiceImpl;
-
-    @Autowired
-    public JournalController(JournalServiceImpl journalServiceImpl) {
-        this.journalServiceImpl = journalServiceImpl;
-    }
 
     @ApiOperation(value = "Get list of all journals")
     @ApiResponses(

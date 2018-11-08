@@ -60,18 +60,18 @@
            width: 50%;
        }
 
-       #table_mark th:first-child {
-           position: fixed;
-           left: 5px;
-           width: 100px;
-           overflow-x: visible;
-       }
-
        #table_mark th:first-child, #table_mark td:first-child
        {
            position:sticky;
            left:0px;
        }
+
+       #table_mark th:last-child, #table_mark td:last-child
+       {
+           position:sticky;
+           right:0px;
+       }
+
 
     </style>
 </head>
@@ -272,6 +272,7 @@
                     var date = v.dateMark.split(".");
                     $('<th class="dateCell">'+date[1]+'.'+date[2]+'</th>').appendTo(tr2_mark);
                 });
+                $('<th>'+''+'</th>').appendTo(tr1_mark);
                 $('<th>'+'С.'+'</th>').appendTo(tr2_mark);
                 tr1_mark.appendTo(thead_mark);
                 tr2_mark.appendTo(thead_mark);
@@ -279,6 +280,7 @@
                 return false;
             });
             var countStudents = 0;
+            var tbody_mark=$('<tbody ></tbody>');
             $.each(data.data, function(key, val) {
                 var tr_mark=$('<tr class="markValues"></tr>');
                 $('<td class="mer">'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr_mark);
@@ -291,7 +293,8 @@
                     }
                 });
                 $('<td class="average">'+' '+'</td>').appendTo(tr_mark);
-                tr_mark.appendTo('#table_mark');
+                tr_mark.appendTo(tbody_mark);
+                tbody_mark.appendTo('#table_mark');
             });
             averageMark();
             $('td.mark').click(markClick);

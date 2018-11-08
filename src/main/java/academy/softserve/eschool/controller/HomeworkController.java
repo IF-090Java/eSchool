@@ -4,7 +4,8 @@ import academy.softserve.eschool.service.JournalServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,14 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/homeworks")
 @Api(value = "Homework's Endpoint", description = "Get homeworks")
+@RequiredArgsConstructor
 public class HomeworkController {
 
+    @NonNull
     private JournalServiceImpl journalServiceImpl;
-
-    @Autowired
-    public HomeworkController(JournalServiceImpl journalServiceImpl) {
-        this.journalServiceImpl = journalServiceImpl;
-    }
 
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     @ApiOperation(value = "Get homeworks by subject and class")
