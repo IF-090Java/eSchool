@@ -4,7 +4,6 @@ import academy.softserve.eschool.security.JwtTokenUtil;
 import academy.softserve.eschool.security.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,8 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class UserController {
-    @Value("${jwt.header}")
-    private String tokenHeader;
+    private static String tokenHeader = "Authorization";
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;

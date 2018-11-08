@@ -1,12 +1,9 @@
 package academy.softserve.eschool.controller;
 
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 
@@ -61,7 +58,7 @@ public class PageMappingController {
         return "/teacher/addTeacher.html";
     }
 
-    @RequestMapping("students/add")//TODO: ADD VALIDATION TO ALL FORMS, back-end works
+    @RequestMapping("students/add")
     public String addStudent() {
         return "/student/addStudent.html";
     }
@@ -91,7 +88,7 @@ public class PageMappingController {
         return "/subjectsList.html";
     }
 
-    @RequestMapping("subjects/{id}/edit")//TODO: VALIDATION
+    @RequestMapping("subjects/{id}/edit")
     public String editSubjectPage() {
         return "/editSubject.html";
     }
@@ -126,17 +123,17 @@ public class PageMappingController {
         return "/teacherslist.html";
     }
 
-    @RequestMapping("teachers/{id}/edit")//TODO: VALIDATION OF SOME FIELDS
+    @RequestMapping("teachers/{id}/edit")
     public String editTeacher(){
         return "/editTeacher.html";
     }
 
-    @RequestMapping("student/{id}/edit")//TODO: VALIDATION OF SOME FIELDS
+    @RequestMapping("student/{id}/edit")
     public String edit_Student(){
         return "/editTeacher.html";
     }
 
-    @RequestMapping("teacher/{id}/edit")//TODO: VALIDATION OF SOME FIELDS
+    @RequestMapping("teacher/{id}/edit")
     public String edit_Teacher(){
         return "/editTeacher.html";
     }

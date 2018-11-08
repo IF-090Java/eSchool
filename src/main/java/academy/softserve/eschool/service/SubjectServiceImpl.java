@@ -1,34 +1,33 @@
 package academy.softserve.eschool.service;
 
-import academy.softserve.eschool.dto.SubjectDTO;
-import academy.softserve.eschool.model.Subject;
-import academy.softserve.eschool.repository.SubjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import academy.softserve.eschool.dto.SubjectDTO;
+import academy.softserve.eschool.model.Subject;
+import academy.softserve.eschool.repository.SubjectRepository;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class SubjectServiceImpl implements SubjectService {
-	@Autowired
+	@NonNull
 	SubjectRepository subjectRepository;
 
 	@Override
 	public List<SubjectDTO> getAll() {
 		List<Subject> subjectList = subjectRepository.findAll();
-
-		List<SubjectDTO> subjectDTOS = new ArrayList<>();
-
-		for (Subject subject : subjectList) {
-			SubjectDTO subjectDTO = SubjectDTO.builder()
-					.subjectId(subject.getId())
-					.subjectName(subject.getName())
-					.subjectDescription(subject.getDescription())
-					.build();
-			subjectDTOS.add(subjectDTO);
-		}
-		return subjectDTOS;
+		return asSubjectDTOList(subjectList);
+	}
+	
+	@Override
+	public List<SubjectDTO> getSubjectsByClass(Integer classId) {
+		List<Subject> subjectList = subjectRepository.findSubjectsByClass(classId);
+		return asSubjectDTOList(subjectList);
+		
 	}
 
 	@Override
@@ -44,18 +43,7 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	public List<SubjectDTO> getSubjectsByTeacher(int idTeacher) {
 		List<Subject> subjectList = subjectRepository.findSubjectsByTeacher(idTeacher);
-
-		List<SubjectDTO> subjectDTOS = new ArrayList<>();
-
-		for (Subject subject : subjectList) {
-			SubjectDTO subjectDTO = SubjectDTO.builder()
-					.subjectId(subject.getId())
-					.subjectName(subject.getName())
-					.subjectDescription(subject.getDescription())
-					.build();
-			subjectDTOS.add(subjectDTO);
-		}
-		return subjectDTOS;
+		return asSubjectDTOList(subjectList);
 	}
 
 	@Override
@@ -69,6 +57,20 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	public void editSubject(int id, SubjectDTO subjectDTO) {
 		subjectRepository.editSubject(id, subjectDTO.getSubjectName(), subjectDTO.getSubjectDescription());
+	}
+	
+	private List<SubjectDTO> asSubjectDTOList(List<Subject> subjectList) {
+		List<SubjectDTO> subjectDTOS = new ArrayList<>();
+
+		for (Subject subject : subjectList) {
+			SubjectDTO subjectDTO = SubjectDTO.builder()
+					.subjectId(subject.getId())
+					.subjectName(subject.getName())
+					.subjectDescription(subject.getDescription())
+					.build();
+			subjectDTOS.add(subjectDTO);
+		}
+		return subjectDTOS;
 	}
 
 }

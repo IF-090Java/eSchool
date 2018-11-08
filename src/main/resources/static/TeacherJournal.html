@@ -112,7 +112,9 @@ select {
             refreshToken();
             $.ajaxSetup({
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                    if (getJwtToken()) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                    }
                 }
             })
         })
@@ -130,6 +132,11 @@ select {
 					});
 					for (i=0; i < teachers.length; i++)
 						$('#teacher_input').append('<option value="' + id[i] + '">' + teachers[i] + '</option>');
+				})
+				.fail(function (data) {
+					if (new RegExp("4[0-9][0-9]").test(data.status)){
+						window.location.href='/ui/login'
+					}
 				});
 				
 				$.getJSON(host + 'classes', function(data){
@@ -137,12 +144,12 @@ select {
 					var classes = [];
 					var id = [];
 					$.each(data, function(key, value) {
-                        if (value.isActive == 'true') {
+                        if (value.isActive == true) {
                             classes.push(value.className);
                         }
 					});
 					$.each(data, function(key, value) {
-                        if (value.isActive == 'true') {
+                        if (value.isActive == true) {
                             id.push(value.id);
                         }
 					});
@@ -172,9 +179,9 @@ select {
                 url: host + "teachers/" + teacherid + "/classes/" + classid + "/subjects/" + subjectid + "/journal",
                 dataType: "json",
                 data: JSON.stringify({
-                    "teacher_id": teacherid,
-                    "class_id": classid,
-                    "subject_id": subjectid
+                    "teacherId": teacherid,
+                    "classId": classid,
+                    "subjectId": subjectid
                 }),
                 contentType: "application/json",
   				statusCode: {

@@ -46,7 +46,9 @@
                 refreshToken();
                 $.ajaxSetup({
                     beforeSend: function (xhr) {
-                        xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                        if (getJwtToken()) {
+                            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                        }
                     }
                 })
             })
@@ -57,6 +59,10 @@
 			var studentsUrl = baseUrl + 'students/classes/';
 			var subjectsUrl = baseUrl + 'subjects';
 			var studentOptions = [];
+			var subjectOptions = [];
+			var classOptions = [];
+			var selectedSubjectId;
+			var selectedClassId;
 			
 			$(function() {
             	$(".teacher_nav").load("/views/menu_teacher.html");
@@ -67,7 +73,7 @@
 				$.getJSON(subjectsUrl, fillSubjectsSelect);
 				$.getJSON(classesUrl, fillClassesSelect);
 				$.getJSON(marksUrl, params, setData).fail(function (data) {
-                    if (data.status == 403){
+                    if (new RegExp("4[0-9][0-9]").test(data.status)){
                         window.location.href='/ui/login'
                     }
                 });
@@ -75,25 +81,36 @@
 			});
 			
 			$('#subject').change(function(){
-				//TODO add classes that study selected subject to class select 
-				var params = getParams();
-				$.getJSON(marksUrl, params, setData);
+				selectedSubjectId = this.value;
+				$.each(classOptions, function(i, option){
+					option.remove();
+				})
+				$.getJSON(classesUrl, {subjectId:selectedSubjectId}, fillClassesSelect)
+						.done(function(){
+							$('#class option[value="'+selectedClassId+'"]').attr('selected','selected');
+							$.getJSON(marksUrl, getParams(), setData);
+						});
 			});
 			
 			$('#class').change(function(){
-				//TODO add subjects studied by selected class to subjet select
-				var classId = this.value;
+				selectedClassId = this.value;
 				$.each(studentOptions, function(i, option){
 					option.remove();
 				})
-				if(classId != ''){
-					$.getJSON(studentsUrl+this.value, fillStudentsSelect);
+				$.each(subjectOptions, function(i, option){
+					option.remove();
+				})
+				if(selectedClassId != ''){
+					$.getJSON(studentsUrl+selectedClassId, fillStudentsSelect);
 					$('#student').attr("disabled", false);
 				} else {
 					$('#student').attr("disabled", true);
 				}
-				var params = getParams();
-				$.getJSON(marksUrl, params, setData);
+				$.getJSON(subjectsUrl, {classId:selectedClassId}, fillSubjectsSelect)
+						.done(function(){
+							$('#subject option[value="'+selectedSubjectId+'"]').attr('selected','selected');
+							$.getJSON(marksUrl, getParams(), setData);
+						});
 			});
 			
 			$('#student').change(function(){
@@ -127,16 +144,18 @@
 					option.val(subj.subjectId);
 					option.text(subj.subjectName);
 					$('#subject').append(option);
+					subjectOptions.push(option);
 				});
 			}
 			
 			function fillClassesSelect(data){
 				$.each(data, function(i, clazz){
-                    if (clazz.isActive == 'true') {
+                    if (clazz.isActive == true) {
                         var option = $('<option>');
                         option.val(clazz.id);
                         option.text(clazz.className);
                         $('#class').append(option);
+                        classOptions.push(option);
                     }
 				});
 			}
