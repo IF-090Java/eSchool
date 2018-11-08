@@ -118,7 +118,9 @@
 	        refreshToken();
 	        $.ajaxSetup({
 	            beforeSend: function (xhr) {
-	                xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                    if (getJwtToken()) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                    }
 	            }
 	        })
 	    })
@@ -129,6 +131,11 @@
 					$.each(data, function (i, item) {
 						$('#subjectslist').append($('<li>').append($('<a>').attr('href','subjects/'+item.subjectId+'/edit').append(item.subjectName)))
 					});		
+				})
+				.fail(function (data) {
+					if (new RegExp("4[0-9][0-9]").test(data.status)){
+						window.location.href='/ui/login'
+					}
 				});
 			});
 		</script>

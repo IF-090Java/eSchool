@@ -112,7 +112,9 @@ select {
             refreshToken();
             $.ajaxSetup({
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                    if (getJwtToken()) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                    }
                 }
             })
         })
@@ -130,6 +132,11 @@ select {
 					});
 					for (i=0; i < teachers.length; i++)
 						$('#teacher_input').append('<option value="' + id[i] + '">' + teachers[i] + '</option>');
+				})
+				.fail(function (data) {
+					if (new RegExp("4[0-9][0-9]").test(data.status)){
+						window.location.href='/ui/login'
+					}
 				});
 				
 				$.getJSON(host + 'classes', function(data){

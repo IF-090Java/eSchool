@@ -1,6 +1,5 @@
 package academy.softserve.eschool.service;
 
-import static academy.softserve.eschool.auxiliary.LoginGeneratorController.transliteration;
 import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
 
 import java.util.ArrayList;
@@ -21,6 +20,8 @@ import academy.softserve.eschool.model.User.Role;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
+
+import static academy.softserve.eschool.auxiliary.Transliteration.transliteration;
 
 @Service
 public class StudentService {

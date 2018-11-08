@@ -29,9 +29,6 @@ public class JwtUserFactory {
         ArrayList<GrantedAuthority> authorities1 = new ArrayList<>();
         authorities1.add(new SimpleGrantedAuthority(role.toString()));
         return authorities1;
-//        return authorities.stream()
-//                .map(authority -> new SimpleGrantedAuthority(authority.getName().name()))
-//                .collect(Collectors.toList());
     }
 
 }

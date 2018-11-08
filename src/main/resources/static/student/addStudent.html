@@ -118,6 +118,18 @@
  <script type="text/javascript">
         $(document).ready(function () {
 
+            $.getJSON(host +  'classes', function (data2) {
+                console.log(data2);
+
+                $.each(data2, function (i, item) {
+                    if (item.isActive == true) {
+                        $('#selectClass').append($('<option>', {
+                            value: data2[i].id,
+                            text: data2[i].className
+                        }));
+                    }
+                });
+            });
         jQuery.validator.addMethod("isUkrainian", function(value, element) {
                  var ukr = value;
 				 if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
@@ -174,17 +186,20 @@
                 lastname: {
                     required: "Це поле обов'язкове",
 					minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів'
+					maxlength: 'Максимальна довжина - 25 символів',
+                    isUkrainian: 'Тільки українські символи'
                     },
                 firstname: {
                     required: "Це поле обов'язкове",
                     minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів'
+					maxlength: 'Максимальна довжина - 25 символів',
+                    isUkrainian: 'Тільки українські символи'
                     },
                 patronymic: {
                     required: "Це поле обов'язкове",
                     minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів'
+					maxlength: 'Максимальна довжина - 25 символів',
+                    isUkrainian: 'Тільки українські символи'
                     },
                 login:{
 					required: "Це поле обов'язкове",
@@ -203,6 +218,7 @@
                 }
             });
         })
+
 
             $.getJSON(host +  'classes', function (data2) {
                 console.log(data2);
@@ -256,22 +272,22 @@
                     }
                 });
             });
-            $("#generate").on("click", function () {
-                // $.ajax({
-                //     url: "/login/generate",
-                //     data: JSON.stringify({
-                //         "firstName": firstName,
-                //         "lastName": lastName,
-                //         "patronymic": patronymic,
-                //
-                //         contentType: "application/json",
-                //
-                //         success: function (responce) {
-                //             $('#username').attr("value",data.login);
-                //         }
-                //     })
-                // })
-            });
+            // $("#generate").on("click", function () {
+            //      $.ajax({
+            //          url: "/login/generate",
+            //          data: JSON.stringify({
+            //              "firstName": firstName,
+            //              "lastName": lastName,
+            //              "patronymic": patronymic,
+            //
+            //              contentType: "application/json",
+            //
+            //              success: function (responce) {
+            //                  $('#username').attr("value",data.login);
+            //              }
+            //          })
+            //      })
+            // });
     </script>
     </form>
 </body>

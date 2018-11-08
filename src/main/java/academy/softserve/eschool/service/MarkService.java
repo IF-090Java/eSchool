@@ -35,6 +35,7 @@ public class MarkService implements MarkServiceBase{
 	 * @param periodEnd if specified only marks received before this date are returned
 	 * @return list of {@link MarkDataPointDTO}
 	 */
+
 	@Override
 	public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, LocalDate periodStart,
 			LocalDate periodEnd) {

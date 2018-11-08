@@ -58,14 +58,19 @@
         refreshToken();
         $.ajaxSetup({
             beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                if (getJwtToken()) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                }
             }
         })
     })
 
     $(document).ready(function () {
-
-        $.getJSON(host + 'journals/teachers/3/active', function (data) {
+        var userId = 1;
+        if (getJwtToken()) {
+            userId = jwt_decode(getJwtToken()).jti;
+        }
+        $.getJSON(host + 'journals/teachers/' + userId + '/active', function (data) {
             var tableBody = $('<tbody></tbody>');
             $.each(data.data, function(key, val) {
                 var tr=$('<tr class="d-flex"></tr>');
@@ -78,7 +83,7 @@
             });
             tableBody.appendTo('.table');
         }).fail(function (data) {
-            if (data.status == 403){
+            if (new RegExp("4[0-9][0-9]").test(data.status)){
                 window.location.href='/ui/login'
             }
         });
