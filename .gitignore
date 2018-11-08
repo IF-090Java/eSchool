@@ -94,6 +94,7 @@ local.properties
 .sts4-cache/
 
 src/main/resources/application-local.properties
+src/main/resources/static/test
 
 ### Maven ###
 target/
