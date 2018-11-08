@@ -47,6 +47,7 @@ public class MarksController {
 	 * @param periodEnd if specified only marks received before this date are returned
 	 * @return list of {@link MarkDataPointDTO} wrapped in {@link GeneralResponseWrapper}
 	 */
+
 	@PreAuthorize("hasRole('TEACHER')")
 	@GetMapping("")
 	@ApiOperation(value = "Get marks by date filtered by specified params")
@@ -75,7 +76,7 @@ public class MarksController {
 	public GeneralResponseWrapper<MarkDTO> postMark(
 		@ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
 		markService.saveMark(markDTO);
-		return new GeneralResponseWrapper<>(new Status(201, "OK"), markDTO);
+		return new GeneralResponseWrapper<>(new Status(201, "Mark successfully created"), markDTO);
 	}
 
 	@ApiOperation("Update mark's type of lesson")
@@ -90,6 +91,6 @@ public class MarksController {
 			@ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson,
 			@ApiParam(value = "type of mark", required = true) @RequestBody MarkTypeDTO markType){
 		markService.updateType(idLesson, markType.getMarkType());
-		return new GeneralResponseWrapper<>(new Status(201, "OK"), null);
+		return new GeneralResponseWrapper<>(new Status(201, "Successfully updated"), null);
 	}
 }

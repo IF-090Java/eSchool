@@ -21,12 +21,12 @@ import io.swagger.annotations.ApiResponses;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-//todo bk ++ configure and use the same code styles accross the app. It should be formatted automatically each time
 @RestController
 @RequestMapping("/homeworks")
 @Api(value = "Homework's Endpoint", description = "Get homeworks")
 @RequiredArgsConstructor
 public class HomeworkController {
+
     @NonNull
     JournalServiceImpl journalServiceImpl;
 
@@ -43,7 +43,6 @@ public class HomeworkController {
     public GeneralResponseWrapper<List<HomeworkDTO>> getHomeworks(
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass) {
-        //todo bk ++ instead of 3 lines of code use just one. Keep it simple.
         return new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getHomework(idSubject,idClass));
     }
 
@@ -57,10 +56,8 @@ public class HomeworkController {
             }
     )
     @PreAuthorize("hasRole('TEACHER')")
-    public GeneralResponseWrapper<HomeworkDTO>  postMark(
+    public GeneralResponseWrapper<HomeworkDTO>  postHomework(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkDTO homeworkDTO){
-
-        //todo bk use some enum for the response codes. Don't create your own. Use existed one
-        return new GeneralResponseWrapper<>(new Status(201, "OK"), homeworkDTO);
+        return new GeneralResponseWrapper<>(new Status(201, "Homework successfully created"), homeworkDTO);
     }
 }
