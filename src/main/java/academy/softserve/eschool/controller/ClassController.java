@@ -62,7 +62,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get all classes")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'TEACHER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping
     public List<ClassDTO> getAllClasses(
     		@ApiParam(value="only classes that study subject with specified id will be returned") @RequestParam(required=false) Integer subjectId){

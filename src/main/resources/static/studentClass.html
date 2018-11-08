@@ -37,7 +37,9 @@
         refreshToken();
         $.ajaxSetup({
             beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                if (getJwtToken()) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                }
             }
         })
     })
@@ -55,6 +57,11 @@
 			$.each(data, function (i, item) {
 				$('#studentList').append($('<li class="list-group-item">').append($('<a>').attr('href','/ui/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
 			});		
+		})
+		.fail(function (data) {
+			if (new RegExp("4[0-9][0-9]").test(data.status)){
+				window.location.href='/ui/login'
+			}
 		});
 
 $.getJSON(host + 'classes/' + classId, function (data) {
