@@ -17,6 +17,10 @@ import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.model.User.Role;
 import academy.softserve.eschool.repository.TeacherRepository;
 import academy.softserve.eschool.repository.UserRepository;
+import academy.softserve.eschool.model.Teacher;
+import academy.softserve.eschool.model.User;
+import academy.softserve.eschool.repository.TeacherRepository;
+import academy.softserve.eschool.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
