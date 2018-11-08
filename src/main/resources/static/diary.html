@@ -149,7 +149,7 @@
 				});
 				
 				function getData(){
-					$.getJSON(ulr, {weekStartDate:getWeekStart(offset)}, setData).fail(function (data) {
+					$.getJSON(ulr, {weekStartDate:formatDate(getWeekStart(offset))}, setData).fail(function (data) {
                         if (data.status == 403){
                             window.location.href='/ui/login'
                         }
@@ -220,6 +220,13 @@
 					var weekEnd = new Date(weekStart.getTime());
 					weekEnd.setDate(weekEnd.getDate() + 4 + 7*offset);
 					return weekEnd;
+				}
+				
+				function formatDate(date){
+					var day = ("0" + date.getDate()).slice(-2);
+					var month = ("0" + (date.getMonth() + 1)).slice(-2);
+					var today = date.getFullYear()+"-"+(month)+"-"+(day);
+					return today;
 				}
 			</script>
 	</body>

@@ -16,6 +16,13 @@ import javax.transaction.Transactional;
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 
+	/**
+	 * Returns list of Map objects that contain data about one {@link DiaryEntryDTO}}.
+	 * @param studentId student's id
+	 * @param startDate first day of period
+	 * @param endDate last day of period
+	 * @return list of Map objects that contain data about one {@link DiaryEntryDTO}}.
+	 */
 	@Query(value = "select date, lesson_number, name, hometask, mark, note" +
 			"	 from lesson" +
 			"    left join students_classes on lesson.clazz_id = students_classes.class_id" +

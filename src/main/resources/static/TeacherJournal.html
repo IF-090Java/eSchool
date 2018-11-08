@@ -137,10 +137,14 @@ select {
 					var classes = [];
 					var id = [];
 					$.each(data, function(key, value) {
-						classes.push(value.className);
+                        if (value.isActive == true) {
+                            classes.push(value.className);
+                        }
 					});
 					$.each(data, function(key, value) {
-						id.push(value.id);
+                        if (value.isActive == true) {
+                            id.push(value.id);
+                        }
 					});
 					for (i=0; i < classes.length; i++)
 						$('#class_input').append('<option value="' + id[i] + '">' + classes[i] + '</option>');
@@ -168,9 +172,9 @@ select {
                 url: host + "teachers/" + teacherid + "/classes/" + classid + "/subjects/" + subjectid + "/journal",
                 dataType: "json",
                 data: JSON.stringify({
-                    "teacher_id": teacherid,
-                    "class_id": classid,
-                    "subject_id": subjectid
+                    "teacherId": teacherid,
+                    "classId": classid,
+                    "subjectId": subjectid
                 }),
                 contentType: "application/json",
   				statusCode: {

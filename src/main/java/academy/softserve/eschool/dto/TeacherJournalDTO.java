@@ -16,15 +16,15 @@ public class TeacherJournalDTO {
 
     @ApiModelProperty(notes = "teacher to add")
     @Min(1)
-    private int teacher_id;     //teacher we want to add to the journal
+    private int teacherId;     //teacher we want to add to the journal
 
     @ApiModelProperty(notes = "class of the journal")
     @Min(1)
-    private int class_id;    //class of the journal that we want to add to the teacher
+    private int classId;    //class of the journal that we want to add to the teacher
 
     @ApiModelProperty(notes = "teacher's subject")
     @Min(1)
-    private int subject_id;     //teacher's subject
+    private int subjectId;     //teacher's subject
 
 
 }

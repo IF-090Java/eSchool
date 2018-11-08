@@ -123,7 +123,7 @@
 				 if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
 					return true;
 			     return false;
-          }, "Тільки українські букви");
+          }, "Використовуйте тільки українські букви. Перша літера має бути великою");
 
           jQuery.validator.addMethod("dateOfB", function(value, element) {
                  var date = new Date(value);
@@ -208,10 +208,12 @@
                 console.log(data2);
 
                 $.each(data2, function (i, item) {
-                    $('#selectClass').append($('<option>', {
-                        value: data2[i].id,
-                        text : data2[i].className
-                    }));
+                    if (item.isActive == true) {
+                        $('#selectClass').append($('<option>', {
+                            value: data2[i].id,
+                            text : data2[i].className
+                        }));
+                    }
                 });
             });
 

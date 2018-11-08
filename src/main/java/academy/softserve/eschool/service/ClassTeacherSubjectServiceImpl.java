@@ -26,20 +26,20 @@ public class ClassTeacherSubjectServiceImpl implements ClassTeacherSubjectServic
     public void saveClassTeacherSubject(TeacherJournalDTO teacherJournalDTO, boolean isActive) {
         ClassTeacherSubjectLink classTeacherSubject = new ClassTeacherSubjectLink();
 
-        int id_class = teacherJournalDTO.getClass_id();
-        int id_teacher = teacherJournalDTO.getTeacher_id();
-        int id_subject = teacherJournalDTO.getSubject_id();
+        int classId = teacherJournalDTO.getClassId();
+        int teacherId = teacherJournalDTO.getTeacherId();
+        int subjectId = teacherJournalDTO.getSubjectId();
 
-        Clazz clazz = classRepository.findById(id_class).get();
-        Teacher teacher = teacherRepository.findById(id_teacher).get();
-        Subject subject = subjectRepository.findById(id_subject).get();
+        Clazz clazz = classRepository.findById(classId).get();
+        Teacher teacher = teacherRepository.findById(teacherId).get();
+        Subject subject = subjectRepository.findById(subjectId).get();
 
         classTeacherSubject.setClazz(clazz);
-        classTeacherSubject.setClazz_id(id_class);
+        classTeacherSubject.setClazz_id(classId);
         classTeacherSubject.setTeacher(teacher);
-        classTeacherSubject.setTeacher_id(id_teacher);
+        classTeacherSubject.setTeacher_id(teacherId);
         classTeacherSubject.setSubject(subject);
-        classTeacherSubject.setSubject_id(id_subject);
+        classTeacherSubject.setSubject_id(subjectId);
         classTeacherSubject.setActive(isActive);
         classTeacherSubjectRepository.save(classTeacherSubject);
     }

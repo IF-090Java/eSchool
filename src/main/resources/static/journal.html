@@ -53,6 +53,12 @@
            border: 2px solid #ddd;
            background-color: #ffffff;
        }
+       .cl-3{
+            width: 25%;
+       }
+       .cl-6{
+           width: 50%;
+       }
 
     </style>
 </head>
@@ -136,7 +142,7 @@
             <div class="container">
                 <table class="table table-bordered table-striped" id="table_home" style="width: 100%">
                     <thead>
-                        <tr class="d-flex">
+                        <tr class="d-flex" style="display: table-row !important;">
                             <th class="col-3">Дата</th>
                             <th class="col-6">Домашнє завдання</th>
                             <th class="col-3">Файл</th>
@@ -176,11 +182,11 @@
         $.getJSON(host + 'homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
             var tableBody = $('<tbody></tbody>');
           $.each(data.data, function(key, val) {
-                var tr=$('<tr class="d-flex"></tr>');
-                $('<td class="col-3">'+val.date+'</td>').appendTo(tr);
-                $('<td class="col-6">'+val.homework+'</td>').appendTo(tr);
+                var tr=$('<tr class="d-flex" style="display: table-row !important;"></tr>');
+                $('<td class="col-3 cl-3">'+val.date+'</td>').appendTo(tr);
+                $('<td class="col-6 cl-6">'+val.homework+'</td>').appendTo(tr);
                 /*$('<td>'+atob(val.file)+'</td>').appendTo(tr);*/
-                $('<td class="col-3">'+'file.txt'+'</td>').appendTo(tr);
+                $('<td class="col-3 cl-3">'+'file.txt'+'</td>').appendTo(tr);
                 tr.appendTo(tableBody);
             });
            tableBody.appendTo("#table_home");
