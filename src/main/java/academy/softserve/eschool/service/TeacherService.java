@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
+
 import static academy.softserve.eschool.auxiliary.Transliteration.transliteration;
 
 @Service
