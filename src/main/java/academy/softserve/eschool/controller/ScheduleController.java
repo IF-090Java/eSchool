@@ -74,6 +74,6 @@ public class ScheduleController {
     @GetMapping("/classes/{classId}/schedule")
     public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId){
 
-        return new GeneralResponseWrapper<>(new Status(200, "OK"), scheduleService.getScheduleByClassId(id_class));
+        return new GeneralResponseWrapper<>(new Status(200, "OK"), scheduleService.getScheduleByClassId(classId));
     }
 }
