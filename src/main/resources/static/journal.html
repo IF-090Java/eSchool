@@ -36,8 +36,8 @@
        #table_mark{
            width: 100%;
            display: block;
-           overflow-x: auto;
            white-space: nowrap;
+           overflow-x: auto;
         }
 
        #table_mark thead th,#table_home thead th,#table_students thead th{
@@ -60,16 +60,18 @@
            width: 50%;
        }
 
-       #table_mark th:first-child, #table_mark td:first-child
+       #table_mark tr th:first-child, #table_mark tr td:first-child
        {
            position:sticky;
            left:0px;
+           box-shadow: 1px 0px 1px 1px #ddd;
        }
 
-       #table_mark th:last-child, #table_mark td:last-child
+       #table_mark tr th:last-child, #table_mark tr td:last-child
        {
            position:sticky;
            right:0px;
+           box-shadow: -1px 0px 1px 1px #ddd;
        }
 
 
