@@ -1,12 +1,15 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.dto.JournalDTO;
 import academy.softserve.eschool.dto.JournalMarkDTO;
+import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import lombok.NonNull;
@@ -33,7 +36,7 @@ public class JournalController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping("")
     public GeneralResponseWrapper<List<JournalDTO>> getJournals(){
-        return new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getJournals());
+        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getJournals());
     }
 
     @ApiOperation(value = "Get list of all teacher's journals")
@@ -48,7 +51,7 @@ public class JournalController {
     @GetMapping("/teachers/{idTeacher}")
     public GeneralResponseWrapper<List<JournalDTO>> getJournalsTeacher(
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
-        return new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getJournalsByTeacher(idTeacher));
+        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getJournalsByTeacher(idTeacher));
     }
 
     @ApiOperation(value = "Get list of active teacher's journals")
@@ -63,9 +66,16 @@ public class JournalController {
     @GetMapping("/teachers/{idTeacher}/active")
     public GeneralResponseWrapper<List<JournalDTO>> getActiveJournalsTeacher(
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
-        return new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getActiveJournalsByTeacher(idTeacher));
+        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getActiveJournalsByTeacher(idTeacher));
     }
 
+
+    /**
+     * Returns list of {@link JournalMarkDTO} which contains student's data and his marks wrapped in {@link GeneralResponseWrapper}
+     * @param idSubject if specified marks are filtered by user id
+     * @param idClass if specified marks are filtered by subject id
+     * @return List of {@link JournalMarkDTO} wrapped in {@link GeneralResponseWrapper}
+     */
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
@@ -80,6 +90,6 @@ public class JournalController {
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass
             ){
-        return new GeneralResponseWrapper<>(new Status(200, "OK"), journalServiceImpl.getJournal(idSubject,idClass));
+        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getJournal(idSubject,idClass));
     }
 }
