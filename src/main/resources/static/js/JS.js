@@ -1,7 +1,13 @@
 var host='/';
 var TOKEN_KEY = "jwtToken"
 function getJwtToken() {
-    return localStorage.getItem(TOKEN_KEY);
+    var token = localStorage.getItem(TOKEN_KEY);
+    if (token) {
+        token.replace("Bearer " , "");
+    }else {
+        window.location.href = "/ui/login";
+    }
+    return token;
 }
 
 function validateUserPermissions() {
@@ -13,7 +19,7 @@ function validateUserPermissions() {
             var decodedToken = jwt_decode(jwtToken);
         }
 
-        if (decodedToken.Roles.authority !== 'ROLE_ADMIN') {
+        if (decodedToken.Roles.authority !== 'ROLE_ADMIN' || decodedToken.exp < new Date().getTime) {
             logOut();
         }
     })
@@ -41,7 +47,7 @@ function refreshToken() {
         if ((expDate * 1000 - new Date().getTime()) < 1800000) {
             $.ajax({
                 type: "GET",
-                headers: {"Authorization": "Bearer " + getJwtToken()},
+                headers: {"Authorization": localStorage.getItem(TOKEN_KEY)},
                 url: host + 'refresh',
                 statusCode: {
                     403: function () {
@@ -53,10 +59,10 @@ function refreshToken() {
                         window.location.href = '/ui/login'
                     }
                 },
-                success: function (data) {
+                success: function (data, textStatus, request) {
                     console.log("Old token: " + getJwtToken())
                     removeJwtToken();
-                    setJwtToken(data.data.token);
+                    setJwtToken(request.getResponseHeader("Authorization"));
                     console.log("New token: " + getJwtToken())
                 },
                 dataType: "json",
@@ -73,6 +79,6 @@ function removeJwtToken() {
     localStorage.removeItem(TOKEN_KEY);
 }
 function logOut() {
+    window.location.href = '/ui/login'
     removeJwtToken();
-    window.location.href = '/ui/login';
 }

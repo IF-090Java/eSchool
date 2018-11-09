@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" type="text/css" href="/css/LoginStyle.css">
     <script src="/js/jwt-decode.min.js"></script>
     <script src="/js/JS.js"></script>
@@ -84,10 +83,10 @@
                     "password": password
                 }),
                 contentType: "application/json",
-                success: function (data) {
+                success: function (data, textStatus, request) {
                     console.log(data);
-                    localStorage.setItem("jwtToken", data.data.token);
-                    if (data.data.token){
+                    setJwtToken(request.getResponseHeader("Authorization"))
+                    if (request.getResponseHeader("Authorization")){
                         var url = '/ui/';
                         var jwtToken = getJwtToken();
                         var decodedToken = jwt_decode(jwtToken);
