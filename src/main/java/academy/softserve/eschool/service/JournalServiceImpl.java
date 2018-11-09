@@ -1,10 +1,8 @@
 package academy.softserve.eschool.service;
 
-import academy.softserve.eschool.dto.HomeworkDTO;
-import academy.softserve.eschool.dto.JournalDTO;
-import academy.softserve.eschool.dto.JournalMarkDTO;
-import academy.softserve.eschool.dto.MarkDescriptionDTO;
+import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.model.ClassTeacherSubjectLink;
+import academy.softserve.eschool.model.File;
 import academy.softserve.eschool.model.Lesson;
 import academy.softserve.eschool.repository.ClassTeacherSubjectLinkRepository;
 import academy.softserve.eschool.repository.LessonRepository;
@@ -126,5 +124,31 @@ public class JournalServiceImpl implements JournalService {
             homeworkDTOS.add(dto);
         }
         return homeworkDTOS;
+    }
+
+    @Override
+    public HomeworkFileDTO getFile(int idLesson) {
+        Lesson lesson = lessonRepository.findFile(idLesson);
+        HomeworkFileDTO homeworkFileDTO = HomeworkFileDTO.builder()
+                .idLesson(idLesson)
+                .fileData(lesson.getFile().getFile())
+                .fileName(lesson.getFile().getFileName())
+                .fileType(lesson.getFile().getFileType())
+                .build();
+        return homeworkFileDTO;
+    }
+
+    @Override
+    public void saveHomework(HomeworkFileDTO fileDTO) {
+        Lesson lesson = lessonRepository.getOne(fileDTO.getIdLesson());
+        System.out.println(lesson.getFile());
+        File file = File.builder()
+                .file(fileDTO.getFileData())
+                .fileType(fileDTO.getFileType())
+                .fileName(fileDTO.getFileName())
+                .build();
+        lesson.setFile(file);
+        System.out.println(lesson.getFile());
+        lessonRepository.save(lesson);
     }
 }

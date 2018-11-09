@@ -1,14 +1,10 @@
 package academy.softserve.eschool.controller;
 import java.util.List;
 
+import academy.softserve.eschool.dto.HomeworkFileDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import academy.softserve.eschool.dto.HomeworkDTO;
 import academy.softserve.eschool.service.JournalServiceImpl;
@@ -51,7 +47,7 @@ public class HomeworkController {
     }
 
     @ApiOperation(value = "Save homework")
-    @PostMapping
+    @PutMapping("/files")
     @ApiResponses(
             value = {
                     @ApiResponse(code = 201, message = "Homework successfully created"),
@@ -60,10 +56,25 @@ public class HomeworkController {
             }
     )
     @PreAuthorize("hasRole('TEACHER')")
-    public GeneralResponseWrapper<HomeworkDTO> postHomework(
-            @ApiParam(value = "homework object", required = true)@RequestBody HomeworkDTO homeworkDTO){
-        System.out.println(homeworkDTO);
-        System.out.println(new String(homeworkDTO.getFile()));
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), homeworkDTO);
+    public GeneralResponseWrapper<HomeworkFileDTO> postHomework(
+            @ApiParam(value = "homework object", required = true)@RequestBody HomeworkFileDTO homeworkFileDTO){
+        journalServiceImpl.saveHomework(homeworkFileDTO);
+        return new GeneralResponseWrapper<HomeworkFileDTO>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), null);
     }
+
+    @ApiOperation(value = "Get homework file")
+    @GetMapping("/files/{idLesson}")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "OK"),
+                    @ApiResponse(code = 400, message = "Bad request"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    @PreAuthorize("hasRole('TEACHER')")
+    public GeneralResponseWrapper<HomeworkFileDTO> getFile(
+            @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson){
+        return new GeneralResponseWrapper<HomeworkFileDTO>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), journalServiceImpl.getFile(idLesson));
+    }
+
 }
