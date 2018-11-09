@@ -1,5 +1,15 @@
 package academy.softserve.eschool.service;
 
+import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.model.Teacher;
@@ -7,15 +17,6 @@ import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.model.User.Role;
 import academy.softserve.eschool.repository.TeacherRepository;
 import academy.softserve.eschool.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
 import static academy.softserve.eschool.auxiliary.Transliteration.transliteration;
 
 @Service

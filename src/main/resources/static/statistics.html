@@ -24,18 +24,21 @@
 	<body>
 		<div class="container-fluid px-0 teacher_nav" style="z-index: 3"> </div>
 		<div class="container pt-1">
-			<select id="subject">
-				<option value="">Предмет</option>
-			</select> 
-			<select id="class">
-				<option value="">Клас</option>
-			</select>
-			<select id="student" disabled="true">
-				<option value="">Учень</option>				
-			</select>
-			<span>Початок періоду <input class="border rounded" id="startDate" type="date" name="start"></span>
-			
-			<span>Кінець періоду <input class="border rounded" id="endDate" type="date" name="end"></span>
+			<div class="container-fluid d-flex flex-wrap">
+				<select id="subject">
+					<option value="">Предмет</option>
+				</select> 
+				<select id="class">
+					<option value="">Клас</option>
+				</select>
+				<select id="student" disabled="true">
+					<option value="">Учень</option>				
+				</select>
+				<span>Рік <select id="year"></select></span>
+				<span>Початок періоду <input class="border rounded" id="startDate" type="date" name="start"></span>
+				
+				<span>Кінець періоду <input class="border rounded" id="endDate" type="date" name="end"></span>
+			</div>
 			<div class="statisticsContainer card">
 				<div id="average"></div>
 				<div id="chartContainer"></div>
@@ -47,7 +50,7 @@
                 $.ajaxSetup({
                     beforeSend: function (xhr) {
                         if (getJwtToken()) {
-                            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                            xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
                         }
                     }
                 })
@@ -61,6 +64,7 @@
 			var studentOptions = [];
 			var subjectOptions = [];
 			var classOptions = [];
+			var classesData;
 			var selectedSubjectId;
 			var selectedClassId;
 			
@@ -71,13 +75,17 @@
 			$(document).ready(function () {
 				var params = getParams();
 				$.getJSON(subjectsUrl, fillSubjectsSelect);
-				$.getJSON(classesUrl, fillClassesSelect);
-				$.getJSON(marksUrl, params, setData).fail(function (data) {
-                    if (new RegExp("4[0-9][0-9]").test(data.status)){
-                        window.location.href='/ui/login'
-                    }
-                });
-				setDatePickerConstraint()
+				$.getJSON(classesUrl, fillAcademicYearSelect)
+						.done(fillClassesSelect)
+						.done(initDatePickers)
+						.done(function(){
+							$.getJSON(marksUrl, params, setData).fail(function (data) {
+			                    if (new RegExp("4[0-9][0-9]").test(data.status)){
+			                        window.location.href='/ui/login'
+			                    }
+			                });
+						});
+				setDatePickerConstraint();
 			});
 			
 			$('#subject').change(function(){
@@ -118,6 +126,29 @@
 				$.getJSON(marksUrl, params, setData);
 			});
 			
+			$('#year').change(function(){
+				selectedClassId = null;
+				//TODO change datepicker bounds
+				$.each(classOptions, function(i, option){
+					option.remove();
+				});
+				$.each(subjectOptions, function(i, option){
+					option.remove();
+				})
+				$.each(studentOptions, function(i, option){
+					option.remove();
+				})
+				$('#student').attr("disabled", true);
+				
+				initDatePickers();
+				fillClassesSelect(classesData);
+				$.getJSON(subjectsUrl, fillSubjectsSelect)
+						.done(function(){
+							$('#subject option[value="'+selectedSubjectId+'"]').attr('selected','selected');
+							$.getJSON(marksUrl, getParams(), setData);
+						});
+			});
+			
 			$('#startDate').change(function(){
 				var params = getParams();
 				$.getJSON(marksUrl, params, setData);
@@ -130,9 +161,6 @@
 			
 			function setData(response){
 				var data = response.data;
-				if ($('#startDate').val() == '' || $('#endDate').val() == ''){
-					initDatePickers(data);
-				}
 				formatDatadoints(data);
 				drawChart(data);
 				setAverageMark(data);
@@ -149,14 +177,31 @@
 			}
 			
 			function fillClassesSelect(data){
+				classesData = data;
 				$.each(data, function(i, clazz){
-                    if (clazz.isActive == true) {
+                    if ($("#year").val() == clazz.classYear) {
                         var option = $('<option>');
                         option.val(clazz.id);
                         option.text(clazz.className);
                         $('#class').append(option);
                         classOptions.push(option);
                     }
+				});
+			}
+			
+			function fillAcademicYearSelect (data){
+				var years = [];
+				$.each(data, function (i, clazz){
+					if (!years.includes(clazz.classYear)){
+						years.push(clazz.classYear)
+					}
+				});
+				years.sort().reverse();
+				$.each(years, function(i, year){
+					var option = $('<option>');
+                    option.val(year);
+                    option.text(year);
+                    $('#year').append(option);
 				});
 			}
 			
@@ -170,9 +215,12 @@
 				});
 			}
 			
-			function initDatePickers(data){
-				var start = new Date(data[0].x);
-				var end = new Date(data[data.length-1].x);
+			function initDatePickers(){
+				var year = parseInt($('#year').val());
+				var start = new Date(year, 8, 1);
+				var end = new Date(year+1, 6, 31);
+				var today = new Date();
+				end = today < end ? today : end;
 				var startString = formatDate(start);
 				var endString = formatDate(end);
 				$('#startDate').val(startString);
@@ -197,6 +245,7 @@
 				var dateString = formatDate(date);
 				$('#startDate').attr("max", dateString);
 				$('#endDate').attr("max", dateString);
+				//TODO datepickers bounds
 			}
 			
 			function setAverageMark(data){
@@ -237,11 +286,12 @@
 						legendMarkerType: "square",
 						type: "area",
 						color: "rgba(40,175,101,0.6)",
-						markerSize: 0,
+						markerSize: 5,
 						dataPoints: dataPoints
 					}]
 				});
 				chart.render();
+				console.log('render');
 			}
 			
 			function getParams(){
