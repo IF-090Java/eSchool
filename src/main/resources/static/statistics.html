@@ -160,10 +160,11 @@
 			});
 			
 			function setData(response){
-				var data = response.data;
-				formatDatadoints(data);
-				drawChart(data);
-				setAverageMark(data);
+				var marksData = response.data;
+				formatDatadoints(marksData);
+				var averageData = formAverageData(marksData);
+				drawChart(marksData, averageData);
+				setAverageMark(marksData);
 			}
 			
 			function fillSubjectsSelect(data){
@@ -233,6 +234,21 @@
 				});	
 			}
 			
+			function formAverageData(data){
+				var totalMark = 0;
+				var totalWeight = 0;
+				var averageData = $.map(data, function(e, i){
+					var point = new Object();
+					totalMark += e.y*e.weight;
+					totalWeight += e.weight;
+					var average = totalMark/totalWeight;
+					point.y = average;
+					point.x = e.x;
+					return point;
+				});
+				return averageData;
+			}
+			
 			function formatDate(date){
 				var day = ("0" + date.getDate()).slice(-2);
 				var month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -259,9 +275,10 @@
 				$('#average').text('Середня оцінка: ' + average.toFixed(2));
 			}
 			
-			function drawChart(dataPoints){
+			function drawChart(dataPoints, averageMarksDataPoints){
 				var chart = new CanvasJS.Chart("chartContainer", {
 					animationEnabled: true,
+					zoomEnabled: true,
 					axisX: {
 						valueFormatString: "DD.MM.YYYY",
 						minimum: new Date($('#startDate').val()),
@@ -288,10 +305,18 @@
 						color: "rgba(40,175,101,0.6)",
 						markerSize: 5,
 						dataPoints: dataPoints
+					},
+					{
+						name: "Середня оцінка",
+						showInLegend: true,
+						legendMarkerType: "square",
+						type: "spline",
+						color: "rgba(175,40,101,0.6)",
+						markerSize: 5,
+						dataPoints: averageMarksDataPoints
 					}]
 				});
 				chart.render();
-				console.log('render');
 			}
 			
 			function getParams(){
