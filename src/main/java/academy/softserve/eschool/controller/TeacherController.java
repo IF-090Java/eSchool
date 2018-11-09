@@ -2,7 +2,9 @@ package academy.softserve.eschool.controller;
 
 import java.util.List;
 
+import academy.softserve.eschool.model.User;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +47,7 @@ public class TeacherController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public List<TeacherDTO> getall(){
         return teacherService.getAll(teacherRepository.findAll());
     }
@@ -70,7 +72,7 @@ public class TeacherController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and principal.id == #idTeacher)")
     public TeacherDTO getTeacher(
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
         return teacherService.getOne(teacherRepository.findById(idTeacher).get());
@@ -85,15 +87,11 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasAnyRole('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER') and principal.id == #idTeacher")
     public void updateTeacher(
             @ApiParam(value = "user object", required = true) @RequestBody EditUserDTO teacher,
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
-
         teacherService.updateTeacher(userRepository.findById(idTeacher).get(),teacher, "TEACHER");
     }
-
-
-
 }
 

@@ -37,7 +37,7 @@ public class SubjectController {
 			@ApiResponse(code = 500, message = "Internal Server Error")
 			})
 	@ApiOperation(value = "Get all subjects")
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")//need access for teacher on statistics page
 	@GetMapping()
 	public List<SubjectDTO> getAll(
 			@ApiParam("only subjects studied in specified class will be returned") @RequestParam(required=false) Integer classId) {
@@ -54,7 +54,7 @@ public class SubjectController {
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@ApiOperation(value = "Get a subject by Id")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
 	@GetMapping("/{idSubject}")
 	public SubjectDTO getSubjectById(
 			@ApiParam(value = "id of subject", required = true) @PathVariable int idSubject) {

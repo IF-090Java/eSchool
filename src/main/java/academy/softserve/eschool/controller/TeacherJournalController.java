@@ -64,6 +64,7 @@ public class TeacherJournalController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<TeacherJournalDTO> postConection(
             @ApiParam(value = "id of teacher", required = true) @PathVariable("teacherId") final int teacherId,
             @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,

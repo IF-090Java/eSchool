@@ -47,7 +47,7 @@ public class MarksController {
 	 * @param periodEnd if specified only marks received before this date are returned
 	 * @return list of {@link MarkDataPointDTO} wrapped in {@link GeneralResponseWrapper}
 	 */
-	@PreAuthorize("hasRole('TEACHER')")
+	@PreAuthorize("hasRole('TEACHER')")//need access for teacher on statistics page
 	@GetMapping("")
 	@ApiOperation(value = "Get marks by date filtered by specified params")
 	GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
