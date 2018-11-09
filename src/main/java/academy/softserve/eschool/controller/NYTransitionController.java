@@ -25,6 +25,14 @@ import lombok.RequiredArgsConstructor;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * The controller {@code NYTransitionController} contains methods, that
+ * mapped to the special URL patterns (API Endpoints) for working with classes transition to new year
+ * and receive requests from {@link org.springframework.web.servlet.DispatcherServlet}.
+ * Methods return raw data back to the client in JSON representations.
+ *
+ * @author Vitaliy Popovych
+ */
 @RestController
 @RequestMapping("/students/transition")
 @Api(value = "transition", description = "Endpoints for transition to new school year")
@@ -37,6 +45,12 @@ public class NYTransitionController {
 	@NonNull
     StudentService studentService;
 
+    /**
+     * Add classes to next year based on currently
+     *
+     * @return List of created {@link ClassDTO} objects
+     *         in {@link GeneralResponseWrapper} with http status code
+     */
     @ApiOperation(value = "Add new classes based on currently classes with new year and name")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
@@ -52,6 +66,14 @@ public class NYTransitionController {
         );
     }
 
+    /**
+     * Set previous year classes status isActive as false,
+     * add all students from previous year classes to new year classes
+     *
+     * @param transitionDTOS {@link NYTransitionDTO} object
+     * @return List of {@link NYTransitionDTO} objects
+     *         in {@link GeneralResponseWrapper} with http status code
+     */
     @PutMapping
     @ApiOperation(value = "Binding students to new classes, deactivate previous year classes")
     @ApiResponses(value = {
