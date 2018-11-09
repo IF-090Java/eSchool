@@ -9,26 +9,24 @@ import academy.softserve.eschool.model.Lesson;
 import academy.softserve.eschool.repository.ClassTeacherSubjectLinkRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.StudentRepository;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class JournalServiceImpl implements JournalService {
 
+    @NonNull
     private ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository;
-
+    @NonNull
     private StudentRepository studentRepository;
-
+    @NonNull
     private LessonRepository lessonRepository;
 
-    @Autowired
-    public JournalServiceImpl(ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository, StudentRepository studentRepository, LessonRepository lessonRepository) {
-        this.classTeacherSubjectLinkRepository = classTeacherSubjectLinkRepository;
-        this.studentRepository = studentRepository;
-        this.lessonRepository = lessonRepository;
-    }
 
     @Override
     public List<JournalDTO> getJournalsByTeacher(int idTeacher) {
