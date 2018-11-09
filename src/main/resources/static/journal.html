@@ -198,7 +198,9 @@
             refreshToken();
             $.ajaxSetup({
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                    if (getJwtToken()) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                    }
                 }
             })
         })
@@ -255,7 +257,7 @@
                 }
             });
         }).fail(function (data) {
-            if (data.status == 403){
+            if (new RegExp("4[0-9][0-9]").test(data.status)){
                 window.location.href='/ui/login'
             }
         });
@@ -362,28 +364,28 @@
                 var base;
                 reader.onload = function () {
                     base = reader.result.split(',')[1];
+                    var hometask = $('#homework_form').val();
+                    $.ajax({
+                        type: "post",
+                        url: host + "homeworks",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "idLesson": currentCell.attr("idLes"),
+                            "date": null,
+                            "homework": hometask,
+                            "file": base
+                        }),
+                        contentType: "application/json",
+                        success: function (response) {
+                            currentCell.css("background-color", "");
+                            currentCell.css("color", "#212529");
+                            currentCell = undefined;
+                            $("#homework_status").text(' Успішно додано!');
+                            $("#homework_status").css("color", "#3fa85f");
+                            $("#homework_status").show();
+                        }
+                    });
                 }
-                var hometask = $('#homework_form').val();
-                $.ajax({
-                    type: "post",
-                    url: host + "homeworks",
-                    dataType: "json",
-                    data: JSON.stringify({
-                        "idLesson": currentCell.attr("idLes"),
-                        "date": null,
-                        "homework": hometask,
-                        "file": base
-                    }),
-                    contentType: "application/json",
-                    success: function (response) {
-                        currentCell.css("background-color", "");
-                        currentCell.css("color", "#212529");
-                        currentCell = undefined;
-                        $("#homework_status").text(' Успішно додано!');
-                        $("#homework_status").css("color", "#3fa85f");
-                        $("#homework_status").show();
-                    }
-                });
             }
 
         });

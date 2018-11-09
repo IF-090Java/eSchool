@@ -74,7 +74,9 @@
         refreshToken();
         $.ajaxSetup({
             beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                if (getJwtToken()) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                }
             }
         })
     })
@@ -141,7 +143,7 @@ $(document).ready(function () {
                     }
 
                 }).fail(function (data) {
-                    if (data.status == 403){
+                    if (new RegExp("4[0-9][0-9]").test(data.status)){
                         window.location.href='/ui/login'
                     }
                 });

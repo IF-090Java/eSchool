@@ -33,7 +33,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         catch (MalformedJwtException e) {
             GeneralResponseWrapper errorResponse = new GeneralResponseWrapper(new Status(HttpStatus.BAD_REQUEST.value()
                     , "Bad Token"),null);
-            httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+            httpServletResponse.setStatus(HttpStatus.BAD_REQUEST.value());
             httpServletResponse.getWriter().write(convertObjectToJson(errorResponse));
         }
     }

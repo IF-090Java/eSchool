@@ -1,9 +1,7 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.dto.JournalDTO;
 import academy.softserve.eschool.dto.JournalMarkDTO;
-import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
