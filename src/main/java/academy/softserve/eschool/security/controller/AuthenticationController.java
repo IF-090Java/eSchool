@@ -42,11 +42,6 @@ public class AuthenticationController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @ApiImplicitParams({ @ApiImplicitParam(name = "Authorization",
-            value = "Access Token",
-            required = false,
-            dataType = "string",
-            paramType = "header") })
     public ResponseEntity<?> createAuthenticationToken
             (@ApiParam(value = "Login and Password", required = true) @RequestBody JwtAuthenticationRequest authenticationRequest) {
 
