@@ -19,7 +19,7 @@ function validateUserPermissions() {
             var decodedToken = jwt_decode(jwtToken);
         }
 
-        if (decodedToken.Roles.authority !== 'ROLE_ADMIN') {
+        if (decodedToken.Roles.authority !== 'ROLE_ADMIN' || decodedToken.exp < new Date().getTime) {
             logOut();
         }
     })
@@ -47,7 +47,7 @@ function refreshToken() {
         if ((expDate * 1000 - new Date().getTime()) < 1800000) {
             $.ajax({
                 type: "GET",
-                headers: {"Authorization": "Bearer " + getJwtToken()},
+                headers: {"Authorization": localStorage.getItem(TOKEN_KEY)},
                 url: host + 'refresh',
                 statusCode: {
                     403: function () {
@@ -81,5 +81,4 @@ function removeJwtToken() {
 }
 function logOut() {
     removeJwtToken();
-    window.location.href = '/ui/login';
 }
