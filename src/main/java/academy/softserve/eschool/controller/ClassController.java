@@ -2,6 +2,8 @@ package academy.softserve.eschool.controller;
 
 import java.util.List;
 
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,8 @@ import io.swagger.annotations.ApiResponses;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("/classes")
 @Api(value = "classes", description = "Endpoints for classes")
@@ -38,9 +42,11 @@ public class ClassController {
     @ApiOperation(value = "Create class")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ClassDTO addClass(
+    public GeneralResponseWrapper<ClassDTO> addClass(
             @ApiParam(value = "class object", required = true) @RequestBody ClassDTO newClassDTO){
-        return classService.saveClass(newClassDTO);
+        return new GeneralResponseWrapper<>(
+                new Status(HttpServletResponse.SC_CREATED, "New class created"),
+                classService.saveClass(newClassDTO));
     }
 
     @ApiResponses(value = {
@@ -51,9 +57,12 @@ public class ClassController {
     @ApiOperation(value = "Get Class")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'TEACHER')")
     @GetMapping("/{id}")
-    public ClassDTO getClassById(
+    public GeneralResponseWrapper<ClassDTO> getClassById(
             @ApiParam(value = "id of class", required = true) @PathVariable int id){
-        return classService.findClassById(id);
+        return new GeneralResponseWrapper<>(
+                new Status(HttpServletResponse.SC_OK, "OK"),
+                classService.findClassById(id)
+        );
     }
 
     @ApiResponses(value = {
@@ -64,12 +73,18 @@ public class ClassController {
     @ApiOperation(value = "Get all classes")
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping
-    public List<ClassDTO> getAllClasses(
+    public GeneralResponseWrapper<List<ClassDTO>> getAllClasses(
     		@ApiParam(value="only classes that study subject with specified id will be returned") @RequestParam(required=false) Integer subjectId){
         if (subjectId == null) {
-        	return classService.getAllClasses();
+        	return new GeneralResponseWrapper<>(
+        	        new Status(HttpServletResponse.SC_OK, "OK"),
+                    classService.getAllClasses()
+            );
         } else {
-        	return classService.getClassesBySubject(subjectId);
+            return new GeneralResponseWrapper<>(
+                    new Status(HttpServletResponse.SC_OK, "OK"),
+                    classService.getClassesBySubject(subjectId)
+            );
         }
     }
 
@@ -83,11 +98,14 @@ public class ClassController {
     //todo bk ++ it's better to name param as classId instead. But I'd name it as 'id' in current case.
     //todo bk It's too obvious that 'classId' belongs to the class. But in case you have few ids then name it properly
     @PutMapping("/{id}")
-    public ClassDTO editClass(
+    public GeneralResponseWrapper<ClassDTO> editClass(
             @ApiParam(value = "id of class", required = true) @PathVariable int id,
             @ApiParam(value = "object of class", required = true) @RequestBody ClassDTO editClass){
         //todo bk ++ updating objects with native queries bring a lot af mess into the app. And it's hard to support them. Use entity and repository for it.
 
-        return classService.updateClass(id, editClass);
+        return new GeneralResponseWrapper<>(
+                new Status(HttpServletResponse.SC_CREATED, "Class successfully updated"),
+                classService.updateClass(id, editClass)
+        );
     }
 }

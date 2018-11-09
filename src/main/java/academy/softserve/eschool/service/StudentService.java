@@ -1,6 +1,5 @@
 package academy.softserve.eschool.service;
 
-import static academy.softserve.eschool.auxiliary.LoginGeneratorController.transliteration;
 import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
 
 import java.util.ArrayList;

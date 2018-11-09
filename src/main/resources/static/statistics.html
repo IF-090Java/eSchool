@@ -149,7 +149,7 @@
 			}
 			
 			function fillClassesSelect(data){
-				$.each(data, function(i, clazz){
+				$.each(data.data, function(i, clazz){
                     if (clazz.isActive == true) {
                         var option = $('<option>');
                         option.val(clazz.id);

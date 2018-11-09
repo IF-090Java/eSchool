@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `clazz` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
+ALTER TABLE clazz ADD UNIQUE nameYearIndex(name, academic_year);
 
 
 CREATE TABLE IF NOT EXISTS `class_teacher_subject_link` (
