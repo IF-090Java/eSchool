@@ -77,8 +77,8 @@ function setJwtToken(token) {
 }
 function removeJwtToken() {
     localStorage.removeItem(TOKEN_KEY);
-    console.log("removed");
 }
 function logOut() {
+    window.location.href = '/ui/login'
     removeJwtToken();
 }
