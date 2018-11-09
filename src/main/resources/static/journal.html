@@ -359,15 +359,16 @@
             }
             else {
                 var myFile = $('#file_form').prop('files')[0];
+                var name = $('#file_form').prop('files')[0].name;
                 var reader = new FileReader();
                 reader.readAsDataURL(myFile);
-                var base;
                 reader.onload = function () {
-                    base = reader.result.split(',')[1];
-                    console.log(reader.result.split(',')[1]);
-                    console.log(reader.result.split(',')[0]);
-                    console.log(reader.result);
-                    var hometask = $('#homework_form').val();
+                    var link = document.createElement("a");
+                    document.body.appendChild(link);
+                    link.download = name;
+                    link.href = reader.result;
+                    link.click();
+                    /*var hometask = $('#homework_form').val();
                     $.ajax({
                         type: "post",
                         url: host + "homeworks",
@@ -389,7 +390,7 @@
                             $("#homework_form").val("");
                             $("#file_form").val("");
                         }
-                    });
+                    });*/
                 }
             }
 

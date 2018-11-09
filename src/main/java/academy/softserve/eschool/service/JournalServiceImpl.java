@@ -121,7 +121,6 @@ public class JournalServiceImpl implements JournalService {
             HomeworkDTO dto = HomeworkDTO.builder()
                     .idLesson(lesson.getId())
                     .date(lesson.getDate())
-                    .file(lesson.getFile())
                     .homework(lesson.getHometask())
                     .build();
             homeworkDTOS.add(dto);

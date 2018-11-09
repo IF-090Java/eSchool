@@ -72,16 +72,23 @@ CREATE TABLE IF NOT EXISTS `class_teacher_subject_link` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+CREATE TABLE IF NOT EXISTS `file` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `file` MEDIUMTEXT NULL DEFAULT NULL,
+  `file_type` VARCHAR(255) NULL DEFAULT NULL,
+   PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `lesson` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `clazz_id` INT(11) NOT NULL,
   `subject_id` INT(11) NOT NULL,
   `date` DATE NOT NULL,
-  `file` LONGBLOB ,
   `hometask` VARCHAR(255) NULL DEFAULT NULL,
   `lesson_number` TINYINT(2) NOT NULL,
   `mark_type` ENUM('Labaratorna','Practic','Control','Module') CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `homework_file_id` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `FKlqfrfxjgij4gjebdvvaeoyr14` (`clazz_id` ASC),
   CONSTRAINT `fk_lesson_class`
@@ -89,10 +96,12 @@ CREATE TABLE IF NOT EXISTS `lesson` (
     REFERENCES `clazz` (`id`),
   CONSTRAINT `fk_lesson_subject`
     FOREIGN KEY (`subject_id`)
-    REFERENCES `subject` (`id`))
+    REFERENCES `subject` (`id`),
+  CONSTRAINT `fk_homework_file`
+    FOREIGN KEY (`homework_file_id`)
+    REFERENCES `file` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
 
 CREATE TABLE IF NOT EXISTS `student` (
   `id` INT(11) NOT NULL,

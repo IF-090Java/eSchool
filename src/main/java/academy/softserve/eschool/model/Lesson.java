@@ -37,9 +37,10 @@ public class Lesson {
 	@Enumerated(EnumType.STRING)
 	@Column(name="mark_type")
 	private MarkType markType;
-	@Lob
-	@Size(max=1_000_000)
-	private byte[] file;
+	@Size(max=(int)(1000000*1.4))
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "lesson")
+	private File file;
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@NotNull
 	private Clazz clazz;
@@ -49,7 +50,7 @@ public class Lesson {
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "lesson")
 	private final Set<@NotNull Mark> marks = new HashSet<>();
 	
-	public Lesson(byte lessonNumber, Date date, String hometask, MarkType markType, byte[] file, Clazz clazz,
+	public Lesson(byte lessonNumber, Date date, String hometask, MarkType markType, File file, Clazz clazz,
 			Subject subject) {
 		super();
 		this.lessonNumber = lessonNumber;
