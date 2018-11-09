@@ -115,3 +115,9 @@ INSERT INTO students_classes(student_id, class_id) VALUES
 ((SELECT id FROM `user` WHERE `login` LIKE 'mKobyl12'), (SELECT id FROM `clazz` WHERE name LIKE '7-Б')),
 ((SELECT id FROM `user` WHERE `login` LIKE 'oLyakh10'), (SELECT id FROM `clazz` WHERE name LIKE '7-Б')),
 ((SELECT id FROM `user` WHERE `login` LIKE 'iCherv08'), (SELECT id FROM `clazz` WHERE name LIKE '7-Б'));
+
+--changeset serhiiboiko:add_students_to_class_9
+INSERT INTO students_classes(student_id, class_id) VALUES
+((SELECT id FROM `user` WHERE `login` LIKE 'sKohyt14'), (SELECT id FROM `clazz` WHERE name LIKE '9')),
+((SELECT id FROM `user` WHERE `login` LIKE 'zZapukh31'), (SELECT id FROM `clazz` WHERE name LIKE '9')),
+((SELECT id FROM `user` WHERE `login` LIKE 'tKutsa01'), (SELECT id FROM `clazz` WHERE name LIKE '9'));
