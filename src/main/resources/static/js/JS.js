@@ -1,7 +1,13 @@
 var host='/';
 var TOKEN_KEY = "jwtToken"
 function getJwtToken() {
-    return localStorage.getItem(TOKEN_KEY);
+    var token = localStorage.getItem(TOKEN_KEY);
+    if (token) {
+        token.replace("Bearer " , "");
+    }else {
+        window.location.href = "/ui/login";
+    }
+    return token;
 }
 
 function validateUserPermissions() {
@@ -53,10 +59,10 @@ function refreshToken() {
                         window.location.href = '/ui/login'
                     }
                 },
-                success: function (data) {
+                success: function (data, textStatus, request) {
                     console.log("Old token: " + getJwtToken())
                     removeJwtToken();
-                    setJwtToken(data.data.token);
+                    setJwtToken(request.getResponseHeader("Authorization"));
                     console.log("New token: " + getJwtToken())
                 },
                 dataType: "json",
@@ -71,6 +77,7 @@ function setJwtToken(token) {
 }
 function removeJwtToken() {
     localStorage.removeItem(TOKEN_KEY);
+    console.log("removed");
 }
 function logOut() {
     removeJwtToken();

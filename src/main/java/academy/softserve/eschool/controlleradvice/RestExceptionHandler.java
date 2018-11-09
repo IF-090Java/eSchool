@@ -9,6 +9,7 @@ import javax.validation.ConstraintViolationException;
 import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.dao.DataIntegrityViolationException;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -63,6 +64,17 @@ public class RestExceptionHandler {
 				.build();
 		return response;
 	}
+
+	@ResponseStatus(code=HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MalformedJwtException.class)
+	public GeneralResponseWrapper<Object> malformedToken(MalformedJwtException ex) {
+		Status status = new Status(HttpStatus.BAD_REQUEST.value(), "Bad token");
+		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+				.status(status)
+				.build();
+		return response;
+	}
+
 
 
 	@ResponseStatus(code=HttpStatus.FORBIDDEN)
