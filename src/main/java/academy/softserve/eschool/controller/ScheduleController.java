@@ -1,8 +1,7 @@
 package academy.softserve.eschool.controller;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,7 @@ import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.service.ScheduleServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -53,12 +53,15 @@ public class ScheduleController {
             @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
             @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)//create a shedule for a class with this id
     {
-        //todo bk use java8 date api
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String start = dateFormat.format(scheduleDTO.getStartOfSemester());
-        String end = dateFormat.format(scheduleDTO.getEndOfSemester());
-        lessonRepository.deleteScheduleByBounds(start, end, scheduleDTO.getClassName().getId());
+        //todo bk
+        LocalDate startDate = scheduleDTO.getStartOfSemester();
+        LocalDate endDate = scheduleDTO.getStartOfSemester();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        //if schedule with this bounds exists we delete the old schedule and add the new one
+        lessonRepository.deleteScheduleByBounds(startDate.format(formatter), endDate.format(formatter), scheduleDTO.getClassName().getId());
         scheduleService.saveSchedule(scheduleDTO);
+
         return new GeneralResponseWrapper<>(new Status(201, "OK"), null);
     }
 
