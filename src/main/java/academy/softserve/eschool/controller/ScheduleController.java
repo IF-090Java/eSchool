@@ -50,8 +50,7 @@ public class ScheduleController {
     @PostMapping("/classes/{classId}/schedule")
     //todo bk ++
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
-            @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
-            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)//create a shedule for a class with this id
+            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)
     {
         //todo bk
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
