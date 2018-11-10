@@ -23,5 +23,7 @@ public class HomeworkDTO{
     private Date date;
     @ApiModelProperty(notes = "homework")
     private String homework;
+    @ApiModelProperty(notes = "homework")
+    private String fileName;
 
 }

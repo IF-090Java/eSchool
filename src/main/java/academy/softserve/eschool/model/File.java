@@ -31,7 +31,8 @@ public class File {
             mappedBy = "file")
     private Lesson lesson;
 
-    public File(@NotNull @Size(max = (int) (1000000 * 1.4)) String file, @NotNull String fileType, Lesson lesson) {
+    public File(@NotNull String fileName, @NotNull @Size(max = (int) (1000000 * 1.4)) String file, @NotNull String fileType, Lesson lesson) {
+        this.fileName = fileName;
         this.file = file;
         this.fileType = fileType;
         this.lesson = lesson;

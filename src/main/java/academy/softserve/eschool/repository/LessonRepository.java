@@ -56,4 +56,9 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 	@Query(value = "select * from lesson inner join file on lesson.homework_file_id = file.id where lesson.id=:idLesson " +
 			"order by lesson.date", nativeQuery = true)
 	Lesson findFile(@Param("idLesson") int idLesson);
+
+	@Modifying
+	@Transactional
+	@Query(value = "update lesson set hometask=:hometask,homework_file_id=:idFile where id=:idLesson", nativeQuery = true)
+	void saveHomeWork(@Param("hometask") String hometask, @Param("idFile") Integer idFile,  @Param("idLesson") Integer idLesson);
 }

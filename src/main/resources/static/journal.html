@@ -363,21 +363,25 @@
                 var reader = new FileReader();
                 reader.readAsDataURL(myFile);
                 reader.onload = function () {
-                    var link = document.createElement("a");
+                   /* var link = document.createElement("a");
                     document.body.appendChild(link);
                     link.download = name;
                     link.href = reader.result;
-                    link.click();
-                    /*var hometask = $('#homework_form').val();
+                    link.click();*/
+                    var fileData = reader.result.split(',')[1];
+                    var typeData = reader.result.split(';')[0];
+                    var type = typeData.split(':')[1];
+                    var hometask = $('#homework_form').val();
                     $.ajax({
-                        type: "post",
-                        url: host + "homeworks",
+                        type: "put",
+                        url: host + "homeworks/files",
                         dataType: "json",
                         data: JSON.stringify({
                             "idLesson": currentCell.attr("idLes"),
-                            "date": null,
                             "homework": hometask,
-                            "file": base
+                            "fileData": fileData,
+                            "fileName": name,
+                            "fileType": type
                         }),
                         contentType: "application/json",
                         success: function (response) {
@@ -390,7 +394,7 @@
                             $("#homework_form").val("");
                             $("#file_form").val("");
                         }
-                    });*/
+                    });
                 }
             }
 

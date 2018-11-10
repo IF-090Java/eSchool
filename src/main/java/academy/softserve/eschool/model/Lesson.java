@@ -11,6 +11,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import academy.softserve.eschool.model.Mark.MarkType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 @Entity
@@ -38,8 +39,8 @@ public class Lesson {
 	@Column(name="mark_type")
 	private MarkType markType;
 	@Size(max=(int)(1000000*1.4))
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "lesson")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "homework_file_id")
 	private File file;
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@NotNull

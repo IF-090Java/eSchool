@@ -59,7 +59,7 @@ public class HomeworkController {
     public GeneralResponseWrapper<HomeworkFileDTO> postHomework(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkFileDTO homeworkFileDTO){
         journalServiceImpl.saveHomework(homeworkFileDTO);
-        return new GeneralResponseWrapper<HomeworkFileDTO>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), null);
+        return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), null);
     }
 
     @ApiOperation(value = "Get homework file")
@@ -74,7 +74,7 @@ public class HomeworkController {
     @PreAuthorize("hasRole('TEACHER')")
     public GeneralResponseWrapper<HomeworkFileDTO> getFile(
             @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson){
-        return new GeneralResponseWrapper<HomeworkFileDTO>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), journalServiceImpl.getFile(idLesson));
+        return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), journalServiceImpl.getFile(idLesson));
     }
 
 }

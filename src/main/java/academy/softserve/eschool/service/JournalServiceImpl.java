@@ -5,12 +5,15 @@ import academy.softserve.eschool.model.ClassTeacherSubjectLink;
 import academy.softserve.eschool.model.File;
 import academy.softserve.eschool.model.Lesson;
 import academy.softserve.eschool.repository.ClassTeacherSubjectLinkRepository;
+import academy.softserve.eschool.repository.FileRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -24,6 +27,8 @@ public class JournalServiceImpl implements JournalService {
     private StudentRepository studentRepository;
     @NonNull
     private LessonRepository lessonRepository;
+    @NonNull
+    private FileRepository fileRepository;
 
 
     @Override
@@ -114,6 +119,7 @@ public class JournalServiceImpl implements JournalService {
     @Override
     public List<HomeworkDTO> getHomework(int idSubject, int idClass) {
         List<Lesson> list = lessonRepository.findHomework(idSubject,idClass);
+        System.out.println(list.size());
         List<HomeworkDTO> homeworkDTOS = new ArrayList<>();
         for(Lesson lesson: list){
             HomeworkDTO dto = HomeworkDTO.builder()
@@ -140,15 +146,12 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public void saveHomework(HomeworkFileDTO fileDTO) {
-        Lesson lesson = lessonRepository.getOne(fileDTO.getIdLesson());
-        System.out.println(lesson.getFile());
         File file = File.builder()
                 .file(fileDTO.getFileData())
                 .fileType(fileDTO.getFileType())
                 .fileName(fileDTO.getFileName())
                 .build();
-        lesson.setFile(file);
-        System.out.println(lesson.getFile());
-        lessonRepository.save(lesson);
+        File savedFile = fileRepository.save(file);
+        lessonRepository.saveHomeWork(fileDTO.getHomework(),savedFile.getId(),fileDTO.getIdLesson());
     }
 }
