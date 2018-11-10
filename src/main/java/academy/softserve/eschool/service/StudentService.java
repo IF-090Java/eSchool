@@ -20,7 +20,6 @@ import academy.softserve.eschool.model.User.Role;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
-
 import static academy.softserve.eschool.auxiliary.Transliteration.transliteration;
 
 @Service
@@ -107,6 +106,8 @@ public class StudentService {
                      List<Clazz> clazzes = student.getClasses();
                      clazzes.add(classRepository.findById(nDTO.getNewClassId()).orElse(null));
                      student.setClasses(clazzes);
+
+                     //todo bk !!!!!!! Never do it again - calling repository method in loop. Just prepare all required data and save it once
                      updatedStudentsList.add(student);
                  }
              }

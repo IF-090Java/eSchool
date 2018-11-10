@@ -29,6 +29,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Override
     public ScheduleDTO getScheduleByClassId(int id_class) {
+        //todo bk refactor it by doing just single call to db to get the data
         List<Map<String, Object>> monday = lessonRepository.scheduleByClassId(0, id_class);
         List<Map<String, Object>> tuesday = lessonRepository.scheduleByClassId(1, id_class);
         List<Map<String, Object>> wednesday = lessonRepository.scheduleByClassId(2, id_class);
@@ -77,6 +78,7 @@ public class ScheduleServiceImpl implements ScheduleService{
             for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
                 DayOfWeek dow = date.getDayOfWeek();
                 if (dow == dayOfWeek) {
+                    //todo bk !!!!!!! Never do it again - calling repository method in loop. Just prepare all required data and save it once
                     lessonRepository.save(
                             Lesson.builder()
                                     .lessonNumber((byte) (i + 1))
