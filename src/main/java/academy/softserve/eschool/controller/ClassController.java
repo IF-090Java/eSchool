@@ -39,8 +39,9 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "classes", description = "Endpoints for classes")
 @RequiredArgsConstructor
 public class ClassController {
-	@NonNull
-    private ClassService classService;
+    
+    @NonNull
+    ClassServiceImpl classService;
 
     /**
      * Create new class
@@ -106,10 +107,10 @@ public class ClassController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping
     public GeneralResponseWrapper<List<ClassDTO>> getAllClasses(
-    		@ApiParam(value="Only classes that study subject with specified id will be returned") @RequestParam(required=false) Integer subjectId){
+            @ApiParam(value="Only classes that study subject with specified id will be returned") @RequestParam(required=false) Integer subjectId){
         if (subjectId == null) {
-        	return new GeneralResponseWrapper<>(
-        	        new Status(HttpServletResponse.SC_OK, "OK"),
+            return new GeneralResponseWrapper<>(
+                    new Status(HttpServletResponse.SC_OK, "OK"),
                     classService.getAllClasses()
             );
         } else {

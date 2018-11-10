@@ -21,30 +21,34 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(exclude = {"student", "lesson"})
 @NoArgsConstructor
 public class Mark {
-	@Id
-	@GeneratedValue
-	private int id;
-	@Positive
-	@Max(value=12)
-	private byte mark;
-	@Size(max=200)
-	private String note;
-	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@NotNull
-	private Student student;
-	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@NotNull
-	private Lesson lesson;
-	
-	public Mark(byte mark, String note, Student student, Lesson lesson) {
-		super();
-		this.mark = mark;
-		this.note = note;
-		this.student = student;
-		this.lesson = lesson;
-	}
-	
-	public enum MarkType {
-		Control, Practic, Module, Labaratorna
-	}
+    @Id
+    @GeneratedValue
+    private int id;
+    
+    @Positive
+    @Max(value=12)
+    private byte mark;
+    
+    @Size(max=200)
+    private String note;
+    
+    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @NotNull
+    private Student student;
+    
+    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @NotNull
+    private Lesson lesson;
+    
+    public Mark(byte mark, String note, Student student, Lesson lesson) {
+        super();
+        this.mark = mark;
+        this.note = note;
+        this.student = student;
+        this.lesson = lesson;
+    }
+    
+    public enum MarkType {
+        Control, Practic, Module, Labaratorna
+    }
 }

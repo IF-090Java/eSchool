@@ -16,14 +16,16 @@ import java.util.Date;
 public class HomeworkDTO{
     @ApiModelProperty(notes = "id of lesson",required = true)
     private int idLesson;
+    
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy.MM.dd")
     @ApiModelProperty(notes = "date of homework")
     private Date date;
+    
     @ApiModelProperty(notes = "homework")
     private String homework;
+  
     @ApiModelProperty(notes = "homework")
     private String fileName;
-
 }
