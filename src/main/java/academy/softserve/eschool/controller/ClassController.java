@@ -2,6 +2,7 @@ package academy.softserve.eschool.controller;
 
 import java.util.List;
 
+import academy.softserve.eschool.service.ClassService;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.service.ClassServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class ClassController {
 	@NonNull
-    ClassServiceImpl classService;
+    private ClassService classService;
 
     /**
      * Create new class

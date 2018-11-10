@@ -2,6 +2,7 @@ package academy.softserve.eschool.controller;
 
 import java.util.List;
 
+import academy.softserve.eschool.service.ClassService;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.dto.NYTransitionDTO;
-import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,9 +41,9 @@ public class NYTransitionController {
 
     //todo bk ++ use autowiring via constructors.
 	@NonNull
-    ClassServiceImpl classService;
+    private ClassService classService;
 	@NonNull
-    StudentService studentService;
+    private StudentService studentService;
 
     /**
      * Add classes to next year based on currently

@@ -177,7 +177,7 @@
 			}
 			
 			function fillClassesSelect(data){
-                classesData = data.data;
+                classesData = data;
 				$.each(data.data, function(i, clazz){
                     if ($("#year").val() == clazz.classYear) {
                         var option = $('<option>');
