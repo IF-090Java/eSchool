@@ -31,7 +31,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 			"    where lesson.date between :startDate and :endDate" +
 			"    and students_classes.student_id = :studentId" +
 			"    order by lesson.date, lesson.lesson_number", nativeQuery = true)
-	List<Map<String, Object>> getDiary(@Param("studentId") int studentId, @Param("startDate") String startDate,
+	 List<Map<String, Object>> getDiary(@Param("studentId") int studentId, @Param("startDate") String startDate,
 											  @Param("endDate") String endDate);
 
 	@Query(value = "select * from lesson where lesson.clazz_id=:idClass and lesson.subject_id=:idSubject\n" +
@@ -51,4 +51,13 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 	@Query(value = "delete from lesson where lesson.date between :startDate and :endDate" +
 			"		and clazz_id = :classId", nativeQuery = true)
 	void deleteScheduleByBounds(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("classId") int class_id);
+
+	@Query(value = "select * from lesson inner join file on lesson.homework_file_id = file.id where lesson.id=:idLesson " +
+			"order by lesson.date", nativeQuery = true)
+	Lesson findFile(@Param("idLesson") int idLesson);
+
+	@Modifying
+	@Transactional
+	@Query(value = "update lesson set hometask=:hometask,homework_file_id=:idFile where id=:idLesson", nativeQuery = true)
+	void saveHomeWork(@Param("hometask") String hometask, @Param("idFile") Integer idFile,  @Param("idLesson") Integer idLesson);
 }
