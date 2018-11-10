@@ -119,7 +119,6 @@ public class JournalServiceImpl implements JournalService {
     @Override
     public List<HomeworkDTO> getHomework(int idSubject, int idClass) {
         List<Lesson> list = lessonRepository.findHomework(idSubject,idClass);
-        System.out.println(list.size());
         List<HomeworkDTO> homeworkDTOS = new ArrayList<>();
         for(Lesson lesson: list){
             HomeworkDTO dto = HomeworkDTO.builder()
@@ -127,6 +126,10 @@ public class JournalServiceImpl implements JournalService {
                     .date(lesson.getDate())
                     .homework(lesson.getHometask())
                     .build();
+            if(lesson.getFile()!=null){
+                dto.setFileName(lesson.getFile().getFileName());
+            }
+            else dto.setFileName(null);
             homeworkDTOS.add(dto);
         }
         return homeworkDTOS;
@@ -140,7 +143,9 @@ public class JournalServiceImpl implements JournalService {
                 .fileData(lesson.getFile().getFile())
                 .fileName(lesson.getFile().getFileName())
                 .fileType(lesson.getFile().getFileType())
+                .homework(lesson.getHometask())
                 .build();
+        System.out.println(homeworkFileDTO);
         return homeworkFileDTO;
     }
 

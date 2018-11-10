@@ -74,7 +74,7 @@ public class HomeworkController {
     @PreAuthorize("hasRole('TEACHER')")
     public GeneralResponseWrapper<HomeworkFileDTO> getFile(
             @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson){
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), journalServiceImpl.getFile(idLesson));
+        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getFile(idLesson));
     }
 
 }

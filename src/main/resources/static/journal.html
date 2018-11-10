@@ -235,11 +235,16 @@
                 var tr=$('<tr class="d-flex" style="display: table-row !important;"></tr>');
                 $('<td class="col-3 cl-3">'+val.date+'</td>').appendTo(tr);
                 $('<td class="col-6 cl-6">'+val.homework+'</td>').appendTo(tr);
-                /*$('<td>'+atob(val.file)+'</td>').appendTo(tr);*/
-                $('<td class="col-3 cl-3">'+'file.txt'+'</td>').appendTo(tr);
+                if(val.fileName != undefined) {
+                    $('<td class="col-3 cl-3"><button type="button"class="btn btn-link dButton" idLes="'+val.idLesson+'">' + val.fileName + '</button></td>').appendTo(tr);
+                }
+                else{
+                    $('<td class="col-3 cl-3"></td>').appendTo(tr);
+                }
                 tr.appendTo(tableBody);
             });
-           tableBody.appendTo("#table_home");
+            tableBody.appendTo("#table_home");
+            $('.dButton').click(downloadFile);
             $('#table_home').dataTable({
                 "language": {
                     "lengthMenu": "Відображати _MENU_ записів на сторінці",
@@ -351,6 +356,7 @@
             }
         });
 
+
         $( "#saveHomeworkB" ).click(function() {
             if(currentCell==undefined){
                 $("#homework_status").text(' Поле не вибрано!');
@@ -363,11 +369,6 @@
                 var reader = new FileReader();
                 reader.readAsDataURL(myFile);
                 reader.onload = function () {
-                   /* var link = document.createElement("a");
-                    document.body.appendChild(link);
-                    link.download = name;
-                    link.href = reader.result;
-                    link.click();*/
                     var fileData = reader.result.split(',')[1];
                     var typeData = reader.result.split(';')[0];
                     var type = typeData.split(':')[1];
@@ -399,6 +400,29 @@
             }
 
         });
+
+        function downloadFile() {
+            /*$.getJSON(host + 'homeworks/files/'+$(this).attr('idLes'), function (data) {
+                var link = document.createElement("a");
+                document.body.appendChild(link);
+                link.download = data.data.fileName;
+                link.href = 'data:'+data.data.fileType+";base64,"+data.data.fileData;
+                link.click();
+            });*/
+            $.ajax({
+                type: "get",
+                url: host + "homeworks/files/"+$(this).attr('idLes'),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    var link = document.createElement("a");
+                    document.body.appendChild(link);
+                    link.download = response.data.fileName;
+                    link.href = 'data:'+response.data.fileType+";base64,"+response.data.fileData;
+                    link.click();
+                }
+            });
+        }
 
         function averageMark() {
             $('#table_mark .markValues').each(function () {
