@@ -238,108 +238,36 @@ select {
 </div>
 <script type="text/javascript">
 /****************************************Add more selects*********************************************************************/
+function addMore(obj, controls)
+{
+      $(obj).on('click', '.btn-add', function(e)
+    {
+        e.preventDefault();
+        var controlForm = $(controls + ' form:first'),
+            currentEntry = $(this).parents('.entry:first'),
+            newEntry = $(currentEntry.clone()).appendTo(controlForm);
+        var id = 0;
+        newEntry.each(function(){
+                   $(this).find('select').attr('id', id + 1);
+                });
+        controlForm.find('.entry:not(:last) .btn-add')
+            .removeClass('btn-add').addClass('btn-remove')
+            .removeClass('btn-success').addClass('btn-danger')
+            .html('<span>Видалити урок</span>');
+    }).on('click', '.btn-remove', function(e)
+    {
+		$(this).parents('.entry:first').remove();
+		e.preventDefault();
+		return false;
+	});
+}
 $(function()
 {
-    $('#monday').on('click', '.btn-add', function(e)
-    {
-        e.preventDefault();
-        var controlForm = $('.controls1 form:first'),
-            currentEntry = $(this).parents('.entry:first'),
-            newEntry = $(currentEntry.clone()).appendTo(controlForm);
-        var id = 0;
-        newEntry.each(function(){
-                   $(this).find('select').attr('id', id + 1);
-                });
-        controlForm.find('.entry:not(:last) .btn-add')
-            .removeClass('btn-add').addClass('btn-remove')
-            .removeClass('btn-success').addClass('btn-danger')
-            .html('<span>Видалити урок</span>');
-    }).on('click', '.btn-remove', function(e)
-    {
-		$(this).parents('.entry:first').remove();
-		e.preventDefault();
-		return false;
-	});
-	$('#tuesday').on('click', '.btn-add', function(e)
-    {
-        e.preventDefault();
-        var controlForm =$('.controls2 form:first'),
-            currentEntry = $(this).parents('.entry:first'),
-            newEntry = $(currentEntry.clone()).appendTo(controlForm);
-        var id = 0;
-        newEntry.each(function(){
-                   $(this).find('select').attr('id', id + 1);
-                });
-        controlForm.find('.entry:not(:last) .btn-add')
-            .removeClass('btn-add').addClass('btn-remove')
-            .removeClass('btn-success').addClass('btn-danger')
-            .html('<span>Видалити урок</span>');
-    }).on('click', '.btn-remove', function(e)
-    {
-		$(this).parents('.entry:first').remove();
-		e.preventDefault();
-		return false;
-	});
-	$('#wednesday').on('click', '.btn-add', function(e)
-    {
-        e.preventDefault();
-        var controlForm =$('.controls3 form:first'),
-            currentEntry = $(this).parents('.entry:first'),
-            newEntry = $(currentEntry.clone()).appendTo(controlForm);
-        var id = 0;
-        newEntry.each(function(){
-                   $(this).find('select').attr('id', id + 1);
-                });
-        controlForm.find('.entry:not(:last) .btn-add')
-            .removeClass('btn-add').addClass('btn-remove')
-            .removeClass('btn-success').addClass('btn-danger')
-            .html('<span>Видалити урок</span>');
-    }).on('click', '.btn-remove', function(e)
-    {
-		$(this).parents('.entry:first').remove();
-		e.preventDefault();
-		return false;
-	});
-	$('#thursday').on('click', '.btn-add', function(e)
-    {
-        e.preventDefault();
-        var controlForm =$('.controls4 form:first'),
-            currentEntry = $(this).parents('.entry:first'),
-            newEntry = $(currentEntry.clone()).appendTo(controlForm);
-        var id = 0;
-        newEntry.each(function(){
-                   $(this).find('select').attr('id', id + 1);
-                });
-        controlForm.find('.entry:not(:last) .btn-add')
-            .removeClass('btn-add').addClass('btn-remove')
-            .removeClass('btn-success').addClass('btn-danger')
-            .html('<span>Видалити урок</span>');
-    }).on('click', '.btn-remove', function(e)
-    {
-		$(this).parents('.entry:first').remove();
-		e.preventDefault();
-		return false;
-	});
-	$('#friday').on('click', '.btn-add', function(e)
-    {
-        e.preventDefault();
-        var controlForm =$('.controls5 form:first'),
-            currentEntry = $(this).parents('.entry:first'),
-            newEntry = $(currentEntry.clone()).appendTo(controlForm);
-        var id = 0;
-        newEntry.each(function(){
-                   $(this).find('select').attr('id', id + 1);
-                });
-        controlForm.find('.entry:not(:last) .btn-add')
-            .removeClass('btn-add').addClass('btn-remove')
-            .removeClass('btn-success').addClass('btn-danger')
-            .html('<span>Видалити урок</span>');
-    }).on('click', '.btn-remove', function(e)
-    {
-		$(this).parents('.entry:first').remove();
-		e.preventDefault();
-		return false;
-	});
+  addMore('#monday', '.controls1');
+  addMore('#tuesday', '.controls2');
+  addMore('#wednesday', '.controls3');
+  addMore('#thursday', '.controls4');
+  addMore('#friday', '.controls5');
 });
 /****************************************Security*********************************************************************/
     $(document).ready(function () {
