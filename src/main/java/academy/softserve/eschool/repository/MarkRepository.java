@@ -47,4 +47,9 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
 	@Transactional
 	@Query(value = "update lesson set mark_type=:markType where id=:idLesson", nativeQuery = true)
 	void saveTypeByLesson(@Param("idLesson") int idStudent,@Param("markType") String markType);
+
+	@Query(value = "select count(*) from mark m \n" +
+			"inner join lesson l on l.id = m.lesson_id\n" +
+			"where l.date between :startDate and :endDate", nativeQuery = true)
+	int getCountOfMarksByDateBounds(@Param("startDate") String startDate, @Param("endDate") String endDate);
 }

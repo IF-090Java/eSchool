@@ -409,6 +409,10 @@ $(function()
                 }),
                 contentType: "application/json",
   				  statusCode: {
+                      409: function() {
+                      $("#message").attr("class", "alert alert-danger");
+                      $("#message").html("<strong>Розклад з такими межами семестру уже існує, та оцінки за ці дати уже виставлені</strong>");
+                    },
                        200: function() {
                         $("#message").attr("class", "alert alert-success");
                         $("#message").html("<strong>Розклад успішно створений</strong>");
