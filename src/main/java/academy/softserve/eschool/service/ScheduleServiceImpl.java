@@ -66,7 +66,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 
         saveFunction(monday, start, end, DayOfWeek.MONDAY, clazz);
         saveFunction(tuesday, start, end, DayOfWeek.TUESDAY, clazz);
-        saveFunction(wednesday, start, end, DayOfWeek.THURSDAY, clazz);
+        saveFunction(wednesday, start, end, DayOfWeek.WEDNESDAY, clazz);
         saveFunction(thursday, start, end, DayOfWeek.THURSDAY, clazz);
         saveFunction(friday, start, end, DayOfWeek.FRIDAY, clazz);
     }
