@@ -46,14 +46,15 @@ public class ScheduleController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    //todo bk write javadoc instead of inline comment
+    //todo bk classId is unused variable. IDEA tries to told you about it marking it by grey color. Use it when needed or remove.
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/classes/{classId}/schedule")
-    //todo bk ++
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
             @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
             @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)//create a shedule for a class with this id
     {
-        //todo bk
+
         LocalDate startDate = scheduleDTO.getStartOfSemester();
         LocalDate endDate = scheduleDTO.getStartOfSemester();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

@@ -62,7 +62,7 @@ public class AdminEditUserController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/teachers/{id}")
     public void updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int id){
-
+        //todo bk ++ why did you hardcoded "ADMIN" here. Avoid this.
         teacherService.updateTeacher(userRepository.findById(id).get(),teacher, "ADMIN");
     }
 }

@@ -105,6 +105,8 @@ public class StudentService {
                      List<Clazz> clazzes = student.getClasses();
                      clazzes.add(classRepository.findById(nDTO.getNewClassId()).orElse(null));
                      student.setClasses(clazzes);
+
+                     //todo bk !!!!!!! Never do it again - calling repository method in loop. Just prepare all required data and save it once
                      studentRepository.save(student);
                  }
              }
