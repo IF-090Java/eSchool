@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
+//todo bk mode all controllers to academy.softserve.eschool.controller to keep them in one place
 @RestController
 public class AuthenticationController {
 
-    private static  String tokenHeader = "Authorization";
+    //todo bk I saw you hardcoded it few times. Just move auth header and token prefix (Barer) into app.properties file and inject it from there with @Value annotation.
+    private static String tokenHeader = "Authorization";
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -54,7 +56,7 @@ public class AuthenticationController {
         headers.add("Authorization", "Bearer " + token);
 
         // Return the token
-        return new ResponseEntity(headers,HttpStatus.NO_CONTENT);
+        return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
     }
 
     @ApiOperation("Refresh token. Requires valid and active token. Returns new token")

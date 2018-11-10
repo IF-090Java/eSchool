@@ -34,6 +34,7 @@ public class ClassTeacherSubjectServiceImpl implements ClassTeacherSubjectServic
         Teacher teacher = teacherRepository.findById(teacherId).get();
         Subject subject = subjectRepository.findById(subjectId).get();
 
+        //todo bk ++ use builder instead
         classTeacherSubject.setClazz(clazz);
         classTeacherSubject.setClazz_id(classId);
         classTeacherSubject.setTeacher(teacher);

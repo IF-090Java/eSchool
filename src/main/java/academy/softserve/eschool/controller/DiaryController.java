@@ -1,17 +1,5 @@
 package academy.softserve.eschool.controller;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.service.base.DiaryServiceBase;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
@@ -23,6 +11,18 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/diaries")
@@ -52,8 +52,7 @@ public class DiaryController {
 			@ApiParam(value = "id of student", required=true) @PathVariable Integer studentId){
 		//todo bk ++ instead of 3 lines of code use just one. Keep it simple.
 		//return new GeneralResponseWrapper<>(new Status(200, "OK"), diaryService.getDiary(weekStartDate, studentId))
-		return new GeneralResponseWrapper<>(
-				new Status(HttpStatus.OK.value(), "OK"),
-				diaryService.getDiary(weekStartDate, studentId));
+		//todo bk Use such stile across the whole app. Looks much simpler and easier for reading
+		return new GeneralResponseWrapper<>(Status.of(OK), diaryService.getDiary(weekStartDate, studentId));
 	}
 }

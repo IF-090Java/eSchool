@@ -35,6 +35,7 @@ public class DiaryService implements DiaryServiceBase{
 		String startDate = dateFormat.format(weekStartDate);
 		String endDate = dateFormat.format(weekEndDate);
 		List<Map<String, Object>> diaryData = lessonRepo.getDiary(studentId, startDate, endDate);
+		//todo bk let's think how to refactor it. Just remind me about it when I come.
 		List<DiaryEntryDTO> diary = diaryData.stream().map((obj) -> {
 					LocalDate date = ((Date)obj.get("date")).toLocalDate();
 					byte no = (byte)obj.get("lesson_number");
@@ -45,6 +46,7 @@ public class DiaryService implements DiaryServiceBase{
 					return new DiaryEntryDTO(date, no, lessonName, hometask, mark, note);
 				})
 				.collect(Collectors.toList());
+		//todo bk ++ don't use sys.out . Use logger instead
 		System.out.println(diary);
 		return diary;
 	}
