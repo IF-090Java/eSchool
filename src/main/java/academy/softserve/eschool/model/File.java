@@ -17,8 +17,8 @@ public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotNull
     @Column(name="file_name")
+    @NotNull
     private String fileName;
     @NotNull
     @Size(max=(int)(1000000*1.4))

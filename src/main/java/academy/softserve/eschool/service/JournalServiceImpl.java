@@ -145,18 +145,31 @@ public class JournalServiceImpl implements JournalService {
                 .fileType(lesson.getFile().getFileType())
                 .homework(lesson.getHometask())
                 .build();
-        System.out.println(homeworkFileDTO);
         return homeworkFileDTO;
     }
 
     @Override
     public void saveHomework(HomeworkFileDTO fileDTO) {
-        File file = File.builder()
-                .file(fileDTO.getFileData())
-                .fileType(fileDTO.getFileType())
-                .fileName(fileDTO.getFileName())
-                .build();
-        File savedFile = fileRepository.save(file);
-        lessonRepository.saveHomeWork(fileDTO.getHomework(),savedFile.getId(),fileDTO.getIdLesson());
+        Lesson lesson = lessonRepository.findById(fileDTO.getIdLesson()).orElse(null);
+        if(lesson!=null){
+            if(fileDTO.getFileName()!=null){
+                File file = File.builder()
+                        .file(fileDTO.getFileData())
+                        .fileType(fileDTO.getFileType())
+                        .fileName(fileDTO.getFileName())
+                        .build();
+                File savedFile = fileRepository.save(file);
+                lessonRepository.saveHomeWork(fileDTO.getHomework(),savedFile.getId(),fileDTO.getIdLesson());
+            }
+            else{
+                if(lesson.getFile()==null) {
+                    lessonRepository.saveHomeWork(fileDTO.getHomework(), null, fileDTO.getIdLesson());
+                }
+                else {
+                    lessonRepository.saveHomeWork(fileDTO.getHomework(), lesson.getFile().getId(), fileDTO.getIdLesson());
+                }
+            }
+        }
+
     }
 }
