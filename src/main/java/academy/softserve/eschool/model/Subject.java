@@ -29,15 +29,19 @@ import lombok.ToString;
 @ToString(of = {"id", "name"})
 public class Subject {
     private final static String SUBJECT_NAME_PATTERN = "[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
     @NotBlank
     @Size(max=50)
     @RegexPattern(pattern=SUBJECT_NAME_PATTERN, message = "Input must match " + SUBJECT_NAME_PATTERN)
     private String name;
+    
     @Size(max=255)
     private String description;
+    
     @OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "subject")
     private Set<@NotNull ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
     

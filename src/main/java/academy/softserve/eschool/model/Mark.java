@@ -24,14 +24,18 @@ public class Mark {
     @Id
     @GeneratedValue
     private int id;
+    
     @Positive
     @Max(value=12)
     private byte mark;
+    
     @Size(max=200)
     private String note;
+    
     @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @NotNull
     private Student student;
+    
     @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @NotNull
     private Lesson lesson;

@@ -35,27 +35,35 @@ import lombok.ToString;
 @Builder
 public class Clazz {
     private final static String CLASS_NAME_PATTERN = "\\d{1,2}-?[А-ЯІЇЄҐа-яіїєґ]?";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
     @NotBlank
     @Size(max=4)
     @RegexPattern(pattern=CLASS_NAME_PATTERN, message="Input must match " + CLASS_NAME_PATTERN)
     private String name;
+    
     @Size(max=500)
     private String description;
+    
     @NotNull
     @Min(value=2000)
     @Column(name="academic_year")
     private int academicYear;
+    
     @NotNull
     @Column(name="is_active")
     private boolean isActive;
+    
     @ManyToMany(mappedBy = "classes", 
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private final Set<@NotNull Student> students = new HashSet<>();
+    
     @OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "clazz")
     private final Set<@NotNull ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
+    
     @OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "clazz")
     private final Set<@NotNull Lesson> schedule = new HashSet<>();
 

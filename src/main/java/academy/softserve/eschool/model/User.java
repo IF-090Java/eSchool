@@ -39,35 +39,44 @@ import lombok.ToString;
 @ToString(of = {"id", "login"})
 public class User {
     private final static String NAME_PATTERN = "[А-ЯІЇЄҐ][а-яіїєґ']+";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
     @NotBlank
     @Size(max=100, min=5)
     private String login;
+    
     @NotBlank
     @Size(max=255)
     private String password;
+    
     @Email
     private String email;
+    
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(length = 8)
     private Role role;
+    
     @NotBlank
     @Size(max=25, min=3)
     @RegexPattern(pattern=NAME_PATTERN, message = "Input musts match " + NAME_PATTERN)
     @Column(name="first_name")
     private String firstName;
+    
     @NotBlank
     @Size(max=25, min=3)
     @RegexPattern(pattern=NAME_PATTERN, message = "Input musts match " + NAME_PATTERN)
     @Column(name="last_name")
     private String lastName;
+    
     @NotBlank
     @Size(max=25, min=3)
     @RegexPattern(pattern=NAME_PATTERN, message = "Input musts match " + NAME_PATTERN)
     private String patronymic;
+    
     @Past
     @Temporal(TemporalType.DATE)
     @Column(name="date_of_birth")
@@ -75,14 +84,18 @@ public class User {
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd", timezone="EST")
     private Date dateOfBirth;
+    
     @Enumerated(EnumType.STRING)
     @Column(length = 6)
     private Sex sex;
+    
     @Size(max=20)
     private String phone;
+    
     //rough estimation of 500KB base64 encoded
     @Size(max=(int)(500000*1.4))
     private String avatar;
+    
     @Size(max=200)
     private String description;
     
