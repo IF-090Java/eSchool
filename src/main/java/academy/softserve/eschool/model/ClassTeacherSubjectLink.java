@@ -41,14 +41,17 @@ public class ClassTeacherSubjectLink{
     @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="clazz_id", insertable = false, updatable = false)
     private Clazz clazz;
+    
     @Id
     @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "teacher_id", insertable = false, updatable = false)
     private Teacher teacher;
+    
     @Id
     @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "subject_id", insertable = false, updatable = false)
     private Subject subject;
+    
     @NotNull
     @Column(name="is_active")
     private boolean isActive;
