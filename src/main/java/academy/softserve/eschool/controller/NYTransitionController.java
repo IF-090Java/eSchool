@@ -29,9 +29,9 @@ public class NYTransitionController {
 
     //todo bk ++ use autowiring via constructors.
     //todo bk you should not use Impl class here. Use interface for injection and make the fields private
-	@NonNull
+    @NonNull
     ClassServiceImpl classService;
-	@NonNull
+    @NonNull
     StudentService studentService;
 
     @ApiOperation(value = "Add new classes based on currently classes with new year and name")

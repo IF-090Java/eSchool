@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @Api(value = "classes", description = "Endpoints for classes")
 @RequiredArgsConstructor
 public class ClassController {
-	@NonNull
+    @NonNull
     ClassServiceImpl classService;
 
     @ApiResponses(value = {
@@ -65,11 +65,11 @@ public class ClassController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping
     public List<ClassDTO> getAllClasses(
-    		@ApiParam(value="only classes that study subject with specified id will be returned") @RequestParam(required=false) Integer subjectId){
+            @ApiParam(value="only classes that study subject with specified id will be returned") @RequestParam(required=false) Integer subjectId){
         if (subjectId == null) {
-        	return classService.getAllClasses();
+            return classService.getAllClasses();
         } else {
-        	return classService.getClassesBySubject(subjectId);
+            return classService.getClassesBySubject(subjectId);
         }
     }
 

@@ -116,9 +116,9 @@ public class ClassServiceImpl implements ClassService{
         }
     }
 
-	@Override
-	public List<ClassDTO> getClassesBySubject(Integer subjectId) {
-		List<Clazz> clazzList = classRepository.findClassesBySubject(subjectId);
+    @Override
+    public List<ClassDTO> getClassesBySubject(Integer subjectId) {
+        List<Clazz> clazzList = classRepository.findClassesBySubject(subjectId);
         return clazzList.stream().map((i) -> ClassDTO.builder()
                 .id(i.getId())
                 .className(i.getName())
@@ -127,5 +127,5 @@ public class ClassServiceImpl implements ClassService{
                 .isActive(i.isActive())
                 .numOfStudents(i.getStudents().size()).build()
         ).collect(Collectors.toCollection(ArrayList::new));
-	}
+    }
 }

@@ -29,12 +29,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TeacherJournalController {
 
-	@NonNull
+    @NonNull
     private ClassTeacherSubjectServiceImpl classTeacherSubject;
-	@NonNull
+    @NonNull
     private ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository;
 
-	//TODO bk do not leave commented code. Remove it or put todo item with the reason why did you left in commented ans when it will be uncommented
+    //TODO bk do not leave commented code. Remove it or put todo item with the reason why did you left in commented ans when it will be uncommented
  /*   @ApiOperation(value = "Gets a teacher-class-subject connection")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
@@ -52,8 +52,8 @@ public class TeacherJournalController {
                 classTeacherSubjectLinkRepository.findByIds(teacherId, classId, subjectId);
 
         return new GeneralResponseWrapper<>(
-        		new Status(200, "OK"),
-        		new TeacherJournalDTO(classTeacherSubjectLink.getTeacher_id(), classTeacherSubjectLink.getClazz_id(), classTeacherSubjectLink.getSubject_id()));
+                new Status(200, "OK"),
+                new TeacherJournalDTO(classTeacherSubjectLink.getTeacher_id(), classTeacherSubjectLink.getClazz_id(), classTeacherSubjectLink.getSubject_id()));
     }
 */
     @ApiOperation(value = "Connects a teacher with a journal")
@@ -70,7 +70,7 @@ public class TeacherJournalController {
             @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
             @ApiParam(value = "id of subject", required = true) @PathVariable("subjectId") final int subjectId)
     {
-    	classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacherId, classId, subjectId), true);
+        classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacherId, classId, subjectId), true);
         return new GeneralResponseWrapper<>(new Status(201, "OK"), null);
     }
 

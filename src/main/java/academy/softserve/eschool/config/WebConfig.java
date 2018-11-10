@@ -23,8 +23,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
         registry
-		        .addResourceHandler("swagger-ui.html")
-		        .addResourceLocations("classpath:/META-INF/resources/");
+                .addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler(
                 "/css/**")
                 .addResourceLocations("classpath:/static/css/");
@@ -35,8 +35,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 "/js/**")
                 .addResourceLocations("classpath:/static/js/");
         registry
-		        .addResourceHandler("/webjars/**")
-		        .addResourceLocations("classpath:/META-INF/resources/webjars/");
+                .addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
         super.addResourceHandlers(registry);
     }
 

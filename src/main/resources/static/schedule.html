@@ -260,13 +260,13 @@ $(function()
             .html('<span>Видалити урок</span>');
     }).on('click', '.btn-remove', function(e)
     {
-		$(this).parents('.entry:first').remove();
+        $(this).parents('.entry:first').remove();
 
-		e.preventDefault();
-		return false;
-	});
+        e.preventDefault();
+        return false;
+    });
 
-	$('#tuesday').on('click', '.btn-add', function(e)
+    $('#tuesday').on('click', '.btn-add', function(e)
     {
         e.preventDefault();
 
@@ -284,13 +284,13 @@ $(function()
             .html('<span>Видалити урок</span>');
     }).on('click', '.btn-remove', function(e)
     {
-		$(this).parents('.entry:first').remove();
+        $(this).parents('.entry:first').remove();
 
-		e.preventDefault();
-		return false;
-	});
+        e.preventDefault();
+        return false;
+    });
 
-	$('#wednesday').on('click', '.btn-add', function(e)
+    $('#wednesday').on('click', '.btn-add', function(e)
     {
         e.preventDefault();
 
@@ -308,13 +308,13 @@ $(function()
             .html('<span>Видалити урок</span>');
     }).on('click', '.btn-remove', function(e)
     {
-		$(this).parents('.entry:first').remove();
+        $(this).parents('.entry:first').remove();
 
-		e.preventDefault();
-		return false;
-	});
+        e.preventDefault();
+        return false;
+    });
 
-	$('#thursday').on('click', '.btn-add', function(e)
+    $('#thursday').on('click', '.btn-add', function(e)
     {
         e.preventDefault();
 
@@ -332,13 +332,13 @@ $(function()
             .html('<span>Видалити урок</span>');
     }).on('click', '.btn-remove', function(e)
     {
-		$(this).parents('.entry:first').remove();
+        $(this).parents('.entry:first').remove();
 
-		e.preventDefault();
-		return false;
-	});
+        e.preventDefault();
+        return false;
+    });
 
-	$('#friday').on('click', '.btn-add', function(e)
+    $('#friday').on('click', '.btn-add', function(e)
     {
         e.preventDefault();
 
@@ -356,11 +356,11 @@ $(function()
             .html('<span>Видалити урок</span>');
     }).on('click', '.btn-remove', function(e)
     {
-		$(this).parents('.entry:first').remove();
+        $(this).parents('.entry:first').remove();
 
-		e.preventDefault();
-		return false;
-	});
+        e.preventDefault();
+        return false;
+    });
 });
 
 /****************************************Security*********************************************************************/
@@ -375,7 +375,7 @@ $(function()
         })
     })
 /****************************************Valdation of forms*********************************************************************/
-		$(document).ready(function() {
+        $(document).ready(function() {
 
             var today = new Date();
             var one_day_ago=new Date().setDate(today.getDate()-1);
@@ -428,25 +428,25 @@ $(function()
             }
         });
 /****************************************Get subjects and classes from endpoints*********************************************************************/
-			$.getJSON(host + 'subjects', function (data) {
+            $.getJSON(host + 'subjects', function (data) {
 
-				var subjectNames = [];
-				var id = [];
-				$.each(data, function(key, value) {
-						subjectNames.push(value.subjectName);
-						id.push(value.subjectId);
-					});
-				for (i=0; i < subjectNames.length; i++)
-				{
-					$('.ax_default_droplist').append('<option value="' + id[i] + '" name="monday">' + subjectNames[i] + '</option>');
-				}
-			}).fail(function (data) {
+                var subjectNames = [];
+                var id = [];
+                $.each(data, function(key, value) {
+                        subjectNames.push(value.subjectName);
+                        id.push(value.subjectId);
+                    });
+                for (i=0; i < subjectNames.length; i++)
+                {
+                    $('.ax_default_droplist').append('<option value="' + id[i] + '" name="monday">' + subjectNames[i] + '</option>');
+                }
+            }).fail(function (data) {
                 if (new RegExp("4[0-9][0-9]").test(data.status)){
                     window.location.href='/ui/login'
                 }
             });
 
-			$.getJSON(host + 'classes', function(data){
+            $.getJSON(host + 'classes', function(data){
                     var classNames = [];
                     var id = [];
                     $.each(data, function(key, value) {
@@ -457,22 +457,22 @@ $(function()
                     });
                     for (i=0; i < classNames.length; i++)
                         $('#u15_input').append('<option value="' + id[i] + '">' + classNames[i] + '</option>');
-				});
+                });
 
 /****************************************Save data when clicking on the submitButton*********************************************************************/
-			$('#submitButton').click(function(){
-				var startdate = $('#start').val();
-				var enddate = $('#end').val();
+            $('#submitButton').click(function(){
+                var startdate = $('#start').val();
+                var enddate = $('#end').val();
 
-				var classObj = {id: $('#u15_input').find(":selected").val(), classYear: (new Date()).getFullYear(),
-				className: $("#u15_input").find('option:selected').text(), classDescription: " ", isActive: "true"};
-				classId = $('#u15_input').find(":selected").val();
+                var classObj = {id: $('#u15_input').find(":selected").val(), classYear: (new Date()).getFullYear(),
+                className: $("#u15_input").find('option:selected').text(), classDescription: " ", isActive: "true"};
+                classId = $('#u15_input').find(":selected").val();
 
-				var monday = [];
-				var tuesday = [];
-				var wednesday = [];
-				var thursday = [];
-				var friday = [];
+                var monday = [];
+                var tuesday = [];
+                var wednesday = [];
+                var thursday = [];
+                var friday = [];
 
                   $('select > option:selected').each(function() {
                    if($(this).attr('name') == 'monday')
@@ -496,7 +496,7 @@ $(function()
                    return array2;
                 }
 
-				$.ajax({
+                $.ajax({
                 type: "post",
                 url: host + "classes/" + classId + "/schedule",
                 dataType: "json",
@@ -511,7 +511,7 @@ $(function()
                   "fridaySubjects":deleteFromArray(friday)
                 }),
                 contentType: "application/json",
-  				  statusCode: {
+                    statusCode: {
                        200: function() {
                         $("#message").attr("class", "alert alert-success");
                         $("#message").html("<strong>Розклад успішно створений</strong>");
@@ -532,9 +532,9 @@ $(function()
                     }
 
             });
-		})
-	})
-	</script>
+        })
+    })
+    </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script type="text/javascript">

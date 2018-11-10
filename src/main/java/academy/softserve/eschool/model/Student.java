@@ -42,11 +42,11 @@ public class Student extends User{
     private List<@NotNull Mark> marks = new ArrayList<>();
 
     @Builder
-	public Student(String login, String password, String email, Role role, String firstName, String lastName,
-			String patronymic, Date dateOfBirth, Sex sex, String phone, String avatar, String description) {
-		super(login, password, email, role, firstName, lastName, patronymic, dateOfBirth, sex, phone, avatar,
-				description);
-	}
+    public Student(String login, String password, String email, Role role, String firstName, String lastName,
+            String patronymic, Date dateOfBirth, Sex sex, String phone, String avatar, String description) {
+        super(login, password, email, role, firstName, lastName, patronymic, dateOfBirth, sex, phone, avatar,
+                description);
+    }
 }
 
 
