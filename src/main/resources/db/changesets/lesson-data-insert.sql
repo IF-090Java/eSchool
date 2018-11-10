@@ -2,7 +2,7 @@
 
 --changeset serhiiboiko:lessons_insert
 
-INSERT INTO lesson(clazz_id, subject_id, date, file, hometask, lesson_number, mark_type) VALUES
+INSERT INTO lesson(clazz_id, subject_id, date, homework_file_id, hometask, lesson_number, mark_type) VALUES
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Математика'), '2018-09-03', null, '', 1, 'Control'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Хімія'), '2018-09-03', null, '', 2, 'Control'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Біологія'), '2018-09-03', null, '', 3, 'Labaratorna'),
@@ -835,7 +835,7 @@ INSERT INTO lesson(clazz_id, subject_id, date, file, hometask, lesson_number, ma
 
 --changeset serhiiboiko:insert_additional_lessons
 
-INSERT INTO lesson(clazz_id, subject_id, date, file, hometask, lesson_number, mark_type) VALUES
+INSERT INTO lesson(clazz_id, subject_id, date, homework_file_id, hometask, lesson_number, mark_type) VALUES
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Математика'), '2018-11-26', null, 'Домашнє завдання #26, #88', 1, 'Control'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Хімія'), '2018-11-26', null, 'Домашнє завдання #31, #68', 2, 'Control'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Біологія'), '2018-11-26', null, 'Домашнє завдання #74, #22', 3, 'Control'),
