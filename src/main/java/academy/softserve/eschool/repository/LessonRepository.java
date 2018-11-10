@@ -38,13 +38,13 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 			"order by lesson.date", nativeQuery = true)
 	List<Lesson> findHomework(@Param("idSubject") int idSubject, @Param("idClass") int idClass);
 
-	@Query(value = "select s.id, s.name, s.description" +
+	@Query(value = "select s.id, s.name, s.description, l.date" +
 			"		from lesson l" +
 			"		left join clazz c on l.clazz_id = c.id" +
 			"		left join subject s on l.subject_id = s.id" +
 			"		where YEARWEEK(l.date, 1) = YEARWEEK(CURDATE(), 1)" +
-			"		and weekday(l.date)= :weekday and clazz_id = :classId and c.is_active = 1", nativeQuery = true)
-	List<Map<String, Object>> scheduleByClassId(@Param("weekday") int weekday, @Param("classId") int class_id);
+			"		and clazz_id = :classId and c.is_active = 1", nativeQuery = true)
+	List<Map<String, Object>> scheduleByClassId(@Param("classId") int class_id);
 
 	@Modifying
 	@Transactional

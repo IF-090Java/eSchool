@@ -30,11 +30,7 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public ScheduleDTO getScheduleByClassId(int id_class) {
         //todo bk refactor it by doing just single call to db to get the data
-        List<Map<String, Object>> monday = lessonRepository.scheduleByClassId(0, id_class);
-        List<Map<String, Object>> tuesday = lessonRepository.scheduleByClassId(1, id_class);
-        List<Map<String, Object>> wednesday = lessonRepository.scheduleByClassId(2, id_class);
-        List<Map<String, Object>> thursday = lessonRepository.scheduleByClassId(3, id_class);
-        List<Map<String, Object>> friday = lessonRepository.scheduleByClassId(4, id_class);
+        List<Map<String, Object>> lessons = lessonRepository.scheduleByClassId(id_class);
 
         Clazz clazz = classRepository.findById(id_class).get();
 
@@ -43,11 +39,11 @@ public class ScheduleServiceImpl implements ScheduleService{
                 .endOfSemester(null)
                 .className(new ClassDTO(clazz.getId(), clazz.getAcademicYear(), clazz.getName(),
                         clazz.getDescription(), clazz.isActive(), clazz.getStudents().size()))
-                .mondaySubjects(convertFromObject(monday))
-                .tuesdaySubjects(convertFromObject(tuesday))
-                .wednesdaySubjects(convertFromObject(wednesday))
-                .thursdaySubjects(convertFromObject(thursday))
-                .fridaySubjects(convertFromObject(friday)).build();
+                .mondaySubjects(convertFromObject(lessons, DayOfWeek.MONDAY))
+                .tuesdaySubjects(convertFromObject(lessons, DayOfWeek.TUESDAY))
+                .wednesdaySubjects(convertFromObject(lessons, DayOfWeek.WEDNESDAY))
+                .thursdaySubjects(convertFromObject(lessons, DayOfWeek.THURSDAY))
+                .fridaySubjects(convertFromObject(lessons, DayOfWeek.FRIDAY)).build();
     }
 
     @Override
@@ -95,15 +91,27 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
     //this is a method to convert List<Map<String, Object>> into SubjectDTO
-    public List<SubjectDTO> convertFromObject(List<Map<String, Object>> somelist)
+    public List<SubjectDTO> convertFromObject(List<Map<String, Object>> somelist, DayOfWeek dayOfWeek)
     {
-        List<SubjectDTO> list = somelist.stream().map((obj) -> {
-            int id = (int)obj.get("id");
-            String name = (String) obj.get("name");
-            String description = (String)obj.get("description");
-            return new SubjectDTO(id, name, description);
+        List<LocalDate> listdate = somelist.stream().map((obj) -> {
+            LocalDate date = (LocalDate) obj.get("date");
+            return date;
         })
                 .collect(Collectors.toList());
+
+        List<SubjectDTO> list = new ArrayList<>();
+
+        for (int i = 0; i < listdate.size(); i++) {
+            if (listdate.get(i).getDayOfWeek() == dayOfWeek) {
+                list = somelist.stream().map((obj) -> {
+                    int id = (int) obj.get("id");
+                    String name = (String) obj.get("name");
+                    String description = (String) obj.get("description");
+                    return new SubjectDTO(id, name, description);
+                })
+                        .collect(Collectors.toList());
+            }
+        }
         return list;
     }
 

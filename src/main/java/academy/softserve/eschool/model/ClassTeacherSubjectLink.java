@@ -10,16 +10,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @IdClass(ClassTeacherSubjectLinkId.class)
 @Table(name="class_teacher_subject_link")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString(of = {"clazz_id", "teacher_id", "subject_id"})
+@Builder
 public class ClassTeacherSubjectLink{
 	@Id
 	@Column(name = "clazz_id")

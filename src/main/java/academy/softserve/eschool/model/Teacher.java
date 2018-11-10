@@ -16,6 +16,7 @@ import lombok.*;
 @Table(name="teacher")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true, of=("id"))
 @ToString(of = {"id", "login"})
 public class Teacher extends User{
