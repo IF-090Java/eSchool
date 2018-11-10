@@ -19,6 +19,7 @@ import java.util.List;
 public class NYTransitionController {
 
     //todo bk ++ use autowiring via constructors.
+    //todo bk you should not use Impl class here. Use interface for injection and make the fields private
 	@NonNull
     ClassServiceImpl classService;
 	@NonNull

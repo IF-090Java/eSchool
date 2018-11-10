@@ -27,6 +27,7 @@ public class TeacherJournalController {
 	@NonNull
     private ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository;
 
+	//TODO bk do not leave commented code. Remove it or put todo item with the reason why did you left in commented ans when it will be uncommented
  /*   @ApiOperation(value = "Gets a teacher-class-subject connection")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
