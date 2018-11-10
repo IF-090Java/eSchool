@@ -106,7 +106,7 @@
          refreshToken();
          $.ajaxSetup({
              beforeSend: function (xhr) {
-                 xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                 xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
              }
          })
      })

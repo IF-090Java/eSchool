@@ -11,7 +11,6 @@ import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

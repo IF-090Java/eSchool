@@ -1,12 +1,5 @@
 package academy.softserve.eschool.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
@@ -18,6 +11,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin")
@@ -27,11 +22,13 @@ public class AdminEditUserController {
 
     @NonNull
     private StudentRepository studentRepository;
+
     @NonNull
     private UserRepository userRepository;
 
     @NonNull
     private StudentService studentService;
+
     @NonNull
     private TeacherService teacherService;
 
@@ -44,10 +41,10 @@ public class AdminEditUserController {
             }
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/students/{id}")
-    public void updateStudent(@RequestBody EditUserDTO student, @PathVariable int id){
+    @PutMapping("/students/{idStudent}")
+    public void updateStudent(@RequestBody EditUserDTO student, @PathVariable int idStudent){
 
-        studentService.updateStudent(studentRepository.findById(id).get(),student, "ADMIN");
+        studentService.updateStudent(studentRepository.findById(idStudent).get(),student, "ADMIN");
 
     }
 
@@ -60,9 +57,9 @@ public class AdminEditUserController {
             }
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/teachers/{id}")
-    public void updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int id){
+    @PutMapping("/teachers/{idTeacher}")
+    public void updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int idTeacher){
 
-        teacherService.updateTeacher(userRepository.findById(id).get(),teacher, "ADMIN");
+        teacherService.updateTeacher(userRepository.findById(idTeacher).get(),teacher, "ADMIN");
     }
 }

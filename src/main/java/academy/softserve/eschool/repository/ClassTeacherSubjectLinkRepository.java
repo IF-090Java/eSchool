@@ -2,6 +2,7 @@ package academy.softserve.eschool.repository;
 
 import academy.softserve.eschool.model.ClassTeacherSubjectLink;
 import academy.softserve.eschool.model.ClassTeacherSubjectLinkId;
+import academy.softserve.eschool.security.service.MethodSecurityExpressionService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -31,6 +32,20 @@ public interface ClassTeacherSubjectLinkRepository extends JpaRepository<ClassTe
             "left join subject on subject.id=ct.subject_id\n" +
             "left join teacher on teacher.id=ct.teacher_id\n", nativeQuery=true)
     List<ClassTeacherSubjectLink> findJournals();
+
+    /**
+     * Find active journal for a teacher by his id and subjectId
+     * in class with transmitted id. Used to secure methods {@link MethodSecurityExpressionService}
+     * @param teacherId teacher's id
+     * @param classId class's id
+     * @param subjectId subject's id
+     * @return ClassTeacherSubjectLink if found else null
+     */
+    @Query(value = "select * from class_teacher_subject_link ct\n" +
+            "where teacher_id = :teacherId and clazz_id = :classId and subject_id = :subjectId and is_active = true", nativeQuery=true)
+    ClassTeacherSubjectLink findByTeacherIdAndClazzIdAndSubjectId(@Param("teacherId") int teacherId,
+                                                                  @Param("classId")int classId,
+                                                                  @Param("subjectId")int subjectId);
 /*
     @Query(value = "select * from class_teacher_subject_link\n" +
             "where teacher_id= :idTeacher AND subject_id= :idSubject AND clazz_id= :idClass\n", nativeQuery=true)

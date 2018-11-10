@@ -1,26 +1,19 @@
 package academy.softserve.eschool.controller;
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import academy.softserve.eschool.dto.HomeworkDTO;
+import academy.softserve.eschool.security.service.MethodSecurityExpressionService;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //todo bk ++ configure and use the same code styles accross the app. It should be formatted automatically each time
 @RestController
@@ -32,6 +25,9 @@ public class HomeworkController {
     @NonNull
     private JournalServiceImpl journalServiceImpl;
 
+    @NonNull
+    private MethodSecurityExpressionService methodSecurityService;
+
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     @ApiOperation(value = "Get homeworks by subject and class")
     @ApiResponses(
@@ -41,7 +37,7 @@ public class HomeworkController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER') and @homeworkController.haveLessonsInClass(principal.id, #idClass, #idSubject)")
     public GeneralResponseWrapper<List<HomeworkDTO>> getHomeworks(
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass) {
@@ -60,10 +56,21 @@ public class HomeworkController {
             }
     )
     @PreAuthorize("hasRole('TEACHER')")
+    @PostAuthorize("@homeworkController.haveLessonsInClass(principal.id, returnObject.data.idLesson)")
     public GeneralResponseWrapper<HomeworkDTO> postHomework(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkDTO homeworkDTO){
         System.out.println(homeworkDTO);
         System.out.println(new String(homeworkDTO.getFile()));
         return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), homeworkDTO);
+    }
+
+
+    public boolean haveLessonsInClass(int idTeacher, int idClass, int idSubject){
+        return methodSecurityService.haveLessonsInClass(idTeacher, idClass, idSubject);
+    }
+
+
+    public boolean haveLessonsInClass(int idTeacher, int idLesson){
+        return methodSecurityService.haveLessonsInClass(idTeacher, idLesson);
     }
 }

@@ -96,7 +96,7 @@
 		$(document).ready(function () {
 
 			jQuery.validator.addMethod("correctSubjectName", function(value, element) {
-				var inputSubjec = value;
+				var inputSubject = value;
 				if (inputSubject.match(/^[А-ЯІЇЄ]([А-ЯІЇЄ]*[а-яіїє]*[' -]?)+/))
 					return true;
 				return false;
