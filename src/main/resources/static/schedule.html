@@ -449,7 +449,7 @@ $(function()
 			$.getJSON(host + 'classes', function(data){
                     var classNames = [];
                     var id = [];
-                    $.each(data, function(key, value) {
+                    $.each(data.data, function(key, value) {
                         if (value.isActive == true) {
                             classNames.push(value.className);
                             id.push(value.id);

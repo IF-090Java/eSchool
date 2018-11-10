@@ -27,16 +27,16 @@
 			<div class="container-fluid d-flex flex-wrap">
 				<select id="subject">
 					<option value="">Предмет</option>
-				</select> 
+				</select>
 				<select id="class">
 					<option value="">Клас</option>
 				</select>
 				<select id="student" disabled="true">
-					<option value="">Учень</option>				
+					<option value="">Учень</option>
 				</select>
 				<span>Рік <select id="year"></select></span>
 				<span>Початок періоду <input class="border rounded" id="startDate" type="date" name="start"></span>
-				
+
 				<span>Кінець періоду <input class="border rounded" id="endDate" type="date" name="end"></span>
 			</div>
 			<div class="statisticsContainer card">
@@ -139,7 +139,7 @@
 					option.remove();
 				})
 				$('#student').attr("disabled", true);
-				
+
 				initDatePickers();
 				fillClassesSelect(classesData);
 				$.getJSON(subjectsUrl, fillSubjectsSelect)
@@ -148,7 +148,7 @@
 							$.getJSON(marksUrl, getParams(), setData);
 						});
 			});
-			
+
 			$('#startDate').change(function(){
 				var params = getParams();
 				$.getJSON(marksUrl, params, setData);
@@ -177,8 +177,8 @@
 			}
 			
 			function fillClassesSelect(data){
-				classesData = data;
-				$.each(data, function(i, clazz){
+                classesData = data;
+				$.each(data.data, function(i, clazz){
                     if ($("#year").val() == clazz.classYear) {
                         var option = $('<option>');
                         option.val(clazz.id);
@@ -191,7 +191,7 @@
 			
 			function fillAcademicYearSelect (data){
 				var years = [];
-				$.each(data, function (i, clazz){
+				$.each(data.data, function (i, clazz){
 					if (!years.includes(clazz.classYear)){
 						years.push(clazz.classYear)
 					}
@@ -204,7 +204,7 @@
                     $('#year').append(option);
 				});
 			}
-			
+
 			function fillStudentsSelect(data){
 				$.each(data, function(i, student){
 					var option = $('<option>');
