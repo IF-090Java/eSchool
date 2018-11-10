@@ -75,7 +75,7 @@
         $.ajaxSetup({
             beforeSend: function (xhr) {
                 if (getJwtToken()) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                    xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
                 }
             }
         })
@@ -101,19 +101,19 @@ $(document).ready(function () {
         var activeClasses = [];
         var activeClassesId = [];
 
-        $.each(classes, function (i, item) {
+        $.each(classes.data, function (i, item) {
             if (item.isActive == true && item.numOfStudents == 0) {
                 activeClasses.push(item.className +' - '+item.classYear)
             }
         })
 
-        $.each(classes, function (i, item) {
+        $.each(classes.data, function (i, item) {
             if (item.isActive == true && item.numOfStudents == 0) {
              activeClassesId.push(item.id)
             }
         })
 
-        $.each(classes, function (i, item) {
+        $.each(classes.data, function (i, item) {
             if (item.isActive == true && item.numOfStudents > 1) {
                 $.getJSON(host + 'students/classes/'+item.id, function (studList) {
                     var tr = $('<tr></tr>')

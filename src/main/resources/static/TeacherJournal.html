@@ -113,7 +113,7 @@ select {
             $.ajaxSetup({
                 beforeSend: function (xhr) {
                     if (getJwtToken()) {
-                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                        xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
                     }
                 }
             })
@@ -143,12 +143,12 @@ select {
 					console.log(data);
 					var classes = [];
 					var id = [];
-					$.each(data, function(key, value) {
+					$.each(data.data, function(key, value) {
                         if (value.isActive == true) {
                             classes.push(value.className);
                         }
 					});
-					$.each(data, function(key, value) {
+					$.each(data.data, function(key, value) {
                         if (value.isActive == true) {
                             id.push(value.id);
                         }

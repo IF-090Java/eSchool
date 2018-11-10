@@ -51,7 +51,6 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
-
 CREATE TABLE IF NOT EXISTS `class_teacher_subject_link` (
   `teacher_id` INT(11) NOT NULL,
   `subject_id` INT(11) NOT NULL,
@@ -137,3 +136,6 @@ CREATE TABLE IF NOT EXISTS `students_classes` (
     REFERENCES `student` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+--changeset VitaliyPopovych:add_unique_pair_class_name_year
+ALTER TABLE clazz ADD UNIQUE nameYearIndex(name, academic_year);

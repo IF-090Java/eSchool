@@ -34,7 +34,8 @@ public class TeacherJournalController {
 	@NonNull
     private ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository;
 
-    @ApiOperation(value = "Gets a teacher-class-subject connection")
+	//TODO bk do not leave commented code. Remove it or put todo item with the reason why did you left in commented ans when it will be uncommented
+ /*   @ApiOperation(value = "Gets a teacher-class-subject connection")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad request"),
@@ -54,7 +55,7 @@ public class TeacherJournalController {
         		new Status(200, "OK"),
         		new TeacherJournalDTO(classTeacherSubjectLink.getTeacher_id(), classTeacherSubjectLink.getClazz_id(), classTeacherSubjectLink.getSubject_id()));
     }
-
+*/
     @ApiOperation(value = "Connects a teacher with a journal")
     @PostMapping("/teachers/{teacherId}/classes/{classId}/subjects/{subjectId}/journal")
     @ApiResponses(

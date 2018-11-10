@@ -27,7 +27,32 @@
 
     <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
 
-        <div class="container-fluid teacher_nav" style="position: fixed;z-index: 3"> </div>
+        <div class="container-fluid teacher_nav" style="position: fixed;z-index: 3">
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="height: 80px;font-size: 16px">
+                <a id="logo" href="" class="navbar-brand d-flex w-50 mr-auto">ProjectName</a>
+                <div class="navbar-collapse collapse w-100">
+                    <ul class="navbar-nav w-100 justify-content-center">
+                        <li class="nav-item">
+                            <a id="profileLink" class="nav-link" href="">Профіль</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ui/journalsList/view">Журнали</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ui/stats">Успішність</a>
+                        </li>
+                        <li class="nav-item" style="white-space: nowrap">
+                            <a id ="editLink" class="nav-link" href="">Редагувати профіль</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
 
         <div class="container" style="margin:150px auto;">
             <div class="row justify-content-center mt-5" style="margin:220px 40px 40px">
@@ -59,18 +84,21 @@
         $.ajaxSetup({
             beforeSend: function (xhr) {
                 if (getJwtToken()) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                    xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
                 }
             }
         })
     })
 
     $(document).ready(function () {
-        var userId = 1;
-        if (getJwtToken()) {
-            userId = jwt_decode(getJwtToken()).jti;
-        }
-        $.getJSON(host + 'journals/teachers/' + userId + '/active', function (data) {
+        var token = parseJwt(getJwtToken())
+        var idUser = token.jti;
+        $("#profileLink").attr("href", "/ui/teachers/" + idUser + "/profile");
+        $("#editLink").attr("href", "/ui/teacher/"+idUser+"/edit");
+        $("#logo").attr("href", "/ui/teachers/" + idUser + "/profile");
+
+
+        $.getJSON(host + 'journals/teachers/'+idUser+'/active', function (data) {
             var tableBody = $('<tbody></tbody>');
             $.each(data.data, function(key, val) {
                 var tr=$('<tr class="d-flex"></tr>');
@@ -89,12 +117,6 @@
         });
     });
 </script>
-<script type="text/javascript">
-    $(function() {
-        $(".teacher_nav").load("/views/menu_teacher.html");
-    });
-</script>
-
 
 </body>
 </html>
