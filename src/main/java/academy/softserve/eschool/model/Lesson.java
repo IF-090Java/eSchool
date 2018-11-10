@@ -11,13 +11,12 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import academy.softserve.eschool.model.Mark.MarkType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 @Entity
-@Table(name="lesson")
+@Table(name = "lesson")
 @Data
-@EqualsAndHashCode(exclude = {"marks","subject","clazz"})
+@EqualsAndHashCode(exclude = {"marks", "subject", "clazz"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -50,7 +49,7 @@ public class Lesson {
 	private Subject subject;
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "lesson")
 	private final Set<@NotNull Mark> marks = new HashSet<>();
-	
+
 	public Lesson(byte lessonNumber, Date date, String hometask, MarkType markType, File file, Clazz clazz,
 			Subject subject) {
 		super();
