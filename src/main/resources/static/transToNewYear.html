@@ -11,39 +11,7 @@
     <script src="/js/JS.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="/ui/admin">
-        <img src="/img/catholic-school-logo.png" width="50" height="50" class="d-inline-block align-top" alt="">
-        <span class="menu-collapsed">School Management System</span>
-    </a>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown d-sm-block d-md-none">
-                <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Головне меню
-                </a>
-                <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
-                    <a class="dropdown-item" href="/ui/classes/classList">Учні</a>
-                    <a class="dropdown-item" href="/ui/teachersList">Вчителі</a>
-                    <a class="dropdown-item" href="/ui/subjectList">Предмети</a>
-                    <a class="dropdown-item" href="/ui/classes/list">Класи</a>
-                    <a class="dropdown-item" href="/ui/teachers/add/journal">Вчитель / Журнал</a>
-                    <a class="dropdown-item" href="/ui/schedule/create">Розклад</a>
-                    <a class="dropdown-item" href="/ui/students/new-year-transition">Новий навчальний рік</a>
-                </div>
-            </li>
-        </ul>
-        <ul class="navbar-nav">
-            <span class="navbar-text">Ви увійшли як Адміністратор</span>
-            <li class="nav-item active">
-                <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;"></nav>
 <div class="row" id="body-row">
     <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
     <div class="col py-3">
@@ -91,6 +59,7 @@
 <script type="text/javascript">
     $(function() {
         $("#sidebar-container").load("/views/admin-sidebar.html");
+        $(".navbar").load("/views/admin-header.html");
     });
 </script>
 
