@@ -130,7 +130,7 @@
          refreshToken();
          $.ajaxSetup({
              beforeSend: function (xhr) {
-                 xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
+                 xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
              }
          })
      })
@@ -145,11 +145,11 @@
             $.getJSON(host +  'classes', function (data2) {
                 console.log(data2);
 
-                $.each(data2, function (i, item) {
+                $.each(data2.data, function (i, item) {
                     if (item.isActive == true) {
                         $('#selectClass').append($('<option>', {
-                            value: data2[i].id,
-                            text: data2[i].className
+                            value: item.id,
+                            text: item.className
                         }));
                     }
                 });
@@ -243,19 +243,6 @@
             });
         })
 
-
-            $.getJSON(host +  'classes', function (data2) {
-                console.log(data2);
-
-                $.each(data2, function (i, item) {
-                    if (item.isActive == true) {
-                        $('#selectClass').append($('<option>', {
-                            value: data2[i].id,
-                            text : data2[i].className
-                        }));
-                    }
-                });
-            });
 
             $('form').on('submit', function (e) {
 
