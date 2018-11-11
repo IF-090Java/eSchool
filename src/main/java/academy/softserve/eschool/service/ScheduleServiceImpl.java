@@ -3,6 +3,7 @@ package academy.softserve.eschool.service;
 import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Lesson;
+import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -70,12 +72,21 @@ public class ScheduleServiceImpl implements ScheduleService{
     //this is a method to save schedule for a particular day
     public void saveFunction(List<SubjectDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
     {
+        List<Subject> listOfSubjects = new ArrayList<>();
+        if (list.size() != 0) {
+            List<Integer> listOfIds = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                listOfIds.add(list.get(i).getSubjectId());
+            }
+            listOfSubjects = subjectRepository.findSubjectsByIds(listOfIds);
+        }
+        List<Lesson> listOfLessons = new ArrayList<>();
         for (int i = 0; i < list.size(); i ++) {
             for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
                 DayOfWeek dow = date.getDayOfWeek();
                 if (dow == dayOfWeek) {
                     //todo bk !!!!!!! Never do it again - calling repository method in loop. Just prepare all required data and save it once
-                    lessonRepository.save(
+                    listOfLessons.add(
                             Lesson.builder()
                                     .lessonNumber((byte) (i + 1))
                                     .date(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()))
@@ -83,11 +94,13 @@ public class ScheduleServiceImpl implements ScheduleService{
                                     .markType(null)
                                     .file(null)
                                     .clazz(clazz)
-                                    .subject(subjectRepository.getOne(list.get(i).getSubjectId())).build()
+                                    .subject(listOfSubjects.get(i)).build()
                     );
                 }
             }
         }
+        lessonRepository.saveAll(listOfLessons);
+
     }
 
     //this is a method to convert List<Map<String, Object>> into SubjectDTO
