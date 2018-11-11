@@ -31,10 +31,4 @@ public interface ClassTeacherSubjectLinkRepository extends JpaRepository<ClassTe
             "left join subject on subject.id=ct.subject_id\n" +
             "left join teacher on teacher.id=ct.teacher_id\n", nativeQuery=true)
     List<ClassTeacherSubjectLink> findJournals();
-/*
-    @Query(value = "select * from class_teacher_subject_link\n" +
-            "where teacher_id= :idTeacher AND subject_id= :idSubject AND clazz_id= :idClass\n", nativeQuery=true)
-    ClassTeacherSubjectLink findByIds(@Param("idTeacher") int idTeacher, @Param("idClass") int idClass,
-                                      @Param("idSubject") int idSubject);
- */
 }

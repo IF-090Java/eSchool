@@ -102,9 +102,9 @@
 
         jQuery.validator.addMethod("grade", function(value, element) {
                  var inputGrade = value;
-				 if (inputGrade.match(/^(?:[5-9]|1[0-1])-([а-г]|[А-Г])$/) || inputGrade.match(/^(?:[5-9]|1[0-1])$/))
-					return true;
-			     return false;
+                 if (inputGrade.match(/^(?:[5-9]|1[0-1])-([а-г]|[А-Г])$/) || inputGrade.match(/^(?:[5-9]|1[0-1])$/))
+                    return true;
+                 return false;
           }, "Введіть правильну назву класу, наприклад : 10-A або 10 (тільки українські букви)");
 
           jQuery.validator.addMethod("year", function(value, element) {
@@ -122,7 +122,7 @@
           }, "Перевищено допустиму кількість символів")
 
 
-		  $("#myForm").validate({
+          $("#myForm").validate({
             rules: {
                 className: {
                     required: true,

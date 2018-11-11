@@ -138,9 +138,9 @@
 
          jQuery.validator.addMethod("isUkrainian", function(value, element) {
                  var ukr = value;
-				 if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
-					return true;
-			     return false;
+                 if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
+                    return true;
+                 return false;
           }, "Використовуйте тільки українські букви. Перша літера має бути великою");
 
           jQuery.validator.addMethod("dateOfB", function(value, element) {
@@ -152,31 +152,31 @@
           }, "Дата народження повинна бути в минулому");
 
 
-		  $("#myForm").validate({
+          $("#myForm").validate({
             rules: {
                 lastname: {
                     required: true,
                     minlength: 3,
-					maxlength: 25,
+                    maxlength: 25,
                     isUkrainian: true
                     },
                 firstname: {
                     required: true,
                     minlength: 3,
-				    maxlength: 25,
+                    maxlength: 25,
                     isUkrainian: true
                     },
                 patronymic: {
                     required: true,
                     minlength: 3,
-					maxlength: 25,
+                    maxlength: 25,
                     isUkrainian: true
                     },
                 login:{
-					required: true,
-					minlength: 5,
-					maxlength: 40
-					},
+                    required: true,
+                    minlength: 5,
+                    maxlength: 40
+                    },
                 dateOfBirth: {
                     required: true,
                     dateOfB: true
@@ -188,24 +188,24 @@
             messages: {
                 lastname: {
                     required: "Це поле обов'язкове",
-					minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів'
+                    minlength: 'Мінімальна довжина - 3 символи',
+                    maxlength: 'Максимальна довжина - 25 символів'
                     },
                 firstname: {
                     required: "Це поле обов'язкове",
                     minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів'
+                    maxlength: 'Максимальна довжина - 25 символів'
                     },
                 patronymic: {
                     required: "Це поле обов'язкове",
                     minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів'
+                    maxlength: 'Максимальна довжина - 25 символів'
                     },
                 login:{
-					required: "Це поле обов'язкове",
-					minlength: 'Мінімальна довжина - 5 символsd',
-					maxlength: 'Максимальна довжина - 40 символів'
-					},
+                    required: "Це поле обов'язкове",
+                    minlength: 'Мінімальна довжина - 5 символsd',
+                    maxlength: 'Максимальна довжина - 40 символів'
+                    },
                 dateOfBirth: {
                     required: "Це поле обов'язкове"
                     },
