@@ -34,6 +34,7 @@ public class TeacherService {
 
     @NonNull
     private LoginGeneratorService generateLogin;
+
     public List<TeacherDTO> getAll(List<Teacher> resultset){
 
         return resultset.stream().map(i->TeacherDTO.builder().id(i.getId())
@@ -96,7 +97,7 @@ public class TeacherService {
                 .role(Role.ROLE_TEACHER)
                 .build();
         String login = teacherDTO.getLogin();
-        if (login.isEmpty() || !generateLogin.isUnique(login))
+        if (login == null || !generateLogin.isUnique(login))
             teacher.setLogin(generateLogin.generateLogin(teacherDTO.getFirstname(), teacherDTO.getLastname()));
         else teacher.setLogin(login);
         return teacherRepository.save(teacher);

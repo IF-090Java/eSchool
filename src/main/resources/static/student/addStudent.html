@@ -54,7 +54,7 @@
                                 <div class="controls col-8"><input class="input-md textinput textInput form-control" id="patronymic" type="text" name="patronymic" required></div>
                             </div>
                             <div class="row form-group required">
-                                <label for="username" class="control-label col-4  requiredField font-weight-bold" >Логін<span class="asteriskField">*</span></label>
+                                <label for="username" class="control-label col-4">Логін</label>
                                 <div class="controls col-5"><input class="input-md textinput textInput form-control" id="username" type="text" name="login"></div>
                                 <div class="controls col-3"><a class="btn btn-outline-primary" id="generate">Генерувати логін</a> </div>
                             </div>
@@ -71,7 +71,7 @@
                             <div class="row form-group required">
                                 <label for="mail" class="control-label col-4" >Електронна адреса:</label>
                                 <div class="controls col-8">
-                                    <input class="input-md textinput textInput form-control" id="mail" type="text" name="email">
+                                    <input class="input-md  textInput form-control" id="mail" type="text" name="email">
                                 </div>
                             </div>
                             <div class="row form-group required">
@@ -108,7 +108,20 @@
              beforeSend: function (xhr) {
                  xhr.setRequestHeader("Authorization", "Bearer " +localStorage.getItem("jwtToken"))
              }
-         })
+         });
+         
+         $.getJSON(host + 'classes', function (data2) {
+             console.log(data2);
+
+             $.each(data2, function (i, item) {
+                 if (item.isActive == true) {
+                     $('#selectClass').append($('<option>', {
+                         value: data2[i].id,
+                         text: data2[i].className
+                     }));
+                 }
+             });
+         });
      })
 
         $(function() {
@@ -117,177 +130,155 @@
     </script>
  <script type="text/javascript">
         $(document).ready(function () {
+            $("#generate").on("click", function () {
+                var firstname = $("#firstName").val();
+                var lastname = $("#lastName").val();
+                var patronymic = $("#patronymic").val();
+                if (!(firstname == '' || lastname == '')) {
+                    $.ajax({
+                        type: "post",
+                        url: "/login/generate",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "firstName": firstName,
+                            "lastName": lastName,
+                            "patronymic": patronymic,
 
-            $.getJSON(host +  'classes', function (data2) {
-                console.log(data2);
+                            contentType: "application/json",
 
-                $.each(data2, function (i, item) {
-                    if (item.isActive == true) {
-                        $('#selectClass').append($('<option>', {
-                            value: data2[i].id,
-                            text: data2[i].className
-                        }));
-                    }
-                });
+                            success: function (responce) {
+                                $('#username').attr("value", responce.data.login);
+                            },
+                            error: function (responce) {
+                                $('#username').attr("value", "adf");
+                            }
+                        })
+                    })
+                }
             });
-        jQuery.validator.addMethod("isUkrainian", function(value, element) {
-                 var ukr = value;
-                 if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
+            jQuery.validator.addMethod("isUkrainian", function (value, element) {
+                var ukr = value;
+                if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
                     return true;
-                 return false;
-          }, "Використовуйте тільки українські букви. Перша літера має бути великою");
+                return false;
+            }, "Використовуйте тільки українські букви. Перша літера має бути великою");
 
-          jQuery.validator.addMethod("dateOfB", function(value, element) {
-                 var date = new Date(value);
-                 var today = new Date();
-                 if (date < today)
+            jQuery.validator.addMethod("dateOfB", function (value, element) {
+                var date = new Date(value);
+                var today = new Date();
+                if (date < today)
                     return true;
-                 return false;
-          }, "Дата народження повинна бути в минулому");
+                return false;
+            }, "Дата народження повинна бути в минулому");
 
 
-          $("#myForm").validate({
-            rules: {
-                lastname: {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 25,
-                    isUkrainian: true
+            $("#myForm").validate({
+                rules: {
+                    lastname: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 25,
+                        isUkrainian: true
                     },
-                firstname: {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 25,
-                    isUkrainian: true
+                    firstname: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 25,
+                        isUkrainian: true
                     },
-                patronymic: {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 25,
-                    isUkrainian: true
+                    patronymic: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 25,
+                        isUkrainian: true
                     },
-                login:{
-                    required: true,
-                    minlength: 5,
-                    maxlength: 40
+                    login: {
+                        minlength: 5,
+                        maxlength: 40
                     },
-                dateOfBirth: {
-                    required: true,
-                    dateOfB: true
+                    dateOfBirth: {
+                        required: true,
+                        dateOfB: true
                     },
-                email: {
-                    email: true
+                    email: {
+                        email: true
                     },
-                select: {
-                    required: true
+                    select: {
+                        required: true
                     }
                 },
-            messages: {
-                lastname: {
-                    required: "Це поле обов'язкове",
-                    minlength: 'Мінімальна довжина - 3 символи',
-                    maxlength: 'Максимальна довжина - 25 символів',
-                    isUkrainian: 'Тільки українські символи'
+                messages: {
+                    lastname: {
+                        required: "Це поле обов'язкове",
+                        minlength: 'Мінімальна довжина - 3 символи',
+                        maxlength: 'Максимальна довжина - 25 символів',
+                        isUkrainian: 'Тільки українські символи'
                     },
-                firstname: {
-                    required: "Це поле обов'язкове",
-                    minlength: 'Мінімальна довжина - 3 символи',
-                    maxlength: 'Максимальна довжина - 25 символів',
-                    isUkrainian: 'Тільки українські символи'
+                    firstname: {
+                        required: "Це поле обов'язкове",
+                        minlength: 'Мінімальна довжина - 3 символи',
+                        maxlength: 'Максимальна довжина - 25 символів',
+                        isUkrainian: 'Тільки українські символи'
                     },
-                patronymic: {
-                    required: "Це поле обов'язкове",
-                    minlength: 'Мінімальна довжина - 3 символи',
-                    maxlength: 'Максимальна довжина - 25 символів',
-                    isUkrainian: 'Тільки українські символи'
+                    patronymic: {
+                        required: "Це поле обов'язкове",
+                        minlength: 'Мінімальна довжина - 3 символи',
+                        maxlength: 'Максимальна довжина - 25 символів',
+                        isUkrainian: 'Тільки українські символи'
                     },
-                login:{
-                    required: "Це поле обов'язкове",
-                    minlength: 'Мінімальна довжина - 5 символsd',
-                    maxlength: 'Максимальна довжина - 40 символів'
+                    login: {
+                        minlength: 'Мінімальна довжина - 5 символsd',
+                        maxlength: 'Максимальна довжина - 40 символів'
                     },
-                dateOfBirth: {
-                    required: "Це поле обов'язкове"
+                    dateOfBirth: {
+                        required: "Це поле обов'язкове"
                     },
-                email: {
-                    email: "Введіть корректний email"
+                    email: {
+                        email: "Введіть корректний email"
                     },
-                select: {
-                    required: "Це поле обов'язкове"
+                    select: {
+                        required: "Це поле обов'язкове"
                     }
                 }
             });
-        })
+        });
 
-
-            $.getJSON(host +  'classes', function (data2) {
-                console.log(data2);
-
-                $.each(data2, function (i, item) {
-                    if (item.isActive == true) {
-                        $('#selectClass').append($('<option>', {
-                            value: data2[i].id,
-                            text : data2[i].className
-                        }));
-                    }
-                });
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var firstName   = $("#firstName").val();
+            var lastName    = $("#lastName").val();
+            var patronymic  = $("#patronymic").val();
+            var classe      = $("#selectClass option:selected").val();
+            var dateOfBirth = $("#dateOfBirth").val();
+            var login       = $("#username").val();
+            var mail        = $("#mail").val();
+            var mobile      = $("#mobile").val();
+            $.ajax({
+                type: "post",
+                url: host + "students",
+                dataType: "json",
+                data: JSON.stringify({
+                    "firstname"  :   firstName,
+                    "lastname"   :   lastName,
+                    "patronymic" :   patronymic,
+                    "classId"    :   classe,
+                    "dateOfBirth":   dateOfBirth,
+                    "login"      :   login,
+                    "email"      :   mail,
+                    "phone"      :   mobile
+                }),
+                contentType: "application/json",
+                success: function (responce) {
+                    $(":input").val("");
+                    $("#message").attr("class", "alert alert-success");
+                    $("#message").html("<strong>Учнь " + lastName + " " + firstName + " доданий</strong> введіть дані наступного учня");
+                },
+                error: function(){
+                    $("#message").attr("class", "alert alert-danger");
+                    $("#message").html("<strong>Помилка</strong>");
+                }
             });
-
-            $('form').on('submit', function (e) {
-
-                e.preventDefault();
-                var firstName   = $("#firstName").val();
-                var lastName    = $("#lastName").val();
-                var patronymic  = $("#patronymic").val();
-                var classe      = $("#selectClass option:selected").val();
-                var dateOfBirth = $("#dateOfBirth").val();
-                var login       = $("#username").val();
-                var mail        = $("#mail").val();
-                var mobile      = $("#mobile").val();
-
-                $.ajax({
-                    type: "post",
-                    url: host + "students",
-                    dataType: "json",
-                    data: JSON.stringify({
-                        "firstname"  :   firstName,
-                        "lastname"   :   lastName,
-                        "patronymic" :   patronymic,
-                        "classId"    :   classe,
-                        "dateOfBirth":   dateOfBirth,
-                        "login"      :   login,
-                        "email"      :   mail,
-                        "phone"      :   mobile
-                    }),
-                    contentType: "application/json",
-
-                    success: function (responce) {
-                        $(":input").val("");
-                        $("#message").attr("class", "alert alert-success");
-                        $("#message").html("<strong>Учнь " + lastName + " " + firstName + " доданий</strong> введіть дані наступного учня");
-                    },
-                    error: function(){
-                        $("#message").attr("class", "alert alert-danger");
-                        $("#message").html("<strong>Помилка</strong>");
-                    }
-                });
-            });
-            // $("#generate").on("click", function () {
-            //      $.ajax({
-            //          url: "/login/generate",
-            //          data: JSON.stringify({
-            //              "firstName": firstName,
-            //              "lastName": lastName,
-            //              "patronymic": patronymic,
-            //
-            //              contentType: "application/json",
-            //
-            //              success: function (responce) {
-            //                  $('#username').attr("value",data.login);
-            //              }
-            //          })
-            //      })
-            // });
+        });
     </script>
     </form>
 </body>

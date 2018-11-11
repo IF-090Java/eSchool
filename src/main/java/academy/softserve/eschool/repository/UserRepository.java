@@ -13,13 +13,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    /**
-     * Find all users, who have transmitted login as part of their own login.
-     * @param login login
-     * @return list of found users.
-     */
-    @Query(value = "select * from user where login like :partlogin", nativeQuery = true)
-    List<User> findByPartOfLogin(@Param("partlogin") String login);
+    List<User> findByLastName(String lastName);
 
     User findByLogin(String username);
 }

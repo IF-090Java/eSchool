@@ -4,7 +4,7 @@ import academy.softserve.eschool.dto.DataForLoginDTO;
 import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.UserRepository;
 import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +12,7 @@ import java.util.List;
 import static academy.softserve.eschool.auxiliary.Transliteration.transliteration;
 
 @Service
+@RequiredArgsConstructor
 public class LoginGeneratorService {
     /**
      * Contains users who have generated login as part of their own login.
@@ -44,12 +45,15 @@ public class LoginGeneratorService {
      * @return generated login
      */
     public String generateLogin(String firstName, String lastName) {
-        String login = firstName.substring(0, 0);
+        Character f = firstName.charAt(0);
+        String login = transliteration(f.toString());
         login += transliteration(lastName);
-        users = userRepository.findByPartOfLogin(login);
-        if (!users.isEmpty())
-            login += users.size();
-        return login;
+        users = userRepository.findByLastName(lastName);
+        int similarLogins = 0;
+        for (User user : users)
+            if (user.getLogin().startsWith(login))
+                similarLogins++;
+        return similarLogins == 0 ? login : login + similarLogins;
     }
 
     /**

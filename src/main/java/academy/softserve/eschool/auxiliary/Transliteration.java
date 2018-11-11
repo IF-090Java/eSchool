@@ -36,7 +36,7 @@ public class Transliteration {
         char[] chars = word.toCharArray();
 
         //transliterate first two letters
-        String result = firstTwo(chars[0], chars[1]);
+        String result = word.length() > 1 ? firstTwo(chars[0], chars[1]) : firstTwo(chars[0], null);
 
         //lsat index of this word
         int lastIndex = word.length() - 1, i;
@@ -49,6 +49,7 @@ public class Transliteration {
             } else result += letters.get(chars[i]);
         }
 
+        // it use if last two letters == "зг"
         if (i == lastIndex)
             result += letters.get(chars[lastIndex]);
 
