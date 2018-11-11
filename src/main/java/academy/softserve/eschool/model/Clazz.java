@@ -35,27 +35,59 @@ import lombok.ToString;
 @Builder
 public class Clazz {
 	private final static String CLASS_NAME_PATTERN = "\\d{1,2}-?[А-ЯІЇЄҐа-яіїєґ]?";
+	/**
+	 * Id of the class.
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	/**
+	 * Name of the class.
+	 */
 	@NotBlank
 	@Size(max=4)
 	@RegexPattern(pattern=CLASS_NAME_PATTERN, message="Input must match " + CLASS_NAME_PATTERN)
 	private String name;
+
+	/**
+	 * Description of the class.
+	 */
 	@Size(max=500)
 	private String description;
+
+	/**
+	 * Academic year of the class. Like 2018, 2019 etc.
+	 */
 	@NotNull
 	@Min(value=2000)
 	@Column(name="academic_year")
 	private int academicYear;
+
+	/**
+	 * Is Active attribute of the class. Class must be active in currently year
+	 * and inactive in next years.
+	 */
 	@NotNull
 	@Column(name="is_active")
 	private boolean isActive;
+
+	/**
+	 * List of {@link Student} objects. One class may contains many students.
+	 */
 	@ManyToMany(mappedBy = "classes", 
 	        cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private final Set<@NotNull Student> students = new HashSet<>();
+
+	/**
+	 * List of {@link ClassTeacherSubjectLink} objects. One class may contains many Class-Teacher-Subject pairs.
+	 */
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "clazz")
 	private final Set<@NotNull ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
+
+	/**
+	 * List of {@link Lesson} objects. One class has many lessons.
+	 */
 	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "clazz")
 	private final Set<@NotNull Lesson> schedule = new HashSet<>();
 

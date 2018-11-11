@@ -3,13 +3,6 @@ package academy.softserve.eschool.controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
 import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.security.JwtUser;
 import academy.softserve.eschool.service.base.DiaryServiceBase;
@@ -18,6 +11,14 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/diaries")
@@ -46,10 +47,9 @@ public class DiaryController {
 			@ApiParam(value = "first day of week, accepts date in format 'yyyy-MM-dd'", required=true) @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate weekStartDate){
 		//todo bk ++ instead of 3 lines of code use just one. Keep it simple.
 		//return new GeneralResponseWrapper<>(new Status(200, "OK"), diaryService.getDiary(weekStartDate, studentId))
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		JwtUser user = (JwtUser) auth.getPrincipal();
-		return new GeneralResponseWrapper<List<DiaryEntryDTO>>(
-				new Status(HttpStatus.OK.value(), "OK"),
-				diaryService.getDiary(weekStartDate, user.getId().intValue()));
+    //todo bk Use such stile across the whole app. Looks much simpler and easier for reading
+    return new GeneralResponseWrapper<>(Status.of(OK), diaryService.getDiary(weekStartDate, user.getId().intValue()));
 	}
 }
