@@ -28,13 +28,11 @@ public class DiaryController {
     
     @NonNull
     DiaryServiceBase diaryService;
-
+    
     /**
-     * Returns list of {@link DiaryEntryDTO} that describe one week of diary wrapped
-     * in {@link GeneralResponseWrapper}
-     * 
+     * Returns list of {@link DiaryEntryDTO} that describe one week of diary wrapped in {@link GeneralResponseWrapper}
      * @param weekStartDate first day of required week
-     * @param studentId     id of student
+     * @param studentId id of student
      * @return List of {@link DiaryEntryDTO} wrapped in {@link GeneralResponseWrapper}
      */
     @ApiResponses(value = {
@@ -44,17 +42,14 @@ public class DiaryController {
     })
     @ApiOperation(value = "Get student's diary")
     @PreAuthorize("hasRole('USER')")
-    @GetMapping("/{studentId}")
+    @GetMapping("")
     GeneralResponseWrapper<List<DiaryEntryDTO>> getDiary(
-            @ApiParam(value = "first day of week, accepts date in format 'yyyy-MM-dd'", required = true) @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate weekStartDate){
-        // todo bk ++ instead of 3 lines of code use just one. Keep it simple.
-        // return new GeneralResponseWrapper<>(new Status(200, "OK"),
-        // diaryService.getDiary(weekStartDate, studentId))
-        // todo bk Use such stile across the whole app. Looks much simpler and easier
-        // for reading
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            @ApiParam(value = "first day of week, accepts date in format 'yyyy-MM-dd'", required=true) @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate weekStartDate){
+        //todo bk ++ instead of 3 lines of code use just one. Keep it simple.
+        //return new GeneralResponseWrapper<>(new Status(200, "OK"), diaryService.getDiary(weekStartDate, studentId))
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JwtUser user = (JwtUser) auth.getPrincipal();
-        //todo bk Use such stile across the whole app. Looks much simpler and easier for reading
-        return new GeneralResponseWrapper<>(Status.of(OK), diaryService.getDiary(weekStartDate, user.getId().intValue()));
+    //todo bk Use such stile across the whole app. Looks much simpler and easier for reading
+    return new GeneralResponseWrapper<>(Status.of(OK), diaryService.getDiary(weekStartDate, user.getId().intValue()));
     }
 }
