@@ -40,16 +40,13 @@ public class ScheduleController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/classes/{classId}/schedule")
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
-            @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
-            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)//create a shedule for a class with this id
+            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)
     {
-
-        LocalDate startDate = scheduleDTO.getStartOfSemester();
-        LocalDate endDate = scheduleDTO.getStartOfSemester();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        //if schedule with this bounds exists we delete the old schedule and add the new one
-        lessonRepository.deleteScheduleByBounds(startDate.format(formatter), endDate.format(formatter), scheduleDTO.getClassName().getId());
+        LocalDate startDate = LocalDate.of(scheduleDTO.getStartOfSemester().getYear(), scheduleDTO.getStartOfSemester().getMonth(), scheduleDTO.getStartOfSemester().getDayOfMonth());
+        LocalDate endDate = LocalDate.of(scheduleDTO.getEndOfSemester().getYear(), scheduleDTO.getEndOfSemester().getMonth(), scheduleDTO.getEndOfSemester().getDayOfMonth());
+        lessonRepository.deleteScheduleByBounds((startDate).format(formatter), (endDate).format(formatter),
+                scheduleDTO.getClassName().getId());
         scheduleService.saveSchedule(scheduleDTO);
         return new GeneralResponseWrapper<>(new Status(201, "OK"), null);
     }

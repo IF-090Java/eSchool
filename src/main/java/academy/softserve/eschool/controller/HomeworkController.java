@@ -1,6 +1,7 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.HomeworkDTO;
+import academy.softserve.eschool.dto.HomeworkFileDTO;
 import academy.softserve.eschool.security.service.MethodSecurityExpressionService;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
@@ -47,7 +48,7 @@ public class HomeworkController {
     }
 
     @ApiOperation(value = "Save homework")
-    @PostMapping
+    @PutMapping("/files")
     @ApiResponses(
             value = {
                     @ApiResponse(code = 201, message = "Homework successfully created"),
@@ -57,11 +58,25 @@ public class HomeworkController {
     )
     @PreAuthorize("hasRole('TEACHER')")
     @PostAuthorize("@homeworkController.haveLessonsInClass(principal.id, returnObject.data.idLesson)")
-    public GeneralResponseWrapper<HomeworkDTO> postHomework(
-            @ApiParam(value = "homework object", required = true)@RequestBody HomeworkDTO homeworkDTO){
-        System.out.println(homeworkDTO);
-        System.out.println(new String(homeworkDTO.getFile()));
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), homeworkDTO);
+    public GeneralResponseWrapper<HomeworkFileDTO> postHomework(
+            @ApiParam(value = "homework object", required = true)@RequestBody HomeworkFileDTO homeworkFileDTO){
+        journalServiceImpl.saveHomework(homeworkFileDTO);
+        return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), null);
+    }
+
+    @ApiOperation(value = "Get homework file")
+    @GetMapping("/files/{idLesson}")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "OK"),
+                    @ApiResponse(code = 400, message = "Bad request"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    @PreAuthorize("hasRole('TEACHER')")
+    public GeneralResponseWrapper<HomeworkFileDTO> getFile(
+            @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson){
+        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getFile(idLesson));
     }
 
 
@@ -73,4 +88,5 @@ public class HomeworkController {
     public boolean haveLessonsInClass(int idTeacher, int idLesson){
         return methodSecurityService.haveLessonsInClass(idTeacher, idLesson);
     }
+
 }

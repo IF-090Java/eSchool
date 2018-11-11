@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- 	<meta charset="UTF-8">
+     <meta charset="UTF-8">
     <title>Додавання учня</title>
     <link rel="stylesheet" type="text/css" href="/css/global-style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -111,10 +111,10 @@
          })
      })
 
-		$(function() {
-			$(".header").load("/views/header.html");
-		});
-	</script>
+        $(function() {
+            $(".header").load("/views/header.html");
+        });
+    </script>
  <script type="text/javascript">
         $(document).ready(function () {
 
@@ -132,9 +132,9 @@
             });
         jQuery.validator.addMethod("isUkrainian", function(value, element) {
                  var ukr = value;
-				 if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
-					return true;
-			     return false;
+                 if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
+                    return true;
+                 return false;
           }, "Використовуйте тільки українські букви. Перша літера має бути великою");
 
           jQuery.validator.addMethod("dateOfB", function(value, element) {
@@ -146,31 +146,31 @@
           }, "Дата народження повинна бути в минулому");
 
 
-		  $("#myForm").validate({
+          $("#myForm").validate({
             rules: {
                 lastname: {
                     required: true,
                     minlength: 3,
-					maxlength: 25,
+                    maxlength: 25,
                     isUkrainian: true
                     },
                 firstname: {
                     required: true,
                     minlength: 3,
-					maxlength: 25,
+                    maxlength: 25,
                     isUkrainian: true
                     },
                 patronymic: {
                     required: true,
                     minlength: 3,
-					maxlength: 25,
+                    maxlength: 25,
                     isUkrainian: true
                     },
                 login:{
-					required: true,
-					minlength: 5,
-					maxlength: 40
-					},
+                    required: true,
+                    minlength: 5,
+                    maxlength: 40
+                    },
                 dateOfBirth: {
                     required: true,
                     dateOfB: true
@@ -185,27 +185,27 @@
             messages: {
                 lastname: {
                     required: "Це поле обов'язкове",
-					minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів',
+                    minlength: 'Мінімальна довжина - 3 символи',
+                    maxlength: 'Максимальна довжина - 25 символів',
                     isUkrainian: 'Тільки українські символи'
                     },
                 firstname: {
                     required: "Це поле обов'язкове",
                     minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів',
+                    maxlength: 'Максимальна довжина - 25 символів',
                     isUkrainian: 'Тільки українські символи'
                     },
                 patronymic: {
                     required: "Це поле обов'язкове",
                     minlength: 'Мінімальна довжина - 3 символи',
-					maxlength: 'Максимальна довжина - 25 символів',
+                    maxlength: 'Максимальна довжина - 25 символів',
                     isUkrainian: 'Тільки українські символи'
                     },
                 login:{
-					required: "Це поле обов'язкове",
-					minlength: 'Мінімальна довжина - 5 символsd',
-					maxlength: 'Максимальна довжина - 40 символів'
-					},
+                    required: "Це поле обов'язкове",
+                    minlength: 'Мінімальна довжина - 5 символsd',
+                    maxlength: 'Максимальна довжина - 40 символів'
+                    },
                 dateOfBirth: {
                     required: "Це поле обов'язкове"
                     },
