@@ -408,15 +408,7 @@ $(function()
                   "fridaySubjects":deleteFromArray(friday)
                 }),
                 contentType: "application/json",
-<<<<<<< HEAD
-  				  statusCode: {
-                      409: function() {
-                      $("#message").attr("class", "alert alert-danger");
-                      $("#message").html("<strong>Розклад з такими межами семестру уже існує, та оцінки за ці дати уже виставлені</strong>");
-                    },
-=======
                     statusCode: {
->>>>>>> 12ab169f6a7983b0abd58953657aab1849b6c782
                        200: function() {
                         $("#message").attr("class", "alert alert-success");
                         $("#message").html("<strong>Розклад успішно створений</strong>");
