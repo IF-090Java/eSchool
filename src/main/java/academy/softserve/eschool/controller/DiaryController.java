@@ -44,7 +44,7 @@ public class DiaryController {
     })
     @ApiOperation(value = "Get student's diary")
     @PreAuthorize("hasRole('USER')")
-    @GetMapping("/{studentId}")
+    @GetMapping("")
     GeneralResponseWrapper<List<DiaryEntryDTO>> getDiary(
             @ApiParam(value = "first day of week, accepts date in format 'yyyy-MM-dd'", required = true) @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate weekStartDate){
         // todo bk ++ instead of 3 lines of code use just one. Keep it simple.
