@@ -59,6 +59,7 @@ public class ScheduleController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDate = LocalDate.of(scheduleDTO.getStartOfSemester().getYear(), scheduleDTO.getStartOfSemester().getMonth(), scheduleDTO.getStartOfSemester().getDayOfMonth());
         LocalDate endDate = LocalDate.of(scheduleDTO.getEndOfSemester().getYear(), scheduleDTO.getEndOfSemester().getMonth(), scheduleDTO.getEndOfSemester().getDayOfMonth());
+        //IT DOES NOT WORK, TRYING TO RESOLVE IT
         /*
         if(markRepository.getCountOfMarksByDateBounds((startDate).format(formatter), (endDate).format(formatter)) > 0 )
         {
