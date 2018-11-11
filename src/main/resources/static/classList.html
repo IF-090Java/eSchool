@@ -72,7 +72,7 @@
         $("button").remove();
         $(document).ready(function () {
             $.getJSON(host + 'classes', function (data) {
-                $.each(data, function (i, item) {
+                $.each(data.data, function (i, item) {
                     if (item.isActive == true) {
                         $('#classeslist').append($('<tr>').append($('<a>').attr('href','/ui/students/class/'+item.id).append(item.className)).append($('<span style="font-size: 12px; margin-left: 15px">').append(item.classYear)).append('</span>').append($('</tr>')))
                     }
