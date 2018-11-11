@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TeacherJournalController {
 
-	@NonNull
+    @NonNull
     private ClassTeacherSubjectServiceImpl classTeacherSubject;
 
     @ApiOperation(value = "Connects a teacher with a journal")
@@ -42,7 +42,7 @@ public class TeacherJournalController {
             @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
             @ApiParam(value = "id of subject", required = true) @PathVariable("subjectId") final int subjectId)
     {
-    	classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacherId, classId, subjectId), true);
+        classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacherId, classId, subjectId), true);
         return new GeneralResponseWrapper<>(new Status(201, "OK"), null);
     }
 

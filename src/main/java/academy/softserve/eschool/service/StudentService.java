@@ -98,6 +98,7 @@ public class StudentService {
     }
 
     public void studentClassesRebinding(List<NYTransitionDTO> nyTransitionDTOS){
+        List<Student> updatedStudentsList = new ArrayList<>();
          for (NYTransitionDTO nDTO : nyTransitionDTOS){
              if (nDTO.getNewClassId() != 0){
                  List<Student> studentList = studentRepository.findByClazzId(nDTO.getOldClassId());
@@ -107,9 +108,10 @@ public class StudentService {
                      student.setClasses(clazzes);
 
                      //todo bk !!!!!!! Never do it again - calling repository method in loop. Just prepare all required data and save it once
-                     studentRepository.save(student);
+                     updatedStudentsList.add(student);
                  }
              }
          }
+         studentRepository.saveAll(updatedStudentsList);
     }
 }

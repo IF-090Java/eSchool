@@ -2,6 +2,9 @@ package academy.softserve.eschool.controller;
 
 import java.util.List;
 
+import academy.softserve.eschool.service.ClassService;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -11,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.dto.NYTransitionDTO;
-import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +23,16 @@ import io.swagger.annotations.ApiResponses;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * The controller {@code NYTransitionController} contains methods, that
+ * mapped to the special URL patterns (API Endpoints) for working with classes transition to new year
+ * and receive requests from {@link org.springframework.web.servlet.DispatcherServlet}.
+ * Methods return raw data back to the client in JSON representations.
+ *
+ * @author Vitaliy Popovych
+ */
 @RestController
 @RequestMapping("/students/transition")
 @Api(value = "transition", description = "Endpoints for transition to new school year")
@@ -29,11 +41,17 @@ public class NYTransitionController {
 
     //todo bk ++ use autowiring via constructors.
     //todo bk you should not use Impl class here. Use interface for injection and make the fields private
-	@NonNull
+    @NonNull
     ClassServiceImpl classService;
-	@NonNull
+    @NonNull
     StudentService studentService;
 
+    /**
+     * Add classes to next year based on currently
+     *
+     * @return List of created {@link ClassDTO} objects
+     *         in {@link GeneralResponseWrapper} with http status code
+     */
     @ApiOperation(value = "Add new classes based on currently classes with new year and name")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
@@ -42,10 +60,21 @@ public class NYTransitionController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    public List<ClassDTO> addNewYearClasses(){
-        return classService.addNewYearClasses();
+    public GeneralResponseWrapper<List<ClassDTO>> addNewYearClasses(){
+        return new GeneralResponseWrapper<>(
+                new Status(HttpServletResponse.SC_CREATED, "New classes successfully added"),
+                classService.addNewYearClasses()
+        );
     }
 
+    /**
+     * Set previous year classes status isActive as false,
+     * add all students from previous year classes to new year classes
+     *
+     * @param transitionDTOS {@link NYTransitionDTO} object
+     * @return List of {@link NYTransitionDTO} objects
+     *         in {@link GeneralResponseWrapper} with http status code
+     */
     @PutMapping
     @ApiOperation(value = "Binding students to new classes, deactivate previous year classes")
     @ApiResponses(value = {
@@ -54,10 +83,13 @@ public class NYTransitionController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @PreAuthorize("hasRole('ADMIN')")
-    public List<NYTransitionDTO> bindingStudentsToNewClasses(
+    public GeneralResponseWrapper<List<NYTransitionDTO>> bindingStudentsToNewClasses(
             @ApiParam(value = "transition class(new and old classes id)", required = true) @RequestBody List<NYTransitionDTO> transitionDTOS){
         classService.updateClassStatusById(transitionDTOS, false);
         studentService.studentClassesRebinding(transitionDTOS);
-        return transitionDTOS;
+        return new GeneralResponseWrapper<>(
+                new Status(HttpServletResponse.SC_CREATED, "Old classes disabled, students bindet to new classes"),
+                transitionDTOS
+        );
     }
 }

@@ -54,7 +54,8 @@ public class ScheduleController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/classes/{classId}/schedule")
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
-            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO){
+            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)
+    {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDate = LocalDate.of(scheduleDTO.getStartOfSemester().getYear(), scheduleDTO.getStartOfSemester().getMonth(), scheduleDTO.getStartOfSemester().getDayOfMonth());
         LocalDate endDate = LocalDate.of(scheduleDTO.getEndOfSemester().getYear(), scheduleDTO.getEndOfSemester().getMonth(), scheduleDTO.getEndOfSemester().getDayOfMonth());

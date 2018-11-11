@@ -37,25 +37,31 @@ public class Lesson {
 
     @Size(max = 500)
     private String hometask;
+    
     //todo bk ++ put new line between the fields because it's hard to read it
     //todo bk ++ always use 4 spaces instead of tabs for the line indent. Configure your IDE to handle it automatically.
     @Enumerated(EnumType.STRING)
     @Column(name = "mark_type")
     private MarkType markType;
-    @Lob
-    @Size(max = 1_000_000)
-    private byte[] file;
+    
+    @Size(max=(int)(1000000*1.4))
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "homework_file_id")
+    private File file;
+    
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @NotNull
     private Clazz clazz;
+    
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @NotNull
     private Subject subject;
+    
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "lesson")
     private final Set<@NotNull Mark> marks = new HashSet<>();
 
-    public Lesson(byte lessonNumber, Date date, String hometask, MarkType markType, byte[] file, Clazz clazz,
-                  Subject subject) {
+    public Lesson(byte lessonNumber, Date date, String hometask, MarkType markType, File file, Clazz clazz,
+            Subject subject) {
         super();
         this.lessonNumber = lessonNumber;
         this.date = date;

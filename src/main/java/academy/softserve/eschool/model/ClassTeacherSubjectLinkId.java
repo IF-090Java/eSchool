@@ -16,8 +16,10 @@ public class ClassTeacherSubjectLinkId implements Serializable {
 
     @Min(1)
     private int clazz_id;
+    
     @Min(1)
     private int teacher_id;
+    
     @Min(1)
     private int subject_id;
 
