@@ -54,7 +54,7 @@
                                 <div class="controls col-8"><input class="input-md textinput textInput form-control" id="patronymic" type="text" name="patronymic" required></div>
                             </div>
                             <div class="row form-group required">
-                                <label for="username" class="control-label col-4">Логін</label>
+                                <label for="username" class="control-label col-4" >Логін</label>
                                 <div class="controls col-5"><input class="input-md textinput textInput form-control" id="username" type="text" name="login"></div>
                                 <div class="controls col-3"><a class="btn btn-outline-primary" id="generate">Генерувати логін</a> </div>
                             </div>
@@ -124,8 +124,8 @@
             $.each(data2.data, function (i, item) {
                 if (item.isActive == true) {
                     $('#selectClass').append($('<option>', {
-                        value: data2[i].data.id,
-                        text: data2[i].data.className
+                        value: item.id,
+                        text: item.className
                     }));
                 }
             });
@@ -135,7 +135,7 @@
             if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
                 return true;
             return false;
-        }, "Використовуйте тільки українські букви. Перша літера має бути великою");
+        }, "Тільки українські букви");
 
         jQuery.validator.addMethod("dateOfB", function(value, element) {
             var date = new Date(value);
@@ -185,20 +185,17 @@
                 lastname: {
                     required: "Це поле обов'язкове",
                     minlength: 'Мінімальна довжина - 3 символи',
-                    maxlength: 'Максимальна довжина - 25 символів',
-                    isUkrainian: 'Тільки українські символи'
+                    maxlength: 'Максимальна довжина - 25 символів'
                 },
                 firstname: {
                     required: "Це поле обов'язкове",
                     minlength: 'Мінімальна довжина - 3 символи',
-                    maxlength: 'Максимальна довжина - 25 символів',
-                    isUkrainian: 'Тільки українські символи'
+                    maxlength: 'Максимальна довжина - 25 символів'
                 },
                 patronymic: {
                     required: "Це поле обов'язкове",
                     minlength: 'Мінімальна довжина - 3 символи',
-                    maxlength: 'Максимальна довжина - 25 символів',
-                    isUkrainian: 'Тільки українські символи'
+                    maxlength: 'Максимальна довжина - 25 символів'
                 },
                 login:{
                     minlength: 'Мінімальна довжина - 5 символsd',
@@ -215,7 +212,8 @@
                 }
             }
         });
-    });
+    })
+
 
     $('form').on('submit', function (e) {
 
@@ -256,22 +254,22 @@
             }
         });
     });
-    // $("#generate").on("click", function () {
-    //      $.ajax({
-    //          url: "/login/generate",
-    //          data: JSON.stringify({
-    //              "firstName": firstName,
-    //              "lastName": lastName,
-    //              "patronymic": patronymic,
-    //
-    //              contentType: "application/json",
-    //
-    //              success: function (responce) {
-    //                  $('#username').attr("value",data.login);
-    //              }
-    //          })
-    //      })
-    // });
+    $("#generate").on("click", function () {
+        // $.ajax({
+        //     url: "/login/generate",
+        //     data: JSON.stringify({
+        //         "firstName": firstName,
+        //         "lastName": lastName,
+        //         "patronymic": patronymic,
+        //
+        //         contentType: "application/json",
+        //
+        //         success: function (responce) {
+        //             $('#username').attr("value",data.login);
+        //         }
+        //     })
+        // })
+    });
 </script>
 </form>
 </body>
