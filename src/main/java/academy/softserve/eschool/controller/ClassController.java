@@ -58,7 +58,7 @@ public class ClassController {
     /**
      * Returns class as {@link ClassDTO} object by class ID
      *
-     * @param id Id of class
+     * @param classId Id of class
      * @return Class as {@link ClassDTO} object in {@link GeneralResponseWrapper}
      *         with http status code
      */
@@ -69,12 +69,12 @@ public class ClassController {
     })
     @ApiOperation(value = "Get Class")
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER') or (hasRole('USER') and @classController.isMemberOfClass(principal.id, #classId))")//for teacher needs access to the statistics page for all classes
-    @GetMapping("/{id}")
+    @GetMapping("/{classId}")
     public GeneralResponseWrapper<ClassDTO> getClassById(
-            @ApiParam(value = "id of class", required = true) @PathVariable int id){
+            @ApiParam(value = "id of class", required = true) @PathVariable int classId){
         return new GeneralResponseWrapper<>(
                 new Status(HttpServletResponse.SC_OK, "OK"),
-                classService.findClassById(id)
+                classService.findClassById(classId)
         );
     }
 

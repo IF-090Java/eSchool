@@ -36,7 +36,6 @@ public class DiaryController {
      * in {@link GeneralResponseWrapper}
      *
      * @param weekStartDate first day of required week
-     * @param studentId     id of student
      * @return List of {@link DiaryEntryDTO} wrapped in {@link GeneralResponseWrapper}
      */
     @ApiResponses(value = {

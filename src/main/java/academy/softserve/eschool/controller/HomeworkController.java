@@ -74,6 +74,7 @@ public class HomeworkController {
             }
     )
     @PreAuthorize("hasRole('TEACHER')")
+    @PostAuthorize("@homeworkController.haveLessonsInClass(principal.id, returnObject.data.idLesson)")
     public GeneralResponseWrapper<HomeworkFileDTO> getFile(
             @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson){
         return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getFile(idLesson));
