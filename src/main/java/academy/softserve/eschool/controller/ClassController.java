@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import academy.softserve.eschool.service.ClassService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
