@@ -3,118 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <title>Панель керування адміністратора</title>
-    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
+    <link rel="stylesheet" type="text/css" href="/css/sidebar-style.css">
     <script src="/js/JS.js"></script>
     <script src="/js/jwt-decode.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
 </head>
 <body>
-
-<div class="wrapper">
-    <div class="admin-sidebar"></div>
-
-    <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
-            <span class="navbar-text">Ви увійшли як Адміністратор</span>
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" id="logout" href="#" onclick="logOut()">Вийти</a>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/ui/admin">
+            <img src="/img/catholic-school-logo.png" width="50" height="50" class="d-inline-block align-top" alt="">
+            <span class="menu-collapsed">School Management System</span>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown d-sm-block d-md-none">
+                    <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Головне меню
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
+                        <a class="dropdown-item" href="/ui/classes/classList">Учні</a>
+                        <a class="dropdown-item" href="/ui/teachersList">Вчителі</a>
+                        <a class="dropdown-item" href="/ui/subjectList">Предмети</a>
+                        <a class="dropdown-item" href="/ui/classes/list">Класи</a>
+                        <a class="dropdown-item" href="/ui/teachers/add/journal">Вчитель / Журнал</a>
+                        <a class="dropdown-item" href="/ui/schedule/create">Розклад</a>
+                        <a class="dropdown-item" href="/ui/students/new-year-transition">Новий навчальний рік</a>
+                    </div>
                 </li>
             </ul>
-        </nav>
+            <ul class="navbar-nav">
+                <span class="navbar-text">Ви увійшли як Адміністратор</span>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
+    <div class="row" id="body-row">
+        <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
+        <div class="col py-3">
         <div class="container">
             <div class="row justify-content-center mt-5">
-                <h1>Панель керування</h1>
-            </div>
-            <div class="row justify-content-center mt-5">
-                <div class="col-8">
-                    <div class="row" style="text-align: center">
+                <div class="col-10">
+                    <div class="row">
                         <div class="col">
-                            <table class="d-flex justify-content-center">
-                                <tbody>
-                                <tr><td><a href="/ui/classes/classList" style="color: #212529;"><i class="fas fa-user-graduate fa-5x"></i></a></td></tr>
-                                <tr><td>Учні</td></tr>
-                                </tbody>
-                            </table>
+                            <div class="card bg-light mb-3 text-center" style="max-width: 15rem;">
+                                <div class="card-header"><i class="fas fa-user-graduate fa-3x" style="color: #8bc34a"></i></div>
+                                <h5 class="card-title">Учні</h5>
+                                <div class="card-body" style="padding: 0rem">
+                                    <p class="card-text" id="students-count" style="font-weight: bold"></p>
+                                </div>
+                            </div>
                         </div>
                         <div class="col">
-                            <table class="d-flex justify-content-center">
-                                <tbody>
-                                <tr><td><a href="/ui/teachersList" style="color: #212529;"><i class="fas fa-chalkboard-teacher fa-5x"></i></a></td></tr>
-                                <tr><td>Вчителі</td></tr>
-                                </tbody>
-                            </table>
+                            <div class="card bg-light mb-3 text-center" style="max-width: 15rem;">
+                                <div class="card-header"><i class="fas fa-chalkboard-teacher fa-3x" style="color: #1e88e5"></i></div>
+                                <h5 class="card-title">Вчителі</h5>
+                                <div class="card-body" style="padding: 0rem">
+                                    <p class="card-text" id="teachers-count" style="font-weight: bold"></p>
+                                </div>
+                            </div>
                         </div>
                         <div class="col">
-                            <table class="d-flex justify-content-center">
-                                <tbody>
-                                <tr><td><a href="/ui/subjectList" style="color: #212529;"><i class="fas fa-book fa-5x"></i></a></td></tr>
-                                <tr><td>Предмети</td></tr>
-                                </tbody>
-                            </table>
+                            <div class="card bg-light mb-3 text-center" style="max-width: 15rem;">
+                                <div class="card-header"><i class="fas fa-school fa-3x" style="color: #fccf57"></i></div>
+                                <h5 class="card-title">Класи</h5>
+                                <div class="card-body" style="padding: 0rem">
+                                    <p class="card-text" id="classes-count" style="font-weight: bold"></p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row justify-content-center mt-5">
-                <div class="col-8">
-                    <div class="row" style="text-align: center">
-                        <div class="col">
-                            <table class="d-flex justify-content-center">
-                                <tbody>
-                                <tr><td><a href="/ui/classes/list" style="color: #212529;"><i class="fas fa-clipboard-list fa-5x"></i></a></td></tr>
-                                <tr><td>Класи</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col">
-                            <table class="d-flex justify-content-center">
-                                <tbody>
-                                <tr><td><a href="/ui/teachers/add/journal" style="color: #212529;"><i class="fas fa-address-card fa-5x"></i></a></td></tr>
-                                <tr><td>Додавання вчителя до журналу</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col">
-                            <table class="d-flex justify-content-center">
-                                <tbody>
-                                <tr><td><a href="/ui/schedule/create" style="color: #212529;"><i class="fas fa-calendar-alt fa-5x"></i></a></td></tr>
-                                <tr><td>Розклад</td></tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row justify-content-center mt-5">
-                <div class="col-8">
-                    <div class="row" style="text-align: center">
-                        <div class="col">
-                            <table class="d-flex justify-content-center">
-                                <tbody>
-                                <tr><td><a href="/ui/students/new-year-transition" style="color: #212529;"><i class="fas fa-bell fa-5x"></i></a></td></tr>
-                                <tr><td>Новий навчальний рік</td></tr>
-                                </tbody>
-                            </table>
+            <!--<div class="row justify-content-center mt-5">-->
+                <!--<h1>Панель керування</h1>-->
+            <!--</div>-->
+            <div class="row justify-content-center mt-2">
+            <div class="col-10">
+            <div class="card text-center">
+                <div class="card-header">
+                    ПАНЕЛЬ КЕРУВАННЯ
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-8">
+                            <div class="row" style="text-align: center">
+                                <div class="col">
+                                    <table class="d-flex justify-content-center">
+                                        <tbody>
+                                        <tr><td><a href="/ui/classes/classList" style="color: #212529;"><i class="fas fa-user-graduate fa-5x"></i></a></td></tr>
+                                        <tr><td>Учні</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col">
+                                    <table class="d-flex justify-content-center">
+                                        <tbody>
+                                        <tr><td><a href="/ui/teachersList" style="color: #212529;"><i class="fas fa-chalkboard-teacher fa-5x"></i></a></td></tr>
+                                        <tr><td>Вчителі</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col">
+                                    <table class="d-flex justify-content-center">
+                                        <tbody>
+                                        <tr><td><a href="/ui/subjectList" style="color: #212529;"><i class="fas fa-book fa-5x"></i></a></td></tr>
+                                        <tr><td>Предмети</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col"></div>
-                        <div class="col"></div>
+                    </div>
+
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-8">
+                            <div class="row" style="text-align: center">
+                                <div class="col">
+                                    <table class="d-flex justify-content-center">
+                                        <tbody>
+                                        <tr><td><a href="/ui/classes/list" style="color: #212529;"><i class="fas fa-clipboard-list fa-5x"></i></a></td></tr>
+                                        <tr><td>Класи</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col">
+                                    <table class="d-flex justify-content-center">
+                                        <tbody>
+                                        <tr><td><a href="/ui/teachers/add/journal" style="color: #212529;"><i class="fas fa-address-card fa-5x"></i></a></td></tr>
+                                        <tr><td>Додавання вчителя до журналу</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col">
+                                    <table class="d-flex justify-content-center">
+                                        <tbody>
+                                        <tr><td><a href="/ui/schedule/create" style="color: #212529;"><i class="fas fa-calendar-alt fa-5x"></i></a></td></tr>
+                                        <tr><td>Розклад</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-8">
+                            <div class="row" style="text-align: center">
+                                <div class="col">
+                                    <table class="d-flex justify-content-center">
+                                        <tbody>
+                                        <tr><td><a href="/ui/students/new-year-transition" style="color: #212529;"><i class="fas fa-bell fa-5x"></i></a></td></tr>
+                                        <tr><td>Новий навчальний рік</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col"></div>
+                                <div class="col"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            </div>
+            </div>
+
+        </div>
         </div>
     </div>
-</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(function() {
-        $(".admin-sidebar").load("/views/admin-sidebar.html");
+        $("#sidebar-container").load("/views/admin-sidebar.html");
     });
 
     $(document).ready(function () {
@@ -127,6 +198,34 @@
                 }
             }
         })
+    })
+
+    $(document).ready(function() {
+        $.getJSON(host + 'classes', function (data) {
+            var classCount = 0;
+            var studentsCount = 0;
+            $.each(data.data, function (i, item) {
+                if (item.isActive == true) {
+                   classCount+=1;
+                    $.getJSON(host + 'students/classes/'+item.id, function (studData) {
+                        studentsCount+=studData.length;
+                        $("#students-count").html(studentsCount);
+                    })
+                }
+            });
+            $("#classes-count").html(classCount);
+        });
+
+    })
+
+    $(document).ready(function() {
+        $.getJSON(host + 'teachers', function (data) {
+            var teacherCount = 0;
+            $.each(data, function (i, item) {
+                teacherCount+=1;
+            });
+            $("#teachers-count").html(teacherCount);
+        });
     })
 </script>
 </body>

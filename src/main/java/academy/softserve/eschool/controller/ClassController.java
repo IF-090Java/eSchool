@@ -41,7 +41,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ClassController {
     
     @NonNull
-    ClassServiceImpl classService;
+    private ClassService classService;
 
     /**
      * Create new class
