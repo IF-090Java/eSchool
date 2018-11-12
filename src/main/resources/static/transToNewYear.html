@@ -9,6 +9,32 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/JS.js"></script>
+    <style>
+        select {
+            width: 150px;
+            padding: 5px 35px 5px 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            height: 34px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: url(/img/circle-down.png) 96% / 15% no-repeat #eee;
+        }
+
+        /* CAUTION: IE hackery ahead */
+        select::-ms-expand {
+            display: none; /* remove default arrow on ie10 and ie11 */
+        }
+
+        /* target Internet Explorer 9 to undo the custom arrow */
+        @media screen and (min-width:0\0) {
+            select {
+                background:none\9;
+                padding: 5px\9;
+            }
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;"></nav>

@@ -88,7 +88,7 @@
         $(document).ready(function () {
 
             jQuery.validator.addMethod("correctSubjectName", function(value, element) {
-                var inputSubjec = value;
+                var inputSubject = value;
                 if (inputSubject.match(/^[А-ЯІЇЄ]([А-ЯІЇЄ]*[а-яіїє]*[' -]?)+/))
                     return true;
                 return false;
@@ -149,8 +149,7 @@
                     contentType: "application/json",
                     success: function (responce) {
                         $("#message").attr("class", "alert alert-success");
-                        $("#message").html("<b>Предмет <q>" + subjectName + "</q> успішно доданий</b>");
-                        window.location.href = "/ui/subjectList";
+                        $("#message").html("<b>Предмет <q>" + subjectName + "</q> успішно оновлений. Повернутися до <a href='/ui/subjectList'>списку класів</a></b>");
                     },
                     error: function(){
                         $("#message").attr("class", "alert alert-danger");
