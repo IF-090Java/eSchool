@@ -1,12 +1,5 @@
 package academy.softserve.eschool.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
 import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
@@ -14,6 +7,11 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * The controller {@code ClassController} contains methods, that
