@@ -1,51 +1,106 @@
-<nav id="sidebar" class="h-100">
-    <a class="text-center w-100 mx-auto d-block" id="homepage" href="/ui/admin"><img id="logo" src="/img/catholic-school-logo.png" width="110" alt="logo"/></a>
+<link rel="stylesheet" type="text/css" href="/css/sidebar-style.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+        <ul class="list-group sticky-top sticky-offset">
 
-    <ul class="list-unstyled components">
-        <li>
-            <a href="#addPupilMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle navLink">Учні</a>
-            <ul class="collapse list-unstyled" id="addPupilMenu">
-                <li>
-                    <a class="navLink" href="/ui/classes/classList">Список учнів</a>
-                    <a class="navLink" href="/ui/students/add">Додати учня</a>
-                </li>
-            </ul>
-        </li>
+            <!-- Separator -->
+            <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+                <small>ГОЛОВНЕ МЕНЮ</small>
+            </li>
 
-        <li>
-            <a href="#addTeacherMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle navLink">Вчителі</a>
-            <ul class="collapse list-unstyled" id="addTeacherMenu">
-                <li>
-                    <a class="navLink" href="/ui/teachersList">Список вчителів</a>
-                    <a class="navLink" href="/ui/teachers/add">Додати вчителя</a>
-                </li>
-            </ul>
-        </li>
+            <!-- Pupils -->
+            <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fas fa-user-graduate fa-fw mr-3"></span>
+                    <span class="menu-collapsed">Учні</span>
+                    <span class="submenu-icon ml-auto"></span>
+                </div>
+            </a>
+            <div id="submenu1" class="collapse sidebar-submenu">
+                <a href="/ui/classes/classList" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">Список учнів</span>
+                </a>
+                <a href="/ui/students/add" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">Додати учня</span>
+                </a>
+            </div>
 
-        <li>
-            <a href="#addSubjectMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle navLink">Предмети</a>
-            <ul class="collapse list-unstyled" id="addSubjectMenu">
-                <li>
-                    <a class="navLink" href="/ui/subjectList">Список предметів</a>
-                    <a class="navLink" href="/ui/subjects/add">Додати предмет</a>
-                </li>
-            </ul>
-        </li>
+            <!-- Teachers -->
+            <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fas fa-chalkboard-teacher fa-fw mr-3"></span>
+                    <span class="menu-collapsed">Вчителі</span>
+                    <span class="submenu-icon ml-auto"></span>
+                </div>
+            </a>
+            <div id="submenu2" class="collapse sidebar-submenu">
+                <a href="/ui/teachersList" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">Список вчителів</span>
+                </a>
+                <a href="/ui/teachers/add" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">Додати вчителя</span>
+                </a>
+            </div>
 
-        <li>
-            <a href="#addClassMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle navLink">Класи</a>
-            <ul class="collapse list-unstyled" id="addClassMenu">
-                <li>
-                    <a class="navLink" href="/ui/classes/list">Список класів</a>
-                    <a class="navLink" href="/ui/classes/add">Додати клас</a>
-                </li>
-            </ul>
-        </li>
+            <!-- Subjects -->
+            <a href="#submenu3" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fas fa-book fa-fw mr-3"></span>
+                    <span class="menu-collapsed">Предмети</span>
+                    <span class="submenu-icon ml-auto"></span>
+                </div>
+            </a>
+            <div id="submenu3" class="collapse sidebar-submenu">
+                <a href="/ui/subjectList" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">Список предметів</span>
+                </a>
+                <a href="/ui/subjects/add" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">Додати предмет</span>
+                </a>
+            </div>
 
-        <li>
-            <a class="navLink" href="/ui/teachers/add/journal">Додавання вчителя до журналу</a>
-            <a class="navLink" href="/ui/schedule/create">Розклад</a>
-            <a class="navLink" href="/ui/students/new-year-transition">Новий навчальний рік</a>
-        </li>
-    </ul>
-</nav>
+            <!-- Classes -->
+            <a href="#submenu4" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fas fa-clipboard-list fa-fw mr-3"></span>
+                    <span class="menu-collapsed">Класи</span>
+                    <span class="submenu-icon ml-auto"></span>
+                </div>
+            </a>
+            <div id="submenu4" class="collapse sidebar-submenu">
+                <a href="/ui/classes/list" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">Список класів</span>
+                </a>
+                <a href="/ui/classes/add" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">Додати клас</span>
+                </a>
+            </div>
+
+            <!-- Teacher / Journal -->
+            <a href="/ui/teachers/add/journal" class="bg-dark list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fas fa-address-card fa-fw mr-3"></span>
+                    <span class="menu-collapsed">Вчитель / Журнал</span>
+                </div>
+            </a>
+
+            <!-- Schedule -->
+            <a href="/ui/schedule/create" class="bg-dark list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fas fa-calendar-alt fa-fw mr-3"></span>
+                    <span class="menu-collapsed">Розклад</span>
+                </div>
+            </a>
+
+            <!-- New academic year -->
+            <a href="/ui/students/new-year-transition" class="bg-dark list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fas fa-bell fa-fw mr-3"></span>
+                    <span class="menu-collapsed">Нов. навчальний рік</span>
+                </div>
+            </a>
+
+            <!-- Logo -->
+            <li class="list-group-item logo-separator d-flex justify-content-center">
+                <a href="http://cathol-gym.com.ua/ua" target="_blank"><img src="/img/catholic-school-logo.png" width="40" height="40" alt="logo"></a>
+            </li>
+        </ul>
