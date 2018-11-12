@@ -22,57 +22,57 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MarkService implements MarkServiceBase{
 
-	@NonNull
-	private MarkRepository markRepo;
-	private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	
-	/**
-	 * Returns list of {@link MarkDataPointDTO}
-	 * @param studentId if specified marks are filtered by user id
-	 * @param subjectId if specified marks are filtered by subject id
-	 * @param classId if specified marks are filtered by class id
-	 * @param periodStart if specified only marks received after this date are returned
-	 * @param periodEnd if specified only marks received before this date are returned
-	 * @return list of {@link MarkDataPointDTO}
-	 */
+    @NonNull
+    private MarkRepository markRepo;
+    private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
+    /**
+     * Returns list of {@link MarkDataPointDTO}
+     * @param studentId if specified marks are filtered by user id
+     * @param subjectId if specified marks are filtered by subject id
+     * @param classId if specified marks are filtered by class id
+     * @param periodStart if specified only marks received after this date are returned
+     * @param periodEnd if specified only marks received before this date are returned
+     * @return list of {@link MarkDataPointDTO}
+     */
 
-	@Override
-	public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, LocalDate periodStart,
-			LocalDate periodEnd) {
-		
-		String startDate = null;
-		String endDate = null;
-		
-		if (periodStart != null) {
-			startDate = dateFormat.format(periodStart);
-		}
-		if (periodEnd != null) {
-			endDate = dateFormat.format(periodEnd);
-		}
-		return formDataPoints(markRepo.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate));
-	}
-	
+    @Override
+    public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, LocalDate periodStart,
+            LocalDate periodEnd) {
+        
+        String startDate = null;
+        String endDate = null;
+        
+        if (periodStart != null) {
+            startDate = dateFormat.format(periodStart);
+        }
+        if (periodEnd != null) {
+            endDate = dateFormat.format(periodEnd);
+        }
+        return formDataPoints(markRepo.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate));
+    }
+    
 
-	private List<MarkDataPointDTO> formDataPoints(List<Map<String, Object>> data) {
-		List<MarkDataPointDTO> dataPoints;
-		dataPoints = data.stream().map((obj) -> {
-				double averageMark = ((BigDecimal)obj.get("avg_mark")).doubleValue();
-				LocalDate date = ((Date)obj.get("date")).toLocalDate();
-				int count = ((BigInteger)obj.get("count")).intValue();
-				return new MarkDataPointDTO(averageMark, date, count);
-			})
-			.collect(Collectors.toList());
-		System.out.println(dataPoints.toString());
-		return dataPoints;
-	}
+    private List<MarkDataPointDTO> formDataPoints(List<Map<String, Object>> data) {
+        List<MarkDataPointDTO> dataPoints;
+        dataPoints = data.stream().map((obj) -> {
+                double averageMark = ((BigDecimal)obj.get("avg_mark")).doubleValue();
+                LocalDate date = ((Date)obj.get("date")).toLocalDate();
+                int count = ((BigInteger)obj.get("count")).intValue();
+                return new MarkDataPointDTO(averageMark, date, count);
+            })
+            .collect(Collectors.toList());
+        System.out.println(dataPoints.toString());
+        return dataPoints;
+    }
 
-	@Override
-	public void saveMark(MarkDTO dto) {
-		markRepo.saveMarkByLesson(dto.getIdStudent(),dto.getIdLesson(),dto.getMark(),dto.getNote());
-	}
+    @Override
+    public void saveMark(MarkDTO dto) {
+        markRepo.saveMarkByLesson(dto.getIdStudent(),dto.getIdLesson(),dto.getMark(),dto.getNote());
+    }
 
-	@Override
-	public void updateType(int idLesson, String markType) {
-		markRepo.saveTypeByLesson(idLesson,markType);
-	}
+    @Override
+    public void updateType(int idLesson, String markType) {
+        markRepo.saveTypeByLesson(idLesson,markType);
+    }
 }

@@ -27,4 +27,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
             "on class_teacher_subject_link.subject_id=subject.id\n" +
             "where clazz_id=:classId", nativeQuery=true)
 	List<Subject> findSubjectsByClass(Integer classId);
+
+    @Query(value = "SELECT * FROM subject WHERE id IN (:ids)", nativeQuery =true)
+    List<Subject> findSubjectsByIds(@Param("ids") List<Integer> ids);
 }

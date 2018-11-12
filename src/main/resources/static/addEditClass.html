@@ -9,25 +9,16 @@
     <meta charset="UTF-8">
     <title>Редагувати клас</title>
     <link rel="stylesheet" type="text/css" href="/css/global-style.css">
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="/js/JS.js"></script>
     <script src="/js/jwt-decode.min.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;"></nav>
 
-<div class="wrapper">
-    <div class="admin-sidebar"></div>
-
-    <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
-            <span class="navbar-text">Ви увійшли як Адміністратор</span>
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
-                </li>
-            </ul>
-        </nav>
+<div class="row" id="body-row">
+    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
+    <div class="col py-3">
 
         <div class="container">
             <div id="message" align="center"></div>
@@ -80,7 +71,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(function() {
-        $(".admin-sidebar").load("/views/admin-sidebar.html");
+        $("#sidebar-container").load("/views/admin-sidebar.html");
+        $(".navbar").load("/views/admin-header.html");
     });
 </script>
 </body>
@@ -102,9 +94,9 @@
 
         jQuery.validator.addMethod("grade", function(value, element) {
                  var inputGrade = value;
-				 if (inputGrade.match(/^(?:[5-9]|1[0-1])-([а-г]|[А-Г])$/) || inputGrade.match(/^(?:[5-9]|1[0-1])$/))
-					return true;
-			     return false;
+                 if (inputGrade.match(/^(?:[5-9]|1[0-1])-([а-г]|[А-Г])$/) || inputGrade.match(/^(?:[5-9]|1[0-1])$/))
+                    return true;
+                 return false;
           }, "Введіть правильну назву класу, наприклад : 10-A або 10 (тільки українські букви)");
 
           jQuery.validator.addMethod("year", function(value, element) {
@@ -122,7 +114,7 @@
           }, "Перевищено допустиму кількість символів")
 
 
-		  $("#myForm").validate({
+          $("#myForm").validate({
             rules: {
                 className: {
                     required: true,
@@ -190,11 +182,10 @@
             var classId = pathArray[3];
 
             $.getJSON(host + 'classes/'+classId, function (data) {
-                console.log(data);
-                $("#clsName").attr("value", data.className);
-                $("#clsYear").attr("value", data.classYear)
-                $("#txtArea").append(data.classDescription);
-                $(':radio[name=radioButton][value=' + data.isActive + ']').prop('checked', true);
+                $("#clsName").attr("value", data.data.className);
+                $("#clsYear").attr("value", data.data.classYear)
+                $("#txtArea").append(data.data.classDescription);
+                $(':radio[name=radioButton][value=' + data.data.isActive + ']').prop('checked', true);
             });
         })
 

@@ -15,5 +15,5 @@ public interface SubjectService {
     
     void editSubject(int id, SubjectDTO subjectDTO);
 
-	List<SubjectDTO> getSubjectsByClass(Integer classId);
+    List<SubjectDTO> getSubjectsByClass(Integer classId);
 }

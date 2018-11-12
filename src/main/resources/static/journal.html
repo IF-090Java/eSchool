@@ -5,6 +5,7 @@
     <title>Журнали</title>
 
 
+    <link rel="stylesheet" type="text/css" href="/css/old-sidebar.css">
     <link rel="stylesheet" type="text/css" href="/css/global-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -222,7 +223,7 @@
         console.log($("#profileLink").attr("href"));
 
         $.getJSON(host + 'classes/'+idClass, function (data) {
-          $('<span>'+data.className+'</span>').appendTo('#classTitle');
+          $('<span>'+data.data.className+'</span>').appendTo('#classTitle');
         });
 
         $.getJSON(host + 'subjects/'+idSubject, function (data) {
@@ -232,14 +233,19 @@
         $.getJSON(host + 'homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
             var tableBody = $('<tbody></tbody>');
           $.each(data.data, function(key, val) {
-                var tr=$('<tr class="d-flex" style="display: table-row !important;"></tr>');
+                var tr=$('<tr class="d-flex" idLes="'+val.idLesson+'" style="display: table-row !important;"></tr>');
                 $('<td class="col-3 cl-3">'+val.date+'</td>').appendTo(tr);
-                $('<td class="col-6 cl-6">'+val.homework+'</td>').appendTo(tr);
-                /*$('<td>'+atob(val.file)+'</td>').appendTo(tr);*/
-                $('<td class="col-3 cl-3">'+'file.txt'+'</td>').appendTo(tr);
+                $('<td class="col-6 cl-6 homeColTask">'+val.homework+'</td>').appendTo(tr);
+                if(val.fileName != undefined) {
+                    $('<td class="col-3 cl-3 homeColFile"><button type="button"class="btn btn-link dButton" idLes="'+val.idLesson+'">' + val.fileName + '</button></td>').appendTo(tr);
+                }
+                else{
+                    $('<td class="col-3 cl-3 homeColFile"><button type="button"class="btn btn-link dButton" idLes="'+val.idLesson+'"></button></td>').appendTo(tr);
+                }
                 tr.appendTo(tableBody);
             });
-           tableBody.appendTo("#table_home");
+            tableBody.appendTo("#table_home");
+            $('.dButton').click(downloadFile);
             $('#table_home').dataTable({
                 "language": {
                     "lengthMenu": "Відображати _MENU_ записів на сторінці",
@@ -342,6 +348,7 @@
                         currentCell = undefined;
                         $("#student_data").val("");
                         $("#note_form").val("");
+                        $("#homework_form").val("");
                         $(".selectpicker").selectpicker("refresh");
                         $("#mark_status").text(' Успішно додано!');
                         $("#mark_status").css("color", "#3fa85f");
@@ -351,6 +358,7 @@
             }
         });
 
+
         $( "#saveHomeworkB" ).click(function() {
             if(currentCell==undefined){
                 $("#homework_status").text(' Поле не вибрано!');
@@ -359,41 +367,97 @@
             }
             else {
                 var myFile = $('#file_form').prop('files')[0];
-                var reader = new FileReader();
-                reader.readAsDataURL(myFile);
-                var base;
-                reader.onload = function () {
-                    base = reader.result.split(',')[1];
-                    console.log(reader.result.split(',')[1]);
-                    console.log(reader.result.split(',')[0]);
-                    console.log(reader.result);
-                    var hometask = $('#homework_form').val();
-                    $.ajax({
-                        type: "post",
-                        url: host + "homeworks",
-                        dataType: "json",
-                        data: JSON.stringify({
-                            "idLesson": currentCell.attr("idLes"),
-                            "date": null,
-                            "homework": hometask,
-                            "file": base
-                        }),
-                        contentType: "application/json",
-                        success: function (response) {
-                            currentCell.css("background-color", "");
-                            currentCell.css("color", "#212529");
-                            currentCell = undefined;
-                            $("#homework_status").text(' Успішно додано!');
-                            $("#homework_status").css("color", "#3fa85f");
-                            $("#homework_status").show();
-                            $("#homework_form").val("");
-                            $("#file_form").val("");
-                        }
-                    });
+                if (myFile != null) {
+                    console.log(1);
+                    var name = $('#file_form').prop('files')[0].name;
+                    var reader = new FileReader();
+                    reader.readAsDataURL(myFile);
+                    reader.onload = function () {
+                        var fileData = reader.result.split(',')[1];
+                        var typeData = reader.result.split(';')[0];
+                        var type = typeData.split(':')[1];
+                        var hometask = $('#homework_form').val();
+                        $.ajax({
+                            type: "put",
+                            url: host + "homeworks/files",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                "idLesson": currentCell.attr("idLes"),
+                                "homework": hometask,
+                                "fileData": fileData,
+                                "fileName": name,
+                                "fileType": type
+                            }),
+                            contentType: "application/json",
+                            success: function (response) {
+                                currentCell.css("background-color", "");
+                                currentCell.css("color", "#212529");
+                                $('tr[idLes=' + currentCell.attr("idLes") + '] .homeColTask').html(hometask);
+                                $('tr[idLes=' + currentCell.attr("idLes") + '] .dButton').html(name);
+                                currentCell = undefined;
+                                $("#homework_status").text(' Успішно додано!');
+                                $("#homework_status").css("color", "#3fa85f");
+                                $("#homework_status").show();
+                                $("#homework_form").val("");
+                                $("#file_form").val("");
+                                $("#student_data").val("");
+                                $("#note_form").val("");
+                            }
+                        });
+                    }
                 }
-            }
+                else{
+                    console.log(2);
+                        var hometask = $('#homework_form').val();
+                        $.ajax({
+                            type: "put",
+                            url: host + "homeworks/files",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                "idLesson": currentCell.attr("idLes"),
+                                "homework": hometask,
+                                "fileData": null,
+                                "fileName": null,
+                                "fileType": null
+                            }),
+                            contentType: "application/json",
+                            success: function (response) {
+                                currentCell.css("background-color", "");
+                                currentCell.css("color", "#212529");
+                                $('tr[idLes=' + currentCell.attr("idLes") + '] .homeColTask').html(hometask);
+                                if($('tr[idLes=' + currentCell.attr("idLes") + '] .dButton').text()=="") {
+                                    $('tr[idLes=' + currentCell.attr("idLes") + '] .dButton').html(name);
+                                }
+                                currentCell = undefined;
+                                $("#homework_status").text(' Успішно додано!');
+                                $("#homework_status").css("color", "#3fa85f");
+                                $("#homework_status").show();
+                                $("#homework_form").val("");
+                                $("#file_form").val("");
+                                $("#student_data").val("");
+                                $("#note_form").val("");
+                            }
+                        });
+                    }
+                }
 
         });
+
+        function downloadFile() {
+            $.ajax({
+                type: "get",
+                url: host + "homeworks/files/"+$(this).attr('idLes'),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    var link = document.createElement("a");
+                    document.body.appendChild(link);
+                    link.download = response.data.fileName;
+                    link.href = 'data:'+response.data.fileType+";base64,"+response.data.fileData;
+                    link.click();
+                }
+            });
+        }
 
         function averageMark() {
             $('#table_mark .markValues').each(function () {
@@ -421,6 +485,7 @@
                 currentCell = undefined;
                 $("#student_data").val("");
                 $("#note_form").val("");
+                $('#homework_form').val("");
 
             }
             else if( currentCell != undefined && (currentCell.attr("idSt")!=$(this).attr("idSt") || currentCell.attr("idLes")!=$(this).attr("idLes"))){
@@ -430,7 +495,9 @@
                 $(this).css("background-color", "#6c757d");
                 $(this).css("color", "#ffffff");
                 getStudent(currentCell.attr('idSt'));
+                $('#homework_form').val(currentCell.attr('idLes'));
                 $("#note_form").val(currentCell.attr('title'));
+                setHomeWork(currentCell.attr('idLes'));
                 var mark = currentCell.text();
                 if(mark!='') {
                     $('#mark_form').val(mark).prop('selected', true);
@@ -441,6 +508,7 @@
                 currentCell = $(this);
                 $(this).css("background-color", "#6c757d");
                 $(this).css("color", "#ffffff");
+                setHomeWork(currentCell.attr('idLes'));
                 getStudent(currentCell.attr('idSt'));
                 $("#note_form").val(currentCell.attr('title'));
                 var mark = currentCell.text();
@@ -455,6 +523,11 @@
             $.getJSON(host + 'students/'+idStudent, function (data) {
                 $("#student_data").val(data.firstname+" "+data.lastname);
             });
+        }
+
+        function setHomeWork(idLesson){
+            var task = $('tr[idLes=' + currentCell.attr("idLes") + '] .homeColTask').text();
+            $('#homework_form').val(task);
         }
 
         function dropClick() {

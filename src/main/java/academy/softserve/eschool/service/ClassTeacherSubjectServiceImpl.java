@@ -34,15 +34,15 @@ public class ClassTeacherSubjectServiceImpl implements ClassTeacherSubjectServic
         Teacher teacher = teacherRepository.findById(teacherId).get();
         Subject subject = subjectRepository.findById(subjectId).get();
 
-        //todo bk ++ use builder instead
-        classTeacherSubject.setClazz(clazz);
-        classTeacherSubject.setClazz_id(classId);
-        classTeacherSubject.setTeacher(teacher);
-        classTeacherSubject.setTeacher_id(teacherId);
-        classTeacherSubject.setSubject(subject);
-        classTeacherSubject.setSubject_id(subjectId);
-        classTeacherSubject.setActive(isActive);
-        classTeacherSubjectRepository.save(classTeacherSubject);
+        //todo bk ++ use builder instead    -DONE
+        classTeacherSubjectRepository.save(classTeacherSubject.builder()
+                .clazz(clazz)
+                .clazz_id(classId)
+                .teacher(teacher)
+                .teacher_id(teacherId)
+                .subject(subject)
+                .subject_id(subjectId)
+                .isActive(isActive).build());
     }
 
 }

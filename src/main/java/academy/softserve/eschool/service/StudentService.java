@@ -1,15 +1,5 @@
 package academy.softserve.eschool.service;
 
-import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.NYTransitionDTO;
 import academy.softserve.eschool.dto.StudentDTO;
@@ -20,21 +10,35 @@ import academy.softserve.eschool.model.User.Role;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
-import static academy.softserve.eschool.auxiliary.Transliteration.transliteration;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
 
 @Service
+@RequiredArgsConstructor
 public class StudentService {
-    @Autowired
-    UserRepository userRepository;
+    @NonNull
+    private UserRepository userRepository;
 
-    @Autowired
-    ClassRepository classRepository;
+    @NonNull
+    private ClassRepository classRepository;
 
-    @Autowired
-    StudentRepository studentRepository;
+    @NonNull
+    private StudentRepository studentRepository;
 
-    @Autowired
-    BCryptPasswordEncoder bcryptEncoder;
+    @NonNull
+    private BCryptPasswordEncoder bcryptEncoder;
+
+    @NonNull
+    private LoginGeneratorService generateLogin;
+
 
     //todo bk ++ move all of your transfomers into some util class. Don't keep it within services
     public StudentDTO getOne(Student s){
@@ -80,24 +84,35 @@ public class StudentService {
         userRepository.save(oldUser);
     }
 
+    /**
+     * Add student to DB. If login is already exist
+     * or not transmitted then will be generated else set transmitted login.
+     * Password always generate here.
+     * @param studentDTO student data.
+     * @return saved student.
+     */
     public Student addOne(StudentDTO studentDTO) {
         Student student = Student.builder()
                 .lastName(studentDTO.getLastname())
                 .firstName(studentDTO.getFirstname())
                 .patronymic(studentDTO.getPatronymic())
-                .login(transliteration(studentDTO.getLastname()))
                 .password(bcryptEncoder.encode(generatePassword(7)))
                 .phone(studentDTO.getPhone())
                 .email(studentDTO.getEmail())
                 .dateOfBirth(studentDTO.getDateOfBirth())
                 .role(Role.ROLE_USER)
                 .build();
+        String login = studentDTO.getLogin();
+        if (login.isEmpty() || !generateLogin.isUnique(login))
+            student.setLogin(generateLogin.generateLogin(studentDTO.getFirstname(), studentDTO.getLastname()));
+        else student.setLogin(login);
         Clazz clazz = classRepository.getOne(Integer.valueOf(studentDTO.getClassId()));
         student.getClasses().add(clazz);
         return studentRepository.save(student);
     }
 
     public void studentClassesRebinding(List<NYTransitionDTO> nyTransitionDTOS){
+        List<Student> updatedStudentsList = new ArrayList<>();
          for (NYTransitionDTO nDTO : nyTransitionDTOS){
              if (nDTO.getNewClassId() != 0){
                  List<Student> studentList = studentRepository.findByClazzId(nDTO.getOldClassId());
@@ -107,9 +122,10 @@ public class StudentService {
                      student.setClasses(clazzes);
 
                      //todo bk !!!!!!! Never do it again - calling repository method in loop. Just prepare all required data and save it once
-                     studentRepository.save(student);
+                     updatedStudentsList.add(student);
                  }
              }
          }
+         studentRepository.saveAll(updatedStudentsList);
     }
 }

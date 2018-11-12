@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.List;
 @Builder
 public class ScheduleDTO {
 
+    @Future
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd")
@@ -27,6 +29,7 @@ public class ScheduleDTO {
     @NotNull
     private LocalDate startOfSemester;
 
+    @Future
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd")

@@ -3,6 +3,7 @@ package academy.softserve.eschool.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import academy.softserve.eschool.repository.MarkRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,8 @@ public class ScheduleController {
     ScheduleServiceImpl scheduleService;
     @NonNull
     LessonRepository lessonRepository;
+    @NonNull
+    MarkRepository markRepository;
 
     @ApiOperation(value = "Creates a schedule for a class")
     @ApiResponses(
@@ -51,18 +54,21 @@ public class ScheduleController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/classes/{classId}/schedule")
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
-            @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
-            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)//create a shedule for a class with this id
+            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)
     {
-
-        LocalDate startDate = scheduleDTO.getStartOfSemester();
-        LocalDate endDate = scheduleDTO.getStartOfSemester();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        //if schedule with this bounds exists we delete the old schedule and add the new one
-        lessonRepository.deleteScheduleByBounds(startDate.format(formatter), endDate.format(formatter), scheduleDTO.getClassName().getId());
+        LocalDate startDate = LocalDate.of(scheduleDTO.getStartOfSemester().getYear(), scheduleDTO.getStartOfSemester().getMonth(), scheduleDTO.getStartOfSemester().getDayOfMonth());
+        LocalDate endDate = LocalDate.of(scheduleDTO.getEndOfSemester().getYear(), scheduleDTO.getEndOfSemester().getMonth(), scheduleDTO.getEndOfSemester().getDayOfMonth());
+        //IT DOES NOT WORK, TRYING TO RESOLVE IT
+        /*
+        if(markRepository.getCountOfMarksByDateBounds((startDate).format(formatter), (endDate).format(formatter)) > 0 )
+        {
+            return new GeneralResponseWrapper<>(new Status(409, "Conflict"), null);
+        }
+        */
+        lessonRepository.deleteScheduleByBounds((startDate).format(formatter), (endDate).format(formatter),
+                scheduleDTO.getClassName().getId());
         scheduleService.saveSchedule(scheduleDTO);
-
         return new GeneralResponseWrapper<>(new Status(201, "OK"), null);
     }
 

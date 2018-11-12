@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public class Status {
 
-	private int code;
-	private String message;
+    private int code;
+    private String message;
 
-	public static Status of(HttpStatus status) {
-		return new Status(status.value(), status.getReasonPhrase());
-	}
+    public static Status of(HttpStatus status) {
+        return new Status(status.value(), status.getReasonPhrase());
+    }
 }
