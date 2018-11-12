@@ -3,7 +3,6 @@ package academy.softserve.eschool.controller;
 import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.dto.MarkTypeDTO;
-import academy.softserve.eschool.security.service.MethodSecurityExpressionService;
 import academy.softserve.eschool.service.base.MarkServiceBase;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -27,9 +26,6 @@ public class MarksController {
 
     @NonNull
     private MarkServiceBase markService;
-
-    @NonNull
-    private MethodSecurityExpressionService methodSecurityService;
 
     /**
      * Returns list of {@link MarkDataPointDTO} wrapped in {@link GeneralResponseWrapper}
@@ -65,7 +61,7 @@ public class MarksController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @PreAuthorize("hasRole('TEACHER')")
-    @PostAuthorize("@marksController.haveLessonsInClass(principal.id, returnObject.data.idLesson)")
+    @PostAuthorize("@securityExpressionService.haveLessonsInClass(principal.id, returnObject.data.idLesson)")
     @PostMapping
     public GeneralResponseWrapper<MarkDTO> postMark(
         @ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
@@ -74,7 +70,7 @@ public class MarksController {
     }
 
     @ApiOperation("Update mark's type of lesson")
-    @PreAuthorize("hasRole('TEACHER') and @marksController.haveLessonsInClass(principal.id, #idLesson)")
+    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.haveLessonsInClass(principal.id, #idLesson)")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully updated"),
             @ApiResponse(code = 400, message = "Bad request"),
@@ -86,9 +82,5 @@ public class MarksController {
             @ApiParam(value = "type of mark", required = true) @RequestBody MarkTypeDTO markType){
         markService.updateType(idLesson, markType.getMarkType());
         return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Successfully updated"), null);
-    }
-
-    public boolean haveLessonsInClass(int idTeacher, int idLesson){
-        return methodSecurityService.haveLessonsInClass(idTeacher, idLesson);
     }
 }

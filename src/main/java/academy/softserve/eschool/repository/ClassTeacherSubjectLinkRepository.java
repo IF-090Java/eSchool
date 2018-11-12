@@ -2,7 +2,7 @@ package academy.softserve.eschool.repository;
 
 import academy.softserve.eschool.model.ClassTeacherSubjectLink;
 import academy.softserve.eschool.model.ClassTeacherSubjectLinkId;
-import academy.softserve.eschool.security.service.MethodSecurityExpressionService;
+import academy.softserve.eschool.service.SecurityExpressionService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,7 +35,7 @@ public interface ClassTeacherSubjectLinkRepository extends JpaRepository<ClassTe
 
     /**
      * Find active journal for a teacher by his id and subjectId
-     * in class with transmitted id. Used to secure methods {@link MethodSecurityExpressionService}
+     * in class with transmitted id. Used to secure methods {@link SecurityExpressionService}
      * @param teacherId teacher's id
      * @param classId class's id
      * @param subjectId subject's id

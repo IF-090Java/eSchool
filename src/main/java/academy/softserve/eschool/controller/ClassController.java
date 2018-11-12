@@ -1,7 +1,7 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.security.service.MethodSecurityExpressionService;
+import academy.softserve.eschool.service.SecurityExpressionService;
 import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -29,9 +29,6 @@ import java.util.List;
 public class ClassController {
 	@NonNull
     private ClassServiceImpl classService;
-
-	@NonNull
-    private MethodSecurityExpressionService methodSecurityService;
 
     /**
      * Create new class
@@ -68,7 +65,7 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get Class")
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER') or (hasRole('USER') and @classController.isMemberOfClass(principal.id, #classId))")//for teacher needs access to the statistics page for all classes
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER') or (hasRole('USER') and @securityExpressionService.isMemberOfClass(principal.id, #classId))")//for teacher needs access to the statistics page for all classes
     @GetMapping("/{classId}")
     public GeneralResponseWrapper<ClassDTO> getClassById(
             @ApiParam(value = "id of class", required = true) @PathVariable int classId){
@@ -138,9 +135,5 @@ public class ClassController {
                 new Status(HttpServletResponse.SC_CREATED, "Class successfully updated"),
                 classService.updateClass(id, editableClass)
         );
-    }
-
-    public boolean isMemberOfClass(int studentId, int classId){
-        return methodSecurityService.isMemberOfClass(studentId, classId);
     }
 }

@@ -1,4 +1,4 @@
-package academy.softserve.eschool.security.service;
+package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.model.ClassTeacherSubjectLink;
 import academy.softserve.eschool.model.Clazz;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MethodSecurityExpressionService {
+public class SecurityExpressionService {
     @NonNull
     private ClassTeacherSubjectLinkRepository classTSLRepository;
 

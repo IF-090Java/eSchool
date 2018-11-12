@@ -2,7 +2,6 @@ package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.HomeworkDTO;
 import academy.softserve.eschool.dto.HomeworkFileDTO;
-import academy.softserve.eschool.security.service.MethodSecurityExpressionService;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -26,9 +25,6 @@ public class HomeworkController {
     @NonNull
     private JournalServiceImpl journalServiceImpl;
 
-    @NonNull
-    private MethodSecurityExpressionService methodSecurityService;
-
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     @ApiOperation(value = "Get homeworks by subject and class")
     @ApiResponses(
@@ -38,7 +34,7 @@ public class HomeworkController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('TEACHER') and @homeworkController.haveLessonsInClass(principal.id, #idClass, #idSubject)")
+    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.haveLessonsInClass(principal.id, #idClass, #idSubject)")
     public GeneralResponseWrapper<List<HomeworkDTO>> getHomeworks(
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass) {
@@ -57,7 +53,7 @@ public class HomeworkController {
             }
     )
     @PreAuthorize("hasRole('TEACHER')")
-    @PostAuthorize("@homeworkController.haveLessonsInClass(principal.id, returnObject.data.idLesson)")
+    @PostAuthorize("@securityExpressionService.haveLessonsInClass(principal.id, returnObject.data.idLesson)")
     public GeneralResponseWrapper<HomeworkFileDTO> postHomework(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkFileDTO homeworkFileDTO){
         journalServiceImpl.saveHomework(homeworkFileDTO);
@@ -74,20 +70,9 @@ public class HomeworkController {
             }
     )
     @PreAuthorize("hasRole('TEACHER')")
-    @PostAuthorize("@homeworkController.haveLessonsInClass(principal.id, returnObject.data.idLesson)")
+    @PostAuthorize("@securityExpressionService.haveLessonsInClass(principal.id, returnObject.data.idLesson)")
     public GeneralResponseWrapper<HomeworkFileDTO> getFile(
             @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson){
         return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getFile(idLesson));
     }
-
-
-    public boolean haveLessonsInClass(int idTeacher, int idClass, int idSubject){
-        return methodSecurityService.haveLessonsInClass(idTeacher, idClass, idSubject);
-    }
-
-
-    public boolean haveLessonsInClass(int idTeacher, int idLesson){
-        return methodSecurityService.haveLessonsInClass(idTeacher, idLesson);
-    }
-
 }

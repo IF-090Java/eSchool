@@ -2,8 +2,6 @@ package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.JournalDTO;
 import academy.softserve.eschool.dto.JournalMarkDTO;
-import academy.softserve.eschool.security.service.MethodSecurityExpressionService;
-import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -27,12 +25,6 @@ public class JournalController {
 
     @NonNull
     private JournalServiceImpl journalServiceImpl;
-
-    @NonNull
-    private ClassServiceImpl classService;
-
-    @NonNull
-    private MethodSecurityExpressionService methodSecurityService;
 
     @ApiOperation(value = "Get list of all journals")
     @ApiResponses(
@@ -93,17 +85,12 @@ public class JournalController {
             }
     )
     @ApiOperation(value = "Get journal by subjects and classes")
-    @PreAuthorize("hasRole('TEACHER') and @journalController.haveLessonsInClass(principal.id, #idClass, #idSubject)")
+    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.haveLessonsInClass(principal.id, #idClass, #idSubject)")
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     public GeneralResponseWrapper<List<JournalMarkDTO>> getJournalTable(
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass
             ){
         return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getJournal(idSubject,idClass));
-    }
-
-
-    public boolean haveLessonsInClass(int idTeacher, int idClass, int idSubject){
-        return methodSecurityService.haveLessonsInClass(idTeacher, idClass, idSubject);
     }
 }
