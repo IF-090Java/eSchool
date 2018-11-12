@@ -2,6 +2,7 @@ package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.ScheduleDTO;
 import academy.softserve.eschool.repository.LessonRepository;
+import academy.softserve.eschool.repository.MarkRepository;
 import academy.softserve.eschool.service.ScheduleServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -26,6 +27,8 @@ public class ScheduleController {
     ScheduleServiceImpl scheduleService;
     @NonNull
     LessonRepository lessonRepository;
+    @NonNull
+    MarkRepository markRepository;
 
     @ApiOperation(value = "Creates a schedule for a class")
     @ApiResponses(
@@ -45,6 +48,13 @@ public class ScheduleController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDate = LocalDate.of(scheduleDTO.getStartOfSemester().getYear(), scheduleDTO.getStartOfSemester().getMonth(), scheduleDTO.getStartOfSemester().getDayOfMonth());
         LocalDate endDate = LocalDate.of(scheduleDTO.getEndOfSemester().getYear(), scheduleDTO.getEndOfSemester().getMonth(), scheduleDTO.getEndOfSemester().getDayOfMonth());
+        //IT DOES NOT WORK, TRYING TO RESOLVE IT
+        /*
+        if(markRepository.getCountOfMarksByDateBounds((startDate).format(formatter), (endDate).format(formatter)) > 0 )
+        {
+            return new GeneralResponseWrapper<>(new Status(409, "Conflict"), null);
+        }
+        */
         lessonRepository.deleteScheduleByBounds((startDate).format(formatter), (endDate).format(formatter),
                 scheduleDTO.getClassName().getId());
         scheduleService.saveSchedule(scheduleDTO);

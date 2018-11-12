@@ -2,7 +2,7 @@ package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.dto.NYTransitionDTO;
-import academy.softserve.eschool.service.ClassServiceImpl;
+import academy.softserve.eschool.service.ClassService;
 import academy.softserve.eschool.service.StudentService;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -32,9 +32,9 @@ public class NYTransitionController {
     //todo bk ++ use autowiring via constructors.
     //todo bk you should not use Impl class here. Use interface for injection and make the fields private
     @NonNull
-    ClassServiceImpl classService;
+    private ClassService classService;
     @NonNull
-    StudentService studentService;
+    private StudentService studentService;
 
     /**
      * Add classes to next year based on currently
