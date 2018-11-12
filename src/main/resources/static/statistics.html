@@ -126,7 +126,6 @@
             
             $('#year').change(function(){
                 selectedClassId = null;
-                //TODO change datepicker bounds
                 $.each(classOptions, function(i, option){
                     option.remove();
                 });
@@ -276,7 +275,6 @@
                 $('#startDate').attr("max", $('#endDate').val());
                 $('#endDate').attr("min", $('#startDate').val());
                 $('#endDate').attr("max", formatDate(getAcademicYearEndDate()));
-                //TODO datepickers bounds
             }
             
             function setAverageMark(data){
