@@ -41,20 +41,26 @@ import lombok.RequiredArgsConstructor;
 public class ScheduleController {
 
     @NonNull
-    ScheduleServiceImpl scheduleService;
+    private ScheduleServiceImpl scheduleService;
     @NonNull
-    LessonRepository lessonRepository;
+    private LessonRepository lessonRepository;
     @NonNull
-    MarkRepository markRepository;
+    private MarkRepository markRepository;
 
     /**
-     * This POST method creates a schedule for a specific class with id{@see ClassDTO.id}.
-     * Before saving a schedule, the method checks if a schedule with this bounds already exists.
-     * 1) If it exists and there are not marks putted on this dates {@see Mark.lesson},
-     *    the method removes the old schedule and creates a new one.
-     *    If it exists and there are marks putted on this dates,
-     *    the 500 HTTP status code appears on the server and the new schedule will not save.
-     * 2) If it doesn't - the method just create a new schedule.
+     * This POST method creates a schedule for a specific class with id {@link academy.softserve.eschool.dto.ClassDTO#id}.
+     * Before saving a schedule, the method checks if a schedule with this bounds already exists:
+     * <ol>
+     *     <li>
+     *      If it exists and there are not marks putted on this dates {@link academy.softserve.eschool.model.Mark#lesson},
+     *      the method removes the old schedule and creates a new one.
+     *      If it exists and there are marks putted on this dates,
+     *      the 500 HTTP status code appears on the server and the new schedule will not save.
+     *    <li/>
+     *    <li>
+     *      If it doesn't - the method just create a new schedule.
+     *    <li/>
+     * <ol/>
      * The method can't create a schedule in the past.
      *
      * @param scheduleDTO   new class object
@@ -68,8 +74,6 @@ public class ScheduleController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    //todo bk write javadoc instead of inline comment
-    //todo bk classId is unused variable. IDEA tries to told you about it marking it by grey color. Use it when needed or remove.
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/classes/{classId}/schedule")
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(

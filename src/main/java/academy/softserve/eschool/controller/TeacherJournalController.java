@@ -35,9 +35,9 @@ public class TeacherJournalController {
     private ClassTeacherSubjectServiceImpl classTeacherSubject;
     /**
      * This POST method creates a connection between a teacher, an active class and a subject.
-     * @param teacherId     id of the teacher {@see TeacherDTO.id}
-     * @param classId       id of the class {@see ClassDTO.id}
-     * @param subjectId     id of the subject {@see TeacherDTO.subjectId}
+     * @param teacherId     id of the teacher {@link academy.softserve.eschool.dto.TeacherDTO#id}
+     * @param classId       id of the class {@link academy.softserve.eschool.dto.ClassDTO#id}
+     * @param subjectId     id of the subject {@link academy.softserve.eschool.dto.SubjectDTO#subjectId}
      * @return              Class of {@link TeacherJournalDTO} wrapped in {@link GeneralResponseWrapper}
      */
     @ApiOperation(value = "Connects a teacher with a journal")
