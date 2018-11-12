@@ -22,16 +22,16 @@ public class ClassTeacherSubjectLinkId implements Serializable {
      * Id of the class. It's minimal value must be 1.
      */
     @Min(1)
-    private int classId;
+    private int clazz_id;
     /**
      * Id of the teacher.It's minimal value must be 1.
      */
     @Min(1)
-    private int teacherId;
+    private int teacher_id;
     /**
      * Id of the subject.It's minimal value must be 1.
      */
     @Min(1)
-    private int subjectId;
+    private int subject_id;
 
 }

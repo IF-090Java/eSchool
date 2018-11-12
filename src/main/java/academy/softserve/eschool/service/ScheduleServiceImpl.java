@@ -7,6 +7,7 @@ import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -34,11 +35,11 @@ import java.util.stream.Collectors;
 @Service
 public class ScheduleServiceImpl implements ScheduleService{
 
-    @NotNull
+    @Autowired
     LessonRepository lessonRepository;
-    @NotNull
+    @Autowired
     ClassRepository classRepository;
-    @NotNull
+    @Autowired
     SubjectRepository subjectRepository;
     /**
      * Returns an object of {@link ScheduleDTO} that describes a schedule of a class with specified id for current week

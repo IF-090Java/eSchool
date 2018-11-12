@@ -32,21 +32,21 @@ public class ClassTeacherSubjectLink{
     @Id
     @Column(name = "clazz_id")
     @NotNull
-    private int classId;
+    private int clazz_id;
     /**
      * Id of the teacher.
      */
     @Id
     @Column(name = "teacher_id")
     @NotNull
-    private int teacherId;
+    private int teacher_id;
     /**
      * Id of the subject.
      */
     @Id
     @Column(name = "subject_id")
     @NotNull
-    private int subjectId;
+    private int subject_id;
     /**
      * {@link Clazz} object, which id we use in the DB
      */
