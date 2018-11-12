@@ -43,7 +43,8 @@ public class Lesson {
     @Enumerated(EnumType.STRING)
     @Column(name = "mark_type")
     private MarkType markType;
-    
+    //THIS MAKES ANNOTATION MAKES A CONFLICT WITH CREATING SCHEDULE
+    //@Size(max=(int)(1000000*1.4))
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "homework_file_id")
     private File file;

@@ -42,7 +42,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
             "        left join clazz c on l.clazz_id = c.id" +
             "        left join subject s on l.subject_id = s.id" +
             "        where YEARWEEK(l.date, 1) = YEARWEEK(CURDATE(), 1)" +
-            "        and clazz_id = :classId and c.is_active = 1", nativeQuery = true)
+            "		and clazz_id = :classId and c.is_active = 1", nativeQuery = true)
     List<Map<String, Object>> scheduleByClassId(@Param("classId") int class_id);
 
     @Modifying
