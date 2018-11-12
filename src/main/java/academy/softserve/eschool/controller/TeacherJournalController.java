@@ -27,7 +27,7 @@ public class TeacherJournalController {
 
     @NonNull
     private ClassTeacherSubjectServiceImpl classTeacherSubject;
-    
+
     @ApiOperation(value = "Connects a teacher with a journal")
     @PostMapping("/teachers/{teacherId}/classes/{classId}/subjects/{subjectId}/journal")
     @ApiResponses(
