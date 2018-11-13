@@ -13,21 +13,26 @@ import academy.softserve.eschool.model.Subject;
 
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
-    @Query(value = "Select distinct subject.id,subject.name,subject.description from class_teacher_subject_link left join subject \n" +
-            "on class_teacher_subject_link.subject_id=subject.id\n" +
-            "where teacher_id=:idTeacher", nativeQuery=true)
+   
+	@Query(value = "SELECT DISTINCT subject.id, subject.name, subject.description FROM class_teacher_subject_link \n" +
+			"LEFT JOIN subject ON class_teacher_subject_link.subject_id = subject.id \n" +
+            "WHERE teacher_id = :idTeacher", nativeQuery=true)
     List<Subject> findSubjectsByTeacher(@Param("idTeacher") int idTeacher);
     
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE subject SET name=:subjectName, description=:subjectDescription WHERE id=:id", nativeQuery=true)
-    void editSubject(@Param("id") int id, @Param("subjectName") String name, @Param("subjectDescription") String description);
-    
-    @Query(value = "Select distinct subject.id,subject.name,subject.description from class_teacher_subject_link left join subject \n" +
-            "on class_teacher_subject_link.subject_id=subject.id\n" +
-            "where clazz_id=:classId", nativeQuery=true)
+    /**
+     * @param classId
+     * @return
+     */
+    @Query(value = "SELECT DISTINCT subject.id, subject.name, subject.description FROM class_teacher_subject_link \n" +
+    		"LEFT JOIN subject ON class_teacher_subject_link.subject_id = subject.id \n" +
+            "WHERE clazz_id = :classId", nativeQuery=true)
 	List<Subject> findSubjectsByClass(@Param(value="classId") Integer classId);
 
     @Query(value = "SELECT * FROM subject WHERE id IN (:ids)", nativeQuery =true)
     List<Subject> findSubjectsByIds(@Param("ids") List<Integer> ids);
+    
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE subject SET name = :subjectName, description = :subjectDescription WHERE id = :id", nativeQuery=true)
+    void editSubject(@Param("id") int id, @Param("subjectName") String name, @Param("subjectDescription") String description);
 }

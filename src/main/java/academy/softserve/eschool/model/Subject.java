@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import academy.softserve.eschool.constraint.annotation.RegexPattern;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,9 +26,11 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(exclude = "CTSlinks")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 
 @Table(name="subject")
-@ToString(of = {"id", "name"})
+@ToString(of = {"id","name"})
 public class Subject {
     private final static String SUBJECT_NAME_PATTERN = "[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+";
     
@@ -43,7 +47,9 @@ public class Subject {
     private String description;
     
     @OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "subject")
-    private Set<@NotNull ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
+    private final Set<@NotNull ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
+    
+
     
     public Subject(@NotBlank @Size(max = 50) String name, @Size(max = 255) String description) {
         super();
