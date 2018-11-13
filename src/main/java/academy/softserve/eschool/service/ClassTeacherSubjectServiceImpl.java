@@ -4,7 +4,7 @@ import academy.softserve.eschool.dto.TeacherJournalDTO;
 import academy.softserve.eschool.model.*;
 import academy.softserve.eschool.repository.*;
 import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -16,16 +16,17 @@ import javax.validation.constraints.NotNull;
  *
  * @author Mariana Vorotniak
  */
+@RequiredArgsConstructor
 @Service
 public class ClassTeacherSubjectServiceImpl implements ClassTeacherSubjectService {
 
-    @Autowired
+    @NonNull
     private ClassTeacherSubjectLinkRepository classTeacherSubjectRepository;
-    @Autowired
+    @NonNull
     private ClassRepository classRepository;
-    @Autowired
+    @NonNull
     private TeacherRepository teacherRepository;
-    @Autowired
+    @NonNull
     private SubjectRepository subjectRepository;
     /**
      * This method saves the class-teacher-subject connection into the class_teacher_subject_link table
