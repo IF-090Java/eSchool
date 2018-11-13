@@ -11,7 +11,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,14 +53,20 @@ public class MarksController {
                 markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd));
     }
 
+    /**
+     * Create new mark for transmitted student and lesson.
+     * Homework, lesson id and class id required.
+     * @param markDTO object with mark (mark, student id and lesson id required).
+     * @return Created mark for transmitted student and subject in HomeworkDTO
+     *         as {@link MarkDTO} object in {@link GeneralResponseWrapper} with http status code
+     */
     @ApiOperation(value = "Save mark of students by lesson")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Mark successfully created"),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @PreAuthorize("hasRole('TEACHER')")
-    @PostAuthorize("@securityExpressionService.haveLessonsInClass(principal.id, returnObject.data.idLesson)")
+    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #markDTO.idLesson)")
     @PostMapping
     public GeneralResponseWrapper<MarkDTO> postMark(
         @ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
@@ -70,7 +75,7 @@ public class MarksController {
     }
 
     @ApiOperation("Update mark's type of lesson")
-    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.haveLessonsInClass(principal.id, #idLesson)")
+    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson)")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully updated"),
             @ApiResponse(code = 400, message = "Bad request"),

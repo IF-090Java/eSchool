@@ -1,6 +1,5 @@
 package academy.softserve.eschool.service;
 
-import academy.softserve.eschool.model.ClassTeacherSubjectLink;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Lesson;
 import academy.softserve.eschool.model.Student;
@@ -30,7 +29,7 @@ public class SecurityExpressionService {
      * @param idSubject subject's id
      * @return true if teacher have lesson in class else false.
      */
-    public boolean haveLessonsInClass(int idTeacher, int idClass, int idSubject){
+    public boolean hasLessonsInClass(int idTeacher, int idClass, int idSubject){
         return classTSLRepository.findByTeacherIdAndClazzIdAndSubjectId(idTeacher, idClass, idSubject) != null ? true : false;
     }
 
@@ -40,9 +39,9 @@ public class SecurityExpressionService {
      * @param idLesson lesson's id
      * @return true if teacher has lesson in class else false.
      */
-    public boolean haveLessonsInClass(int idTeacher, int idLesson) {
+    public boolean hasLessonsInClass(int idTeacher, int idLesson) {
         Lesson lesson = lessonRepository.getOne(idLesson);
-        return haveLessonsInClass(idTeacher, lesson.getClazz().getId(), lesson.getSubject().getId());
+        return hasLessonsInClass(idTeacher, lesson.getClazz().getId(), lesson.getSubject().getId());
     }
 
 

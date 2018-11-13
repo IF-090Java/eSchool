@@ -85,7 +85,7 @@ public class JournalController {
             }
     )
     @ApiOperation(value = "Get journal by subjects and classes")
-    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.haveLessonsInClass(principal.id, #idClass, #idSubject)")
+    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idClass, #idSubject)")
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     public GeneralResponseWrapper<List<JournalMarkDTO>> getJournalTable(
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
