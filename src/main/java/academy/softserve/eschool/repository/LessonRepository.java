@@ -1,17 +1,16 @@
 package academy.softserve.eschool.repository;
 
-import java.util.List;
-import java.util.Map;
-
+import academy.softserve.eschool.dto.DiaryEntryDTO;
+import academy.softserve.eschool.model.Lesson;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import academy.softserve.eschool.model.Lesson;
-
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Integer> {
