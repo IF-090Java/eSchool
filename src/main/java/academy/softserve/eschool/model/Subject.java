@@ -42,7 +42,7 @@ public class Subject {
     @RegexPattern(pattern = SUBJECT_NAME_PATTERN, message = "Input must match " + SUBJECT_NAME_PATTERN)
     private String name;
     
-    @Size(max=255)
+    @Size(max=500)
     private String description;
     
     /**
