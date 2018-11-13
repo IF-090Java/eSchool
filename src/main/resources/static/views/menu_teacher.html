@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="height: 80px;font-size: 16px">
-    <a href="#" class="navbar-brand d-flex w-50 mr-auto">ProjectName</a>
+    <a href="#" class="navbar-brand d-flex w-50 mr-auto" id="logo">School Management System</a>
     <div class="navbar-collapse collapse w-100">
         <ul class="navbar-nav w-100 justify-content-center">
             <li class="nav-item">
-                <a class="nav-link profileLink" href="">Профіль</a>
+                <a class="nav-link profileLink" id="profileLink" href="">Профіль</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/ui/journalsList/view">Журнали</a>
@@ -11,8 +11,8 @@
             <li class="nav-item">
                 <a class="nav-link" href="/ui/stats">Успішність</a>
             </li>
-            <li id="editLink" class="nav-item" style="white-space: nowrap">
-                <a id ="#editLink" class="nav-link" href="">Редагувати профіль</a>
+            <li class="nav-item" style="white-space: nowrap">
+                <a class="nav-link" id = "editLink" href="">Редагувати профіль</a>
             </li>
         </ul>
         <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
@@ -22,3 +22,13 @@
         </ul>
     </div>
 </nav>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    var token = parseJwt(getJwtToken())
+    var idUser = token.jti;
+    $("#profileLink").attr("href", "/ui/teachers/" + idUser + "/profile");
+    $("#editLink").attr("href", "/ui/teacher/"+idUser+"/edit");
+    $("#logo").attr("href", "/ui/teachers/" + idUser + "/profile");
+})
+</script>

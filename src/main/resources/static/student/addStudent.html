@@ -46,7 +46,7 @@
                                 <div class="controls col-8"><input class="input-md textinput textInput form-control" id="patronymic" type="text" name="patronymic" required></div>
                             </div>
                             <div class="row form-group required">
-                                <label for="username" class="control-label col-4">Логін</label>
+                                <label for="username" class="control-label col-4" >Логін</label>
                                 <div class="controls col-5"><input class="input-md textinput textInput form-control" id="username" type="text" name="login"></div>
                                 <div class="controls col-3"><a class="btn btn-outline-primary" id="generate">Генерувати логін</a> </div>
                             </div>
@@ -123,6 +123,27 @@
                     }
                 });
             });
+        // $("#generate").on("click", function () {
+        //     var firstname   = $("#firstName").val();
+        //     var lastname    = $("#lastName").val();
+        //     if (!(firstname == '' || lastname == '')) {
+        //         $.ajax({
+        //             type: "past",
+        //             url: host + "login/generate",
+        //             dataType: "json",
+        //             data: JSON.stringify({
+        //                 "firstName": firstname,
+        //                 "lastName": lastname,
+        //
+        //                 contentType: "application/json",
+        //
+        //                 success: function (responce) {
+        //                     $('#username').attr("value", data.login);
+        //                 }
+        //             })
+        //         })
+        //     }
+        // });
         jQuery.validator.addMethod("isUkrainian", function(value, element) {
             var ukr = value;
             if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
@@ -250,22 +271,6 @@
             }
         });
     });
-    // $("#generate").on("click", function () {
-    //      $.ajax({
-    //          url: "/login/generate",
-    //          data: JSON.stringify({
-    //              "firstName": firstName,
-    //              "lastName": lastName,
-    //              "patronymic": patronymic,
-    //
-    //              contentType: "application/json",
-    //
-    //              success: function (responce) {
-    //                  $('#username').attr("value",data.login);
-    //              }
-    //          })
-    //      })
-    // });
 </script>
 </form>
 </body>

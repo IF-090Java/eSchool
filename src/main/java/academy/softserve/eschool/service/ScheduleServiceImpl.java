@@ -7,10 +7,10 @@ import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -23,23 +23,24 @@ import java.util.stream.Collectors;
  * <ul>
  *     <li>
  *     the first and second - get/save data from/into the DB
- *     <li/>
+ *     </li>
  *     <li>
  *     the third and fourth - help for get/save data methods
- *     <li/>
- * <ul/>
+ *     </li>
+ * </ul>
  * in lesson table.
  *
  * @author Mariana Vorotniak
  */
+@RequiredArgsConstructor
 @Service
 public class ScheduleServiceImpl implements ScheduleService{
 
-    @Autowired
+    @NonNull
     LessonRepository lessonRepository;
-    @Autowired
+    @NonNull
     ClassRepository classRepository;
-    @Autowired
+    @NonNull
     SubjectRepository subjectRepository;
     /**
      * Returns an object of {@link ScheduleDTO} that describes a schedule of a class with specified id for current week

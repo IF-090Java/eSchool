@@ -33,7 +33,7 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
             + "and (:startDate is null or l.date >= :startDate)"
             + "and (:endDate is null or l.date <= :endDate) "
             + "group by l.date order by l.date", nativeQuery=true)
-    public List<Map<String, Object>> getFilteredByParamsGroupedByDate(@Param("subjectId") Integer subjectId, @Param("classId")Integer classId,
+    List<Map<String, Object>> getFilteredByParamsGroupedByDate(@Param("subjectId") Integer subjectId, @Param("classId")Integer classId,
             @Param("studentId") Integer studentId, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
     @Modifying
@@ -43,10 +43,10 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
     void saveMarkByLesson(@Param("idStudent") int idStudent,@Param("idLesson") int idLesson,
                                 @Param("mark") byte mark,@Param("note") String note);
 
-	@Query(value = "select count(*) from mark m \n" +
-			"inner join lesson l on l.id = m.lesson_id\n" +
-			"where l.date between :startDate and :endDate", nativeQuery = true)
-	int getCountOfMarksByDateBounds(@Param("startDate") String startDate, @Param("endDate") String endDate);
+	@Query(value = "select  m.lesson_id, m.mark, l.date from mark m" +
+			"inner join lesson l on l.id = m.lesson_id" +
+            "where l.date >= curdate()", nativeQuery = true)
+    List<Map<String, Object>> getMarksPuttedInTheFuture();
 
     @Modifying
     @Transactional

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import academy.softserve.eschool.dto.MarkDescriptionDTO;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.dto.MarkDTO;
@@ -74,5 +75,22 @@ public class MarkService implements MarkServiceBase{
     @Override
     public void updateType(int idLesson, String markType) {
         markRepo.saveTypeByLesson(idLesson,markType);
+    }
+
+    @Override
+    public List<MarkDescriptionDTO> getMarksPuttedInTheFuture() {
+        return getListOfMarkDescrDTOs(markRepo.getMarksPuttedInTheFuture());
+    }
+
+    public List<MarkDescriptionDTO> getListOfMarkDescrDTOs(List<Map<String, Object>> data) {
+        List<MarkDescriptionDTO> markDescriptions;
+        markDescriptions = data.stream().map((obj) -> {
+            int id = ((BigInteger)obj.get("lesson_id")).intValue();
+            Byte mark = ((Byte)obj.get("mark")).byteValue();
+            Date date = (Date)obj.get("date");
+            return new MarkDescriptionDTO(id, mark, date, null, null);
+        })
+                .collect(Collectors.toList());
+        return markDescriptions;
     }
 }

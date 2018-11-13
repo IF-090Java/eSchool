@@ -1,21 +1,17 @@
 package academy.softserve.eschool.controller;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import academy.softserve.eschool.dto.TeacherJournalDTO;
 import academy.softserve.eschool.service.ClassTeacherSubjectServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The controller {@code TeacherJournalController} contains a method, that is
@@ -49,13 +45,14 @@ public class TeacherJournalController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
+    @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<TeacherJournalDTO> postConection(
             @ApiParam(value = "id of teacher", required = true) @PathVariable("teacherId") final int teacherId,
             @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
             @ApiParam(value = "id of subject", required = true) @PathVariable("subjectId") final int subjectId)
     {
         classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacherId, classId, subjectId), true);
-        return new GeneralResponseWrapper<>(new Status(201, "OK"), null);
+        return new GeneralResponseWrapper<>(new Status(201, "OK"), new TeacherJournalDTO(teacherId, classId, subjectId));
     }
 
 
