@@ -12,6 +12,7 @@ import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -65,14 +66,15 @@ public class StudentService {
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public void updateStudent(User oldUser, EditUserDTO edited, String role){
+    public void adminUpdateStudent(User oldUser, EditUserDTO edited){
+        oldUser.setFirstName(edited.getFirstname());
+        oldUser.setLastName(edited.getLastname());
+        oldUser.setPatronymic(edited.getPatronymic());
+        oldUser.setLogin(edited.getLogin());
+        updateStudent(oldUser, edited);
+    }
 
-        if (role.equals("ADMIN")) {
-            oldUser.setFirstName(edited.getFirstname());
-            oldUser.setLastName(edited.getLastname());
-            oldUser.setPatronymic(edited.getPatronymic());
-            oldUser.setLogin(edited.getLogin());
-        }
+    public void updateStudent(User oldUser, EditUserDTO edited){
         oldUser.setDateOfBirth(edited.getDateOfBirth());
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());

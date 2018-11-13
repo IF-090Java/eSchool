@@ -53,19 +53,19 @@ public class TeacherController {
     }
   
     @ApiOperation(value = "Get all info about teacher")
-    @GetMapping("/{idTeacher}")
+    @GetMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and principal.id == #idTeacher)")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and principal.id == #id)")
     public TeacherDTO getTeacher(
-            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
-        return teacherService.getOne(teacherRepository.findById(idTeacher).get());
+            @ApiParam(value = "id of teacher", required = true) @PathVariable int id){
+        return teacherService.getOne(teacherRepository.findById(id).get());
     }
 
-    @PutMapping("/{idTeacher}")
+    @PutMapping("/{id}")
     @ApiOperation(value = "update profile of teacher")
     @ApiResponses(
             value = {
@@ -74,11 +74,11 @@ public class TeacherController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('TEACHER') and principal.id == #idTeacher")
+    @PreAuthorize("hasRole('TEACHER') and principal.id == #id")
     public void updateTeacher(
             @ApiParam(value = "user object", required = true) @RequestBody EditUserDTO teacher,
-            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
-        teacherService.updateTeacher(userRepository.findById(idTeacher).get(),teacher, "TEACHER");
+            @ApiParam(value = "id of teacher", required = true) @PathVariable int id){
+        teacherService.updateTeacher(userRepository.findById(id).get(),teacher);
     }
 }
 

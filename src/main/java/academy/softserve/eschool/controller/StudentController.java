@@ -83,7 +83,7 @@ public class StudentController {
             @ApiParam(value = "user object", required = true)  @RequestBody EditUserDTO student,
             @ApiParam(value = "id of student", required = true)  @PathVariable int idStudent){
 
-        studentService.updateStudent(studentRepository.findById(idStudent).get(),student, "USER");
+        studentService.updateStudent(studentRepository.findById(idStudent).get(),student);
 
     }
 
