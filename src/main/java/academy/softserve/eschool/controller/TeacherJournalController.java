@@ -17,8 +17,14 @@ import io.swagger.annotations.ApiResponses;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-//END POINT  /teachers/{id}/classes/{id}/subjects/{id}/journal
-
+/**
+ * The controller {@code TeacherJournalController} contains a method, that is
+ * mapped to special URL patterns (API Endpoints) for working with classes
+ * and receives requests from {@link org.springframework.web.servlet.DispatcherServlet}.
+ * Method returns raw data back to the client in JSON representations.
+ *
+ * @author Mariana Vorotniak
+ */
 @RestController
 @RequestMapping("")
 @Api(value = "Teacher's Endpoint", description = "Connects a teacher with a journal")
@@ -27,7 +33,13 @@ public class TeacherJournalController {
 
     @NonNull
     private ClassTeacherSubjectServiceImpl classTeacherSubject;
-
+    /**
+     * This POST method creates a connection between a teacher, an active class and a subject.
+     * @param teacherId     id of the teacher {@link academy.softserve.eschool.dto.TeacherDTO#id}
+     * @param classId       id of the class {@link academy.softserve.eschool.dto.ClassDTO#id}
+     * @param subjectId     id of the subject {@link academy.softserve.eschool.dto.SubjectDTO#subjectId}
+     * @return              Class of {@link TeacherJournalDTO} wrapped in {@link GeneralResponseWrapper}
+     */
     @ApiOperation(value = "Connects a teacher with a journal")
     @PostMapping("/teachers/{teacherId}/classes/{classId}/subjects/{subjectId}/journal")
     @ApiResponses(
