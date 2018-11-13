@@ -1,4 +1,4 @@
-package academy.softserve.eschool.security.controller;
+package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.security.JwtAuthenticationRequest;
 import academy.softserve.eschool.security.JwtTokenUtil;
@@ -7,6 +7,7 @@ import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredExcep
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,22 +19,28 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
-//todo bk mode all controllers to academy.softserve.eschool.controller to keep them in one place
 @RestController
 public class AuthenticationController {
 
-    //todo bk I saw you hardcoded it few times. Just move auth header and token prefix (Barer) into app.properties file and inject it from there with @Value annotation.
-    private static String tokenHeader = "Authorization";
+    @Value("${jwt.token.header}")
+    private String tokenHeader;
 
-    @Autowired
+    @Value("${jwt.token.prefix}")
+    private String tokenPrefix;
+
     private AuthenticationManager authenticationManager;
 
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
-    @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
+                                    @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService){
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.userDetailsService = userDetailsService;
+    }
 
     @PostMapping("signin")
     @ApiOperation("Login to site with username and password. Returns token")
@@ -49,13 +56,11 @@ public class AuthenticationController {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        // Reload password post-security so we can generate the token
         final JwtUser userDetails = (JwtUser) userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + token);
+        headers.add(tokenHeader, tokenPrefix + token);
 
-        // Return the token
         return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
     }
 
@@ -77,7 +82,7 @@ public class AuthenticationController {
 
         if (jwtTokenUtil.canTokenBeRefreshed(token)) {
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Bearer " + jwtTokenUtil.refreshToken(token));
+            headers.add(tokenHeader, tokenPrefix + jwtTokenUtil.refreshToken(token));
             return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
         } else {
             throw new TokenGlobalTimeExpiredException("Token global lifetime expired");
