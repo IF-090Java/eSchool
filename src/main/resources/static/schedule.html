@@ -272,6 +272,16 @@ $(function()
         })
     })
 /****************************************Valdation of forms*********************************************************************/
+        <!--var markDates = [];-->
+           <!--$.getJSON(host + 'marksDescription', function(data){-->
+                    <!--$.each(data.data, function(key, value) {-->
+                            <!--markDates.push(value.dateMark);-->
+                    <!--});-->
+                <!--}).fail(function (data) {-->
+                <!--if (new RegExp("4[0-9][0-9]").test(data.status)){-->
+                    <!--window.location.href='/ui/login'-->
+                <!--}-->
+            <!--});-->
         $(document).ready(function() {
             var today = new Date();
             var one_day_ago=new Date().setDate(today.getDate()-1);
@@ -285,29 +295,43 @@ $(function()
                     mm='0'+mm
                 }
             today = yyyy+'-'+mm+'-'+dd;
+
            jQuery.validator.addMethod("minDate", function(value, element) {
                  var inputDate = new Date(value);
                   if (inputDate > one_day_ago)
                       return true;
                   return false;
           }, "Дата повинна бути більшою чи рівною " + today);
+
+          <!--jQuery.validator.addMethod("markDate", function(value, element) {-->
+                 <!--var inputDate = new Date(value);-->
+                 <!--for (var i = 0; i < markDates.length; i ++){-->
+                  <!--if (inputDate != new Date(markDates[i]))-->
+                      <!--return true;-->
+                   <!--}-->
+                  <!--return false;-->
+          <!--}, "За цю дату уже виставлені оцінки");-->
+
           jQuery.validator.addMethod("endOfDate", function(value, element) {
             var startdatevalue = $("#start").val();
             if (new Date(startdatevalue) < new Date(value))
                       return true;
                   return false;
             }, "Дата кінця семетру повинна бути більшою чим дата початку семестру");
+
           $("#myForm").validate({
             rules: {
                 startDate: {
                     required: true,
                     date: true,
-                    minDate: true
+                    minDate: true,
+                    <!--markDate: true-->
                 },
                 endDate: {
                     required: true,
                     date: true,
-                    endOfDate : true
+                    endOfDate: true,
+                    <!--markDate: true-->
                 }
             },
             messages: {
@@ -407,6 +431,10 @@ $(function()
                       201: function() {
                       $("#message").attr("class", "alert alert-success");
                       $("#message").html("<strong>Розклад успішно створений</strong>");
+                    },
+                    400: function() {
+                        $("#message").attr("class", "alert alert-danger");
+                        $("#message").html("<strong>Такий розклад уже існує, та оцінки за ці дати уже виставлені</strong> <br>Неможливо створити розклад з межами " + startdate + " - " + enddate + "</br>");
                     },
                       500: function() {
                       $("#message").attr("class", "alert alert-danger");
