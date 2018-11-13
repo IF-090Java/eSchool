@@ -1,11 +1,10 @@
-package academy.softserve.eschool.security.service;
+package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.security.JwtUserFactory;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
