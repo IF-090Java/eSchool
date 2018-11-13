@@ -1,7 +1,6 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.service.SecurityExpressionService;
 import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -55,7 +54,7 @@ public class ClassController {
     /**
      * Returns class as {@link ClassDTO} object by class ID
      *
-     * @param classId Id of class
+     * @param id Id of class
      * @return Class as {@link ClassDTO} object in {@link GeneralResponseWrapper}
      *         with http status code
      */
@@ -65,13 +64,13 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get Class")
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER') or (hasRole('USER') and @securityExpressionService.isMemberOfClass(principal.id, #classId))")//for teacher needs access to the statistics page for all classes
-    @GetMapping("/{classId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER') or (hasRole('USER') and @securityExpressionService.isMemberOfClass(principal.id, #id))")//for teacher needs access to the statistics page for all classes
+    @GetMapping("/{id}")
     public GeneralResponseWrapper<ClassDTO> getClassById(
-            @ApiParam(value = "id of class", required = true) @PathVariable int classId){
+            @ApiParam(value = "id of class", required = true) @PathVariable int id){
         return new GeneralResponseWrapper<>(
                 new Status(HttpServletResponse.SC_OK, "OK"),
-                classService.findClassById(classId)
+                classService.findClassById(id)
         );
     }
 

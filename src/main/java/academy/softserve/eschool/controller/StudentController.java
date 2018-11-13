@@ -39,7 +39,7 @@ public class StudentController {
         return studentService.addOne(student);
     }
 
-    @GetMapping("/{idStudent}")
+    @GetMapping("/{id}")
     @ApiOperation(value = "get student")
     @ApiResponses(
             value={
@@ -48,10 +48,10 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER') or (hasRole('USER') and principal.id == #idStudent)")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER') or (hasRole('USER') and principal.id == #id)")
     public StudentDTO getStudent(
-            @ApiParam(value = "id of lesson", required = true) @PathVariable int idStudent) {
-        return studentService.getOne(studentRepository.findById(idStudent).get());
+            @ApiParam(value = "id of lesson", required = true) @PathVariable int id) {
+        return studentService.getOne(studentRepository.findById(id).get());
     }
 
     @ApiOperation(value = "get students from class")
@@ -69,7 +69,7 @@ public class StudentController {
         return studentService.getAll(studentRepository.findByClazzId(idClass));
     }
 
-    @PutMapping("/{idStudent}")
+    @PutMapping("/{id}")
     @ApiOperation(value = "update profile of student")
     @ApiResponses(
             value = {
@@ -78,12 +78,12 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('USER') and principal.id == #idStudent")
+    @PreAuthorize("hasRole('USER') and principal.id == #id")
     public void updateStudent(
             @ApiParam(value = "user object", required = true)  @RequestBody EditUserDTO student,
-            @ApiParam(value = "id of student", required = true)  @PathVariable int idStudent){
+            @ApiParam(value = "id of student", required = true)  @PathVariable int id){
 
-        studentService.updateStudent(studentRepository.findById(idStudent).get(),student);
+        studentService.updateStudent(studentRepository.findById(id).get(),student);
 
     }
 

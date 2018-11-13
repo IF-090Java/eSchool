@@ -35,10 +35,11 @@ public class Transliteration {
         word = word.toLowerCase();
         char[] chars = word.toCharArray();
 
-        //transliterate first two letters
-        String result = word.length() > 1 ? firstTwo(chars[0], chars[1]) : firstTwo(chars[0], null);
+        char firstLetter = chars[0];
+        char secondLetter = chars[1];
+        String result = word.length() > 1 ? firstTwo(firstLetter, secondLetter) : firstTwo(firstLetter, null);
 
-        //lsat index of this word
+        //last index of this word
         int lastIndex = word.length() - 1, i;
 
         //begin from two because first two is transliterated
@@ -49,7 +50,7 @@ public class Transliteration {
             } else result += letters.get(chars[i]);
         }
 
-        // it use if last two letters == "зг"
+        // it use if last two letters != "зг"
         if (i == lastIndex)
             result += letters.get(chars[lastIndex]);
 
@@ -57,7 +58,8 @@ public class Transliteration {
     }
 
     /**
-     * Transliterating first two letters
+     * Transliterating first two letters.
+     * Checking special cases of first two letters (зг, є, ї, й, ю, я).
      * @param first letter
      * @param second letter
      * @return transliterated letters
