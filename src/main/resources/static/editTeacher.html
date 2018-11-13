@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit teacher</title>
+    <title>Редагування вчителя</title>
     <style type="text/css">
         .error {
             color: red;
@@ -35,13 +35,13 @@
     <div class="col py-3">
 
         <div class="row justify-content-center mt-3">
-            <h1>Особита інформація</h1>
+            <h1>Особиcта інформація</h1>
         </div>
         <div class="row mainbox col-md-10 col-lg-8 mt-2 offset-md-1 offset-lg-2 pb-5">
             <div class="container">
                 <form action="#" method="PUT" id="myForm">
                     <div class="row form-group required">
-                        <label for="fname" class="control-label col-4  requiredField font-weight-bold">Імя<span class="asteriskField">*</span></label>
+                        <label for="fname" class="control-label col-4  requiredField font-weight-bold">Ім'я<span class="asteriskField">*</span></label>
                         <div class="controls col-8">
                             <input class="input-md textinput textInput form-control" id="fname" type="text" name="firstname">
                         </div>
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                     <div class="row form-group required">
-                        <label style="vertical-align: top" for="newPassRepeat" class="control-label col-4" >Повторіть новий пароль пароль:</label>
+                        <label style="vertical-align: top" for="newPassRepeat" class="control-label col-4" >Повторіть новий пароль:</label>
                         <div class="controls col-8">
                             <input class="input-md textinput textInput form-control" id="newPassRepeat" type="password" name="newPassRepeat">
                             <!-- <p style="font-size: 12px; color: #FF0000" class="registrationFormAlert mt-2" id="divCheckPasswordMatch"></p> -->
@@ -285,17 +285,17 @@
                 },
                 login:{
                     required: "Це поле обов'язкове",
-                    minlength: 'Мінімальна довжина - 5 символsd',
+                    minlength: 'Мінімальна довжина - 5 символів',
                     maxlength: 'Максимальна довжина - 40 символів'
                 },
                 email:{
-                    email: "Введіть корректний email"
+                    email: "Введіть коректний email"
                 },
                 newPassRepeat:{
                     equalTo: "Паролі не співпадають"
                 },
                 avatar:{
-                    filesize: "Перевищено иаксимальний розмір"
+                    filesize: "Перевищено максимальний розмір"
                 }
             },
             submitHandler: function(form) {
