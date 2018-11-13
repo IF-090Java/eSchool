@@ -10,12 +10,14 @@ import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/marks")
@@ -49,7 +51,7 @@ public class MarksController {
             @ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodEnd){
 
         return new GeneralResponseWrapper<>(
-                new Status(HttpStatus.OK.value(), "OK"),
+                Status.of(OK),
                 markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd));
     }
 
@@ -71,7 +73,7 @@ public class MarksController {
     public GeneralResponseWrapper<MarkDTO> postMark(
         @ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
         markService.saveMark(markDTO);
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Mark successfully created"), markDTO);
+        return new GeneralResponseWrapper<>(Status.of(CREATED), markDTO);
     }
 
     @ApiOperation("Update mark's type of lesson")
@@ -86,6 +88,6 @@ public class MarksController {
             @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson,
             @ApiParam(value = "type of mark", required = true) @RequestBody MarkTypeDTO markType){
         markService.updateType(idLesson, markType.getMarkType());
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Successfully updated"), null);
+        return new GeneralResponseWrapper<>(Status.of(CREATED), null);
     }
 }
