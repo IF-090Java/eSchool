@@ -1,8 +1,5 @@
 package academy.softserve.eschool.controller;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.security.JwtUser;
 import academy.softserve.eschool.service.base.DiaryServiceBase;
@@ -12,11 +9,16 @@ import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -25,14 +27,14 @@ import static org.springframework.http.HttpStatus.OK;
 @Api(value = "Reads students' diaries", description = "Reads students' diaries")
 @RequiredArgsConstructor
 public class DiaryController {
-    
+
     @NonNull
     DiaryServiceBase diaryService;
-    
+
     /**
-     * Returns list of {@link DiaryEntryDTO} that describe one week of diary wrapped in {@link GeneralResponseWrapper}
+     * Returns list of {@link DiaryEntryDTO} that describe one week of diary wrapped
+     * in {@link GeneralResponseWrapper}
      * @param weekStartDate first day of required week
-     * @param studentId id of student
      * @return List of {@link DiaryEntryDTO} wrapped in {@link GeneralResponseWrapper}
      */
     @ApiResponses(value = {
