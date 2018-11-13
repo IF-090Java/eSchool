@@ -1,17 +1,16 @@
 package academy.softserve.eschool.repository;
 
-import java.util.List;
-import java.util.Map;
-
+import academy.softserve.eschool.dto.DiaryEntryDTO;
+import academy.softserve.eschool.model.Lesson;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import academy.softserve.eschool.model.Lesson;
-
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Integer> {
@@ -22,8 +21,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
      * @param endDate last day of period
      * @return list of Map objects that contain data about one {@link academy.softserve.eschool.dto.DiaryEntryDTO}}.
      */
-    @Query(value = "select date, lesson_number, name, hometask, mark, note" +
-            "     from lesson" +
+    @Query(value = "select lesson.id, date, lesson_number, name, hometask, homework_file_id, mark, note" +
+            "    from lesson" +
             "    left join students_classes on lesson.clazz_id = students_classes.class_id" +
             "    left join subject on lesson.subject_id = subject.id" +
             "    left join mark on (lesson.id = mark.lesson_id and students_classes.student_id = mark.student_id)" +

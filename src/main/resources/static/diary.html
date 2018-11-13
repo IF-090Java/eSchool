@@ -7,7 +7,8 @@
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
-		<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
+		    <link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
         <style> 
 
         .diary-container {
@@ -130,6 +131,7 @@
                 var studentId = pathArray[3];
                 $("#homePage").attr("href", "/ui/students/" + studentId + "/profile");
                 var ulr = host + 'diaries/';
+                var homeWorkFilesURL = host + 'homeworks/files/';
                 var months = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
                         "Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
                 $(document).ready(function () {
@@ -188,9 +190,13 @@
                         var dayOfWeek = date.getDay();
                         $('<td>'+diaryEntry.lessonNumber+'</td>').appendTo(tableRow);
                         $('<td>'+diaryEntry.subjectName+'</td>').appendTo(tableRow);
-                        $('<td>'+(diaryEntry.homeWork == null ? "": diaryEntry.homeWork)+'</td>').appendTo(tableRow);
+                        var homeWork = $('<td>'+diaryEntry.homeWork+'</td>');
+                        if (diaryEntry.homeworkFileId != null){
+                            $('<span class="btn p-0 ml-1 fas fa-paperclip hwlink" lessonId="' + diaryEntry.lessonId + '">').appendTo(homeWork);
+                        }
+                        homeWork.appendTo(tableRow);
                         $('<td>'+(diaryEntry.mark == 0 ? "": diaryEntry.mark)+'</td>').appendTo(tableRow);
-                        $('<td>'+(diaryEntry.note == null?"":diaryEntry.note)+'</td>').appendTo(tableRow);
+                        $('<td>'+diaryEntry.note+'</td>').appendTo(tableRow);
                         switch(dayOfWeek){
                             case 1:
                                 tableRow.appendTo('#monday');
@@ -210,6 +216,7 @@
                             default:
                         }
                     });
+                    $(".hwlink").click(downloadFile);
                 }
                 
                 function getWeekStart (offset){
@@ -230,6 +237,23 @@
                     var month = ("0" + (date.getMonth() + 1)).slice(-2);
                     var today = date.getFullYear()+"-"+(month)+"-"+(day);
                     return today;
+                }
+                
+                function downloadFile() {
+                    $.ajax({
+                      type: "get",
+                      url: homeWorkFilesURL + $(this).attr('lessonId'),
+                      dataType: "json",
+                      contentType: "application/json",
+                      success: function(response) {
+                        var link = document.createElement("a");
+                        document.body.appendChild(link);
+                        link.download = response.data.fileName;
+                        link.href = 'data:' + response.data.fileType + ";base64," + response.data.fileData;
+                        link.click();
+                        link.remove();
+                      }
+                    });
                 }
             </script>
     </body>

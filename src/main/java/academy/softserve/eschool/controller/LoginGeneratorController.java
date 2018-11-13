@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-//todo bk extract custom translit logic into service.
-//todo bk ++ guys how long should i remind you to put javadocs
 @RestController("/login")
 @Api(description = "Login generator controller")
 public class LoginGeneratorController {
