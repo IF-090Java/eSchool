@@ -75,7 +75,7 @@ public class SubjectController {
 	/**
      * Returns a list of {@link SubjectDTO} objects with all available subjects.
      * If {@code teacherId} request parameter set, returns list of {@link SubjectDTO} objects
-     * with subjects that taugh by a teacher with the specified id.
+     * with subjects that taught by a teacher with the specified id.
      *
      * @param teacherId Id of teacher
      * @return List of {@link SubjectDTO} objects with subject that taugh by a teacher with the specified id

@@ -28,7 +28,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 @Table(name="subject")
 @ToString(of = {"id","name"})
 public class Subject {
@@ -40,20 +39,15 @@ public class Subject {
     
     @NotBlank
     @Size(max=50)
-    @RegexPattern(pattern=SUBJECT_NAME_PATTERN, message = "Input must match " + SUBJECT_NAME_PATTERN)
+    @RegexPattern(pattern = SUBJECT_NAME_PATTERN, message = "Input must match " + SUBJECT_NAME_PATTERN)
     private String name;
     
     @Size(max=255)
     private String description;
     
+    /**
+     * Set of {@link ClassTeacherSubjectLink} objects. One subject may contains many Class-Teacher-Subject pairs.
+     */
     @OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "subject")
     private final Set<@NotNull ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
-    
-
-    
-    public Subject(@NotBlank @Size(max = 50) String name, @Size(max = 255) String description) {
-        super();
-        this.name = name;
-        this.description = description;
-    }
 }
