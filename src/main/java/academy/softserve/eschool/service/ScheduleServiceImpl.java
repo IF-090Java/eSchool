@@ -3,10 +3,12 @@ package academy.softserve.eschool.service;
 import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Lesson;
+import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -15,41 +17,57 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This class implements the interface {@link ScheduleService}
+ * and contains four methods:
+ * <ul>
+ *     <li>
+ *     the first and second - get/save data from/into the DB
+ *     </li>
+ *     <li>
+ *     the third and fourth - help for get/save data methods
+ *     </li>
+ * </ul>
+ * in lesson table.
+ *
+ * @author Mariana Vorotniak
+ */
+@RequiredArgsConstructor
 @Service
 public class ScheduleServiceImpl implements ScheduleService{
 
-    @Autowired
+    @NonNull
     LessonRepository lessonRepository;
-
-    @Autowired
+    @NonNull
     ClassRepository classRepository;
-
-    @Autowired
+    @NonNull
     SubjectRepository subjectRepository;
-
+    /**
+     * Returns an object of {@link ScheduleDTO} that describes a schedule of a class with specified id for current week
+     * @param classId   id of the class for which is the schedule taken from DB
+     * @return          Object of {@link ScheduleDTO}
+     */
     @Override
-    public ScheduleDTO getScheduleByClassId(int id_class) {
-        //todo bk refactor it by doing just single call to db to get the data
-        List<Map<String, Object>> monday = lessonRepository.scheduleByClassId(0, id_class);
-        List<Map<String, Object>> tuesday = lessonRepository.scheduleByClassId(1, id_class);
-        List<Map<String, Object>> wednesday = lessonRepository.scheduleByClassId(2, id_class);
-        List<Map<String, Object>> thursday = lessonRepository.scheduleByClassId(3, id_class);
-        List<Map<String, Object>> friday = lessonRepository.scheduleByClassId(4, id_class);
+    public ScheduleDTO getScheduleByClassId(int classId) {
+        List<Map<String, Object>> lessons = lessonRepository.scheduleByClassId(classId);
 
-        Clazz clazz = classRepository.findById(id_class).get();
+        Clazz clazz = classRepository.findById(classId).get();
 
         return ScheduleDTO.builder()
                 .startOfSemester(null)
                 .endOfSemester(null)
                 .className(new ClassDTO(clazz.getId(), clazz.getAcademicYear(), clazz.getName(),
                         clazz.getDescription(), clazz.isActive(), clazz.getStudents().size()))
-                .mondaySubjects(convertFromObject(monday))
-                .tuesdaySubjects(convertFromObject(tuesday))
-                .wednesdaySubjects(convertFromObject(wednesday))
-                .thursdaySubjects(convertFromObject(thursday))
-                .fridaySubjects(convertFromObject(friday)).build();
+                .mondaySubjects(convertFromObject(lessons, DayOfWeek.MONDAY))
+                .tuesdaySubjects(convertFromObject(lessons, DayOfWeek.TUESDAY))
+                .wednesdaySubjects(convertFromObject(lessons, DayOfWeek.WEDNESDAY))
+                .thursdaySubjects(convertFromObject(lessons, DayOfWeek.THURSDAY))
+                .fridaySubjects(convertFromObject(lessons, DayOfWeek.FRIDAY)).build();
     }
-
+    /**
+     * Saves an object of {@link ScheduleDTO} into the lesson table
+     * @param scheduleDTO   object that will be saved
+     */
     @Override
     public void saveSchedule(ScheduleDTO scheduleDTO) {
 
@@ -71,15 +89,30 @@ public class ScheduleServiceImpl implements ScheduleService{
         saveFunction(friday, start, end, DayOfWeek.FRIDAY, clazz);
     }
 
-    //this is a method to save schedule for a particular day
+    /**
+     * This method saves schedule for a particular day. It helps the {@link #saveSchedule(ScheduleDTO)} method to save data
+     * @param list      list of {@link SubjectDTO} objects that represents the lessons of a particular day
+     * @param start     date of start of the semester
+     * @param end       date of end of the semester
+     * @param dayOfWeek day of week for which are the lessons saved
+     * @param clazz     class for which is the schedule saved
+     */
     public void saveFunction(List<SubjectDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
     {
+        List<Subject> listOfSubjects = new ArrayList<>();
+        if (list.size() != 0) {
+            List<Integer> listOfIds = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                listOfIds.add(list.get(i).getSubjectId());
+            }
+            listOfSubjects = subjectRepository.findSubjectsByIds(listOfIds);
+        }
+        List<Lesson> listOfLessons = new ArrayList<>();
         for (int i = 0; i < list.size(); i ++) {
             for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
                 DayOfWeek dow = date.getDayOfWeek();
                 if (dow == dayOfWeek) {
-                    //todo bk !!!!!!! Never do it again - calling repository method in loop. Just prepare all required data and save it once
-                    lessonRepository.save(
+                    listOfLessons.add(
                             Lesson.builder()
                                     .lessonNumber((byte) (i + 1))
                                     .date(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()))
@@ -87,23 +120,43 @@ public class ScheduleServiceImpl implements ScheduleService{
                                     .markType(null)
                                     .file(null)
                                     .clazz(clazz)
-                                    .subject(subjectRepository.getOne(list.get(i).getSubjectId())).build()
+                                    .subject(listOfSubjects.get(i)).build()
                     );
                 }
             }
         }
+        lessonRepository.saveAll(listOfLessons);
+
     }
 
-    //this is a method to convert List<Map<String, Object>> into SubjectDTO
-    public List<SubjectDTO> convertFromObject(List<Map<String, Object>> somelist)
+    /**
+     * This method converts List<Map<String, Object>> into a list of {@link SubjectDTO} and filters it by day of week.
+     * It helps the {@link #getScheduleByClassId(int)} method to save data.
+     * @param someList     list that needs to be converted into List<SubjectDTO> and filtered by day of week
+     * @param dayOfWeek    day of week for what will be returned the list
+     * @return             List of {@link SubjectDTO} filtered by {@param dayOfWeek} that represents a schedule for a particular day
+     */
+    public List<SubjectDTO> convertFromObject(List<Map<String, Object>> someList, DayOfWeek dayOfWeek)
     {
-        List<SubjectDTO> list = somelist.stream().map((obj) -> {
-            int id = (int)obj.get("id");
-            String name = (String) obj.get("name");
-            String description = (String)obj.get("description");
-            return new SubjectDTO(id, name, description);
+        List<LocalDate> listDate = someList.stream().map((obj) -> {
+            LocalDate date = (LocalDate) obj.get("date");
+            return date;
         })
                 .collect(Collectors.toList());
+
+        List<SubjectDTO> list = new ArrayList<>();
+
+        for (int i = 0; i < listDate.size(); i++) {
+            if (listDate.get(i).getDayOfWeek() == dayOfWeek) {
+                list = someList.stream().map((obj) -> {
+                    int id = (int) obj.get("id");
+                    String name = (String) obj.get("name");
+                    String description = (String) obj.get("description");
+                    return new SubjectDTO(id, name, description);
+                })
+                        .collect(Collectors.toList());
+            }
+        }
         return list;
     }
 

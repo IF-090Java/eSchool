@@ -1,9 +1,6 @@
 package academy.softserve.eschool.controller;
 
-import java.util.List;
-
 import academy.softserve.eschool.service.ClassService;
-import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,19 +9,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.dto.NYTransitionDTO;
 import academy.softserve.eschool.service.StudentService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * The controller {@code NYTransitionController} contains methods, that
@@ -43,9 +36,9 @@ public class NYTransitionController {
     //todo bk ++ use autowiring via constructors.
     //todo bk you should not use Impl class here. Use interface for injection and make the fields private
     @NonNull
-    ClassServiceImpl classService;
+    private ClassService classService;
     @NonNull
-    StudentService studentService;
+    private StudentService studentService;
 
     /**
      * Add classes to next year based on currently

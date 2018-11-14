@@ -7,7 +7,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="/js/JS.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
         <style> 
             #chartContainer {
                 height: 300px;
@@ -27,12 +26,12 @@
             <div class="container-fluid d-flex flex-wrap">
                 <select id="subject">
                     <option value="">Предмет</option>
-                </select> 
+                </select>
                 <select id="class">
                     <option value="">Клас</option>
                 </select>
                 <select id="student" disabled="true">
-                    <option value="">Учень</option>                
+                    <option value="">Учень</option>
                 </select>
                 <span>Рік <select id="year"></select></span>
                 <span>Початок періоду <input class="border rounded" id="startDate" type="date" name="start"></span>
@@ -85,7 +84,6 @@
                                 }
                             });
                         });
-                setDatePickerConstraint();
             });
             
             $('#subject').change(function(){
@@ -128,7 +126,6 @@
             
             $('#year').change(function(){
                 selectedClassId = null;
-                //TODO change datepicker bounds
                 $.each(classOptions, function(i, option){
                     option.remove();
                 });
@@ -139,7 +136,7 @@
                     option.remove();
                 })
                 $('#student').attr("disabled", true);
-                
+
                 initDatePickers();
                 fillClassesSelect(classesData);
                 $.getJSON(subjectsUrl, fillSubjectsSelect)
@@ -148,22 +145,32 @@
                             $.getJSON(marksUrl, getParams(), setData);
                         });
             });
-            
+
             $('#startDate').change(function(){
+                console.log(this.value);
+                if (this.value == ''){
+                    this.value = formatDate(getAcademicYearStartDate());
+                }
+                setDatePickerConstraints();
                 var params = getParams();
                 $.getJSON(marksUrl, params, setData);
             });
             
             $('#endDate').change(function(){
+                if (this.value == ''){
+                    this.value = formatDate(getAcademicYearEndDate());
+                }
+                setDatePickerConstraints();
                 var params = getParams();
                 $.getJSON(marksUrl, params, setData);
             });
             
             function setData(response){
-                var data = response.data;
-                formatDatadoints(data);
-                drawChart(data);
-                setAverageMark(data);
+                var marksData = response.data;
+                formatDatadoints(marksData);
+                var averageData = formAverageData(marksData);
+                drawChart(marksData, averageData);
+                setAverageMark(marksData);
             }
             
             function fillSubjectsSelect(data){
@@ -204,7 +211,7 @@
                     $('#year').append(option);
                 });
             }
-            
+
             function fillStudentsSelect(data){
                 $.each(data, function(i, student){
                     var option = $('<option>');
@@ -216,21 +223,44 @@
             }
             
             function initDatePickers(){
+                $('#startDate').val(formatDate(getAcademicYearStartDate()));
+                $('#endDate').val(formatDate(getAcademicYearEndDate()));
+                setDatePickerConstraints();
+            }
+            
+            function getAcademicYearStartDate(){
                 var year = parseInt($('#year').val());
                 var start = new Date(year, 8, 1);
+                return start;
+            }
+            
+            function getAcademicYearEndDate(){
+                var year = parseInt($('#year').val());
                 var end = new Date(year+1, 6, 31);
                 var today = new Date();
                 end = today < end ? today : end;
-                var startString = formatDate(start);
-                var endString = formatDate(end);
-                $('#startDate').val(startString);
-                $('#endDate').val(endString);
+                return end;
             }
             
             function formatDatadoints(data){
                 $.each(data, function(i, e){
                     e.x = new Date(e.x);
-                });    
+                });
+            }
+            
+            function formAverageData(data){
+                var totalMark = 0;
+                var totalWeight = 0;
+                var averageData = $.map(data, function(e, i){
+                    var point = new Object();
+                    totalMark += e.y*e.weight;
+                    totalWeight += e.weight;
+                    var average = totalMark/totalWeight;
+                    point.y = average;
+                    point.x = e.x;
+                    return point;
+                });
+                return averageData;
             }
             
             function formatDate(date){
@@ -240,12 +270,11 @@
                 return today;
             }
             
-            function setDatePickerConstraint(){
-                var date = new Date();
-                var dateString = formatDate(date);
-                $('#startDate').attr("max", dateString);
-                $('#endDate').attr("max", dateString);
-                //TODO datepickers bounds
+            function setDatePickerConstraints(){
+                $('#startDate').attr("min", formatDate(getAcademicYearStartDate()));
+                $('#startDate').attr("max", $('#endDate').val());
+                $('#endDate').attr("min", $('#startDate').val());
+                $('#endDate').attr("max", formatDate(getAcademicYearEndDate()));
             }
             
             function setAverageMark(data){
@@ -259,9 +288,10 @@
                 $('#average').text('Середня оцінка: ' + average.toFixed(2));
             }
             
-            function drawChart(dataPoints){
+            function drawChart(dataPoints, averageMarksDataPoints){
                 var chart = new CanvasJS.Chart("chartContainer", {
                     animationEnabled: true,
+                    zoomEnabled: true,
                     axisX: {
                         valueFormatString: "DD.MM.YYYY",
                         minimum: new Date($('#startDate').val()),
@@ -288,10 +318,18 @@
                         color: "rgba(40,175,101,0.6)",
                         markerSize: 5,
                         dataPoints: dataPoints
+                    },
+                    {
+                        name: "Середня оцінка",
+                        showInLegend: true,
+                        legendMarkerType: "square",
+                        type: "spline",
+                        color: "rgba(175,40,101,0.6)",
+                        markerSize: 5,
+                        dataPoints: averageMarksDataPoints
                     }]
                 });
                 chart.render();
-                console.log('render');
             }
             
             function getParams(){

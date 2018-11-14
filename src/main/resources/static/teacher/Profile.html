@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/sidebar-style.css">
     <script src="/js/JS.js"></script>
     <script src="/js/jwt-decode.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
             refreshToken();
@@ -28,7 +30,7 @@
             }).then(function(data) {
                 var date = new Date(data.dateOfBirth).toLocaleDateString();
                 $('#title').append(data.firstname + ' ' + data.lastname );
-                $('#initials').append(data.lastname + ' ' + data.firstname + ' ' + data.patronymic);
+                $('#initials').append(' ' + data.lastname + ' ' + data.firstname + ' ' + data.patronymic);
                 $('#date').append(date);
                 $('#login').append(data.login);
                 $('#email').attr("href", "mailto:" + data.email);
@@ -41,10 +43,12 @@
                 }
                 $('#classes').attr("href", host + "ui/journalsList/view");
                 $('#statistics').attr("href", host + "ui/stats");
+                $('#headerClasses').attr("href", host + "ui/journalsList/view");
+                $('#headerStatistics').attr("href", host + "ui/stats");
                 $('#edit').attr("href", host + "ui/teacher/" + id + "/edit");
             });
             $.getJSON(host + 'subjects/teachers/' + id, function (data) {
-                $.each(data, function(key, val) {
+                $.each(data.data, function(key, val) {
                      $('<li class="force-overflow">'+val.subjectName+'</li>').appendTo('#list');
                 });
             }).fail(function (data) {
@@ -94,81 +98,117 @@
 <title id="title"></title>
 </head>
 <body>
-<div class="wrapper">
-    <nav id="sidebar">
-        <div class="sidebar-header">
-            <a class="text-center w-100 mx-auto d-block" id="homepage" href="#"><img id="logo" src="/img/catholic-school-logo.png" width="110" alt="logo"/></a>
-        </div>
-
-        <ul class="list-unstyled components">
-            <li>
-                <a class="navLink" id="classes">Переглянути журнали</a>
-                <a class="navLink" id="statistics">Переглянути успішність</a>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="">
+        <img src="/img/catholic-school-logo.png" width="50" height="50" class="d-inline-block align-top" alt="">
+        <span class="menu-collapsed">School Management System</span>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown d-sm-block d-md-none">
+                <a class="nav-link active" id="headerClasses" aria-haspopup="true" aria-expanded="false">
+                    Переглянути журнали
+                </a>
+                <a class="nav-link active" id="headerStatistics" aria-haspopup="true" aria-expanded="false">
+                    Статистика
+                </a>
             </li>
         </ul>
-    </nav>
+        <ul class="navbar-nav">
+            <span class="navbar-text">Ви увійшли як Вчитель</span>
+            <li class="nav-item active">
+                <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-    <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
-            <span class="navbar-text">Ви увійшли як вчитель</span>
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
-                </li>
-            </ul>
-        </nav>
+<div class="row" id="body-row">
+    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+        <ul class="list-group sticky-top sticky-offset">
 
-        <div class="container w-150">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title" id="initials"></h3>
+            <!-- Journals -->
+            <a id="classes" class="bg-dark list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fas fa-pencil-paintbrush fa-fw mr-3"></span>
+                    <span class="far fa-list-alt menu-collapsed">  Журнали</span>
                 </div>
-                <div class="panel-body">
+            </a>
 
-                    <img class="img-thumbnail pull-left" id="avatar" src="/img/profile.png">
-                    <div id="subjectsList" class="">
-                        <div id="sub">Предмети:</div>
-                        <ul id="list" class="scrollbar scrollbar-primary">
-                        </ul>
+            <!-- Journals -->
+            <a id="statistics" class="bg-dark list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fas fa-pencil-paintbrush fa-fw mr-3"></span>
+                    <span class="fas fa-chart-line menu-collapsed">  Статистика</span>
+                </div>
+            </a>
+
+            <!-- Logo -->
+            <li class="list-group-item bg-dark logo-separator d-flex justify-content-center">
+                <a href="http://cathol-gym.com.ua/ua" target="_blank"><img src="/img/catholic-school-logo.png" width="40" height="40" alt="logo"></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col py-3">
+
+        <div class="row justify-content-center mt-2">
+            <div class="col-10">
+                <div class="card">
+                    <div class="card-header bg-secondary">
+                        <h3 class="card-title text-white far fa-id-card" id="initials"></h3>
                     </div>
+                    <div class="card-body">
 
-                    <div class="row center-block">
-                        <div class=" col-md-9 col-lg-9 ">
-                            <table class="table table-user-information">
-                                <tbody>
-                                <tr>
-                                    <td>Логін: </td>
-                                    <td><div id="login"></div></td>
-                                </tr>
-                                <tr>
-                                    <td>Дата народження: </td>
-                                    <td><div id="date"></div></td>
-                                </tr>
+                        <img class="img-thumbnail pull-left" id="avatar" src="/img/profile.png">
+                        <div id="subjectsList" class="scrollbar-primary">
+                            <div id="sub">Предмети:</div>
+                            <ul id="list" class="scrollbar scrollbar-primary">
+                            </ul>
+                        </div>
 
-                                <tr>
-                                    <td>Електронна пошта: </td>
-                                    <td><a id="email"></a></td>
-                                </tr>
+                        <div class="row center-block">
+                            <div class=" col-md-9 col-lg-9 ">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                    <tr>
+                                        <td>Логін: </td>
+                                        <td><div id="login"></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Дата народження: </td>
+                                        <td><div id="date"></div></td>
+                                    </tr>
 
-                                <tr>
-                                    <td>Номер телефону: </td>
-                                    <td><div id="phone"></div></td>
-                                </tr>
+                                    <tr>
+                                        <td>Електронна пошта: </td>
+                                        <td><a id="email"></a></td>
+                                    </tr>
 
-                                </tbody>
-                            </table>
+                                    <tr>
+                                        <td>Номер телефону: </td>
+                                        <td><div id="phone"></div></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
 
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="panel-footer">
-                    <a id="edit" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning "><i class="glyphicon glyphicon-edit"> Редагувати профіль</i></a>
+                    <div class="card-footer bg-info">
+                        <a id="edit" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning "><i class="glyphicon glyphicon-edit fas fa-edit">  Редагувати профіль</i></a>
 
+                    </div>
                 </div>
-
             </div>
         </div>
+
     </div>
 </div>
 </body>

@@ -1,31 +1,18 @@
 package academy.softserve.eschool.controller;
 
-import java.util.List;
 
-import academy.softserve.eschool.service.ClassService;
+import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import academy.softserve.eschool.dto.ClassDTO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * The controller {@code ClassController} contains methods, that
@@ -40,9 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "classes", description = "Endpoints for classes")
 @RequiredArgsConstructor
 public class ClassController {
-    
-    @NonNull
-    ClassServiceImpl classService;
+	@NonNull
+    private ClassServiceImpl classService;
 
     /**
      * Create new class
@@ -69,7 +55,7 @@ public class ClassController {
     /**
      * Returns class as {@link ClassDTO} object by class ID
      *
-     * @param id Id of class
+     * @param classId Id of class
      * @return Class as {@link ClassDTO} object in {@link GeneralResponseWrapper}
      *         with http status code
      */
@@ -79,13 +65,13 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get Class")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'TEACHER')")
-    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER') or (hasRole('USER') and @securityExpressionService.isMemberOfClass(principal.id, #classId))")//for teacher needs access to the statistics page for all classes
+    @GetMapping("/{classId}")
     public GeneralResponseWrapper<ClassDTO> getClassById(
-            @ApiParam(value = "id of class", required = true) @PathVariable int id){
+            @ApiParam(value = "id of class", required = true) @PathVariable int classId){
         return new GeneralResponseWrapper<>(
                 new Status(HttpServletResponse.SC_OK, "OK"),
-                classService.findClassById(id)
+                classService.findClassById(classId)
         );
     }
 

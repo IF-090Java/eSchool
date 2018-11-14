@@ -20,6 +20,7 @@ import java.io.IOException;
 
 @Component
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
+    private static ObjectMapper mapper = new ObjectMapper();
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
             throws ServletException, IOException {
@@ -44,9 +45,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         if (object == null) {
             return null;
         }
-        //todo bk do not create mapper each time. It consumes resources. Make it static on class level and just reuse
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
+                return mapper.writeValueAsString(object);
     }
 
 }
