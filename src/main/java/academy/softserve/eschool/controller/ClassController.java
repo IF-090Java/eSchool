@@ -1,7 +1,7 @@
 package academy.softserve.eschool.controller;
 
+
 import academy.softserve.eschool.dto.ClassDTO;
-import academy.softserve.eschool.service.SecurityExpressionService;
 import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
