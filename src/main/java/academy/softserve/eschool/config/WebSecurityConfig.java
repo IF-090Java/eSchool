@@ -78,7 +78,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(exceptionHandlerFilter , CorsFilter.class)
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // disable page caching
         httpSecurity
                 .headers()
                 .cacheControl();
@@ -86,15 +85,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        // AuthenticationTokenFilter will ignore the below paths
-        web
-                .ignoring()
-                .antMatchers(
+        web.ignoring().antMatchers(
                         HttpMethod.POST,
                         authenticationPath
                 )
-
-                // allow anonymous resource requests
                 .and()
                 .ignoring()
                 .antMatchers(

@@ -16,6 +16,13 @@ public class JwtUserDetailsService implements UserDetailsService {
     @NonNull
     private UserRepository userRepository;
 
+    /**
+     * Find user by username in database
+     * Returns {@link academy.softserve.eschool.security.JwtUser} object
+     * @param s Username
+     * @return Object of {@link academy.softserve.eschool.security.JwtUser}
+     * @throws UsernameNotFoundException if no user find with specified username username
+     */
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepository.findByLogin(s);

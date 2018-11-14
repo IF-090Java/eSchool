@@ -17,7 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+/**
+ * Filter that catches and handles exceptions.
+ * Is applied in {@link academy.softserve.eschool.config.WebSecurityConfig} before {@link org.springframework.web.filter.CorsFilter}
+ */
 @Component
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
     private static ObjectMapper mapper = new ObjectMapper();
