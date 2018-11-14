@@ -34,6 +34,13 @@
                 padding: 5px\9;
             }
         }
+        .list-group-students{
+            max-height: 160px;
+            margin-bottom: 10px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
     </style>
 </head>
 <body>
@@ -154,7 +161,7 @@ $(document).ready(function () {
                             '<input type="checkbox" id="spoiler_'+item.id+'">' +
                             '<label for="spoiler_'+item.id+'">Учні '+item.className+' класу</label>' +
                             '<div class="spoiler_body">' +
-                            '<list id="studId_'+item.id+'"></list></div>' +
+                            '<ul class="list-group-students" id="studId_'+item.id+'"></ul></div>' +
                             '</div></td>')
                     spoiler.appendTo(tr);
                     tr.appendTo('#tbody');
