@@ -1,73 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" type="text/css" href="/css/LoginStyle.css">
-    <script src="/js/jwt-decode.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>Вхід у систему</title>
+    
+	<link rel="stylesheet" href="/css/styleForLogin.css">
+	<link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/js/jwt-decode.min.js"></script>
     <script src="/js/JS.js"></script>
-    <meta charset="UTF-8">
-    <title>Вхід в систему</title>
-    <style type="text/css">
-
-        label {
-            display: table-cell;
-            vertical-align: middle;
-            font-size: 18px;
-        }
-
-        textarea {
-            margin-left: 15%;
-            width: 300px;
-        }
-        #logo {
-            float: right !important;
-            margin-top: 3px;
-        }
-    </style>
-
 </head>
-<body id="LoginForm">
-
-<div class="container-fluid">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between navbar-fixed-top" style="height: 78px">
-        <div class="navbar-text">Вхід в систему</div>
-        <a href="http://cathol-gym.com.ua/ua"><img id="logo" class="navbar-brand border-0 navbar-fixed-top" src="/img/catholic-school-logo.png" height="90" alt="logo"/></a>
-    </nav>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-3"></div>
-        <div class="login-form col-6">
-            <div class="main-div">
-                <div class="panel">
-                    <p>Введіть логін та пароль</p>
-                </div>
-
-                <form>
-                    <div id="wrongPasswOrLogin"></div>
-                    <div class="form-group row">
-                        <label for="login" class="col-3">Логін</label>
-                        <input type="text" class="form-control" id="login" placeholder="Введіть логін" required>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="password" class="col-3">Пароль</label>
-                        <input type="password" class="form-control password-field" id="password" placeholder="Введіть пароль">
-                    </div>
-
-                    <div class="forgot">
-                        <a href="reset.html">Забули пароль?</a>
-                    </div>
-
-                    <button type="submit" class="btn-lg btn-primary btn-block">Увійти</button>
-                </form>
-            </div>
-        </div>
-        <div class="col-3"></div>
-    </div>
-</div>
-<script>
+<body>
+<form id="loginForm">
+    <h1>Форма входу</h1>
+    <fieldset id="inputs">
+        <input id="login" type="text" placeholder="Логин" autofocus required>   
+        <input id="password" type="password" placeholder="Пароль" required>
+    </fieldset>
+    <div id="wrongPasswOrLogin"></div>
+    <fieldset id="actions">
+        <input type="submit" id="submitButton" value="УВІЙТИ">
+        <a href="/passwordRecovery.html">Забули пароль?</a>
+    </fieldset>
+</form>
+<script type="text/javascript">
     $(document).ready(function () {
         $('form').on('submit', function (e) {
             e.preventDefault();
@@ -106,7 +64,7 @@
                     var status = jqXHR.responseText;
                     if (jqXHR.responseJSON.status.message == 'Bad Credentials'){
                         $("#password").val("");
-                        $('#wrongPasswOrLogin').attr("class", "form-group alert alert-danger");
+                      
                         $('#wrongPasswOrLogin').html('Неправильний логін або пароль')
                     }
                 }
