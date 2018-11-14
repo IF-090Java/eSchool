@@ -48,7 +48,7 @@
                 $('#edit').attr("href", host + "ui/teacher/" + id + "/edit");
             });
             $.getJSON(host + 'subjects/teachers/' + id, function (data) {
-                $.each(data, function(key, val) {
+                $.each(data.data, function(key, val) {
                      $('<li class="force-overflow">'+val.subjectName+'</li>').appendTo('#list');
                 });
             }).fail(function (data) {
