@@ -74,7 +74,8 @@ public class HomeworkController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson)")
+    @PreAuthorize("(hasRole('USER') and @securityExpressionService.isAttendingLesson(principal.id, #idLesson))"
+            + " or (hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson))")
     public GeneralResponseWrapper<HomeworkFileDTO> getFile(
             @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson) {
         return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getFile(idLesson));

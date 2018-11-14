@@ -59,4 +59,15 @@ public class SecurityExpressionService {
                 isMember = true;
         return isMember;
     }
+    
+    /**
+     * Check whether student attends lesson or not
+     * @param studentId id of student
+     * @param lessonId id of lesson
+     * @return true if student attends lesson
+     */
+    public boolean isAttendingLesson(int studentId, int lessonId) {
+        Lesson lesson = lessonRepository.getOne(lessonId);
+        return lesson.getClazz().getStudents().stream().anyMatch(s -> s.getId() == studentId);
+    }
 }

@@ -12,6 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiaryEntryDTO {
+    
+    @ApiModelProperty(required = true, notes = "id of lesson")
+    private int lessonId;
+    
     @ApiModelProperty(required = true, notes = "lesson date")
     private LocalDate date;
     
@@ -23,6 +27,9 @@ public class DiaryEntryDTO {
     
     @ApiModelProperty(notes = "home work")
     private String homeWork;
+    
+    @ApiModelProperty(notes = "id of file attached to homework, can be null")
+    private Integer homeworkFileId;
     
     @ApiModelProperty(notes = "mark received by student")
     private byte mark;
