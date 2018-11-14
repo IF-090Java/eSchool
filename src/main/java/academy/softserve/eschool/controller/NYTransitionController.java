@@ -3,6 +3,7 @@ package academy.softserve.eschool.controller;
 import java.util.List;
 
 import academy.softserve.eschool.service.ClassService;
+import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import org.springframework.security.access.prepost.PreAuthorize;

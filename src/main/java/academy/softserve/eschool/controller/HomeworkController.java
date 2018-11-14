@@ -18,7 +18,6 @@ import io.swagger.annotations.ApiResponses;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-//todo bk ++ configure and use the same code styles accross the app. It should be formatted automatically each time
 @RestController
 @RequestMapping("/homeworks")
 @Api(value = "Homework's Endpoint", description = "Get homeworks")
@@ -41,16 +40,14 @@ public class HomeworkController {
     public GeneralResponseWrapper<List<HomeworkDTO>> getHomeworks(
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass) {
-        //todo bk ++ instead of 3 lines of code use just one. Keep it simple.
-        //todo bk use some enum for the response codes. Don't create your own. Use existed one
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getHomework(idSubject,idClass));
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getHomework(idSubject,idClass));
     }
 
     @ApiOperation(value = "Save homework")
     @PutMapping("/files")
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 201, message = "Homework successfully created"),
+                    @ApiResponse(code = 204, message = "Homework successfully created"),
                     @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
@@ -59,7 +56,7 @@ public class HomeworkController {
     public GeneralResponseWrapper<HomeworkFileDTO> postHomework(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkFileDTO homeworkFileDTO){
         journalServiceImpl.saveHomework(homeworkFileDTO);
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.CREATED.value(), "Homework successfully created"), null);
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.NO_CONTENT), null);
     }
 
     @ApiOperation(value = "Get homework file")
@@ -74,7 +71,7 @@ public class HomeworkController {
     @PreAuthorize("hasRole('TEACHER')")
     public GeneralResponseWrapper<HomeworkFileDTO> getFile(
             @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson){
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getFile(idLesson));
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getFile(idLesson));
     }
 
 }
