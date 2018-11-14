@@ -172,6 +172,11 @@
                         $("#message").attr("class", "alert alert-success");
                         $("#message").html("<strong>Клас створений! <a href='/ui/classes/list'>Повернутися до списку класів</a></strong>");
                         $(":input").val("");
+                    },
+                    error: function (responce) {
+                        $("#message").attr("class", "alert alert-danger");
+                        $("#message").html("<strong>Такий клас вже існує!</strong>");
+
                     }
                 });
             })
@@ -214,6 +219,11 @@
                     success: function (responce) {
                         $("#message").attr("class", "alert alert-success");
                         $("#message").html("<strong>Клас оновлений! <a href='/ui/classes/list'>Повернутися до списку класів</a></strong>");
+                    },
+                    error: function (responce) {
+                        $("#message").attr("class", "alert alert-danger");
+                        $("#message").html("<strong>Такий клас вже існує!</strong>");
+
                     }
                 });
             })
