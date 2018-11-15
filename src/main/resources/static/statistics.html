@@ -179,7 +179,9 @@
             }
             
             function fillSubjectsSelect(data){
-                $.each(data.data, function(i, subj){
+                var subjects = data.data;
+                subjects.sort(subjectComparator);
+                $.each(subjects, function(i, subj){
                     var option = $('<option>');
                     option.val(subj.subjectId);
                     option.text(subj.subjectName);
@@ -190,7 +192,9 @@
             
             function fillClassesSelect(data){
                 classesData = data;
-                $.each(data.data, function(i, clazz){
+                var classes = data.data;
+                classes.sort(classComparator);
+                $.each(classes, function(i, clazz){
                     if ($("#year").val() == clazz.classYear) {
                         var option = $('<option>');
                         option.val(clazz.id);
@@ -218,10 +222,12 @@
             }
 
             function fillStudentsSelect(data){
-                $.each(data.data, function(i, student){
+                var students = data.data;
+                students.sort(studentComparator);
+                $.each(students, function(i, student){
                     var option = $('<option>');
                     option.val(student.id);
-                    option.text(student.firstname+' '+student.lastname);
+                    option.text(student.lastname+' '+student.firstname);
                     $('#student').append(option);
                     studentOptions.push(option);
                 });
@@ -345,6 +351,22 @@
                 params.period_start = $('#startDate').val();
                 params.period_end = $('#endDate').val();
                 return params;
+            }
+            
+            function studentComparator(a, b){
+                var comparison = a.lastname.localeCompare(b.lastname);
+                if (comparison == 0){
+                    comparison = a.firstname.localeCompare(b.firstname);
+                }
+                return comparison;
+            }
+            
+            function classComparator(a, b){
+                return a.className.localeCompare(b.className);
+            }
+            
+            function subjectComparator(a, b){
+                return a.subjectName.localeCompare(b.subjectName);
             }
         </script>
     </body>
