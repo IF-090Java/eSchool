@@ -1,172 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Список предметів</title>
+	<meta charset="UTF-8">
+	<title>Список предметів</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/css/global-style.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="/js/JS.js"></script>
-    <script src="/js/jwt-decode.min.js"></script>
-    
-    <style type="text/css">
-    .square {
-        margin: 0;
-        counter-reset: li;
-        list-style: none;
-        background:#E8E8E8;
-        padding: 10px;
-    }
-    .square li {
-        position: relative;
-        margin: 0 0 10px 2em;
-        padding: 4px 8px;
-        border-top: 2px solid #787A77;
-        transition: .3s linear;
-    }
-    .square li:last-child {margin-bottom: 0;}
-    .square li:before {
-        content: counter(li);
-        counter-increment: li;
-        position: absolute;
-        top: -2px;
-        left: -2em;
-        width: 2em;
-        box-sizing: border-box;
-        margin-right: 8px;
-        padding: 4px;
-        border-top: 2px solid #787A77;
-        border-left: 2px solid transparent;
-        border-right: 2px solid transparent;
-        border-bottom: 2px solid transparent;
-        background: #787A77;
-        color: white;
-        font-weight: bold;
-        text-align: center;
-        transition: .3s linear;
-    }
-    .square li:hover {border-top: 2px solid #389F70;}
-    .square li:hover:before {
-        border: 2px solid #389F70;
-        background: #98EABA;
-    }
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/js/JS.js"></script>
+	<script src="/js/jwt-decode.min.js"></script>
+	
+	<style type="text/css">
+	.square {
+		margin: 0;
+		counter-reset: li;
+		list-style: none;
+		background:#E8E8E8;
+		padding: 10px;
+	}
+	.square li {
+		position: relative;
+		margin: 0 0 10px 2em;
+		padding: 4px 8px;
+		border-top: 2px solid #787A77;
+		transition: .3s linear;
+	}
+	.square li:last-child {margin-bottom: 0;}
+	.square li:before {
+		content: counter(li);
+		counter-increment: li;
+		position: absolute;
+		top: -2px;
+		left: -2em;
+		width: 2em;
+		box-sizing: border-box;
+		margin-right: 8px;
+		padding: 4px;
+		border-top: 2px solid #787A77;
+		border-left: 2px solid transparent;
+		border-right: 2px solid transparent;
+		border-bottom: 2px solid transparent;
+		background: #787A77;
+		color: white;
+		font-weight: bold;
+		text-align: center;
+		transition: .3s linear;
+	}
+	.square li:hover {border-top: 2px solid #389F70;}
+	.square li:hover:before {
+		border: 2px solid #389F70;
+		background: #98EABA;
+	}
 </style>
 
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;"></nav>
-<div class="row" id="body-row">
-    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
-    <div class="col py-3">
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;"></nav>
+	<div class="row" id="body-row">
+		<div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
+		<div class="col py-3">
 
-            <div class="container">
-                <div class="container">
-                    <div class="row justify-content-center mt-5">
-                        <h1>ВСІ ПРЕДМЕТИ</h1>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row justify-content-center mt-3">
-                        <div class="head">
-                            <div id="form"><pre style="text-align: center; font-family: Georgia, 'Times New Roman', Times, serif;
-                            font-size: 16px;">Введіть слова для пошуку предмету</pre></div>
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-                </div>
+			<div class="container">
+				<div class="container">
+					<div class="row justify-content-center mt-2">
+						<h1>ВСІ ПРЕДМЕТИ</h1>
+					</div>
+				</div>
+				<div class="d-flex justify-content-end">
+					<div class="p-2 mt-0">
+						<div class="head">
+							<div id="form"></div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+				<div class="container">
+					<div class="row justify-content-center mt-2">
+						<div class="col-6">
+							<ol class="square" id="subjectslist" style="list-style-type: circle;"></ol>
+							<div align="center" class="mt-3">
+								<div class="container">
+									<div class="row justify-content-center mb-5">
+										<button type="submit" class="btn btn-lg btn-primary" onclick="window.location.href='/ui/subjects/add'">Додати предмет</a></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                <div class="container">
-                    <div class="row justify-content-center mt-3">
-                        <div class="col-6">
-                            <ol class="square" id="subjectslist" style="list-style-type: circle;"></ol>
-                            <div align="center" class="mt-3">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+		<script type="text/javascript">
+			$(function() {
+				$("#sidebar-container").load("/views/admin-sidebar.html");
+				$(".navbar").load("/views/admin-header.html");
+			});
+		</script>
 
-                                <div class="container">
-                                    <div class="row justify-content-center mb-5">
-                                        <button class="btn btn-lg btn-primary" id="submitButton" type="submit"><a href="/ui/subjects/add" style="text-decoration: none; color: #FFFFFF";>Додати предмет</a></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				validateUserPermissions();
+				refreshToken();
+				$.ajaxSetup({
+					beforeSend: function (xhr) {
+						if (getJwtToken()) {
+							xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
+						}
+					}
+				})
+			})
+			
+			$(document).ready(function () {
+				$.getJSON(host + 'subjects', function (data) {
+					console.log(data);
+					$.each(data.data, function (i, item) {
+						$('#subjectslist').append($('<li>').append($('<a>').attr('href','/ui/subjects/'+item.subjectId+'/edit').append(item.subjectName)))
+					});        
+				})
+				.fail(function (data) {
+					if (new RegExp("4[0-9][0-9]").test(data.status)){
+						window.location.href='/ui/login'
+					}
+				});
+			});
+		</script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script type="text/javascript">
-            $(function() {
-                $("#sidebar-container").load("/views/admin-sidebar.html");
-                $(".navbar").load("/views/admin-header.html");
-            });
-        </script>
-
-        <script type="text/javascript">
-        $(document).ready(function () {
-            validateUserPermissions();
-            refreshToken();
-            $.ajaxSetup({
-                beforeSend: function (xhr) {
-                    if (getJwtToken()) {
-                        xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
-                    }
-                }
-            })
-        })
-        
-            $(document).ready(function () {
-                $.getJSON(host + 'subjects', function (data) {
-                    console.log(data);
-                    $.each(data, function (i, item) {
-                        $('#subjectslist').append($('<li>').append($('<a>').attr('href','subjects/'+item.subjectId+'/edit').append(item.subjectName)))
-                    });        
-                })
-                .fail(function (data) {
-                    if (new RegExp("4[0-9][0-9]").test(data.status)){
-                        window.location.href='/ui/login'
-                    }
-                });
-            });
-        </script>
-
-        <script type="text/javascript">
-            (function ($) {
-                jQuery.expr[':'].Contains = function(a,i,m){
-                    return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
-                };
-                function filterList(header, subjectslist) {
-                    var form = $("<form>").attr({
-                        "class" : "filterform",
-                        "action" : "#"
-                    }), input = $("<input>").attr({
-                        "class" : "filterinput",
-                        "type" : "text"
-                    });
-                    $(form).append(input).appendTo(header);
-                    $(input).change(
-                        function() {
-                            var filter = $(this).val();
-                            if (filter) {
-                                $matches = $(subjectslist).find(
-                                    'a:Contains(' + filter + ')').parent();
-                                $('li', subjectslist).not($matches).slideUp();
-                                $matches.slideDown();
-                            } else {
-                                $(subjectslist).find("li").slideDown();
-                            }
-                            return false;
-                        }).keyup(function() {
-                            $(this).change();
-                        });
-                    }
-                    $(function() {
-                        filterList($("#form"), $("#subjectslist"));
-                    });
-                }(jQuery));
-            </script> 
-        </body>
-        </html>
+		<script type="text/javascript">
+			(function ($) {
+				jQuery.expr[':'].Contains = function(a,i,m){
+					return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
+				};
+				function filterList(header, subjectslist) {
+					var form = $("<form>").attr({
+						"class" : "filterform",
+						"action" : "#"
+					}), input = $("<input>").attr({
+						"id" : "searchSubject",
+						"class" : "filterinput",
+						"type" : "text"
+					}), label = $("<label>").attr({
+						"for" : "searchSubject",
+						"class" : "col-3 col-form-label font-weight-bold",
+						"style" : "color : black; margin-right : 5px;"
+					});
+					$(form).append(label).append(input).appendTo(header);
+					$(label).append("Пошук");
+					$(input).change(
+						function() {
+							var filter = $(this).val();
+							if (filter) {
+								$matches = $(subjectslist).find(
+									'a:Contains(' + filter + ')').parent();
+								$('li', subjectslist).not($matches).slideUp();
+								$matches.slideDown();
+							} else {
+								$(subjectslist).find("li").slideDown();
+							}
+							return false;
+						}).keyup(function() {
+							$(this).change();
+						});
+					}
+					$(function() {
+						filterList($("#form"), $("#subjectslist"));
+					});
+				}(jQuery));
+			</script> 
+		</body>
+		</html>

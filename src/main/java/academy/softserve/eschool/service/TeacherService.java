@@ -59,7 +59,7 @@ public class TeacherService {
                 .build();
     }
 
-    public void updateTeacher(User oldUser, EditUserDTO edited, String role){
+    public User updateTeacher(User oldUser, EditUserDTO edited, String role){
 
         if (role.equals("ADMIN")) {
             oldUser.setFirstName(edited.getFirstname());
@@ -76,6 +76,7 @@ public class TeacherService {
             oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
         userRepository.save(oldUser);
+        return oldUser;
     }
 
     /**
@@ -85,7 +86,7 @@ public class TeacherService {
      * @param teacherDTO teacher data.
      * @return saved teacher.
      */
-    public Teacher addOne(TeacherDTO teacherDTO) {
+    public User addOne(TeacherDTO teacherDTO) {
         Teacher teacher = Teacher.builder()
                 .lastName(teacherDTO.getLastname())
                 .firstName(teacherDTO.getFirstname())

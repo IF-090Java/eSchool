@@ -65,7 +65,7 @@ public class StudentService {
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public void updateStudent(User oldUser, EditUserDTO edited, String role){
+    public User updateStudent(User oldUser, EditUserDTO edited, String role){
 
         if (role.equals("ADMIN")) {
             oldUser.setFirstName(edited.getFirstname());
@@ -82,6 +82,7 @@ public class StudentService {
             oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
         userRepository.save(oldUser);
+        return oldUser;
     }
 
     /**

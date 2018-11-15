@@ -52,7 +52,7 @@ public class TeacherJournalController {
             @ApiParam(value = "id of subject", required = true) @PathVariable("subjectId") final int subjectId)
     {
         classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacherId, classId, subjectId), true);
-        return new GeneralResponseWrapper<>(new Status(201, "OK"), null);
+        return new GeneralResponseWrapper<>(new Status(201, "OK"), new TeacherJournalDTO(teacherId, classId, subjectId));
     }
 
 

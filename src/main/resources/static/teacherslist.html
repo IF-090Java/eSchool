@@ -40,7 +40,7 @@
         $(document).ready(function () {
             $.getJSON(host + 'teachers', function (data) {
                 console.log(data);
-                $.each(data, function (i, item) {
+                $.each(data.data, function (i, item) {
                     $('#teacherslist').append($('<li class="list-group-item">').append($('<a>').attr('href','/ui/teachers/'+item.id+'/edit').append(item.firstname)
                         .append(' ' + item.lastname).append(' ' + item.patronymic)))
                 });        
