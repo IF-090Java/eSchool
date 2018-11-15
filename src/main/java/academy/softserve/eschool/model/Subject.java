@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import academy.softserve.eschool.constraint.annotation.RegexPattern;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,26 +26,28 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(exclude = "CTSlinks")
 @NoArgsConstructor
-
+@AllArgsConstructor
+@Builder
 @Table(name="subject")
-@ToString(of = {"id", "name"})
+@ToString(of = {"id","name"})
 public class Subject {
-	private final static String SUBJECT_NAME_PATTERN = "[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+";
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	@NotBlank
-	@Size(max=50)
-	@RegexPattern(pattern=SUBJECT_NAME_PATTERN, message = "Input must match " + SUBJECT_NAME_PATTERN)
-	private String name;
-	@Size(max=255)
-	private String description;
-	@OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "subject")
-	private Set<@NotNull ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
-	
-	public Subject(@NotBlank @Size(max = 50) String name, @Size(max = 255) String description) {
-		super();
-		this.name = name;
-		this.description = description;
-	}
+    private final static String SUBJECT_NAME_PATTERN = "[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+";
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
+    @NotBlank
+    @Size(max=50)
+    @RegexPattern(pattern = SUBJECT_NAME_PATTERN, message = "Input must match " + SUBJECT_NAME_PATTERN)
+    private String name;
+    
+    @Size(max=500)
+    private String description;
+    
+    /**
+     * Set of {@link ClassTeacherSubjectLink} objects. One subject may contains many Class-Teacher-Subject pairs.
+     */
+    @OneToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "subject")
+    private final Set<@NotNull ClassTeacherSubjectLink> CTSlinks = new HashSet<>();
 }

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -30,7 +31,7 @@ public class TeacherDTO {
             timezone = "Europe/Kiev",
             pattern = "yyyy-MM-dd")
     @ApiModelProperty(notes = "contains date of birth of the teacher")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @ApiModelProperty(notes = "teacher login")
     private String login;

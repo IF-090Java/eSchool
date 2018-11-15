@@ -13,18 +13,44 @@ import academy.softserve.eschool.model.Subject;
 
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
-    @Query(value = "Select distinct subject.id,subject.name,subject.description from class_teacher_subject_link left join subject \n" +
-            "on class_teacher_subject_link.subject_id=subject.id\n" +
-            "where teacher_id=:idTeacher", nativeQuery=true)
+	
+	/**
+     * Finds subjects that taught by a teacher with the specified id.
+     * @param idTeacher Id of teacher
+     * @return List of Subject objects
+     */
+	@Query(value = "SELECT DISTINCT subject.id, subject.name, subject.description FROM class_teacher_subject_link \n" +
+			"LEFT JOIN subject ON class_teacher_subject_link.subject_id = subject.id \n" +
+            "WHERE teacher_id = :idTeacher", nativeQuery=true)
     List<Subject> findSubjectsByTeacher(@Param("idTeacher") int idTeacher);
     
+	/**
+     * Finds subjects that study in classes with the specified id.
+     * @param classId Id of class
+     * @return List of Subject objects
+     */
+    @Query(value = "SELECT DISTINCT subject.id, subject.name, subject.description FROM class_teacher_subject_link \n" +
+    		"LEFT JOIN subject ON class_teacher_subject_link.subject_id = subject.id \n" +
+            "WHERE clazz_id = :classId", nativeQuery=true)
+	List<Subject> findSubjectsByClass(@Param(value="classId") Integer classId);
+
+    /**
+     * Find several subjects by specified id.
+     * @param ids List of subject id
+     * @return List of Subject objects
+     */
+    @Query(value = "SELECT * FROM subject WHERE id IN (:ids)", nativeQuery =true)
+    List<Subject> findSubjectsByIds(@Param("ids") List<Integer> ids);
+    
+    /**
+     * Edit some subject
+     *
+     * @param id Id of subject
+     * @param name Name of subject
+     * @param description Description of subject
+     */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE subject SET name=:subjectName, description=:subjectDescription WHERE id=:id", nativeQuery=true)
+    @Query(value = "UPDATE subject SET name = :subjectName, description = :subjectDescription WHERE id = :id", nativeQuery=true)
     void editSubject(@Param("id") int id, @Param("subjectName") String name, @Param("subjectDescription") String description);
-    
-    @Query(value = "Select distinct subject.id,subject.name,subject.description from class_teacher_subject_link left join subject \n" +
-            "on class_teacher_subject_link.subject_id=subject.id\n" +
-            "where clazz_id=:classId", nativeQuery=true)
-	List<Subject> findSubjectsByClass(Integer classId);
 }

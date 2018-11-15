@@ -18,6 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Custom filter that provides Jwt authorization.
+ * Checks authorization token, validating it and sets security context
+ * Is added to filter chain in {@link academy.softserve.eschool.config.WebSecurityConfig}
+ */
 @Component
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
@@ -26,12 +31,15 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
     private final String tokenHeader;
+    private final String tokenPrefix;
 
 
-    public JwtAuthorizationTokenFilter(@Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil) {
+    public JwtAuthorizationTokenFilter(@Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService,
+                                       JwtTokenUtil jwtTokenUtil, @Value("${jwt.token.header}") String tokenHeader, @Value("${jwt.token.prefix}") String tokenPrefix) {
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
-        this.tokenHeader = "Authorization";
+        this.tokenHeader = tokenHeader;
+        this.tokenPrefix = tokenPrefix;
     }
 
     @Override
@@ -42,7 +50,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
         String username = null;
         String authToken = null;
-        if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
+        if (requestHeader != null && requestHeader.startsWith(tokenPrefix)) {
             authToken = requestHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
@@ -57,12 +65,8 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             logger.debug("security context was null, so authorizating user");
 
-            // It is not compelling necessary to load the use details from the database. You could also store the information
-            // in the token and read it from it. It's up to you ;)
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            // For simple validation it is completely sufficient to just check the token integrity. You don't have to call
-            // the database compellingly. Again it's up to you ;)
             if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));

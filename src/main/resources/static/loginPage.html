@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" type="text/css" href="/css/LoginStyle.css">
+    <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
+    <script src="/js/jwt-decode.min.js"></script>
+    <script src="/js/JS.js"></script>
+    <meta charset="UTF-8">
+    <title>Вхід в систему</title>
+    <style type="text/css">
+        label {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 18px;
+        }
+        textarea {
+            margin-left: 15%;
+            width: 300px;
+        }
+        #logo {
+            float: right !important;
+            margin-top: 3px;
+        }
+    </style>
+
+</head>
+<body id="LoginForm">
+
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between navbar-fixed-top" style="height: 78px">
+        <div class="navbar-text">Вхід в систему</div>
+        <a href="http://cathol-gym.com.ua/ua"><img id="logo" class="navbar-brand border-0 navbar-fixed-top" src="/img/catholic-school-logo.png" height="90" alt="logo"/></a>
+    </nav>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="login-form col-6">
+            <div class="main-div">
+                <div class="panel">
+                    <p>Введіть логін та пароль</p>
+                </div>
+
+                <form>
+                    <div id="wrongPasswOrLogin"></div>
+                    <div class="form-group row">
+                        <label for="login" class="col-3">Логін</label>
+                        <input type="text" class="form-control" id="login" placeholder="Введіть логін" required>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="password" class="col-3">Пароль</label>
+                        <input type="password" class="form-control password-field" id="password" placeholder="Введіть пароль">
+                    </div>
+
+                    <div class="forgot">
+                        <a href="reset.html">Забули пароль?</a>
+                    </div>
+
+                    <button type="submit" class="btn-lg btn-primary btn-block">Увійти</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var login = $("#login").val();
+            var password = $("#password").val();
+            $.ajax({
+                type: "post",
+                url: host + "signin",
+                dataType: "json",
+                data: JSON.stringify({
+                    "username": login,
+                    "password": password
+                }),
+                contentType: "application/json",
+                success: function (data, textStatus, request) {
+                    console.log(data);
+                    setJwtToken(request.getResponseHeader("Authorization"))
+                    if (request.getResponseHeader("Authorization")){
+                        var url = '/ui/';
+                        var jwtToken = getJwtToken();
+                        var decodedToken = jwt_decode(jwtToken);
+                        if (decodedToken.Roles.authority === 'ROLE_ADMIN') {
+                            console.log("HERE!");
+                            url += "admin";
+                        }
+                        if (decodedToken.Roles.authority === 'ROLE_TEACHER') {
+                            url += "teachers/" + decodedToken.jti + '/profile';
+                        }
+                        if (decodedToken.Roles.authority === 'ROLE_USER') {
+                            url += "students/" + decodedToken.jti + '/profile';
+                        }
+                        window.location.href = url;
+                    }
+                },
+                error: function(jqXHR, exception){
+                    var status = jqXHR.responseText;
+                    if (jqXHR.responseJSON.status.message == 'Bad Credentials'){
+                        $("#password").val("");
+                        $('#wrongPasswOrLogin').attr("class", "form-group alert alert-danger");
+                        $('#wrongPasswOrLogin').html('Неправильний логін або пароль')
+                    }
+                }
+            });
+        })
+    })
+</script>
+</body>
+</html>

@@ -16,8 +16,8 @@ import academy.softserve.eschool.constraint.validator.RegexPatternValidator;
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RegexPattern {
-	String pattern() default ".*";
-	String message() default "";
+    String pattern() default ".*";
+    String message() default "";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

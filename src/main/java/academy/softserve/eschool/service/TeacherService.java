@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,33 +19,35 @@ import academy.softserve.eschool.model.User.Role;
 import academy.softserve.eschool.repository.TeacherRepository;
 import academy.softserve.eschool.repository.UserRepository;
 
-import static academy.softserve.eschool.auxiliary.Transliteration.transliteration;
-
 @Service
+@RequiredArgsConstructor
 public class TeacherService {
 
-    @Autowired
-    private  UserRepository userRepository;
+    @NonNull
+    private UserRepository userRepository;
 
-    @Autowired
+    @NonNull
     private TeacherRepository teacherRepository;
 
-    @Autowired
-    BCryptPasswordEncoder bcryptEncoder;
+    @NonNull
+    private BCryptPasswordEncoder bcryptEncoder;
 
-    public List<TeacherDTO> getAll(List<Teacher> resultset){
+    @NonNull
+    private LoginGeneratorService generateLogin;
 
-        return resultset.stream().map(i->TeacherDTO.builder().id(i.getId())
-            .firstname(i.getFirstName())
-            .lastname(i.getLastName())
-            .patronymic(i.getPatronymic())
-            .login(i.getLogin())
-            .dateOfBirth(i.getDateOfBirth())
-            .phone(i.getPhone())
-            .email(i.getEmail()).build()).collect(Collectors.toCollection(ArrayList::new));
+    public List<TeacherDTO> getAll(List<Teacher> resultset) {
+
+        return resultset.stream().map(i -> TeacherDTO.builder().id(i.getId())
+                .firstname(i.getFirstName())
+                .lastname(i.getLastName())
+                .patronymic(i.getPatronymic())
+                .login(i.getLogin())
+                .dateOfBirth(i.getDateOfBirth())
+                .phone(i.getPhone())
+                .email(i.getEmail()).build()).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public TeacherDTO getOne(Teacher teacher){
+    public TeacherDTO getOne(Teacher teacher) {
         return TeacherDTO.builder().firstname(teacher.getFirstName())
                 .lastname(teacher.getLastName())
                 .patronymic(teacher.getPatronymic())
@@ -56,37 +59,50 @@ public class TeacherService {
                 .build();
     }
 
-    public void updateTeacher(User oldUser, EditUserDTO edited, String role){
+    public User adminUpdateTeacher(User oldUser, EditUserDTO edited) {
+        oldUser.setFirstName(edited.getFirstname());
+        oldUser.setLastName(edited.getLastname());
+        oldUser.setPatronymic(edited.getPatronymic());
+        oldUser.setLogin(edited.getLogin());
+        return updateTeacher(oldUser, edited);
+    }
 
-        if (role.equals("ADMIN")) {
-            oldUser.setFirstName(edited.getFirstname());
-            oldUser.setLastName(edited.getLastname());
-            oldUser.setPatronymic(edited.getPatronymic());
-            oldUser.setLogin(edited.getLogin());
-        }
+    public User updateTeacher(User oldUser, EditUserDTO edited) {
         oldUser.setDateOfBirth(edited.getDateOfBirth());
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
-        if((oldUser.getPassword().equals(edited.getOldPass()) || edited.getOldPass().equals("adminchangedpass"))
-                 && edited.getNewPass().length()>0){
+        if ((bcryptEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))
+                && edited.getNewPass().length() > 0) {
             oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
         userRepository.save(oldUser);
+        return oldUser;
     }
 
-    public Teacher addOne(TeacherDTO teacherDTO) {
+    /**
+     * Add teacher to DB. If login is already exist
+     * or not transmitted then will be generated else set transmitted login.
+     * Password always generate here.
+     *
+     * @param teacherDTO teacher data.
+     * @return saved teacher.
+     */
+    public User addOne(TeacherDTO teacherDTO) {
         Teacher teacher = Teacher.builder()
                 .lastName(teacherDTO.getLastname())
                 .firstName(teacherDTO.getFirstname())
                 .patronymic(teacherDTO.getPatronymic())
-                .login(transliteration(teacherDTO.getLastname()))
                 .password(bcryptEncoder.encode(generatePassword(7)))
                 .phone(teacherDTO.getPhone())
                 .email(teacherDTO.getEmail())
                 .dateOfBirth(teacherDTO.getDateOfBirth())
                 .role(Role.ROLE_TEACHER)
                 .build();
+        String login = teacherDTO.getLogin();
+        if (login == null || !generateLogin.isUnique(login))
+            teacher.setLogin(generateLogin.generateLogin(teacherDTO.getFirstname(), teacherDTO.getLastname()));
+        else teacher.setLogin(login);
         return teacherRepository.save(teacher);
     }
 }

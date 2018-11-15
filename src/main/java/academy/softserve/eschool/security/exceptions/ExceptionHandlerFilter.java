@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -16,8 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter that catches and handles exceptions.
+ * Is applied in {@link academy.softserve.eschool.config.WebSecurityConfig} before {@link org.springframework.web.filter.CorsFilter}
+ */
 @Component
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
+    private static ObjectMapper mapper = new ObjectMapper();
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
             throws ServletException, IOException {
@@ -30,7 +36,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
             httpServletResponse.getWriter().write(convertObjectToJson(errorResponse));
         }
-        catch (MalformedJwtException e) {
+        catch (MalformedJwtException | SignatureException  e) {
             GeneralResponseWrapper errorResponse = new GeneralResponseWrapper(new Status(HttpStatus.BAD_REQUEST.value()
                     , "Bad Token"),null);
             httpServletResponse.setStatus(HttpStatus.BAD_REQUEST.value());
@@ -42,8 +48,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         if (object == null) {
             return null;
         }
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
+                return mapper.writeValueAsString(object);
     }
 
 }

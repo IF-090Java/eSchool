@@ -1,63 +1,63 @@
 <!DOCTYPE html>
-
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Щоденник</title>
-		
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		
-		<style> 
-
-		.diary-container {
-			-webkit-columns: 500px 2; /* Chrome, Safari, Opera */
-			-moz-columns: 500px 2; /* Firefox */
-			columns: 500px 2;
-		}
-		
-		.diary-day-container{
-			-webkit-column-break-inside: avoid;
-          	page-break-inside: avoid;
+    <head>
+        <meta charset="UTF-8">
+        <title>Щоденник</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+        <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+		    <link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">  
+        <style> 
+        .diary-container {
+            -webkit-columns: 500px 2; /* Chrome, Safari, Opera */
+            -moz-columns: 500px 2; /* Firefox */
+            columns: 500px 2;
+        }
+        
+        .diary-day-container{
+            -webkit-column-break-inside: avoid;
+              page-break-inside: avoid;
             break-inside: avoid;
             margin-bottom: 1rem;
             box-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
-		}
-
-		table,td,th{
-          	border: 1px solid #ddd;
-       	}
-       	table {
-           	border-collapse: collapse;
-           	width: 100%;
-       	}
-       	
-       	td,th{
-       	    text-align: left;
-       		padding: 8px;
-       	}
+        }
+        table,td,th{
+              border: 1px solid #ddd;
+           }
+           table {
+               border-collapse: collapse;
+               width: 100%;
+           }
+           
+           td,th{
+               text-align: left;
+               padding: 8px;
+           }
        
-      	tr:nth-child(even){background-color: #f2f2f2}
-      	
-       	th {
+          tr:nth-child(even){background-color: #f2f2f2}
+          
+           th {
            background-color: #4CAF50;
            color: white;
-       	}
-       	
-       	.card-title {
-       		font-size: 1.3rem;
-       		padding-top: 0.75rem;
-       		padding-left: 0.75rem;
-       	}
-       	
-       	</style>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="/js/JS.js"></script>
-	</head>
-	<body>
-		<nav class="navbar navbar-expand navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
-            <span class="navbar-text">Ви увійшли як Учень</span>
+           }
+           
+           .card-title {
+               font-size: 1.3rem;
+               padding-top: 0.75rem;
+               padding-left: 0.75rem;
+           }
+           </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="/js/JS.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand navbar-dark bg-dark d-flex justify-content-between" style="background-color: #002c4c !important;">
+            <a class="navbar-brand" href="">
+                <img src="/img/catholic-school-logo.png" width="50" height="50" class="d-inline-block align-top" alt="">
+            <span class="menu-collapsed">School Management System</span>
+            </a>
             <ul class="navbar-nav">
-            	<li class="nav-item active">
+                <li class="nav-item active">
                     <a class="nav-link" id="homePage">Профіль</a>
                 </li>
                 <li class="nav-item active">
@@ -65,171 +65,189 @@
                 </li>
             </ul>
         </nav>
-		<div class="container-fluid pb-1 pt-1">
-			<button class="btn btn-light" id="previous-week-btn">&laquo;</button>
-			<button class="btn btn-light" id="next-week-btn">&raquo;</button>
-			<span id="date-period"></span>
-			<button class="btn btn-light" id="current-week-btn">Поточний тиждень</button>
-		</div>
-		<div class="diary-container container-fluid">
-			<div class="diary-day-container  card">
-				<div class="card-title">Понеділок</div>
-				<table class="diary-day" id="monday"> 
-					
-				</table>
-			</div>
-			
-			<div class="diary-day-container card">
-				<div class="card-title">Вівторок</div>
-				<table class="diary-day" id="tuesday"> 
-				
-				</table>
-			</div>
-			
-			<div class="diary-day-container card">
-				<div class="card-title">Середа</div>
-				<table class="diary-day" id="wednsday"> 
-					
-				</table>
-			</div>
-			
-			<div class="diary-day-container card">
-				<div class="card-title">Четвер</div>
-				<table class="diary-day" id="thursday"> 
-					
-				</table>
-			</div>
-			
-			<div class="diary-day-container card">
-				<div class="card-title">П'ятниця</div>
-				<table class="diary-day" id="friday"> 
-					
-				</table>
-			</div>
-			
-			
-		</div>
-		
-		    <script type="text/javascript">
+        <div class="container-fluid pb-1 pt-1">
+            <button class="btn btn-light" id="previous-week-btn">&laquo;</button>
+            <button class="btn btn-light" id="next-week-btn">&raquo;</button>
+            <span id="date-period"></span>
+            <button class="btn btn-light" id="current-week-btn">Поточний тиждень</button>
+        </div>
+        <div class="diary-container container-fluid">
+            <div class="diary-day-container  card">
+                <div class="card-title">Понеділок</div>
+                <table class="diary-day" id="monday"> 
+                    
+                </table>
+            </div>
+            
+            <div class="diary-day-container card">
+                <div class="card-title">Вівторок</div>
+                <table class="diary-day" id="tuesday"> 
+                
+                </table>
+            </div>
+            
+            <div class="diary-day-container card">
+                <div class="card-title">Середа</div>
+                <table class="diary-day" id="wednsday"> 
+                    
+                </table>
+            </div>
+            
+            <div class="diary-day-container card">
+                <div class="card-title">Четвер</div>
+                <table class="diary-day" id="thursday"> 
+                    
+                </table>
+            </div>
+            
+            <div class="diary-day-container card">
+                <div class="card-title">П'ятниця</div>
+                <table class="diary-day" id="friday"> 
+                    
+                </table>
+            </div>
+          
+        </div>
+            <script type="text/javascript">
                 $(document).ready(function () {
                     refreshToken();
                     $.ajaxSetup({
                         beforeSend: function (xhr) {
                             if (getJwtToken()) {
-                                xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                                xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
                             }
                         }
                     })
                 })
-
-		    	var offset = 0;
-		    	var weekStart = getWeekStart(offset);
-		    	var weekEnd = getWeekEnd(offset);
-		    	var pathArray = window.location.pathname.split('/');
-        		var studentId = pathArray[3];
+                var offset = 0;
+                var weekStart = getWeekStart(offset);
+                var weekEnd = getWeekEnd(offset);
+                var pathArray = window.location.pathname.split('/');
+                var studentId = pathArray[3];
                 $("#homePage").attr("href", "/ui/students/" + studentId + "/profile");
-                var ulr = host + 'diaries/' + studentId;
-		    	var months = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
-		    			"Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
-				$(document).ready(function () {
-					getData();
-				});
-				
-				$('#previous-week-btn').click(function(){
-					offset--;
-					getData();
-				});
-				
-				$('#next-week-btn').click(function(){
-					offset++;
-					getData();
-				});
-				
-				$('#current-week-btn').click(function(){
-					offset = 0;
-					getData();
-				});
-				
-				function getData(){
-					$.getJSON(ulr, {weekStartDate:formatDate(getWeekStart(offset))}, setData).fail(function (data) {
+                var ulr = host + 'diaries/';
+                var homeWorkFilesURL = host + 'homeworks/files/';
+                var months = ["Січня", "Лютого", "Березня", "Квітня", "Травня", "Червня",
+                        "Липня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
+                $(document).ready(function () {
+                    getData();
+                });
+                
+                $('#previous-week-btn').click(function(){
+                    offset--;
+                    getData();
+                });
+                
+                $('#next-week-btn').click(function(){
+                    offset++;
+                    getData();
+                });
+                
+                $('#current-week-btn').click(function(){
+                    offset = 0;
+                    getData();
+                });
+                
+                function getData(){
+                    $.getJSON(ulr, {weekStartDate:formatDate(getWeekStart(offset))}, setData).fail(function (data) {
                         if (new RegExp("4[0-9][0-9]").test(data.status)){
                             window.location.href='/ui/login'
                         }
                     });
-				}
-				
-				
-				
-				function setData (response) {
-					var data = response.data;
-					$('.diary-day').empty();
-					var tableHeader = $('<tr> <th>№</th> <th>Урок</th> <th>Домашнє завдання</th> <th>Оцінка</th> <th>Примітка</th></tr>');
-					tableHeader.appendTo('.diary-day');
-					var firstDayDate = getWeekStart(offset).getDate();
-					var lastDayDate = getWeekEnd(offset).getDate();
-					var firstDayMonth = getWeekStart(offset).getMonth();
-					var lastDayMonth = getWeekEnd(offset).getMonth();
-					var period = firstDayDate +' '+months[firstDayMonth]+' - '+lastDayDate+' '+months[lastDayMonth];
-					$('#date-period').text(period);
-					if (offset == 0){
-						$('#current-week-btn').hide();
-					} else {
-						$('#current-week-btn').show();
-					}
-					if (data.length == 0){
-						$('.diary-container').hide();
-					} else {
-						$('.diary-container').show();
-					}
-					$.each(data, function(i, diaryEntry) {
-						var tableRow = $('<tr></tr>');
-						var date = new Date(diaryEntry.date);
-						var dayOfWeek = date.getDay();
-						$('<td>'+diaryEntry.lessonNumber+'</td>').appendTo(tableRow);
-						$('<td>'+diaryEntry.subjectName+'</td>').appendTo(tableRow);
-						$('<td>'+(diaryEntry.homeWork == null ? "": diaryEntry.homeWork)+'</td>').appendTo(tableRow);
-						$('<td>'+(diaryEntry.mark == 0 ? "": diaryEntry.mark)+'</td>').appendTo(tableRow);
-						$('<td>'+(diaryEntry.note == null?"":diaryEntry.note)+'</td>').appendTo(tableRow);
-						switch(dayOfWeek){
-							case 1:
-								tableRow.appendTo('#monday');
-								break;
-							case 2:
-								tableRow.appendTo('#tuesday');
-								break;
-							case 3:
-								tableRow.appendTo('#wednsday');
-								break;
-							case 4:
-								tableRow.appendTo('#thursday');
-								break;
-							case 5:
-								tableRow.appendTo('#friday');
-								break;
-							default:
-						}
-					});
-				}
-				
-				function getWeekStart (offset){
-					var weekStart = new Date();
-			    	var currentDay = weekStart.getDay();
-					weekStart.setDate(weekStart.getDate() - currentDay + 1 + 7*offset);
-					return weekStart;
-				}
-				
-				function getWeekEnd(offset){
-					var weekEnd = new Date(weekStart.getTime());
-					weekEnd.setDate(weekEnd.getDate() + 4 + 7*offset);
-					return weekEnd;
-				}
-				
-				function formatDate(date){
-					var day = ("0" + date.getDate()).slice(-2);
-					var month = ("0" + (date.getMonth() + 1)).slice(-2);
-					var today = date.getFullYear()+"-"+(month)+"-"+(day);
-					return today;
-				}
-			</script>
-	</body>
+                }
+                
+                function setData (response) {
+                    var data = response.data;
+                    $('.diary-day').empty();
+                    var tableHeader = $('<tr> <th>№</th> <th>Урок</th> <th>Домашнє завдання</th> <th>Оцінка</th> <th>Примітка</th></tr>');
+                    tableHeader.appendTo('.diary-day');
+                    var firstDayDate = getWeekStart(offset).getDate();
+                    var lastDayDate = getWeekEnd(offset).getDate();
+                    var firstDayMonth = getWeekStart(offset).getMonth();
+                    var lastDayMonth = getWeekEnd(offset).getMonth();
+                    var period = firstDayDate +' '+months[firstDayMonth]+' - '+lastDayDate+' '+months[lastDayMonth];
+                    $('#date-period').text(period);
+                    if (offset == 0){
+                        $('#current-week-btn').hide();
+                    } else {
+                        $('#current-week-btn').show();
+                    }
+                    if (data.length == 0){
+                        $('.diary-container').hide();
+                    } else {
+                        $('.diary-container').show();
+                    }
+                    $.each(data, function(i, diaryEntry) {
+                        var tableRow = $('<tr></tr>');
+                        var date = new Date(diaryEntry.date);
+                        var dayOfWeek = date.getDay();
+                        $('<td>'+diaryEntry.lessonNumber+'</td>').appendTo(tableRow);
+                        $('<td>'+diaryEntry.subjectName+'</td>').appendTo(tableRow);
+                        var homeWork = $('<td>'+diaryEntry.homeWork+'</td>');
+                        if (diaryEntry.homeworkFileId != null){
+                            $('<span class="btn p-0 ml-1 fas fa-paperclip hwlink" lessonId="' + diaryEntry.lessonId + '">').appendTo(homeWork);
+                        }
+                        homeWork.appendTo(tableRow);
+                        $('<td>'+(diaryEntry.mark == 0 ? "": diaryEntry.mark)+'</td>').appendTo(tableRow);
+                        $('<td>'+diaryEntry.note+'</td>').appendTo(tableRow);
+                        switch(dayOfWeek){
+                            case 1:
+                                tableRow.appendTo('#monday');
+                                break;
+                            case 2:
+                                tableRow.appendTo('#tuesday');
+                                break;
+                            case 3:
+                                tableRow.appendTo('#wednsday');
+                                break;
+                            case 4:
+                                tableRow.appendTo('#thursday');
+                                break;
+                            case 5:
+                                tableRow.appendTo('#friday');
+                                break;
+                            default:
+                        }
+                    });
+                    $(".hwlink").click(downloadFile);
+                }
+                
+                function getWeekStart (offset){
+                    var weekStart = new Date();
+                    var currentDay = weekStart.getDay();
+                    weekStart.setDate(weekStart.getDate() - currentDay + 1 + 7*offset);
+                    return weekStart;
+                }
+                
+                function getWeekEnd(offset){
+                    var weekEnd = new Date(weekStart.getTime());
+                    weekEnd.setDate(weekEnd.getDate() + 4 + 7*offset);
+                    return weekEnd;
+                }
+                
+                function formatDate(date){
+                    var day = ("0" + date.getDate()).slice(-2);
+                    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                    var today = date.getFullYear()+"-"+(month)+"-"+(day);
+                    return today;
+                }
+                
+                function downloadFile() {
+                    $.ajax({
+                      type: "get",
+                      url: homeWorkFilesURL + $(this).attr('lessonId'),
+                      dataType: "json",
+                      contentType: "application/json",
+                      success: function(response) {
+                        var link = document.createElement("a");
+                        document.body.appendChild(link);
+                        link.download = response.data.fileName;
+                        link.href = 'data:' + response.data.fileType + ";base64," + response.data.fileData;
+                        link.click();
+                        link.remove();
+                      }
+                    });
+                }
+            </script>
+    </body>
 </html>

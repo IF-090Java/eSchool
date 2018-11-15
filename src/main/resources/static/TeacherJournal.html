@@ -1,25 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Teacher journal connection</title>
-	<link rel="stylesheet" type="text/css" href="/css/global-style.css">
+    <meta charset="UTF-8">
+    <title>Teacher journal connection</title>
+    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
 
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+	<link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
+    <style type="text/css">
 
-	<style type="text/css">
-	.main {
-	margin-left: 25%;
-	margin-right: 25%;
-}
-.row {
-	display: table-row;
-}
 label {
-	display: table-cell;
-	vertical-align: middle;
-	font-size: 18px;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 18px;
 }
 
 select {
@@ -44,137 +39,160 @@ select {
  }
 
 
-	</style>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="/js/JS.js"></script>
-	<script src="/js/jwt-decode.min.js"></script>
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
+    <script src="/js/jwt-decode.min.js"></script>
 </head>
 <body>
-	<div class="wrapper">
-		<div class="admin-sidebar"></div>
-	<div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
-			<span class="navbar-text">Ви увійшли як Адміністратор</span>
-			<ul class="navbar-nav">
-				<li class="nav-item active">
-					<a class="nav-link" href="#" onclick="logOut()">Вийти</a>
-				</li>
-			</ul>
-		</nav>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;"></nav>
+<div class="row" id="body-row">
+    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
+    <div class="col py-3">
 
-		<div class="container">
-			<div id="message" align="center"></div>
+        <div class="container">
+            <div id="message" align="center"></div>
 
-			<div align="center" style="padding-bottom:35px; padding-top:35px">
-				<h1>ПРИВ'ЯЗКА ВЧИТЕЛЯ ДО ЖУРНАЛУ</h1>
-			</div>
-			<div class="row">
-				<div class="col">
-					<div class="main">
+            <div align="center" style="padding-bottom:35px; padding-top:35px">
+                <h1>ПРИВ'ЯЗКА ВЧИТЕЛЯ ДО ЖУРНАЛУ</h1>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="main">
 
-						<div class="row">
-							<label for="teacher_input">Вчитель</label>
-							<div id="drop1" class="ax_default_droplist">
-								<select id="teacher_input">
-								</select>
-							</div>
-						</div>
+                        <div class="row">
+                            <table style="height: 100px;">
+                                <tbody>
+                                <tr>
+                                    <td class="align-middle">
+                                        <label for="teacher_input">Вчитель</label></td>
+                                    <td class="align-middle">
+                                        <div id="drop1" class="ax_default_droplist">
+                                            <select id="teacher_input">
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="align-middle">
+                                        <label for="class_input">Клас</label>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div id="drop2" class="ax_default_droplist">
+                                            <select id="class_input">
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="align-middle">
+                                        <label for="subject_input">Предмет</label>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div id="drop3" class="ax_default_droplist">
+                                            <select id="subject_input">
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-						<div class="row">
-							<label for="class_input">Клас</label>
-							<div id="drop2" class="ax_default_droplist">
-								<select id="class_input">
-								</select>
-							</div>
-						</div>
-
-						<div class="row">
-							<label for="subject_input">Предмет</label>
-							<div id="drop3" class="ax_default_droplist">
-								<select id="subject_input">
-								</select>
-							</div>
-						</div>
-
-					</div>
-
-				</div>
-			</div>
-			<div align="center" style="text-align: center; margin: 0 auto; padding-top: 25px">
-				<button id="submitButton" class="btn btn-success" type="submit">Зберегти</button>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+            <div align="center" style="text-align: center; margin: 0 auto; padding-top: 25px">
+                <button id="submitButton" class="btn btn-success" type="submit">Зберегти</button>
+            </div>
+        </div>
+    </div>
 </div>
-	<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             validateUserPermissions();
             refreshToken();
             $.ajaxSetup({
                 beforeSend: function (xhr) {
                     if (getJwtToken()) {
-                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                        xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
                     }
                 }
             })
         })
-		
-			$(document).ready(function() {
-				$.getJSON(host + 'teachers', function(data) {
-					console.log(data);
-					var teachers = [];
-					var id = [];
-					$.each(data, function(key, value) {
-						teachers.push(value.firstname + " " + value.lastname);
-					});
-					$.each(data, function(key, value) {
-						id.push(value.id);
-					});
-					for (i=0; i < teachers.length; i++)
-						$('#teacher_input').append('<option value="' + id[i] + '">' + teachers[i] + '</option>');
-				})
-				.fail(function (data) {
-					if (new RegExp("4[0-9][0-9]").test(data.status)){
-						window.location.href='/ui/login'
-					}
-				});
-				
-				$.getJSON(host + 'classes', function(data){
-					console.log(data);
-					var classes = [];
-					var id = [];
-					$.each(data, function(key, value) {
+        
+            $(document).ready(function() {
+                $.getJSON(host + 'teachers', function(data) {
+                    console.log(data);
+                    var teachers = [];
+                    var id = [];
+                    $.each(data.data, function(key, value) {
+                        teachers.push(value.firstname + " " + value.lastname);
+                    });
+                    $.each(data.data, function(key, value) {
+                        id.push(value.id);
+                    });
+                    for (i=0; i < teachers.length; i++)
+                        $('#teacher_input').append('<option value="' + id[i] + '">' + teachers[i] + '</option>');
+                    if (teachers.length == 0)
+                    {
+                    $("#message").attr("class", "alert alert-danger");
+                      $("#message").html("<strong>Ще не створено вчителів. Ви не можете створити прив'язку.</strong>");
+                    }
+                })
+                .fail(function (data) {
+                    if (new RegExp("4[0-9][0-9]").test(data.status)){
+                        window.location.href='/ui/login'
+                    }
+                });
+                
+                $.getJSON(host + 'classes', function(data){
+                    console.log(data);
+                    var classes = [];
+                    var id = [];
+                    $.each(data.data, function(key, value) {
                         if (value.isActive == true) {
                             classes.push(value.className);
                         }
-					});
-					$.each(data, function(key, value) {
+                    });
+                    $.each(data.data, function(key, value) {
                         if (value.isActive == true) {
                             id.push(value.id);
                         }
-					});
-					for (i=0; i < classes.length; i++)
-						$('#class_input').append('<option value="' + id[i] + '">' + classes[i] + '</option>');
-				});
-				
-				$.getJSON(host + 'subjects', function(data){
-					console.log(data);
-					var subjects = [];
-					var id = [];
-					$.each(data, function(key, value) {
-						subjects.push(value.subjectName);
-					});
-					$.each(data, function(key, value) {
-						id.push(value.subjectId);
-					});
-					for (i=0; i < subjects.length; i++)
-						$('#subject_input').append('<option value="' + id[i] + '">' + subjects[i] + '</option>');
-				});
-				$('#submitButton').click(function(){
-				var teacherid = $('#teacher_input').find(":selected").val();
-				var classid = $('#class_input').find(":selected").val();
-				var subjectid = $('#subject_input').find(":selected").val();
-				$.ajax({
+                    });
+                    for (i=0; i < classes.length; i++)
+                        $('#class_input').append('<option value="' + id[i] + '">' + classes[i] + '</option>');
+                    if (classes.length == 0)
+                    {
+                    $("#message").attr("class", "alert alert-danger");
+                      $("#message").html("<strong>Ще не створено класи, або всі класи є неактивними. Ви не можете створити прив'язку.</strong>");
+                    }
+                });
+                
+                $.getJSON(host + 'subjects', function(data){
+                    console.log(data);
+                    var subjects = [];
+                    var id = [];
+                    $.each(data.data, function(key, value) {
+                        subjects.push(value.subjectName);
+                    });
+                    $.each(data.data, function(key, value) {
+                        id.push(value.subjectId);
+                    });
+                    for (i=0; i < subjects.length; i++)
+                        $('#subject_input').append('<option value="' + id[i] + '">' + subjects[i] + '</option>');
+                    if (subjects.length == 0)
+                    {
+                    $("#message").attr("class", "alert alert-danger");
+                      $("#message").html("<strong>Ще не створено предметів. Ви не можете створити прив'язку.</strong>");
+                    }
+                });
+
+                $('#submitButton').click(function(){
+                var teacherid = $('#teacher_input').find(":selected").val();
+                var classid = $('#class_input').find(":selected").val();
+                var subjectid = $('#subject_input').find(":selected").val();
+                $.ajax({
                 type: "post",
                 url: host + "teachers/" + teacherid + "/classes/" + classid + "/subjects/" + subjectid + "/journal",
                 dataType: "json",
@@ -184,7 +202,7 @@ select {
                     "subjectId": subjectid
                 }),
                 contentType: "application/json",
-  				statusCode: {
+                  statusCode: {
                       200: function() {
                         $("#message").attr("class", "alert alert-success");
                         $("#message").html("<strong>Прив'зка вчителя до журналу успішно створена</strong>");
@@ -199,20 +217,21 @@ select {
                     }
                   },
                     success: function (responce) {
-                    	document.getElementById('teacher_input').selectedIndex = 0;
-                    	document.getElementById('class_input').selectedIndex = 0;
+                        document.getElementById('teacher_input').selectedIndex = 0;
+                        document.getElementById('class_input').selectedIndex = 0;
                         document.getElementById('subject_input').selectedIndex = 0;
                     }
             });
-			})
-			})
-		</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	<script type="text/javascript">
+            })
+            })
+        </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript">
     $(function() {
-        $(".admin-sidebar").load("/views/admin-sidebar.html");
+        $("#sidebar-container").load("/views/admin-sidebar.html");
+        $(".navbar").load("/views/admin-header.html");
     });
 </script>
-	</body>
+    </body>
 </html>

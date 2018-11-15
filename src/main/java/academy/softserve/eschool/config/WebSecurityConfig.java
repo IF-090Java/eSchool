@@ -3,11 +3,9 @@ package academy.softserve.eschool.config;
 import academy.softserve.eschool.security.exceptions.ExceptionHandlerFilter;
 import academy.softserve.eschool.security.JwtAuthenticationEntryPoint;
 import academy.softserve.eschool.security.JwtAuthorizationTokenFilter;
-import academy.softserve.eschool.security.service.JwtUserDetailsService;
-import com.google.common.collect.ImmutableList;
+import academy.softserve.eschool.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -69,6 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
+                .antMatchers( "/favicon.ico").permitAll()
                 .antMatchers("/signin").permitAll()
                 .antMatchers("/refresh").permitAll()
                 .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger-resources/configuration/ui","/swagger-ui.html").permitAll()
@@ -79,7 +78,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(exceptionHandlerFilter , CorsFilter.class)
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // disable page caching
         httpSecurity
                 .headers()
                 .cacheControl();
@@ -87,15 +85,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        // AuthenticationTokenFilter will ignore the below paths
-        web
-                .ignoring()
-                .antMatchers(
+        web.ignoring().antMatchers(
                         HttpMethod.POST,
                         authenticationPath
                 )
-
-                // allow anonymous resource requests
                 .and()
                 .ignoring()
                 .antMatchers(
@@ -114,7 +107,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowedOrigins(Collections.singletonList("*"));
         configuration.setAllowedMethods(Collections.singletonList("*"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
-        configuration.addExposedHeader("Authorization");
+        configuration.addExposedHeader("${jwt.token.header}");
         configuration.setAllowCredentials(true);
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

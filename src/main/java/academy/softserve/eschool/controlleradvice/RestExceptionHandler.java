@@ -3,11 +3,11 @@ package academy.softserve.eschool.controlleradvice;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.servlet.ServletException;
 import javax.validation.ConstraintViolationException;
 
 import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
-import io.jsonwebtoken.ExpiredJwtException;
+import org.springframework.dao.DataIntegrityViolationException;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -64,24 +64,34 @@ public class RestExceptionHandler {
 	}
 
 
-	@ResponseStatus(code=HttpStatus.FORBIDDEN)
-	@ExceptionHandler(AccessDeniedException.class)
-	public GeneralResponseWrapper<Object> noPrivilegies(AccessDeniedException ex) {
-		Status status = new Status(HttpStatus.FORBIDDEN.value(), "No privilegies");
-		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
-				.status(status)
-				.build();
-		return response;
-	}
 
+    @ResponseStatus(code=HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public GeneralResponseWrapper<Object> noPrivilegies(AccessDeniedException ex) {
+        Status status = new Status(HttpStatus.FORBIDDEN.value(), "No privilegies");
+        GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+                .status(status)
+                .build();
+        return response;
+    }
 
-	@ResponseStatus(code=HttpStatus.UNAUTHORIZED)
-	@ExceptionHandler(TokenGlobalTimeExpiredException.class)
-	public GeneralResponseWrapper<Object> globalTimeExpired(TokenGlobalTimeExpiredException ex) {
-		Status status = new Status(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
-		GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
-				.status(status)
-				.build();
-		return response;
-	}
+    @ResponseStatus(code=HttpStatus.FORBIDDEN)
+    @ExceptionHandler(TokenGlobalTimeExpiredException.class)
+    public GeneralResponseWrapper<Object> globalTimeExpired(TokenGlobalTimeExpiredException ex) {
+        Status status = new Status(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+        GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+                .status(status)
+                .build();
+        return response;
+    }
+
+    @ResponseStatus(code=HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public GeneralResponseWrapper<Object> badRequestParams(DataIntegrityViolationException ex) {
+        Status status = new Status().of(HttpStatus.BAD_REQUEST);
+        GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+                .status(status)
+                .build();
+        return response;
+    }
 }

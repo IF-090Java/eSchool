@@ -6,28 +6,57 @@
 
     <link rel="stylesheet" type="text/css" href="/css/global-style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/JS.js"></script>
+    <style>
+        select {
+            width: 150px;
+            padding: 5px 35px 5px 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            height: 34px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: url(/img/circle-down.png) 96% / 15% no-repeat #eee;
+        }
+
+        /* CAUTION: IE hackery ahead */
+        select::-ms-expand {
+            display: none; /* remove default arrow on ie10 and ie11 */
+        }
+
+        /* target Internet Explorer 9 to undo the custom arrow */
+        @media screen and (min-width:0\0) {
+            select {
+                background:none\9;
+                padding: 5px\9;
+            }
+        }
+        .list-group-students{
+            max-height: 160px;
+            margin-bottom: 10px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
 </head>
 <body>
-<div class="wrapper">
-    <div class="admin-sidebar"></div>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;"></nav>
+<div class="row" id="body-row">
+    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
+    <div class="col py-3">
 
-    <div class="container" style="padding-left: 0px; padding-right: 0px">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between" style="height: 78px">
-            <span class="navbar-text">Ви увійшли як Адміністратор</span>
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
-                </li>
-            </ul>
-        </nav>
         <div class="container">
-            <div class="row justify-content-center mt-5">
+            <div id="message" align="center"></div>
+            <div class="row justify-content-center mt-1">
                 <h2>Перехід на новий навчальний рік</h2>
             </div>
-            <div class="row justify-content-center mt-5">
+            <div class="row justify-content-center mt-3">
                 <div class="col-5">
                     <button type="button" class="transitButton btn btn-primary btn-block">Новий навчальний рік. Додати класи</button>
                 </div>
@@ -36,7 +65,10 @@
             <div class="row justify-content-center mt-5">
                 <div class="col-5"><h3>Зміна поточних класів для учнів</h3></div>
             </div>
-            <div class="row justify-content-center mt-5">
+            <div class="row justify-content-center">
+                <div id="message2" align="center"></div>
+            </div>
+            <div class="row justify-content-center mt-1">
                 <div class="col-8">
                     <table class="table">
                         <thead>
@@ -53,7 +85,7 @@
 
             <div class="row justify-content-center mt-5 mb-5">
                 <div class="col-5">
-                <button type="button" class="bindingButton btn btn-primary btn-block">Перевести учнів в нові класи</button>
+                <button type="button" class="bindingButton btn btn-primary btn-block" disabled>Перевести учнів в нові класи</button>
                 </div>
             </div>
         </div>
@@ -65,7 +97,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(function() {
-        $(".admin-sidebar").load("/views/admin-sidebar.html");
+        $("#sidebar-container").load("/views/admin-sidebar.html");
+        $(".navbar").load("/views/admin-header.html");
     });
 </script>
 
@@ -75,7 +108,7 @@
         $.ajaxSetup({
             beforeSend: function (xhr) {
                 if (getJwtToken()) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
+                    xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
                 }
             }
         })
@@ -90,8 +123,16 @@
             dataType: "json",
             contentType: "application/json",
             success: function (responce) {
-                alert('Нові класи додані!')
-                window.location.href = "/ui/students/new-year-transition";
+                $("#message").attr("class", "alert alert-success");
+                $("#message").html("<strong>Нові класи успішно додані!</strong>");
+
+                setTimeout(function (){
+                    window.location.href="/ui/students/new-year-transition";
+                }, 2000);
+            },
+            error: function (responce) {
+                $("#message").attr("class", "alert alert-danger");
+                $("#message").html("<strong>Такі класи вже існують!</strong>");
             }
         });
     })
@@ -101,19 +142,19 @@ $(document).ready(function () {
         var activeClasses = [];
         var activeClassesId = [];
 
-        $.each(classes, function (i, item) {
+        $.each(classes.data, function (i, item) {
             if (item.isActive == true && item.numOfStudents == 0) {
                 activeClasses.push(item.className +' - '+item.classYear)
             }
         })
 
-        $.each(classes, function (i, item) {
+        $.each(classes.data, function (i, item) {
             if (item.isActive == true && item.numOfStudents == 0) {
              activeClassesId.push(item.id)
             }
         })
 
-        $.each(classes, function (i, item) {
+        $.each(classes.data, function (i, item) {
             if (item.isActive == true && item.numOfStudents > 1) {
                 $.getJSON(host + 'students/classes/'+item.id, function (studList) {
                     var tr = $('<tr></tr>')
@@ -122,7 +163,7 @@ $(document).ready(function () {
                             '<input type="checkbox" id="spoiler_'+item.id+'">' +
                             '<label for="spoiler_'+item.id+'">Учні '+item.className+' класу</label>' +
                             '<div class="spoiler_body">' +
-                            '<list id="studId_'+item.id+'"></list></div>' +
+                            '<ul class="list-group-students" id="studId_'+item.id+'"></ul></div>' +
                             '</div></td>')
                     spoiler.appendTo(tr);
                     tr.appendTo('#tbody');
@@ -136,11 +177,13 @@ $(document).ready(function () {
 
                     var newClassesList = $('<td class="transitionTableNewClass"><select id="newClassesList_'+item.id+'"></select></td>')
                     newClassesList.appendTo(tr);
-
+                if (activeClasses.length > 0) {
+                    $(".bindingButton").removeAttr("disabled");
                     $('#newClassesList_'+item.id).append('<option value="0">Випускний</option>')
                     for (i=0; i<activeClasses.length; i++){
                         $('#newClassesList_'+item.id).append('<option value="'+activeClassesId[i]+'">'+activeClasses[i]+'</option>')
                     }
+                }
 
                 }).fail(function (data) {
                     if (new RegExp("4[0-9][0-9]").test(data.status)){
@@ -175,8 +218,9 @@ $(document).ready(function () {
             data: JSON.stringify(classesList),
             contentType: "application/json",
             success: function (responce) {
-                alert('Перехід на новий навчальний рік виконано успішно!')
-                window.location.href = "/ui/students/new-year-transition";
+                $("#message2").attr("class", "alert alert-success");
+                $(".bindingButton").attr("disabled", "true");
+                $("#message2").html("<strong>Учні успішно переведені в нові класи! <a href='/ui/classes/classList'>Переглянути список класів</a></strong>");
             }
         });
     })

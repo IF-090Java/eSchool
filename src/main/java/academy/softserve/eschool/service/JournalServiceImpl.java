@@ -1,27 +1,33 @@
 package academy.softserve.eschool.service;
 
-import academy.softserve.eschool.dto.HomeworkDTO;
-import academy.softserve.eschool.dto.JournalDTO;
-import academy.softserve.eschool.dto.JournalMarkDTO;
-import academy.softserve.eschool.dto.MarkDescriptionDTO;
+import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.model.ClassTeacherSubjectLink;
+import academy.softserve.eschool.model.File;
 import academy.softserve.eschool.model.Lesson;
 import academy.softserve.eschool.repository.ClassTeacherSubjectLinkRepository;
+import academy.softserve.eschool.repository.FileRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class JournalServiceImpl implements JournalService {
-    @Autowired
-    ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository;
-    @Autowired
-    StudentRepository studentRepository;
-    @Autowired
-    LessonRepository lessonRepository;
+
+    @NonNull
+    private ClassTeacherSubjectLinkRepository classTeacherSubjectLinkRepository;
+    @NonNull
+    private StudentRepository studentRepository;
+    @NonNull
+    private LessonRepository lessonRepository;
+    @NonNull
+    private FileRepository fileRepository;
+
+
     @Override
     public List<JournalDTO> getJournalsByTeacher(int idTeacher) {
         List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findJournalsByTeacher(idTeacher);
@@ -115,11 +121,52 @@ public class JournalServiceImpl implements JournalService {
             HomeworkDTO dto = HomeworkDTO.builder()
                     .idLesson(lesson.getId())
                     .date(lesson.getDate())
-                    .file(lesson.getFile())
                     .homework(lesson.getHometask())
                     .build();
+            if(lesson.getFile()!=null){
+                dto.setFileName(lesson.getFile().getFileName());
+            }
+            else dto.setFileName(null);
             homeworkDTOS.add(dto);
         }
         return homeworkDTOS;
+    }
+
+    @Override
+    public HomeworkFileDTO getFile(int idLesson) {
+        Lesson lesson = lessonRepository.findFile(idLesson);
+        HomeworkFileDTO homeworkFileDTO = HomeworkFileDTO.builder()
+                .idLesson(idLesson)
+                .fileData(lesson.getFile().getFile())
+                .fileName(lesson.getFile().getFileName())
+                .fileType(lesson.getFile().getFileType())
+                .homework(lesson.getHometask())
+                .build();
+        return homeworkFileDTO;
+    }
+
+    @Override
+    public void saveHomework(HomeworkFileDTO fileDTO) {
+        Lesson lesson = lessonRepository.findById(fileDTO.getIdLesson()).orElse(null);
+        if(lesson!=null){
+            if(fileDTO.getFileName()!=null){
+                File file = File.builder()
+                        .file(fileDTO.getFileData())
+                        .fileType(fileDTO.getFileType())
+                        .fileName(fileDTO.getFileName())
+                        .build();
+                File savedFile = fileRepository.save(file);
+                lessonRepository.saveHomeWork(fileDTO.getHomework(),savedFile.getId(),fileDTO.getIdLesson());
+            }
+            else{
+                if(lesson.getFile()==null) {
+                    lessonRepository.saveHomeWork(fileDTO.getHomework(), null, fileDTO.getIdLesson());
+                }
+                else {
+                    lessonRepository.saveHomeWork(fileDTO.getHomework(), lesson.getFile().getId(), fileDTO.getIdLesson());
+                }
+            }
+        }
+
     }
 }

@@ -1,7 +1,5 @@
 package academy.softserve.eschool.dto;
 
-import academy.softserve.eschool.model.Student;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;

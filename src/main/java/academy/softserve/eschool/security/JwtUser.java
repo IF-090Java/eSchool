@@ -6,7 +6,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+/**
+ * Custom implementation of {@link UserDetails}. Provides core user information.
+ */
 public class JwtUser implements UserDetails{
     private final Long id;
     private final String username;
@@ -33,29 +35,23 @@ public class JwtUser implements UserDetails{
         this.authorities = authorities;
     }
 
-    @JsonIgnore
     public Long getId() {
         return id;
     }
 
     @Override
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() { return username; }
 
-    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
@@ -73,7 +69,6 @@ public class JwtUser implements UserDetails{
         return email;
     }
 
-    @JsonIgnore
     @Override
     public String getPassword() {
         return password;

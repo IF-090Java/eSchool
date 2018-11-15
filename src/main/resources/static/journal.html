@@ -5,24 +5,26 @@
     <title>Журнали</title>
 
 
+    <link rel="stylesheet" type="text/css" href="/css/old-sidebar.css">
     <link rel="stylesheet" type="text/css" href="/css/global-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
-
+    <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/JS.js"></script>
     <style type="text/css">
-       table {
-           border-collapse: collapse;
-           width: 40%;
-           margin: 20px auto;
-       }
+        table {
+            border-collapse: collapse;
+            width: 40%;
+            margin: 20px auto;
+        }
 
-       .mark,.dateCell {
-           text-align: center;
-           padding: 8px;
-       }
+        .mark,.dateCell {
+            text-align: center;
+            padding: 8px;
+        }
 
         #markPick{
             margin: auto;
@@ -33,32 +35,47 @@
             display: inline-block;
         }
 
-       #table_mark{
-           width: 100%;
-           display: block;
-           overflow-x: auto;
-           white-space: nowrap;
+        #table_mark{
+            width: 100%;
+            display: block;
+            white-space: nowrap;
+            overflow-x: auto;
         }
 
-       #table_mark thead th,#table_home thead th{
+        #table_mark thead th,#table_home thead th,#table_students thead th{
             border: 2px solid #ffffff;
             background-color: #343A40;
             color:white;
         }
-       #table_mark td,#table_home td{
-           background-color: #ffffff;
-       }
+        #table_mark td,#table_home td{
+            background-color: #ffffff;
+        }
 
-       td,th{
-           border: 2px solid #ddd;
-           background-color: #ffffff;
-       }
-       .cl-3{
+        td,th{
+            border: 2px solid #ddd;
+            background-color: #ffffff;
+        }
+        .cl-3{
             width: 25%;
-       }
-       .cl-6{
-           width: 50%;
-       }
+        }
+        .cl-6{
+            width: 50%;
+        }
+
+        #table_mark tr th:first-child, #table_mark tr td:first-child
+        {
+            position:sticky;
+            left:0px;
+            box-shadow: 1px 0px 1px 1px #ddd;
+        }
+
+        #table_mark tr th:last-child, #table_mark tr td:last-child
+        {
+            position:sticky;
+            right:0px;
+            box-shadow: -1px 0px 1px 1px #ddd;
+        }
+
 
     </style>
 </head>
@@ -66,24 +83,48 @@
 <div class="wrapper">
     <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
 
-        <div class="container-fluid teacher_nav" style="position: fixed;z-index: 3"> </div>
+        <div class="container-fluid teacher_nav" style="position: fixed;z-index: 3">
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="height: 80px;font-size: 16px">
+                <a id="logo" href="" class="navbar-brand d-flex w-50 mr-auto">School Management System</a>
+                <div class="navbar-collapse collapse w-100">
+                    <ul class="navbar-nav w-100 justify-content-center">
+                        <li class="nav-item">
+                            <a id="profileLink" class="nav-link" href="">Профіль</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ui/journalsList/view">Журнали</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ui/stats">Успішність</a>
+                        </li>
+                        <li class="nav-item" style="white-space: nowrap">
+                            <a id ="editLink" class="nav-link" href="">Редагувати профіль</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
 
         <div class="container-fluid" style="margin: 120px auto">
 
             <table class="table" id="description">
                 <thead>
-                    <tr class="d-flex">
-                        <th class="col-4 text-center" id="classTitle">Клас: </th>
-                        <th class="col-4 text-center" id="subjectTitle">Предмет: </th>
-                        <th class="col-4 text-center" id="yearTitle">Навчальний рік: </th>
-                    </tr>
+                <tr class="d-flex">
+                    <th class="col-4 text-center" id="classTitle">Клас: </th>
+                    <th class="col-4 text-center" id="subjectTitle">Предмет: </th>
+                    <th class="col-4 text-center" id="yearTitle">Навчальний рік: </th>
+                </tr>
                 </thead>
             </table>
 
             <div class="container-fluid">
-                <div class="row justify-content-center" >
-                    <table class="table" id="table_mark" style="margin: 20px auto" >
-                    </table>
+                <div class="row justify-content-center">
+                    <table class="table" id="table_mark" style="margin: 20px auto;" ></table>
                 </div>
             </div>
 
@@ -123,7 +164,7 @@
 
             <hr/>
 
-            <div class="container" id="homeworkPick">
+            <div class="container" id="homeworkPick" style="margin-bottom: 20px">
                 <div class="row justify-content-center">
                     <form class="form-horizontal col-5" id="formHomework">
                         <div class="form-group">
@@ -142,11 +183,11 @@
             <div class="container">
                 <table class="table table-bordered table-striped" id="table_home" style="width: 100%">
                     <thead>
-                        <tr class="d-flex" style="display: table-row !important;">
-                            <th class="col-3">Дата</th>
-                            <th class="col-6">Домашнє завдання</th>
-                            <th class="col-3">Файл</th>
-                        </tr>
+                    <tr class="d-flex" style="display: table-row !important;">
+                        <th class="col-3">Дата</th>
+                        <th class="col-6">Домашнє завдання</th>
+                        <th class="col-3">Файл</th>
+                    </tr>
                     </thead>
                 </table>
             </div>
@@ -154,17 +195,17 @@
     </div>
 </div>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            refreshToken();
-            $.ajaxSetup({
-                beforeSend: function (xhr) {
-                    if (getJwtToken()) {
-                        xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("jwtToken"))
-                    }
+<script type="text/javascript">
+    $(document).ready(function () {
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                if (getJwtToken()) {
+                    xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
                 }
-            })
+            }
         })
+    })
 
     $(document).ready(function () {
 
@@ -173,26 +214,55 @@
         var idClass = pathArray[6];
         var currentCell;
 
+        var token = parseJwt(getJwtToken())
+        var idUser = token.jti;
+        $("#profileLink").attr("href", "/ui/teachers/" + idUser + "/profile");
+        $("#editLink").attr("href", "/ui/teacher/"+idUser+"/edit");
+        $("#logo").attr("href", "/ui/teachers/" + idUser + "/profile");
+
+        console.log($("#editLink").attr("href"));
+        console.log($("#profileLink").attr("href"));
+
         $.getJSON(host + 'classes/'+idClass, function (data) {
-          $('<span>'+data.className+'</span>').appendTo('#classTitle');
+            $('<span>'+data.data.className+'</span>').appendTo('#classTitle');
         });
 
         $.getJSON(host + 'subjects/'+idSubject, function (data) {
-          $('<span>'+data.subjectName+'</span>').appendTo('#subjectTitle');
+            $('<span>'+data.data.subjectName+'</span>').appendTo('#subjectTitle');
         });
 
         $.getJSON(host + 'homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
             var tableBody = $('<tbody></tbody>');
-          $.each(data.data, function(key, val) {
-                var tr=$('<tr class="d-flex" style="display: table-row !important;"></tr>');
+            $.each(data.data, function(key, val) {
+                var tr=$('<tr class="d-flex" idLes="'+val.idLesson+'" style="display: table-row !important;"></tr>');
                 $('<td class="col-3 cl-3">'+val.date+'</td>').appendTo(tr);
-                $('<td class="col-6 cl-6">'+val.homework+'</td>').appendTo(tr);
-                /*$('<td>'+atob(val.file)+'</td>').appendTo(tr);*/
-                $('<td class="col-3 cl-3">'+'file.txt'+'</td>').appendTo(tr);
+                $('<td class="col-6 cl-6 homeColTask">'+val.homework+'</td>').appendTo(tr);
+                if(val.fileName != undefined) {
+                    $('<td class="col-3 cl-3 homeColFile"><button type="button"class="btn btn-link dButton" idLes="'+val.idLesson+'">' + val.fileName + '</button></td>').appendTo(tr);
+                }
+                else{
+                    $('<td class="col-3 cl-3 homeColFile"><button type="button"class="btn btn-link dButton" idLes="'+val.idLesson+'"></button></td>').appendTo(tr);
+                }
                 tr.appendTo(tableBody);
             });
-          tableBody.appendTo("#table_home");
-          $('#table_home').dataTable();
+            tableBody.appendTo("#table_home");
+            $('.dButton').click(downloadFile);
+            $('#table_home').dataTable({
+                "language": {
+                    "lengthMenu": "Відображати _MENU_ записів на сторінці",
+                    "zeroRecords": "Записів не знайдено",
+                    "info": "Сторінка _PAGE_ з _PAGES_",
+                    "search": "Пошук:",
+                    "paginate": {
+                        "first":      "Перша",
+                        "last":       "Остання",
+                        "next":       "Наступна",
+                        "previous":   "Попередня"
+                    },
+                    "infoEmpty": "Немає записів",
+                    "infoFiltered": "(filtered from _MAX_ total records)"
+                }
+            });
         }).fail(function (data) {
             if (new RegExp("4[0-9][0-9]").test(data.status)){
                 window.location.href='/ui/login'
@@ -202,71 +272,48 @@
             var date = data.data[0].marks[0].dateMark.split(".");
             $('<span>'+date[0]+'/'+(++date[0])+'</span>').appendTo('#yearTitle');
             $.each(data.data, function(key, val) {
-                var thead=$('<thead ></thead>');
-                var tr1=$('<tr></tr>');
-                var tr2=$('<tr></tr>');
-                $('<th>'+"Тип оцінки"+'</th>').appendTo(tr1);
-                $('<th>'+"Дата"+'</th>').appendTo(tr2);
+                var thead_mark=$('<thead ></thead>');
+                var tr1_mark=$('<tr></tr>');
+                var tr2_mark=$('<tr></tr>');
+                $('<th class="mer">'+"Тип оцінки"+'</th>').appendTo(tr1_mark);
+                $('<th class="mer">'+"Дата"+'</th>').appendTo(tr2_mark);
                 $.each(val.marks, function(k, v) {
-                    var th = $('<th></th>');
+                    var th_mark = $('<th></th>');
                     var select = $('<select class="type"></select>').attr("idLes",v.idLesson);
+                    $('<option title ="Контрольна"  value="Control" selected>' + "Кр." + '</option>').appendTo(select);
+                    $('<option title ="Практична"  value="Practic">' + "Пр." + '</option>').appendTo(select);
+                    $('<option title ="Модульна"  value="Module">' + "Мд." + '</option>').appendTo(select);
+                    $('<option title ="Лабораторна" value="Labaratorna">' + "Лр." + '</option>').appendTo(select);
+                    select.val(v.typeMark);
 
-                    switch (v.typeMark) {
-                        case "Control":
-                            $('<option value="Control" selected>' + "Cn." + '</option>').appendTo(select);
-                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
-                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
-                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
-                            break;
-                        case "Practic":
-                            $('<option value="Practic" selected>' + "Pr." + '</option>').appendTo(select);
-                            $('<option value="Control">' + "Cn." + '</option>').appendTo(select);
-                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
-                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
-                            break;
-                        case "Module":
-                            $('<option value="Module" selected>' + "Md." + '</option>').appendTo(select);
-                            $('<option value="Control">' + "Cn." + '</option>').appendTo(select);
-                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
-                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
-                            break;
-                        case "Labaratorna":
-                            $('<option value="Labaratorna" selected>' + "Lb." + '</option>').appendTo(select);
-                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
-                            $('<option value="Control">' + "Cn." + '</option>').appendTo(select);
-                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
-                            break;
-                        default:
-                            $('<option value="Control" selected>' + "Cn." + '</option>').appendTo(select);
-                            $('<option value="Practic">' + "Pr." + '</option>').appendTo(select);
-                            $('<option value="Module">' + "Md." + '</option>').appendTo(select);
-                            $('<option value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
-                    }
-                    select.appendTo(th);
-                    th.appendTo(tr1);
+                    select.appendTo(th_mark);
+                    th_mark.appendTo(tr1_mark);
                     var date = v.dateMark.split(".");
-                    $('<th class="dateCell">'+date[1]+'.'+date[2]+'</th>').appendTo(tr2);
+                    $('<th class="dateCell">'+date[1]+'.'+date[2]+'</th>').appendTo(tr2_mark);
                 });
-                $('<th>'+'С.'+'</th>').appendTo(tr2);
-                tr1.appendTo(thead);
-                tr2.appendTo(thead);
-                thead.appendTo("#table_mark");
+                $('<th>'+''+'</th>').appendTo(tr1_mark);
+                $('<th>'+'С.'+'</th>').appendTo(tr2_mark);
+                tr1_mark.appendTo(thead_mark);
+                tr2_mark.appendTo(thead_mark);
+                thead_mark.appendTo("#table_mark");
                 return false;
             });
             var countStudents = 0;
+            var tbody_mark=$('<tbody ></tbody>');
             $.each(data.data, function(key, val) {
-                var tr=$('<tr class="markValues"></tr>');
-                $('<td>'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr);
+                var tr_mark=$('<tr class="markValues"></tr>');
+                $('<td class="mer">'+(++countStudents)+"."+val.studentFullName+'</td>').appendTo(tr_mark);
                 $.each(val.marks, function(k, v) {
                     if(!v.mark){
-                        $('<td class="mark" ></td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
+                        $('<td class="mark" ></td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr_mark);
                     }
                     else {
-                        $('<td class="mark" title="'+v.note+'" >' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr);
+                        $('<td class="mark" title="'+v.note+'" >' + v.mark + '</td>').attr("idSt",val.idStudent).attr("idLes",v.idLesson).appendTo(tr_mark);
                     }
                 });
-                $('<td class="average">'+' '+'</td>').appendTo(tr);
-                tr.appendTo('#table_mark');
+                $('<td class="average">'+' '+'</td>').appendTo(tr_mark);
+                tr_mark.appendTo(tbody_mark);
+                tbody_mark.appendTo('#table_mark');
             });
             averageMark();
             $('td.mark').click(markClick);
@@ -303,6 +350,7 @@
                         currentCell = undefined;
                         $("#student_data").val("");
                         $("#note_form").val("");
+                        $("#homework_form").val("");
                         $(".selectpicker").selectpicker("refresh");
                         $("#mark_status").text(' Успішно додано!');
                         $("#mark_status").css("color", "#3fa85f");
@@ -313,6 +361,105 @@
         });
 
 
+        $( "#saveHomeworkB" ).click(function() {
+            if(currentCell==undefined){
+                $("#homework_status").text(' Поле не вибрано!');
+                $("#homework_status").css("color", "#d23c44");
+                $("#homework_status").show();
+            }
+            else {
+                var myFile = $('#file_form').prop('files')[0];
+                if (myFile != null) {
+                    console.log(1);
+                    var name = $('#file_form').prop('files')[0].name;
+                    var reader = new FileReader();
+                    reader.readAsDataURL(myFile);
+                    reader.onload = function () {
+                        var fileData = reader.result.split(',')[1];
+                        var typeData = reader.result.split(';')[0];
+                        var type = typeData.split(':')[1];
+                        var hometask = $('#homework_form').val();
+                        $.ajax({
+                            type: "put",
+                            url: host + "homeworks/files",
+                            dataType: "json",
+                            data: JSON.stringify({
+                                "idLesson": currentCell.attr("idLes"),
+                                "homework": hometask,
+                                "fileData": fileData,
+                                "fileName": name,
+                                "fileType": type
+                            }),
+                            contentType: "application/json",
+                            success: function (response) {
+                                currentCell.css("background-color", "");
+                                currentCell.css("color", "#212529");
+                                $('tr[idLes=' + currentCell.attr("idLes") + '] .homeColTask').html(hometask);
+                                $('tr[idLes=' + currentCell.attr("idLes") + '] .dButton').html(name);
+                                currentCell = undefined;
+                                $("#homework_status").text(' Успішно додано!');
+                                $("#homework_status").css("color", "#3fa85f");
+                                $("#homework_status").show();
+                                $("#homework_form").val("");
+                                $("#file_form").val("");
+                                $("#student_data").val("");
+                                $("#note_form").val("");
+                            }
+                        });
+                    }
+                }
+                else{
+                    console.log(2);
+                    var hometask = $('#homework_form').val();
+                    $.ajax({
+                        type: "put",
+                        url: host + "homeworks/files",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "idLesson": currentCell.attr("idLes"),
+                            "homework": hometask,
+                            "fileData": null,
+                            "fileName": null,
+                            "fileType": null
+                        }),
+                        contentType: "application/json",
+                        success: function (response) {
+                            currentCell.css("background-color", "");
+                            currentCell.css("color", "#212529");
+                            $('tr[idLes=' + currentCell.attr("idLes") + '] .homeColTask').html(hometask);
+                            if($('tr[idLes=' + currentCell.attr("idLes") + '] .dButton').text()=="") {
+                                $('tr[idLes=' + currentCell.attr("idLes") + '] .dButton').html(name);
+                            }
+                            currentCell = undefined;
+                            $("#homework_status").text(' Успішно додано!');
+                            $("#homework_status").css("color", "#3fa85f");
+                            $("#homework_status").show();
+                            $("#homework_form").val("");
+                            $("#file_form").val("");
+                            $("#student_data").val("");
+                            $("#note_form").val("");
+                        }
+                    });
+                }
+            }
+
+        });
+
+        function downloadFile() {
+            $.ajax({
+                type: "get",
+                url: host + "homeworks/files/"+$(this).attr('idLes'),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    var link = document.createElement("a");
+                    document.body.appendChild(link);
+                    link.download = response.data.fileName;
+                    link.href = 'data:'+response.data.fileType+";base64,"+response.data.fileData;
+                    link.click();
+                }
+            });
+        }
 
         function averageMark() {
             $('#table_mark .markValues').each(function () {
@@ -340,6 +487,7 @@
                 currentCell = undefined;
                 $("#student_data").val("");
                 $("#note_form").val("");
+                $('#homework_form').val("");
 
             }
             else if( currentCell != undefined && (currentCell.attr("idSt")!=$(this).attr("idSt") || currentCell.attr("idLes")!=$(this).attr("idLes"))){
@@ -349,7 +497,9 @@
                 $(this).css("background-color", "#6c757d");
                 $(this).css("color", "#ffffff");
                 getStudent(currentCell.attr('idSt'));
+                $('#homework_form').val(currentCell.attr('idLes'));
                 $("#note_form").val(currentCell.attr('title'));
+                setHomeWork(currentCell.attr('idLes'));
                 var mark = currentCell.text();
                 if(mark!='') {
                     $('#mark_form').val(mark).prop('selected', true);
@@ -360,6 +510,7 @@
                 currentCell = $(this);
                 $(this).css("background-color", "#6c757d");
                 $(this).css("color", "#ffffff");
+                setHomeWork(currentCell.attr('idLes'));
                 getStudent(currentCell.attr('idSt'));
                 $("#note_form").val(currentCell.attr('title'));
                 var mark = currentCell.text();
@@ -372,8 +523,13 @@
 
         function getStudent(idStudent){
             $.getJSON(host + 'students/'+idStudent, function (data) {
-                $("#student_data").val(data.firstname+" "+data.lastname);
+                $("#student_data").val(data.data.firstname+" "+data.data.lastname);
             });
+        }
+
+        function setHomeWork(idLesson){
+            var task = $('tr[idLes=' + currentCell.attr("idLes") + '] .homeColTask').text();
+            $('#homework_form').val(task);
         }
 
         function dropClick() {
@@ -392,19 +548,13 @@
 
         $('.selectpicker').selectpicker();
     });
-    </script>
+</script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            $(".teacher_nav").load("/views/menu_teacher.html");
-        });
-    </script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 </body>
 </html>

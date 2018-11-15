@@ -25,9 +25,9 @@ public interface ClassRepository extends JpaRepository<Clazz, Integer> {
      * @return list of Clazz objects
      */
     @Query(value = "Select distinct clazz.id, clazz.name, clazz.description, clazz.academic_year, clazz.is_active " +
-    		" from class_teacher_subject_link left join clazz " +
+            " from class_teacher_subject_link left join clazz " +
             " on class_teacher_subject_link.clazz_id=clazz.id" +
             " where subject_id=:subjectId", nativeQuery=true)
-	List<Clazz> findClassesBySubject(Integer subjectId);
+    List<Clazz> findClassesBySubject(@Param(value="subjectId") Integer subjectId);
 
 }

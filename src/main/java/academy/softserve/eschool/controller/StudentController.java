@@ -1,28 +1,21 @@
 package academy.softserve.eschool.controller;
 
-import java.util.List;
-
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.StudentDTO;
 import academy.softserve.eschool.model.Student;
+import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.service.StudentService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
+import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/students")
@@ -45,9 +38,9 @@ public class StudentController {
     )
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public Student addStudent(
+    public GeneralResponseWrapper<Student> addStudent(
             @ApiParam(value = "student object", required = true) @RequestBody StudentDTO student) {
-        return studentService.addOne(student);
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), studentService.addOne(student));
     }
 
     @GetMapping("/{idStudent}")
@@ -59,10 +52,10 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'TEACHER')")
-    public StudentDTO getStudent(
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER') or (hasRole('USER') and principal.id == #idStudent)")
+    public GeneralResponseWrapper<StudentDTO>getStudent(
             @ApiParam(value = "id of lesson", required = true) @PathVariable int idStudent) {
-        return studentService.getOne(studentRepository.findById(idStudent).get());
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), studentService.getOne(studentRepository.findById(idStudent).get()));
     }
 
     @ApiOperation(value = "get students from class")
@@ -73,11 +66,11 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and @securityExpressionService.teachesInClass(principal.id, #idClass))")
     @GetMapping("/classes/{idClass}")
-    public List<StudentDTO> getStudentsByClass(
+    public GeneralResponseWrapper<List<StudentDTO>> getStudentsByClass(
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass){
-        return studentService.getAll(studentRepository.findByClazzId(idClass));
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), studentService.getAll(studentRepository.findByClazzId(idClass)));
     }
 
     @PutMapping("/{idStudent}")
@@ -89,12 +82,11 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasAnyRole('USER')")
-    public void updateStudent(
+    @PreAuthorize("hasRole('USER') and principal.id == #idStudent")
+    public GeneralResponseWrapper<User> updateStudent(
             @ApiParam(value = "user object", required = true)  @RequestBody EditUserDTO student,
             @ApiParam(value = "id of student", required = true)  @PathVariable int idStudent){
-
-        studentService.updateStudent(studentRepository.findById(idStudent).get(),student, "USER");
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK) , studentService.updateStudent(studentRepository.findById(idStudent).get(), student));
 
     }
 

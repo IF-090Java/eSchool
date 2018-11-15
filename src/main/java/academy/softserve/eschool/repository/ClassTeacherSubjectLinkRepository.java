@@ -1,8 +1,8 @@
 package academy.softserve.eschool.repository;
 
-import academy.softserve.eschool.dto.TeacherJournalDTO;
 import academy.softserve.eschool.model.ClassTeacherSubjectLink;
 import academy.softserve.eschool.model.ClassTeacherSubjectLinkId;
+import academy.softserve.eschool.service.SecurityExpressionService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,8 +33,37 @@ public interface ClassTeacherSubjectLinkRepository extends JpaRepository<ClassTe
             "left join teacher on teacher.id=ct.teacher_id\n", nativeQuery=true)
     List<ClassTeacherSubjectLink> findJournals();
 
-    @Query(value = "select * from class_teacher_subject_link\n" +
-            "where teacher_id= :idTeacher AND subject_id= :idSubject AND clazz_id= :idClass\n", nativeQuery=true)
-    ClassTeacherSubjectLink findByIds(@Param("idTeacher") int idTeacher, @Param("idClass") int idClass,
-                                      @Param("idSubject") int idSubject);
+    /**
+     * Find active journal for a teacher by his id and subjectId
+     * in class with transmitted id. Used to secure methods {@link SecurityExpressionService}
+     * @param teacherId teacher's id
+     * @param classId class's id
+     * @param subjectId subject's id
+     * @return {@link ClassTeacherSubjectLink} if found else null
+     */
+    @Query(value = "select * from class_teacher_subject_link ct\n" +
+            "where teacher_id = :teacherId and clazz_id = :classId and subject_id = :subjectId and is_active = true", nativeQuery=true)
+    ClassTeacherSubjectLink findByTeacherIdAndClazzIdAndSubjectId(@Param("teacherId") int teacherId,
+                                                                  @Param("classId")int classId,
+                                                                  @Param("subjectId")int subjectId);
+
+    /**
+     * Find active journal for a teacher by his id in class
+     * with transmitted id.
+     * @param teacherId teacher's id
+     * @param classId class's id
+     * @return ClassTeacherSubjectLink if found else null
+     */
+    @Query(value = "select * from class_teacher_subject_link ct\n" +
+            "where teacher_id = :teacherId and clazz_id = :classId and is_active = true", nativeQuery=true)
+    List<ClassTeacherSubjectLink> findByTeacherIdAndClazzId(@Param("teacherId") int teacherId,
+                                                      @Param("classId")int classId);
+
+    /**
+     * Find all {@link ClassTeacherSubjectLink} by teacher id and subject id.
+     * @param teacherId teacher's id
+     * @param subjectId subject's id
+     * @return list of {@link ClassTeacherSubjectLink} if found else null
+     */
+    List<ClassTeacherSubjectLink> findByTeacherIdAndSubjectId(int teacherId, int subjectId);
 }
