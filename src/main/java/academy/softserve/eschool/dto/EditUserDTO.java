@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -26,7 +27,7 @@ public class EditUserDTO {
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd", timezone="EST")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @ApiModelProperty(notes = "student login")
     private String login;

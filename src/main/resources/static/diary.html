@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <meta charset="UTF-8">
         <title>Щоденник</title>
-        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+        <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+		    <link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">  
         <style> 
-
         .diary-container {
             -webkit-columns: 500px 2; /* Chrome, Safari, Opera */
             -moz-columns: 500px 2; /* Firefox */
@@ -22,7 +21,6 @@
             margin-bottom: 1rem;
             box-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
         }
-
         table,td,th{
               border: 1px solid #ddd;
            }
@@ -48,7 +46,6 @@
                padding-top: 0.75rem;
                padding-left: 0.75rem;
            }
-           
            </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="/js/JS.js"></script>
@@ -106,10 +103,8 @@
                     
                 </table>
             </div>
-            
-            
+          
         </div>
-        
             <script type="text/javascript">
                 $(document).ready(function () {
                     refreshToken();
@@ -121,7 +116,6 @@
                         }
                     })
                 })
-
                 var offset = 0;
                 var weekStart = getWeekStart(offset);
                 var weekEnd = getWeekEnd(offset);
@@ -158,8 +152,6 @@
                         }
                     });
                 }
-                
-                
                 
                 function setData (response) {
                     var data = response.data;
