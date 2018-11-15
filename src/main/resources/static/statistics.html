@@ -18,25 +18,28 @@
                 margin-top: 20px;
                 box-shadow: 1px 2px 3px rgba(0, 0, 0, .5);
             }
+            .control{
+                margin-right: 2px;
+            }
         </style>
     </head>
     <body>
         <div class="container-fluid px-0 teacher_nav" style="z-index: 3"> </div>
-        <div class="container pt-1">
+        <div class="container pt-2">
             <div class="container-fluid d-flex flex-wrap">
-                <select id="subject">
+                <select id="subject" class="control">
                     <option value="">Предмет</option>
                 </select>
-                <select id="class">
+                <select id="class" class="control">
                     <option value="">Клас</option>
                 </select>
-                <select id="student" disabled="true">
+                <select id="student" class="control" disabled="true">
                     <option value="">Учень</option>
                 </select>
-                <span>Рік <select id="year"></select></span>
-                <span>Початок періоду <input class="border rounded" id="startDate" type="date" name="start"></span>
+                <span class="control">Рік <select id="year"></select></span>
+                <span class="control">Початок періоду <input class="border rounded" id="startDate" type="date" name="start"></span>
                 
-                <span>Кінець періоду <input class="border rounded" id="endDate" type="date" name="end"></span>
+                <span class="control">Кінець періоду <input class="border rounded" id="endDate" type="date" name="end"></span>
             </div>
             <div class="statisticsContainer card">
                 <div id="average"></div>
