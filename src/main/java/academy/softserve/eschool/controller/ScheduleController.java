@@ -10,6 +10,8 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
     @NonNull
     private ScheduleServiceImpl scheduleService;
     @NonNull
@@ -71,6 +74,8 @@ public class ScheduleController {
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
             @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)
     {
+        logger.info("Schedule created for class with id="+ scheduleDTO.getClassName().getId());
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDate = LocalDate.of(scheduleDTO.getStartOfSemester().getYear(), scheduleDTO.getStartOfSemester().getMonth(), scheduleDTO.getStartOfSemester().getDayOfMonth());
         LocalDate endDate = LocalDate.of(scheduleDTO.getEndOfSemester().getYear(), scheduleDTO.getEndOfSemester().getMonth(), scheduleDTO.getEndOfSemester().getDayOfMonth());
