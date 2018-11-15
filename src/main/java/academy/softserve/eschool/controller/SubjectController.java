@@ -65,7 +65,7 @@ public class SubjectController {
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@ApiOperation(value = "Get a subject by Id")
-	@PreAuthorize("hasRole('ADMIN') or (hasTole('TEACHER') and  @securityExpressionService.teachesSubject(principal.id, #id))")// todo secure
+	@PreAuthorize("hasRole('ADMIN') or (hasTole('TEACHER') and  @securityExpressionService.teachesSubject(principal.id, #id))")
 	@GetMapping("/{id}")
 	public GeneralResponseWrapper<SubjectDTO> getSubjectById(
 			@ApiParam(value = "Id of subject", required = true) @PathVariable int id) {
