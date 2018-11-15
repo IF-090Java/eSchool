@@ -56,7 +56,7 @@ public class SubjectController {
 	/**
      * Returns subject as {@link SubjectDTO} object by subject Id
      *
-     * @param subjectId Id of subject
+     * @param id Id of subject
      * @return subject as {@link SubjectDTO} object in {@link GeneralResponseWrapper} with HttpStatus code
      */
 	@ApiResponses(value = {
@@ -65,7 +65,7 @@ public class SubjectController {
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@ApiOperation(value = "Get a subject by Id")
-	@PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+	@PreAuthorize("hasRole('ADMIN') or (hasTole('TEACHER') and  @securityExpressionService.teachesSubject(principal.id, #id))")// todo secure
 	@GetMapping("/{id}")
 	public GeneralResponseWrapper<SubjectDTO> getSubjectById(
 			@ApiParam(value = "Id of subject", required = true) @PathVariable int id) {
@@ -77,7 +77,7 @@ public class SubjectController {
      * If {@code teacherId} request parameter set, returns list of {@link SubjectDTO} objects
      * with subjects that taught by a teacher with the specified id.
      *
-     * @param teacherId Id of teacher
+     * @param id Id of teacher
      * @return List of {@link SubjectDTO} objects with subject that taugh by a teacher with the specified id
      *         in {@link GeneralResponseWrapper} with HttpStatus code
      */
@@ -117,7 +117,7 @@ public class SubjectController {
 	/**
      * Edit some subject
      *
-     * @param subjectId Id of subject
+     * @param id Id of subject
      * @param editSubject {@link SubjectDTO} object of subject that need to be edited
      * @return Edited subject as {@link SubjectDTO} object
      *         in {@link GeneralResponseWrapper} with HttpStatus code

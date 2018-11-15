@@ -65,7 +65,8 @@ public class ClassController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @ApiOperation(value = "Get Class")
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER') or (hasRole('USER') and @securityExpressionService.isMemberOfClass(principal.id, #classId))")//for teacher needs access to the statistics page for all classes
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and @securityExpressionService.teachesInClass(principal.id, #classId)) " +
+            "or (hasRole('USER') and @securityExpressionService.isMemberOfClass(principal.id, #classId))")
     @GetMapping("/{classId}")
     public GeneralResponseWrapper<ClassDTO> getClassById(
             @ApiParam(value = "id of class", required = true) @PathVariable int classId){

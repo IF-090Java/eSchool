@@ -62,10 +62,10 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and @securityExpressionService.teachesInClass(principal.id, #idClass))")
     @GetMapping("/classes/{idClass}")
     public List<StudentDTO> getStudentsByClass(
-            @ApiParam(value = "id of class", required = true) @PathVariable int idClass){
+            @ApiParam(value = "id of class", required = true) @PathVariable int idClass) {
         return studentService.getAll(studentRepository.findByClazzId(idClass));
     }
 
@@ -81,7 +81,7 @@ public class StudentController {
     @PreAuthorize("hasRole('USER') and principal.id == #idStudent")
     public void updateStudent(
             @ApiParam(value = "user object", required = true)  @RequestBody EditUserDTO student,
-            @ApiParam(value = "id of student", required = true)  @PathVariable int idStudent){
+            @ApiParam(value = "id of student", required = true)  @PathVariable int idStudent) {
 
         studentService.updateStudent(studentRepository.findById(idStudent).get(),student, "USER");
 
