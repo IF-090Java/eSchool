@@ -100,7 +100,7 @@ public class RestExceptionHandler {
     @ResponseStatus(code=HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public GeneralResponseWrapper<Object> badRequestParams(DataIntegrityViolationException ex) {
-        Status status = new Status(HttpStatus.BAD_REQUEST.value(), "Such data already exists");
+        Status status = new Status().of(HttpStatus.BAD_REQUEST);
         GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
                 .status(status)
                 .build();

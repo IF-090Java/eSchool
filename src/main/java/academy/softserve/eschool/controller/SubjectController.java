@@ -87,7 +87,7 @@ public class SubjectController {
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@ApiOperation(value = "Get all subjects by teacher", response = SubjectDTO.class)
-	@PreAuthorize("hasRole('TEACHER') and principal.id == #idTeacher")
+	@PreAuthorize("hasRole('TEACHER') and principal.id == #id")
 	@GetMapping("/teachers/{id}")
 	public GeneralResponseWrapper<List<SubjectDTO>> getSubjectsTeacher(
 			@ApiParam(value = "id of teacher", required = true) @PathVariable int id) {

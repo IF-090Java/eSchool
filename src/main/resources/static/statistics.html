@@ -176,7 +176,7 @@
             }
             
             function fillSubjectsSelect(data){
-                $.each(data, function(i, subj){
+                $.each(data.data, function(i, subj){
                     var option = $('<option>');
                     option.val(subj.subjectId);
                     option.text(subj.subjectName);

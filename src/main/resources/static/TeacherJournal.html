@@ -134,6 +134,11 @@ select {
                     });
                     for (i=0; i < teachers.length; i++)
                         $('#teacher_input').append('<option value="' + id[i] + '">' + teachers[i] + '</option>');
+                    if (teachers.length == 0)
+                    {
+                    $("#message").attr("class", "alert alert-danger");
+                      $("#message").html("<strong>Ще не створено вчителів. Ви не можете створити прив'язку.</strong>");
+                    }
                 })
                 .fail(function (data) {
                     if (new RegExp("4[0-9][0-9]").test(data.status)){
@@ -157,21 +162,32 @@ select {
                     });
                     for (i=0; i < classes.length; i++)
                         $('#class_input').append('<option value="' + id[i] + '">' + classes[i] + '</option>');
+                    if (classes.length == 0)
+                    {
+                    $("#message").attr("class", "alert alert-danger");
+                      $("#message").html("<strong>Ще не створено класи, або всі класи є неактивними. Ви не можете створити прив'язку.</strong>");
+                    }
                 });
                 
                 $.getJSON(host + 'subjects', function(data){
                     console.log(data);
                     var subjects = [];
                     var id = [];
-                    $.each(data, function(key, value) {
+                    $.each(data.data, function(key, value) {
                         subjects.push(value.subjectName);
                     });
-                    $.each(data, function(key, value) {
+                    $.each(data.data, function(key, value) {
                         id.push(value.subjectId);
                     });
                     for (i=0; i < subjects.length; i++)
                         $('#subject_input').append('<option value="' + id[i] + '">' + subjects[i] + '</option>');
+                    if (subjects.length == 0)
+                    {
+                    $("#message").attr("class", "alert alert-danger");
+                      $("#message").html("<strong>Ще не створено предметів. Ви не можете створити прив'язку.</strong>");
+                    }
                 });
+
                 $('#submitButton').click(function(){
                 var teacherid = $('#teacher_input').find(":selected").val();
                 var classid = $('#class_input').find(":selected").val();
