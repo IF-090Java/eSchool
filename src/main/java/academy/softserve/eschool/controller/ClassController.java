@@ -1,6 +1,5 @@
 package academy.softserve.eschool.controller;
 
-
 import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.service.ClassServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
@@ -8,10 +7,9 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -48,7 +46,7 @@ public class ClassController {
     public GeneralResponseWrapper<ClassDTO> addClass(
             @ApiParam(value = "class object", required = true) @RequestBody ClassDTO newClassDTO){
         return new GeneralResponseWrapper<>(
-                new Status(HttpServletResponse.SC_CREATED, "New class created"),
+                new Status().of(HttpStatus.CREATED),
                 classService.saveClass(newClassDTO));
     }
 
@@ -70,7 +68,7 @@ public class ClassController {
     public GeneralResponseWrapper<ClassDTO> getClassById(
             @ApiParam(value = "id of class", required = true) @PathVariable int classId){
         return new GeneralResponseWrapper<>(
-                new Status(HttpServletResponse.SC_OK, "OK"),
+                new Status().of(HttpStatus.OK),
                 classService.findClassById(classId)
         );
     }
@@ -97,12 +95,12 @@ public class ClassController {
             @ApiParam(value="Only classes that study subject with specified id will be returned") @RequestParam(required=false) Integer subjectId){
         if (subjectId == null) {
             return new GeneralResponseWrapper<>(
-                    new Status(HttpServletResponse.SC_OK, "OK"),
+                    new Status().of(HttpStatus.OK),
                     classService.getAllClasses()
             );
         } else {
             return new GeneralResponseWrapper<>(
-                    new Status(HttpServletResponse.SC_OK, "OK"),
+                    new Status().of(HttpStatus.OK),
                     classService.getClassesBySubject(subjectId)
             );
         }
@@ -132,7 +130,7 @@ public class ClassController {
         //todo bk ++ updating objects with native queries bring a lot af mess into the app. And it's hard to support them. Use entity and repository for it.
 
         return new GeneralResponseWrapper<>(
-                new Status(HttpServletResponse.SC_CREATED, "Class successfully updated"),
+                new Status().of(HttpStatus.CREATED),
                 classService.updateClass(id, editableClass)
         );
     }

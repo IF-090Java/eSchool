@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="/css/global-style.css">
@@ -6,7 +6,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
-<!-- CSS -->
+<link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
+  <!-- CSS -->
 <style type="text/css">
 .nowrap {
   white-space: nowrap ;
@@ -300,14 +302,12 @@ $(function()
                     mm='0'+mm
                 }
             today = yyyy+'-'+mm+'-'+dd;
-
            jQuery.validator.addMethod("minDate", function(value, element) {
                  var inputDate = new Date(value);
                   if (inputDate > one_day_ago)
                       return true;
                   return false;
           }, "Дата повинна бути більшою чи рівною " + today);
-
           <!--jQuery.validator.addMethod("markDate", function(value, element) {-->
                  <!--var inputDate = new Date(value);-->
                  <!--for (var i = 0; i < markDates.length; i ++){-->
@@ -316,14 +316,12 @@ $(function()
                    <!--}-->
                   <!--return false;-->
           <!--}, "За цю дату уже виставлені оцінки");-->
-
           jQuery.validator.addMethod("endOfDate", function(value, element) {
             var startdatevalue = $("#start").val();
             if (new Date(startdatevalue) < new Date(value))
                       return true;
                   return false;
             }, "Дата кінця семетру повинна бути більшою чим дата початку семестру");
-
           $("#myForm").validate({
             rules: {
                 startDate: {
