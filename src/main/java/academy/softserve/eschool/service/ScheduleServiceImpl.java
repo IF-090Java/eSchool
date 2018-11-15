@@ -101,11 +101,10 @@ public class ScheduleServiceImpl implements ScheduleService{
     {
         List<Subject> listOfSubjects = new ArrayList<>();
         if (list.size() != 0) {
-            List<Integer> listOfIds = new ArrayList<>();
+
             for (int i = 0; i < list.size(); i++) {
-                listOfIds.add(list.get(i).getSubjectId());
+                listOfSubjects.add(subjectRepository.findById(list.get(i).getSubjectId()).get());
             }
-            listOfSubjects = subjectRepository.findSubjectsByIds(listOfIds);
         }
         List<Lesson> listOfLessons = new ArrayList<>();
         for (int i = 0; i < list.size(); i ++) {
