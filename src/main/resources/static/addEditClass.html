@@ -10,6 +10,8 @@
     <title>Редагувати клас</title>
     <link rel="stylesheet" type="text/css" href="/css/global-style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
     <script src="/js/JS.js"></script>
     <script src="/js/jwt-decode.min.js"></script>
 </head>
@@ -172,6 +174,11 @@
                         $("#message").attr("class", "alert alert-success");
                         $("#message").html("<strong>Клас створений! <a href='/ui/classes/list'>Повернутися до списку класів</a></strong>");
                         $(":input").val("");
+                    },
+                    error: function (responce) {
+                        $("#message").attr("class", "alert alert-danger");
+                        $("#message").html("<strong>Такий клас вже існує!</strong>");
+
                     }
                 });
             })
@@ -214,6 +221,11 @@
                     success: function (responce) {
                         $("#message").attr("class", "alert alert-success");
                         $("#message").html("<strong>Клас оновлений! <a href='/ui/classes/list'>Повернутися до списку класів</a></strong>");
+                    },
+                    error: function (responce) {
+                        $("#message").attr("class", "alert alert-danger");
+                        $("#message").html("<strong>Такий клас вже існує!</strong>");
+
                     }
                 });
             })

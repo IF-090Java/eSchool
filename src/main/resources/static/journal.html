@@ -10,20 +10,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
-
+    <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/JS.js"></script>
     <style type="text/css">
-       table {
-           border-collapse: collapse;
-           width: 40%;
-           margin: 20px auto;
-       }
+        table {
+            border-collapse: collapse;
+            width: 40%;
+            margin: 20px auto;
+        }
 
-       .mark,.dateCell {
-           text-align: center;
-           padding: 8px;
-       }
+        .mark,.dateCell {
+            text-align: center;
+            padding: 8px;
+        }
 
         #markPick{
             margin: auto;
@@ -34,46 +35,46 @@
             display: inline-block;
         }
 
-       #table_mark{
-           width: 100%;
-           display: block;
-           white-space: nowrap;
-           overflow-x: auto;
+        #table_mark{
+            width: 100%;
+            display: block;
+            white-space: nowrap;
+            overflow-x: auto;
         }
 
-       #table_mark thead th,#table_home thead th,#table_students thead th{
+        #table_mark thead th,#table_home thead th,#table_students thead th{
             border: 2px solid #ffffff;
             background-color: #343A40;
             color:white;
         }
-       #table_mark td,#table_home td{
-           background-color: #ffffff;
-       }
+        #table_mark td,#table_home td{
+            background-color: #ffffff;
+        }
 
-       td,th{
-           border: 2px solid #ddd;
-           background-color: #ffffff;
-       }
-       .cl-3{
+        td,th{
+            border: 2px solid #ddd;
+            background-color: #ffffff;
+        }
+        .cl-3{
             width: 25%;
-       }
-       .cl-6{
-           width: 50%;
-       }
+        }
+        .cl-6{
+            width: 50%;
+        }
 
-       #table_mark tr th:first-child, #table_mark tr td:first-child
-       {
-           position:sticky;
-           left:0px;
-           box-shadow: 1px 0px 1px 1px #ddd;
-       }
+        #table_mark tr th:first-child, #table_mark tr td:first-child
+        {
+            position:sticky;
+            left:0px;
+            box-shadow: 1px 0px 1px 1px #ddd;
+        }
 
-       #table_mark tr th:last-child, #table_mark tr td:last-child
-       {
-           position:sticky;
-           right:0px;
-           box-shadow: -1px 0px 1px 1px #ddd;
-       }
+        #table_mark tr th:last-child, #table_mark tr td:last-child
+        {
+            position:sticky;
+            right:0px;
+            box-shadow: -1px 0px 1px 1px #ddd;
+        }
 
 
     </style>
@@ -113,11 +114,11 @@
 
             <table class="table" id="description">
                 <thead>
-                    <tr class="d-flex">
-                        <th class="col-4 text-center" id="classTitle">Клас: </th>
-                        <th class="col-4 text-center" id="subjectTitle">Предмет: </th>
-                        <th class="col-4 text-center" id="yearTitle">Навчальний рік: </th>
-                    </tr>
+                <tr class="d-flex">
+                    <th class="col-4 text-center" id="classTitle">Клас: </th>
+                    <th class="col-4 text-center" id="subjectTitle">Предмет: </th>
+                    <th class="col-4 text-center" id="yearTitle">Навчальний рік: </th>
+                </tr>
                 </thead>
             </table>
 
@@ -182,11 +183,11 @@
             <div class="container">
                 <table class="table table-bordered table-striped" id="table_home" style="width: 100%">
                     <thead>
-                        <tr class="d-flex" style="display: table-row !important;">
-                            <th class="col-3">Дата</th>
-                            <th class="col-6">Домашнє завдання</th>
-                            <th class="col-3">Файл</th>
-                        </tr>
+                    <tr class="d-flex" style="display: table-row !important;">
+                        <th class="col-3">Дата</th>
+                        <th class="col-6">Домашнє завдання</th>
+                        <th class="col-3">Файл</th>
+                    </tr>
                     </thead>
                 </table>
             </div>
@@ -194,17 +195,17 @@
     </div>
 </div>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            refreshToken();
-            $.ajaxSetup({
-                beforeSend: function (xhr) {
-                    if (getJwtToken()) {
-                        xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
-                    }
+<script type="text/javascript">
+    $(document).ready(function () {
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                if (getJwtToken()) {
+                    xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
                 }
-            })
+            }
         })
+    })
 
     $(document).ready(function () {
 
@@ -223,16 +224,16 @@
         console.log($("#profileLink").attr("href"));
 
         $.getJSON(host + 'classes/'+idClass, function (data) {
-          $('<span>'+data.data.className+'</span>').appendTo('#classTitle');
+            $('<span>'+data.data.className+'</span>').appendTo('#classTitle');
         });
 
         $.getJSON(host + 'subjects/'+idSubject, function (data) {
-          $('<span>'+data.subjectName+'</span>').appendTo('#subjectTitle');
+            $('<span>'+data.data.subjectName+'</span>').appendTo('#subjectTitle');
         });
 
         $.getJSON(host + 'homeworks/subjects/'+idSubject+'/classes/'+idClass, function (data) {
             var tableBody = $('<tbody></tbody>');
-          $.each(data.data, function(key, val) {
+            $.each(data.data, function(key, val) {
                 var tr=$('<tr class="d-flex" idLes="'+val.idLesson+'" style="display: table-row !important;"></tr>');
                 $('<td class="col-3 cl-3">'+val.date+'</td>').appendTo(tr);
                 $('<td class="col-6 cl-6 homeColTask">'+val.homework+'</td>').appendTo(tr);
@@ -279,11 +280,12 @@
                 $.each(val.marks, function(k, v) {
                     var th_mark = $('<th></th>');
                     var select = $('<select class="type"></select>').attr("idLes",v.idLesson);
-                    $('<option title ="Control" value="Control" selected>' + "Cn." + '</option>').appendTo(select);
-                    $('<option title ="Practic" value="Practic">' + "Pr." + '</option>').appendTo(select);
-                    $('<option title ="Module" value="Module">' + "Md." + '</option>').appendTo(select);
-                    $('<option title ="Labaratorna"  value="Labaratorna">' + "Lb." + '</option>').appendTo(select);
-                    select.val(v.typeMark)
+                    $('<option title ="Контрольна"  value="Control" selected>' + "Кр." + '</option>').appendTo(select);
+                    $('<option title ="Практична"  value="Practic">' + "Пр." + '</option>').appendTo(select);
+                    $('<option title ="Модульна"  value="Module">' + "Мд." + '</option>').appendTo(select);
+                    $('<option title ="Лабораторна" value="Labaratorna">' + "Лр." + '</option>').appendTo(select);
+                    select.val(v.typeMark);
+
                     select.appendTo(th_mark);
                     th_mark.appendTo(tr1_mark);
                     var date = v.dateMark.split(".");
@@ -408,38 +410,38 @@
                 }
                 else{
                     console.log(2);
-                        var hometask = $('#homework_form').val();
-                        $.ajax({
-                            type: "put",
-                            url: host + "homeworks/files",
-                            dataType: "json",
-                            data: JSON.stringify({
-                                "idLesson": currentCell.attr("idLes"),
-                                "homework": hometask,
-                                "fileData": null,
-                                "fileName": null,
-                                "fileType": null
-                            }),
-                            contentType: "application/json",
-                            success: function (response) {
-                                currentCell.css("background-color", "");
-                                currentCell.css("color", "#212529");
-                                $('tr[idLes=' + currentCell.attr("idLes") + '] .homeColTask').html(hometask);
-                                if($('tr[idLes=' + currentCell.attr("idLes") + '] .dButton').text()=="") {
-                                    $('tr[idLes=' + currentCell.attr("idLes") + '] .dButton').html(name);
-                                }
-                                currentCell = undefined;
-                                $("#homework_status").text(' Успішно додано!');
-                                $("#homework_status").css("color", "#3fa85f");
-                                $("#homework_status").show();
-                                $("#homework_form").val("");
-                                $("#file_form").val("");
-                                $("#student_data").val("");
-                                $("#note_form").val("");
+                    var hometask = $('#homework_form').val();
+                    $.ajax({
+                        type: "put",
+                        url: host + "homeworks/files",
+                        dataType: "json",
+                        data: JSON.stringify({
+                            "idLesson": currentCell.attr("idLes"),
+                            "homework": hometask,
+                            "fileData": null,
+                            "fileName": null,
+                            "fileType": null
+                        }),
+                        contentType: "application/json",
+                        success: function (response) {
+                            currentCell.css("background-color", "");
+                            currentCell.css("color", "#212529");
+                            $('tr[idLes=' + currentCell.attr("idLes") + '] .homeColTask').html(hometask);
+                            if($('tr[idLes=' + currentCell.attr("idLes") + '] .dButton').text()=="") {
+                                $('tr[idLes=' + currentCell.attr("idLes") + '] .dButton').html(name);
                             }
-                        });
-                    }
+                            currentCell = undefined;
+                            $("#homework_status").text(' Успішно додано!');
+                            $("#homework_status").css("color", "#3fa85f");
+                            $("#homework_status").show();
+                            $("#homework_form").val("");
+                            $("#file_form").val("");
+                            $("#student_data").val("");
+                            $("#note_form").val("");
+                        }
+                    });
                 }
+            }
 
         });
 
@@ -521,7 +523,7 @@
 
         function getStudent(idStudent){
             $.getJSON(host + 'students/'+idStudent, function (data) {
-                $("#student_data").val(data.firstname+" "+data.lastname);
+                $("#student_data").val(data.data.firstname+" "+data.data.lastname);
             });
         }
 
@@ -546,13 +548,13 @@
 
         $('.selectpicker').selectpicker();
     });
-    </script>
+</script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 </body>
 </html>

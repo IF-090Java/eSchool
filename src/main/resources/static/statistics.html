@@ -7,6 +7,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="/js/JS.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+		<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
         <style> 
             #chartContainer {
                 height: 300px;
@@ -174,7 +176,7 @@
             }
             
             function fillSubjectsSelect(data){
-                $.each(data, function(i, subj){
+                $.each(data.data, function(i, subj){
                     var option = $('<option>');
                     option.val(subj.subjectId);
                     option.text(subj.subjectName);
@@ -213,7 +215,7 @@
             }
 
             function fillStudentsSelect(data){
-                $.each(data, function(i, student){
+                $.each(data.data, function(i, student){
                     var option = $('<option>');
                     option.val(student.id);
                     option.text(student.firstname+' '+student.lastname);

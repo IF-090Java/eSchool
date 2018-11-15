@@ -2,10 +2,12 @@ package academy.softserve.eschool.wrapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Status {
 
     private int code;

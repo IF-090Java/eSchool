@@ -4,6 +4,8 @@
     <link rel="stylesheet" type="text/css" href="/css/sidebar-style.css">
     <script src="/js/JS.js"></script>
     <script src="/js/jwt-decode.min.js"></script>
+    <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+	  <link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -21,24 +23,23 @@
                 }
             })
         })
-
         $(document).ready(function() {
             var pathArray = window.location.pathname.split('/');
             var id = pathArray[3];
             $.ajax({
                 url: host + "teachers/"+id
             }).then(function(data) {
-                var date = new Date(data.dateOfBirth).toLocaleDateString();
-                $('#title').append(data.firstname + ' ' + data.lastname );
-                $('#initials').append(' ' + data.lastname + ' ' + data.firstname + ' ' + data.patronymic);
+                var date = new Date(data.data.dateOfBirth).toLocaleDateString();
+                $('#title').append(data.data.firstname + ' ' + data.lastname );
+                $('#initials').append(' ' + data.data.lastname + ' ' + data.data.firstname + ' ' + data.data.patronymic);
                 $('#date').append(date);
-                $('#login').append(data.login);
-                $('#email').attr("href", "mailto:" + data.email);
-                $('#email').append(data.email);
-                $('#phone').append(data.phone);
-                if(data.avatar !== null) {
-                    if (data.avatar.length > 0) {
-                        $("#avatar").attr("src", data.avatar);
+                $('#login').append(data.data.login);
+                $('#email').attr("href", "mailto:" + data.data.email);
+                $('#email').append(data.data.email);
+                $('#phone').append(data.data.phone);
+                if(data.data.avatar !== null) {
+                    if (data.data.avatar.length > 0) {
+                        $("#avatar").attr("src", data.data.avatar);
                     }
                 }
                 $('#classes').attr("href", host + "ui/journalsList/view");
@@ -57,10 +58,8 @@
                 }
             });
         });
-
     </script>
     <style type="text/css">
-
         #subjectsList,#sub{
             font-size: 16px;
             margin-left: 30px;
@@ -84,7 +83,6 @@
         .scrollbar-primary::-webkit-scrollbar {
             width: 12px;
             background-color: #F5F5F5; }
-
         .scrollbar-primary::-webkit-scrollbar-thumb {
             border-radius: 10px;
             -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
