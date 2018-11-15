@@ -90,7 +90,7 @@
 			
 			jQuery.validator.addMethod("correctSubjectName", function(value, element) {
 				var inputSubject = value;
-				if (inputSubject.match(/^[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+/))
+				if (inputSubject.match(/^[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+$/))
 					return true;
 				return false;
 			}, "Використовуйте тільки українські букви. Перша літера має бути великою");
