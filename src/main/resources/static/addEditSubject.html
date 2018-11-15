@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
 	<meta charset="UTF-8">
-	<title>Додавання предмету</title>
+	<title>Редагування предмету</title>
 	
 	<link rel="stylesheet" type="text/css" href="/css/global-style.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -33,11 +33,11 @@
 				<div id="message" align="center"></div>
 				<div class="container">
 					<div class="row justify-content-center mt-3">
-						<h1>ДОДАВАННЯ НОВОГО ПРЕДМЕТУ</h1>
+						<h1>РЕДАГУВАННЯ ПРЕДМЕТУ</h1>
 					</div>
 					<div class="row justify-content-center mt-5">
 						<div class="col-8">
-							<form id="myAddForm">
+							<form id="myForm">
 								<div class="form-group row">
 									<label for="subjectName" class="col-3 col-form-label font-weight-bold">Назва предмету<span class="asteriskField">*</span></label>
 									<div class="col-9">
@@ -46,9 +46,9 @@
 								</div>
 
 								<div class="form-group row">
-									<label for="subjectDesc" class="col-3 col-form-label">Опис предмету</label>
+									<label for="subjectDescription" class="col-3 col-form-label">Опис предмету</label>
 									<div class="col-9">
-										<textarea id="subjectDesc" rows="5" name="subjectdesc" class="form-control"></textarea>
+										<textarea id="subjectDescription" rows="5" name="subjectdesc" class="form-control"></textarea>
 									</div>
 								</div>
 
@@ -72,7 +72,7 @@
 			$(".navbar").load("/views/admin-header.html");
 		});
 	</script>
-
+	
 	<script type="text/javascript">
 		$(document).ready(function () {
 			validateUserPermissions();
@@ -85,18 +85,18 @@
 				}
 			})
 		})
-
+		
 		$(document).ready(function () {
 			
 			jQuery.validator.addMethod("correctSubjectName", function(value, element) {
 				var inputSubject = value;
-				if (inputSubject.match(/^[А-ЯІЇЄ]([А-ЯІЇЄ]*[а-яіїє]*[' -]?)+/))
+				if (inputSubject.match(/^[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+/))
 					return true;
 				return false;
 			}, "Використовуйте тільки українські букви. Перша літера має бути великою");
 
 
-			$("#myAddForm").validate({
+			$("#myForm").validate({
 				rules: {
 					subjectname: {
 						required: true,
@@ -120,12 +120,16 @@
 			});
 		})
 
-		$(document).ready(function() {
-			$('form').on('submit', function(e) {
+    if (window.location.href.indexOf("subjects/add")>-1){
 
+        $(document).ready(function () {
+            $("title").html("Додавання предмету")
+            $("h1").html("ДОДАВАННЯ НОВОГО ПРЕДМЕТУ");
+            
+            $('form').on('submit', function(e) {
 				e.preventDefault();
 				var subjectName = $("#subjectName").val();
-				var subjectDescription = $("#subjectDesc").val();
+				var subjectDescription = $("#subjectDescription").val();
 
 				$.ajax({
 					type : "post",
@@ -138,9 +142,9 @@
 					contentType : "application/json",
 					success : function(responce) {
 						$('#subjectName').val('');
-						$('#subjectDesc').val('');
+						$('#subjectDescription').val('');
 						$("#message").attr("class", "alert alert-success");
-						$("#message").html("<b>Предмет <q>" + subjectName + "</q> успішно доданий. Повернутися до <a href='/ui/subjectList'>списку класів</a></b>");
+						$("#message").html("<b>Предмет <q>" + subjectName + "</q> успішно доданий. Повернутися до <a href='/ui/subjectList'>списку предметів</a></b>");
 					},
 					error: function(){
 						$("#message").attr("class", "alert alert-danger");
@@ -148,7 +152,49 @@
 					}
 				});
 			})
-		})
-	</script> 
+        })
+    } else {
+    	$(document).ready(function() {
+            var pathArray = window.location.pathname.split('/');
+            var subjectId = pathArray[3];
+
+            $.getJSON(host + 'subjects/'+subjectId, function (data) {
+                console.log(data);
+                $("#subjectName").attr("value", data.data.subjectName);
+                $("#subjectDescription").append(data.data.subjectDescription);
+            });
+        })
+
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
+
+                e.preventDefault();
+                var subjectName = $("#subjectName").val();
+                var subjectDescription = $("#subjectDescription").val();
+
+                var pathArray = window.location.pathname.split('/');
+                var subjectId = pathArray[3];
+                $.ajax({
+                    type: "put",
+                    url: host + "subjects/" + subjectId,
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "subjectName": subjectName,
+                        "subjectDescription": subjectDescription
+                    }),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        $("#message").attr("class", "alert alert-success");
+                        $("#message").html("<b>Предмет <q>" + subjectName + "</q> успішно оновлений. Повернутися до <a href='/ui/subjectList'>списку предметів</a></b>");
+                    },
+                    error: function(){
+                        $("#message").attr("class", "alert alert-danger");
+                        $("#message").html("<b>При редагуванні предмету сталась помилка</b>");
+                    }
+                });
+            })
+        })
+    }
+</script>
 </body>
 </html>
