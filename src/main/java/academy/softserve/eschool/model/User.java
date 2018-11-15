@@ -38,7 +38,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString(of = {"id", "login"})
 public class User {
-    private final static String NAME_PATTERN = "[А-ЯІЇЄҐ][а-яіїєґ']+";
+    private final static String NAME_PATTERN = "([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+";
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,19 +62,19 @@ public class User {
     
     @NotBlank
     @Size(max=25, min=3)
-    @RegexPattern(pattern=NAME_PATTERN, message = "Input musts match " + NAME_PATTERN)
+    @RegexPattern(pattern=NAME_PATTERN, message = "Input must match " + NAME_PATTERN)
     @Column(name="first_name")
     private String firstName;
     
     @NotBlank
     @Size(max=25, min=3)
-    @RegexPattern(pattern=NAME_PATTERN, message = "Input musts match " + NAME_PATTERN)
+    @RegexPattern(pattern=NAME_PATTERN, message = "Input must match " + NAME_PATTERN)
     @Column(name="last_name")
     private String lastName;
     
     @NotBlank
     @Size(max=25, min=3)
-    @RegexPattern(pattern=NAME_PATTERN, message = "Input musts match " + NAME_PATTERN)
+    @RegexPattern(pattern=NAME_PATTERN, message = "Input must match " + NAME_PATTERN)
     private String patronymic;
     
     @Past
