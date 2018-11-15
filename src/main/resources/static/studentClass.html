@@ -47,7 +47,7 @@
         var classId = pathArray[4];
         $.getJSON(host + 'students/classes/' + classId, function (data) {
             console.log(data);
-            $.each(data, function (i, item) {
+            $.each(data.data, function (i, item) {
                 $('#studentList').append($('<li class="list-group-item">').append($('<a>').attr('href','/ui/students/'+item.id+'/edit').append(item.firstname).append(' ' + item.lastname)))
             });        
         })
