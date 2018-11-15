@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
+/**
+ * Controller for authentication and refreshing token
+ */
 @RestController
 public class AuthenticationController {
 
@@ -42,6 +45,12 @@ public class AuthenticationController {
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * Returns {@link academy.softserve.eschool.wrapper.GeneralResponseWrapper} with token if credentials are right
+     * This endpoint isn't secured
+     * @param authenticationRequest Object with username and password
+     * @return Jwt token wrapped in {@link academy.softserve.eschool.wrapper.GeneralResponseWrapper}
+     */
     @PostMapping("signin")
     @ApiOperation("Login to site with username and password. Returns token")
     @ApiResponses(
@@ -64,6 +73,12 @@ public class AuthenticationController {
         return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * Returns {@link academy.softserve.eschool.wrapper.GeneralResponseWrapper} with token if authorization header is correct
+     * @param request Request with header
+     * @throws TokenGlobalTimeExpiredException if token cannot be refreshed
+     * @return Jwt token wrapped in {@link academy.softserve.eschool.wrapper.GeneralResponseWrapper}
+     */
     @ApiOperation("Refresh token. Requires valid and active token. Returns new token")
     @ApiResponses(
             value = {

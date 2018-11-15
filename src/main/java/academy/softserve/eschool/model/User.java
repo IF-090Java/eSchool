@@ -1,6 +1,6 @@
 package academy.softserve.eschool.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -78,12 +76,11 @@ public class User {
     private String patronymic;
     
     @Past
-    @Temporal(TemporalType.DATE)
     @Column(name="date_of_birth")
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd", timezone="EST")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     
     @Enumerated(EnumType.STRING)
     @Column(length = 6)
@@ -100,7 +97,7 @@ public class User {
     private String description;
     
     public User(String login, String password, String email, Role role, String firstName, String lastName,
-            String patronymic, Date dateOfBirth, Sex sex, String phone, String avatar, String description) {
+            String patronymic, LocalDate dateOfBirth, Sex sex, String phone, String avatar, String description) {
         super();
         this.login = login;
         this.password = password;
