@@ -20,25 +20,28 @@
                 margin-top: 20px;
                 box-shadow: 1px 2px 3px rgba(0, 0, 0, .5);
             }
+            .control{
+                margin-right: 2px;
+            }
         </style>
     </head>
     <body>
         <div class="container-fluid px-0 teacher_nav" style="z-index: 3"> </div>
-        <div class="container pt-1">
+        <div class="container pt-2">
             <div class="container-fluid d-flex flex-wrap">
-                <select id="subject">
+                <select id="subject" class="control">
                     <option value="">Предмет</option>
                 </select>
-                <select id="class">
+                <select id="class" class="control">
                     <option value="">Клас</option>
                 </select>
-                <select id="student" disabled="true">
+                <select id="student" class="control" disabled="true">
                     <option value="">Учень</option>
                 </select>
-                <span>Рік <select id="year"></select></span>
-                <span>Початок періоду <input class="border rounded" id="startDate" type="date" name="start"></span>
+                <span class="control">Рік <select id="year"></select></span>
+                <span class="control">Початок періоду <input class="border rounded" id="startDate" type="date" name="start"></span>
                 
-                <span>Кінець періоду <input class="border rounded" id="endDate" type="date" name="end"></span>
+                <span class="control">Кінець періоду <input class="border rounded" id="endDate" type="date" name="end"></span>
             </div>
             <div class="statisticsContainer card">
                 <div id="average"></div>
@@ -176,7 +179,9 @@
             }
             
             function fillSubjectsSelect(data){
-                $.each(data.data, function(i, subj){
+                var subjects = data.data;
+                subjects.sort(subjectComparator);
+                $.each(subjects, function(i, subj){
                     var option = $('<option>');
                     option.val(subj.subjectId);
                     option.text(subj.subjectName);
@@ -187,7 +192,9 @@
             
             function fillClassesSelect(data){
                 classesData = data;
-                $.each(data.data, function(i, clazz){
+                var classes = data.data;
+                classes.sort(classComparator);
+                $.each(classes, function(i, clazz){
                     if ($("#year").val() == clazz.classYear) {
                         var option = $('<option>');
                         option.val(clazz.id);
@@ -215,10 +222,12 @@
             }
 
             function fillStudentsSelect(data){
-                $.each(data.data, function(i, student){
+                var students = data.data;
+                students.sort(studentComparator);
+                $.each(students, function(i, student){
                     var option = $('<option>');
                     option.val(student.id);
-                    option.text(student.firstname+' '+student.lastname);
+                    option.text(student.lastname+' '+student.firstname);
                     $('#student').append(option);
                     studentOptions.push(option);
                 });
@@ -342,6 +351,22 @@
                 params.period_start = $('#startDate').val();
                 params.period_end = $('#endDate').val();
                 return params;
+            }
+            
+            function studentComparator(a, b){
+                var comparison = a.lastname.localeCompare(b.lastname);
+                if (comparison == 0){
+                    comparison = a.firstname.localeCompare(b.firstname);
+                }
+                return comparison;
+            }
+            
+            function classComparator(a, b){
+                return a.className.localeCompare(b.className);
+            }
+            
+            function subjectComparator(a, b){
+                return a.subjectName.localeCompare(b.subjectName);
             }
         </script>
     </body>
