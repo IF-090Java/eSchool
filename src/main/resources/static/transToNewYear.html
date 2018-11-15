@@ -34,6 +34,13 @@
                 padding: 5px\9;
             }
         }
+        .list-group-students{
+            max-height: 160px;
+            margin-bottom: 10px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
     </style>
 </head>
 <body>
@@ -43,10 +50,11 @@
     <div class="col py-3">
 
         <div class="container">
-            <div class="row justify-content-center mt-5">
+            <div id="message" align="center"></div>
+            <div class="row justify-content-center mt-1">
                 <h2>Перехід на новий навчальний рік</h2>
             </div>
-            <div class="row justify-content-center mt-5">
+            <div class="row justify-content-center mt-3">
                 <div class="col-5">
                     <button type="button" class="transitButton btn btn-primary btn-block">Новий навчальний рік. Додати класи</button>
                 </div>
@@ -55,7 +63,10 @@
             <div class="row justify-content-center mt-5">
                 <div class="col-5"><h3>Зміна поточних класів для учнів</h3></div>
             </div>
-            <div class="row justify-content-center mt-5">
+            <div class="row justify-content-center">
+                <div id="message2" align="center"></div>
+            </div>
+            <div class="row justify-content-center mt-1">
                 <div class="col-8">
                     <table class="table">
                         <thead>
@@ -72,7 +83,7 @@
 
             <div class="row justify-content-center mt-5 mb-5">
                 <div class="col-5">
-                <button type="button" class="bindingButton btn btn-primary btn-block">Перевести учнів в нові класи</button>
+                <button type="button" class="bindingButton btn btn-primary btn-block" disabled>Перевести учнів в нові класи</button>
                 </div>
             </div>
         </div>
@@ -110,8 +121,16 @@
             dataType: "json",
             contentType: "application/json",
             success: function (responce) {
-                alert('Нові класи додані!')
-                window.location.href = "/ui/students/new-year-transition";
+                $("#message").attr("class", "alert alert-success");
+                $("#message").html("<strong>Нові класи успішно додані!</strong>");
+
+                setTimeout(function (){
+                    window.location.href="/ui/students/new-year-transition";
+                }, 2000);
+            },
+            error: function (responce) {
+                $("#message").attr("class", "alert alert-danger");
+                $("#message").html("<strong>Такі класи вже існують!</strong>");
             }
         });
     })
@@ -142,7 +161,7 @@ $(document).ready(function () {
                             '<input type="checkbox" id="spoiler_'+item.id+'">' +
                             '<label for="spoiler_'+item.id+'">Учні '+item.className+' класу</label>' +
                             '<div class="spoiler_body">' +
-                            '<list id="studId_'+item.id+'"></list></div>' +
+                            '<ul class="list-group-students" id="studId_'+item.id+'"></ul></div>' +
                             '</div></td>')
                     spoiler.appendTo(tr);
                     tr.appendTo('#tbody');
@@ -156,11 +175,13 @@ $(document).ready(function () {
 
                     var newClassesList = $('<td class="transitionTableNewClass"><select id="newClassesList_'+item.id+'"></select></td>')
                     newClassesList.appendTo(tr);
-
+                if (activeClasses.length > 0) {
+                    $(".bindingButton").removeAttr("disabled");
                     $('#newClassesList_'+item.id).append('<option value="0">Випускний</option>')
                     for (i=0; i<activeClasses.length; i++){
                         $('#newClassesList_'+item.id).append('<option value="'+activeClassesId[i]+'">'+activeClasses[i]+'</option>')
                     }
+                }
 
                 }).fail(function (data) {
                     if (new RegExp("4[0-9][0-9]").test(data.status)){
@@ -195,8 +216,9 @@ $(document).ready(function () {
             data: JSON.stringify(classesList),
             contentType: "application/json",
             success: function (responce) {
-                alert('Перехід на новий навчальний рік виконано успішно!')
-                window.location.href = "/ui/students/new-year-transition";
+                $("#message2").attr("class", "alert alert-success");
+                $(".bindingButton").attr("disabled", "true");
+                $("#message2").html("<strong>Учні успішно переведені в нові класи! <a href='/ui/classes/classList'>Переглянути список класів</a></strong>");
             }
         });
     })

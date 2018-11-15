@@ -172,10 +172,10 @@ select {
                     console.log(data);
                     var subjects = [];
                     var id = [];
-                    $.each(data, function(key, value) {
+                    $.each(data.data, function(key, value) {
                         subjects.push(value.subjectName);
                     });
-                    $.each(data, function(key, value) {
+                    $.each(data.data, function(key, value) {
                         id.push(value.subjectId);
                     });
                     for (i=0; i < subjects.length; i++)
