@@ -99,14 +99,6 @@ public class ScheduleServiceImpl implements ScheduleService{
      */
     public void saveFunction(List<SubjectDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
     {
-        List<Subject> listOfSubjects = new ArrayList<>();
-        if (list.size() != 0) {
-            List<Integer> listOfIds = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                listOfIds.add(list.get(i).getSubjectId());
-            }
-            listOfSubjects = subjectRepository.findSubjectsByIds(listOfIds);
-        }
         List<Lesson> listOfLessons = new ArrayList<>();
         for (int i = 0; i < list.size(); i ++) {
             for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
@@ -120,7 +112,7 @@ public class ScheduleServiceImpl implements ScheduleService{
                                     .markType(null)
                                     .file(null)
                                     .clazz(clazz)
-                                    .subject(listOfSubjects.get(i)).build()
+                                    .subject(subjectRepository.getOne(list.get(i).getSubjectId())).build()
                     );
                 }
             }
