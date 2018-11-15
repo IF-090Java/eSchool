@@ -86,9 +86,7 @@ public class StudentController {
     public GeneralResponseWrapper<User> updateStudent(
             @ApiParam(value = "user object", required = true)  @RequestBody EditUserDTO student,
             @ApiParam(value = "id of student", required = true)  @PathVariable int idStudent){
-
-        studentService.updateStudent(studentRepository.findById(idStudent).get(),student, "USER");
-        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK) , studentService.updateStudent(studentRepository.findById(idStudent).get(),student, "USER"));
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK) , studentService.updateStudent(studentRepository.findById(idStudent).get(), student));
 
     }
 
