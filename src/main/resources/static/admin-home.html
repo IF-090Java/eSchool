@@ -174,7 +174,7 @@
                 if (item.isActive == true) {
                    classCount+=1;
                     $.getJSON(host + 'students/classes/'+item.id, function (studData) {
-                        studentsCount+=studData.length;
+                        studentsCount+=studData.data.length;
                         $("#students-count").html(studentsCount);
                     })
                 }
@@ -187,7 +187,7 @@
     $(document).ready(function() {
         $.getJSON(host + 'teachers', function (data) {
             var teacherCount = 0;
-            $.each(data, function (i, item) {
+            $.each(data.data, function (i, item) {
                 teacherCount+=1;
             });
             $("#teachers-count").html(teacherCount);

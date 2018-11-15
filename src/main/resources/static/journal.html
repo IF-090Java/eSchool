@@ -522,7 +522,7 @@
 
         function getStudent(idStudent){
             $.getJSON(host + 'students/'+idStudent, function (data) {
-                $("#student_data").val(data.firstname+" "+data.lastname);
+                $("#student_data").val(data.data.firstname+" "+data.data.lastname);
             });
         }
 

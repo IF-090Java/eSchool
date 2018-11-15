@@ -77,7 +77,7 @@ public class StudentService {
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
-        if((oldUser.getPassword().equals(edited.getOldPass()) || edited.getOldPass().equals("adminchangedpass"))
+        if((bcryptEncoder.matches(edited.getOldPass(), oldUser.getPassword())  || edited.getOldPass().equals("adminchangedpass"))
                 && edited.getNewPass().length()>0){
             oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
