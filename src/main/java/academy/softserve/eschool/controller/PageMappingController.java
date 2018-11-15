@@ -33,7 +33,6 @@ public class PageMappingController {
     }
 
     @RequestMapping("classes/list")
-
     public String getClassesListForEdit() {
         return "/classList.html";
     }
@@ -90,12 +89,12 @@ public class PageMappingController {
 
     @RequestMapping("subjects/{id}/edit")
     public String editSubjectPage() {
-        return "/editSubject.html";
+        return "/addEditSubject.html";
     }
 
     @RequestMapping("subjects/add")
     public String addSubjectPage() {
-        return "/addSubject.html";
+        return "/addEditSubject.html";
     }
 
     @RequestMapping("students/class/{id}")
