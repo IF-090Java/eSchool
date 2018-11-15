@@ -37,7 +37,7 @@ public class JournalController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("")
     public GeneralResponseWrapper<List<JournalDTO>> getJournals(){
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getJournals());
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getJournals());
     }
 
     @ApiOperation(value = "Get list of all teacher's journals")
@@ -52,7 +52,7 @@ public class JournalController {
     @GetMapping("/teachers/{idTeacher}")
     public GeneralResponseWrapper<List<JournalDTO>> getJournalsTeacher(
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getJournalsByTeacher(idTeacher));
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getJournalsByTeacher(idTeacher));
     }
 
     @ApiOperation(value = "Get list of active teacher's journals")
@@ -67,7 +67,7 @@ public class JournalController {
     @GetMapping("/teachers/{idTeacher}/active")
     public GeneralResponseWrapper<List<JournalDTO>> getActiveJournalsTeacher(
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getActiveJournalsByTeacher(idTeacher));
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getActiveJournalsByTeacher(idTeacher));
     }
 
 
@@ -91,6 +91,6 @@ public class JournalController {
             @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass
             ){
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), journalServiceImpl.getJournal(idSubject,idClass));
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getJournal(idSubject,idClass));
     }
 }

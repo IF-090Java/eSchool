@@ -364,6 +364,11 @@ $(function()
                     $('.ax_default_droplist4').append('<option value="' + id[i] + '"name="thursday">' + subjectNames[i] + '</option>');
                     $('.ax_default_droplist5').append('<option value="' + id[i] + '"name="friday">' + subjectNames[i] + '</option>');
                 }
+                if (subjectNames.length == 0)
+                    {
+                    $("#message").attr("class", "alert alert-danger");
+                    $("#message").html("<strong>Ще не створено предметів. Ви не можете створити розклад.</strong>");
+                    }
             }).fail(function (data) {
                 if (new RegExp("4[0-9][0-9]").test(data.status)){
                     window.location.href='/ui/login'
@@ -380,6 +385,11 @@ $(function()
                     });
                     for (i=0; i < classNames.length; i++)
                         $('#u15_input').append('<option value="' + id[i] + '">' + classNames[i] + '</option>');
+                     if (classNames.length == 0)
+                    {
+                    $("#message").attr("class", "alert alert-danger");
+                    $("#message").html("<strong>Ще не створено класи, або всі класи є неактивними. Ви не можете створити розклад.</strong>");
+                    }
                 });
 /****************************************Save data when clicking on the submitButton*********************************************************************/
             $('#submitButton').click(function(){
