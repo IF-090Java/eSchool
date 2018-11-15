@@ -350,7 +350,7 @@ $(function()
             $.getJSON(host + 'subjects', function (data) {
                 var subjectNames = [];
                 var id = [];
-                $.each(data, function(key, value) {
+                $.each(data.data, function(key, value) {
                         subjectNames.push(value.subjectName);
                         id.push(value.subjectId);
                     });

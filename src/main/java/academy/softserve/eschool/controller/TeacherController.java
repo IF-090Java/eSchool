@@ -3,12 +3,16 @@ package academy.softserve.eschool.controller;
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.model.Teacher;
+import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.TeacherRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.service.TeacherService;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,10 +39,10 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public List<TeacherDTO> getall(){
-        return teacherService.getAll(teacherRepository.findAll());
+    public GeneralResponseWrapper<List<TeacherDTO>> getall() {
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.getAll(teacherRepository.findAll()));
     }
-  
+
     @PostMapping
     @ApiOperation(value = "Add teacher, first name and last name passed in html")
     @ApiResponses(value = {
@@ -47,11 +51,11 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @PreAuthorize("hasRole('ADMIN')")
-    public Teacher addTeacher(
+    public GeneralResponseWrapper<User> addTeacher(
             @ApiParam(value = "teacher object", required = true) @RequestBody TeacherDTO teacher) {
-        return teacherService.addOne(teacher);
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), teacherService.addOne(teacher));
     }
-  
+
     @ApiOperation(value = "Get all info about teacher")
     @GetMapping("/{idTeacher}")
     @ApiResponses(value = {
@@ -60,25 +64,26 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and principal.id == #idTeacher)")
-    public TeacherDTO getTeacher(
-            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
-        return teacherService.getOne(teacherRepository.findById(idTeacher).get());
+    public GeneralResponseWrapper<TeacherDTO> getTeacher(
+            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher) {
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.getOne(teacherRepository.findById(idTeacher).get()));
     }
 
     @PutMapping("/{idTeacher}")
     @ApiOperation(value = "update profile of teacher")
     @ApiResponses(
             value = {
-                    @ApiResponse( code = 201 , message = "Teacher successfully updated"),
-                    @ApiResponse( code = 400, message = "Bad request"),
+                    @ApiResponse(code = 200, message = "Teacher successfully updated"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
     @PreAuthorize("hasRole('TEACHER') and principal.id == #idTeacher")
-    public void updateTeacher(
+    public GeneralResponseWrapper<User> updateTeacher(
             @ApiParam(value = "user object", required = true) @RequestBody EditUserDTO teacher,
-            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
-        teacherService.updateTeacher(userRepository.findById(idTeacher).get(),teacher, "TEACHER");
+            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher) {
+        teacherService.updateTeacher(userRepository.findById(idTeacher).get(), teacher, "TEACHER");
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.updateTeacher(userRepository.findById(idTeacher).get(), teacher, "TEACHER"));
     }
 }
 

@@ -126,10 +126,10 @@ select {
                     console.log(data);
                     var teachers = [];
                     var id = [];
-                    $.each(data, function(key, value) {
+                    $.each(data.data, function(key, value) {
                         teachers.push(value.firstname + " " + value.lastname);
                     });
-                    $.each(data, function(key, value) {
+                    $.each(data.data, function(key, value) {
                         id.push(value.id);
                     });
                     for (i=0; i < teachers.length; i++)

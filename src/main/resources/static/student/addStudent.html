@@ -148,7 +148,7 @@
         // });
         jQuery.validator.addMethod("isUkrainian", function(value, element) {
             var ukr = value;
-            if (ukr.match(/^[А-ЯІЇЄ][а-яіїє']+/))
+            if (ukr.match(/^([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+$/))
                 return true;
             return false;
         }, "Використовуйте тільки українські букви. Перша літера має бути великою");

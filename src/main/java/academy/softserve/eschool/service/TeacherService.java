@@ -24,7 +24,7 @@ import academy.softserve.eschool.repository.UserRepository;
 public class TeacherService {
 
     @NonNull
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
 
     @NonNull
     private TeacherRepository teacherRepository;
@@ -35,19 +35,19 @@ public class TeacherService {
     @NonNull
     private LoginGeneratorService generateLogin;
 
-    public List<TeacherDTO> getAll(List<Teacher> resultset){
+    public List<TeacherDTO> getAll(List<Teacher> resultset) {
 
-        return resultset.stream().map(i->TeacherDTO.builder().id(i.getId())
-            .firstname(i.getFirstName())
-            .lastname(i.getLastName())
-            .patronymic(i.getPatronymic())
-            .login(i.getLogin())
-            .dateOfBirth(i.getDateOfBirth())
-            .phone(i.getPhone())
-            .email(i.getEmail()).build()).collect(Collectors.toCollection(ArrayList::new));
+        return resultset.stream().map(i -> TeacherDTO.builder().id(i.getId())
+                .firstname(i.getFirstName())
+                .lastname(i.getLastName())
+                .patronymic(i.getPatronymic())
+                .login(i.getLogin())
+                .dateOfBirth(i.getDateOfBirth())
+                .phone(i.getPhone())
+                .email(i.getEmail()).build()).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public TeacherDTO getOne(Teacher teacher){
+    public TeacherDTO getOne(Teacher teacher) {
         return TeacherDTO.builder().firstname(teacher.getFirstName())
                 .lastname(teacher.getLastName())
                 .patronymic(teacher.getPatronymic())
@@ -59,7 +59,7 @@ public class TeacherService {
                 .build();
     }
 
-    public void updateTeacher(User oldUser, EditUserDTO edited, String role){
+    public User updateTeacher(User oldUser, EditUserDTO edited, String role) {
 
         if (role.equals("ADMIN")) {
             oldUser.setFirstName(edited.getFirstname());
@@ -71,21 +71,23 @@ public class TeacherService {
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
-        if((oldUser.getPassword().equals(edited.getOldPass()) || edited.getOldPass().equals("adminchangedpass"))
-                 && edited.getNewPass().length()>0){
+        if ((bcryptEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))
+                && edited.getNewPass().length() > 0) {
             oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
         userRepository.save(oldUser);
+        return oldUser;
     }
 
     /**
      * Add teacher to DB. If login is already exist
      * or not transmitted then will be generated else set transmitted login.
      * Password always generate here.
+     *
      * @param teacherDTO teacher data.
      * @return saved teacher.
      */
-    public Teacher addOne(TeacherDTO teacherDTO) {
+    public User addOne(TeacherDTO teacherDTO) {
         Teacher teacher = Teacher.builder()
                 .lastName(teacherDTO.getLastname())
                 .firstName(teacherDTO.getFirstname())

@@ -29,17 +29,17 @@
             $.ajax({
                 url: host + "teachers/"+id
             }).then(function(data) {
-                var date = new Date(data.dateOfBirth).toLocaleDateString();
-                $('#title').append(data.firstname + ' ' + data.lastname );
-                $('#initials').append(' ' + data.lastname + ' ' + data.firstname + ' ' + data.patronymic);
+                var date = new Date(data.data.dateOfBirth).toLocaleDateString();
+                $('#title').append(data.data.firstname + ' ' + data.lastname );
+                $('#initials').append(' ' + data.data.lastname + ' ' + data.data.firstname + ' ' + data.data.patronymic);
                 $('#date').append(date);
-                $('#login').append(data.login);
-                $('#email').attr("href", "mailto:" + data.email);
-                $('#email').append(data.email);
-                $('#phone').append(data.phone);
-                if(data.avatar !== null) {
-                    if (data.avatar.length > 0) {
-                        $("#avatar").attr("src", data.avatar);
+                $('#login').append(data.data.login);
+                $('#email').attr("href", "mailto:" + data.data.email);
+                $('#email').append(data.data.email);
+                $('#phone').append(data.data.phone);
+                if(data.data.avatar !== null) {
+                    if (data.data.avatar.length > 0) {
+                        $("#avatar").attr("src", data.data.avatar);
                     }
                 }
                 $('#classes').attr("href", host + "ui/journalsList/view");

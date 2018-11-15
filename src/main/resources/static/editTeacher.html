@@ -229,11 +229,18 @@
             $("#deletebutton").hide();
         });
         jQuery.validator.addMethod("cyrrilic", function(value, element) {
-            return this.optional(element) || /^[?!'`Ґґ,.Є-Їа-я\s\-\_]+$/i.test(value);
-        }, "Тільки українські символи");
+            return this.optional(element) || /^([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+$/.test(value);
+        }, "Ім'я не корректне");
         jQuery.validator.addMethod('filesize', function (value, element, param) {
             return this.optional(element) || (element.files[0].size <= param)
         }, 'File size must be less than {0}');
+        jQuery.validator.addMethod("dateOfB", function(value, element) {
+            var date = new Date(value);
+            var today = new Date();
+            if (date < today)
+                return true;
+            return false;
+        }, "Дата народження повинна бути в минулому");
         $("#myForm").validate({
             rules:{
                 firstname:{
@@ -267,6 +274,9 @@
                 },
                 avatar:{
                     filesize: 500000
+                },
+                dateOfBirth:{
+                    dateOfB: true
                 }
             },
             messages:{
@@ -340,7 +350,7 @@
         });
         if (window.location.href.indexOf("ui/student") > -1) {
             $.getJSON(host + 'students/' + subjectId, function (data) {
-                setData(data);
+                setData(data.data);
             })
                 .fail(function (data) {
                     if (new RegExp("4[0-9][0-9]").test(data.status)){
@@ -350,7 +360,7 @@
         }
         else{
             $.getJSON(host + 'teachers/' + subjectId, function (data) {
-                setData(data);
+                setData(data.data);
             })
                 .fail(function (data) {
                     if (new RegExp("4[0-9][0-9]").test(data.status)){
