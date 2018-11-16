@@ -33,14 +33,6 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     		"LEFT JOIN subject ON class_teacher_subject_link.subject_id = subject.id \n" +
             "WHERE clazz_id = :classId", nativeQuery=true)
 	List<Subject> findSubjectsByClass(@Param(value="classId") Integer classId);
-
-    /**
-     * Find several subjects by specified id.
-     * @param ids List of subject id
-     * @return List of Subject objects
-     */
-    @Query(value = "SELECT * FROM subject WHERE id IN (:ids)", nativeQuery =true)
-    List<Subject> findSubjectsByIds(@Param("ids") List<Integer> ids);
     
     /**
      * Edit some subject
