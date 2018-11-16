@@ -1,6 +1,7 @@
 package academy.softserve.eschool.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -34,14 +35,6 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
             "WHERE clazz_id = :classId", nativeQuery=true)
 	List<Subject> findSubjectsByClass(@Param(value="classId") Integer classId);
 
-    /**
-     * Find several subjects by specified id.
-     * @param ids List of subject id
-     * @return List of Subject objects
-     */
-    @Query(value = "SELECT * FROM subject WHERE id IN (:ids)", nativeQuery =true)
-    List<Subject> findSubjectsByIds(@Param("ids") List<Integer> ids);
-    
     /**
      * Edit some subject
      *
