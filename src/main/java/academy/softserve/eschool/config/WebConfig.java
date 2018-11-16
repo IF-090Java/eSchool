@@ -20,9 +20,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("*")
-        .allowedHeaders("*")
-        .exposedHeaders("Authorization");
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization");
     }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
