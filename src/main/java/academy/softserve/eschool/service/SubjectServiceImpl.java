@@ -6,6 +6,7 @@ import java.util.List;
 import academy.softserve.eschool.dto.SubjectDTO;
 import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.SubjectRepository;
+
 import org.springframework.stereotype.Service;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

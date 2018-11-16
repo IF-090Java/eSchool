@@ -50,7 +50,6 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public ScheduleDTO getScheduleByClassId(int classId) {
         List<Map<String, Object>> lessons = lessonRepository.scheduleByClassId(classId);
-
         Clazz clazz = classRepository.findById(classId).get();
 
         return ScheduleDTO.builder()
@@ -134,7 +133,6 @@ public class ScheduleServiceImpl implements ScheduleService{
             }
         }
         lessonRepository.saveAll(listOfLessons);
-
     }
 
     /**
@@ -167,5 +165,4 @@ public class ScheduleServiceImpl implements ScheduleService{
         }
         return list;
     }
-
 }

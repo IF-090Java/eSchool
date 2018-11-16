@@ -1,7 +1,6 @@
 package academy.softserve.eschool.repository;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -34,7 +33,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     		"LEFT JOIN subject ON class_teacher_subject_link.subject_id = subject.id \n" +
             "WHERE clazz_id = :classId", nativeQuery=true)
 	List<Subject> findSubjectsByClass(@Param(value="classId") Integer classId);
-
+  
     /**
      * Edit some subject
      *
