@@ -1,0 +1,11 @@
+
+
+Browser->+Server: /signup method=POST.\n Body{username,password}
+Server->Server: check UserDetails
+Server->Browser: Status: 200 , Authorization: "Bearer + some_token"
+deactivate Server
+
+Browser ->+ Server: /api/** Header: "Authorization": "token"      
+Server -> Server: validate token. Set context. \n Check authorities       
+Server -> Browser: Status: 200 OK , data {...}    
+ 

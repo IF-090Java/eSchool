@@ -66,7 +66,7 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and @securityExpressionService.teachesInClass(principal.id, #idClass))")
     @GetMapping("/classes/{idClass}")
     public GeneralResponseWrapper<List<StudentDTO>> getStudentsByClass(
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass){
@@ -86,9 +86,7 @@ public class StudentController {
     public GeneralResponseWrapper<User> updateStudent(
             @ApiParam(value = "user object", required = true)  @RequestBody EditUserDTO student,
             @ApiParam(value = "id of student", required = true)  @PathVariable int idStudent){
-
-        studentService.updateStudent(studentRepository.findById(idStudent).get(),student, "USER");
-        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK) , studentService.updateStudent(studentRepository.findById(idStudent).get(),student, "USER"));
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK) , studentService.updateStudent(studentRepository.findById(idStudent).get(), student));
 
     }
 
