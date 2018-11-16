@@ -29,7 +29,7 @@
                 url: host + "students/" + id
             }).then(function(data) {
                 var date = new Date(data.data.dateOfBirth).toLocaleDateString();
-                $('#title').append(data.data.firstname + ' ' + data.lastname );
+                $('#title').append(data.data.firstname + ' ' + data.data.lastname );
                 $('#initials').append(' ' + data.data.lastname + ' ' + data.data.firstname + ' ' + data.data.patronymic);
                 $('#date').append(date);
                 $('#login').append(data.data.login);
