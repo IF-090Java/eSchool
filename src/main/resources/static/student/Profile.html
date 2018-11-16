@@ -39,7 +39,7 @@
                 $('#phone').append(data.data.phone);
                 if(data.data.avatar !== null) {
                     if (data.data.avatar.length > 0) {
-                        $("#avatar").attr("src", data.avatar);
+                        $("#avatar").attr("src", data.data.avatar);
                     }
                 }
                 $('#diary').attr("href", host + "ui/diary/" + id);

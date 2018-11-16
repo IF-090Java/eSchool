@@ -39,7 +39,7 @@ public interface ClassTeacherSubjectLinkRepository extends JpaRepository<ClassTe
      * @param teacherId teacher's id
      * @param classId class's id
      * @param subjectId subject's id
-     * @return ClassTeacherSubjectLink if found else null
+     * @return {@link ClassTeacherSubjectLink} if found else null
      */
     @Query(value = "select * from class_teacher_subject_link ct\n" +
             "where teacher_id = :teacherId and clazz_id = :classId and subject_id = :subjectId and is_active = true", nativeQuery=true)
@@ -47,4 +47,23 @@ public interface ClassTeacherSubjectLinkRepository extends JpaRepository<ClassTe
                                                                   @Param("classId")int classId,
                                                                   @Param("subjectId")int subjectId);
 
+    /**
+     * Find active journal for a teacher by his id in class
+     * with transmitted id.
+     * @param teacherId teacher's id
+     * @param classId class's id
+     * @return ClassTeacherSubjectLink if found else null
+     */
+    @Query(value = "select * from class_teacher_subject_link ct\n" +
+            "where teacher_id = :teacherId and clazz_id = :classId and is_active = true", nativeQuery=true)
+    List<ClassTeacherSubjectLink> findByTeacherIdAndClazzId(@Param("teacherId") int teacherId,
+                                                      @Param("classId")int classId);
+
+    /**
+     * Find all {@link ClassTeacherSubjectLink} by teacher id and subject id.
+     * @param teacherId teacher's id
+     * @param subjectId subject's id
+     * @return list of {@link ClassTeacherSubjectLink} if found else null
+     */
+    List<ClassTeacherSubjectLink> findByTeacherIdAndSubjectId(int teacherId, int subjectId);
 }
