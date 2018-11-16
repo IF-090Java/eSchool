@@ -6,6 +6,7 @@ import java.util.List;
 import academy.softserve.eschool.dto.SubjectDTO;
 import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.SubjectRepository;
+
 import org.springframework.stereotype.Service;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -59,17 +60,19 @@ public class SubjectServiceImpl implements SubjectService {
 				.subjectDescription(savedSubject.getDescription())
 				.build();
 	}
-
+	
 	@Override
-	public SubjectDTO editSubject(int id, SubjectDTO subjectDTO) {
-		subjectRepository.editSubject(id, subjectDTO.getSubjectName(), subjectDTO.getSubjectDescription());
-		Subject updatedSubject = subjectRepository.findById(id).orElse(null);
-		return SubjectDTO.builder()
-				.subjectId(updatedSubject.getId())
-				.subjectName(updatedSubject.getName())
-				.subjectDescription(updatedSubject.getDescription())
-				.build();
-	}
+    public SubjectDTO editSubject(int id, SubjectDTO subjectDTO) {
+        Subject subject = subjectRepository.findById(id).orElse(null);
+        subject.setName(subjectDTO.getSubjectName());
+        subject.setDescription(subjectDTO.getSubjectDescription());
+
+        Subject updatedSubject = subjectRepository.save(subject);
+        return SubjectDTO.builder()
+                .subjectId(updatedSubject.getId())
+                .subjectName(updatedSubject.getName())
+                .subjectDescription(updatedSubject.getDescription()).build();
+    }
 
 	private List<SubjectDTO> asSubjectDTOList(List<Subject> subjectList) {
 		List<SubjectDTO> subjectDTOs = new ArrayList<>();

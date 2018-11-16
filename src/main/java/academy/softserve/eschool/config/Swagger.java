@@ -78,8 +78,8 @@ public class Swagger {
     private ApiInfo metaInfo() {
 
         return new ApiInfo(
-                "ESchool API",
-                "ESchool Project API",
+                "School Management System API",
+                "School Management System Project",
                 "1.0",
                 "Terms of Service",
                 new Contact("IF-090.Java", "https://",
