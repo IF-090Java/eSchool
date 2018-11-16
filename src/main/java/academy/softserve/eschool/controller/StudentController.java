@@ -66,7 +66,7 @@ public class StudentController {
                     @ApiResponse(code = 500, message = "server error")
             }
     )
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and @securityExpressionService.teachesInClass(principal.id, #idClass))")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping("/classes/{idClass}")
     public GeneralResponseWrapper<List<StudentDTO>> getStudentsByClass(
             @ApiParam(value = "id of class", required = true) @PathVariable int idClass){
