@@ -17,6 +17,14 @@ import lombok.RequiredArgsConstructor;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CREATED;
 
+/**
+ * The controller {@code SubjectController} contains methods, that
+ * mapped to the special URL patterns (API Endpoints) for working with subjects
+ * and receive requests from {@link org.springframework.web.servlet.DispatcherServlet}.
+ * Methods return raw data back to the client in JSON representations.
+ *
+ * @author Ihor Kudiarskyi
+ */
 @RestController
 @RequestMapping("/subjects")
 @Api(value = "subjects", description = "API endpoints for subjects")
@@ -65,7 +73,7 @@ public class SubjectController {
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
 	@ApiOperation(value = "Get a subject by Id")
-	@PreAuthorize("hasRole('ADMIN') or (hasTole('TEACHER') and  @securityExpressionService.teachesSubject(principal.id, #id))")
+	@PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and  @securityExpressionService.teachesSubject(principal.id, #id))")
 	@GetMapping("/{id}")
 	public GeneralResponseWrapper<SubjectDTO> getSubjectById(
 			@ApiParam(value = "Id of subject", required = true) @PathVariable int id) {
