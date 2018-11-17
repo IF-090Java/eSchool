@@ -1,0 +1,42 @@
+.navLink {
+    color: white;
+}
+.spoiler{
+    margin-top: 15px;
+}
+.spoiler > input + label:after{
+    content: "+";
+    float: right;
+    font-family: monospace;
+    font-weight: bold;}
+.spoiler > input:checked + label:after{
+    content: "-";
+    float: right;
+    font-family: monospace;
+    font-weight: bold;}
+.spoiler > input{display:none;}
+.spoiler > input + label , .spoiler > .spoiler_body{
+    background: #b5b5b5;
+    padding:5px 15px;
+    overflow:hidden;
+    box-sizing: border-box;
+    display: block;
+    margin-top: 0px}
+.spoiler > input + label + .spoiler_body{display:none;}
+.spoiler > input:checked + label + .spoiler_body{display: block;}
+.spoiler > .spoiler_body{
+    background: #ffffff;
+    border: 3px solid #ffffff;
+    border-top: none;}
+
+.transitionTableOldClass {
+    vertical-align: middle !important;
+}
+
+.transitionTableNewClass {
+    vertical-align: middle !important;
+}
+
+body {
+    background: #fafafa;
+}

@@ -1,55 +1,96 @@
 package academy.softserve.eschool.service;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
+import java.math.BigInteger;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import academy.softserve.eschool.dto.MarkDescriptionDTO;
 import org.springframework.stereotype.Service;
 
+import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.repository.MarkRepository;
 import academy.softserve.eschool.service.base.MarkServiceBase;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class MarkService implements MarkServiceBase{
 
-	@Autowired
-	private MarkRepository markRepo;
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	
-	@Override
-	public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, Date periodStart,
-			Date periodEnd) {
-		
-		String startDate = null;
-		String endDate = null;
-		
-		if (periodStart != null) {
-			startDate = dateFormat.format(periodStart);
-		}
-		if (periodEnd != null) {
-			endDate = dateFormat.format(periodEnd);
-		}
-		List<Object[]> marks = markRepo.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate);
-		List<MarkDataPointDTO> dataPoints = formDataPoints(marks);
-		return dataPoints;
-	}
-	
+    @NonNull
+    private MarkRepository markRepo;
+    private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
+    /**
+     * Returns list of {@link MarkDataPointDTO}
+     * @param studentId if specified marks are filtered by user id
+     * @param subjectId if specified marks are filtered by subject id
+     * @param classId if specified marks are filtered by class id
+     * @param periodStart if specified only marks received after this date are returned
+     * @param periodEnd if specified only marks received before this date are returned
+     * @return list of {@link MarkDataPointDTO}
+     */
 
-	private List<MarkDataPointDTO> formDataPoints(List<Object[]> data) {
-		List<MarkDataPointDTO> dataPoints;
-		dataPoints = data.stream().map((obj) -> {
-				double averageMark = ((BigDecimal)obj[0]).doubleValue();
-				Date date = (Date)obj[1];
-				return new MarkDataPointDTO(averageMark, date);
-			})
-			.collect(Collectors.toList());
-		System.out.println(dataPoints.toString());
-		return dataPoints;
-	}
+    @Override
+    public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, LocalDate periodStart,
+            LocalDate periodEnd) {
+        
+        String startDate = null;
+        String endDate = null;
+        
+        if (periodStart != null) {
+            startDate = dateFormat.format(periodStart);
+        }
+        if (periodEnd != null) {
+            endDate = dateFormat.format(periodEnd);
+        }
+        return formDataPoints(markRepo.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate));
+    }
+    
 
+    private List<MarkDataPointDTO> formDataPoints(List<Map<String, Object>> data) {
+        List<MarkDataPointDTO> dataPoints;
+        dataPoints = data.stream().map((obj) -> {
+                double averageMark = ((BigDecimal)obj.get("avg_mark")).doubleValue();
+                LocalDate date = ((Date)obj.get("date")).toLocalDate();
+                int count = ((BigInteger)obj.get("count")).intValue();
+                return new MarkDataPointDTO(averageMark, date, count);
+            })
+            .collect(Collectors.toList());
+        System.out.println(dataPoints.toString());
+        return dataPoints;
+    }
+
+    @Override
+    public void saveMark(MarkDTO dto) {
+        markRepo.saveMarkByLesson(dto.getIdStudent(),dto.getIdLesson(),dto.getMark(),dto.getNote());
+    }
+
+    @Override
+    public void updateType(int idLesson, String markType) {
+        markRepo.saveTypeByLesson(idLesson,markType);
+    }
+
+    @Override
+    public List<MarkDescriptionDTO> getMarksPuttedInTheFuture() {
+        return getListOfMarkDescrDTOs(markRepo.getMarksPuttedInTheFuture());
+    }
+
+    public List<MarkDescriptionDTO> getListOfMarkDescrDTOs(List<Map<String, Object>> data) {
+        List<MarkDescriptionDTO> markDescriptions;
+        markDescriptions = data.stream().map((obj) -> {
+            int id = ((BigInteger)obj.get("lesson_id")).intValue();
+            Byte mark = ((Byte)obj.get("mark")).byteValue();
+            Date date = (Date)obj.get("date");
+            return new MarkDescriptionDTO(id, mark, date, null, null);
+        })
+                .collect(Collectors.toList());
+        return markDescriptions;
+    }
 }

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -29,11 +30,16 @@ public class StudentDTO {
 
     @ApiModelProperty(notes = "contains student class")
     private String classe;
+
+    @ApiModelProperty(notes = "contains class id")
+    private int classId;
+
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
+            timezone = "Europe/Kiev",
             pattern = "yyyy-MM-dd")
     @ApiModelProperty(notes = "contains date of birth of the student yyyy-mm-dd")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @ApiModelProperty(notes = "student login")
     private String login;

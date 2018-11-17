@@ -1,6 +1,7 @@
 package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.dto.ClassDTO;
+import academy.softserve.eschool.dto.NYTransitionDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.repository.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,66 +16,95 @@ public class ClassServiceImpl implements ClassService{
     @Autowired ClassRepository classRepository;
 
     @Override
-    public List<ClassDTO> findClassesByStatus(boolean status) {
-        List<Clazz> clazzList = classRepository.findClassByActiveStatus(status);
-
+    public List<ClassDTO> getAllClasses() {
+        List<Clazz> clazzList = classRepository.findAll();
         return clazzList.stream().map((i) -> ClassDTO.builder()
                 .id(i.getId())
                 .className(i.getName())
                 .classDescription(i.getDescription())
                 .classYear(i.getAcademicYear())
-                .isActive(Boolean.toString(i.isActive())).build()
+                .isActive(i.isActive())
+                .numOfStudents(i.getStudents().size()).build()
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
     public ClassDTO findClassById(int id) {
         Clazz clazz = classRepository.findById(id).orElse(null);
-  
         return ClassDTO.builder()
                 .className(clazz.getName())
                 .classDescription(clazz.getDescription())
                 .classYear(clazz.getAcademicYear())
-                .isActive(Boolean.toString(clazz.isActive())).build();
+                .isActive(clazz.isActive()).build();
     }
 
     @Override
-    public void saveClass(ClassDTO classDTO) {
-        Boolean isActive = Boolean.valueOf(classDTO.getIsActive());
-        classRepository.save(
-        Clazz.builder()
+    public ClassDTO saveClass(ClassDTO classDTO) {
+        Clazz savedClass = classRepository.save(
+            Clazz.builder()
                 .name(classDTO.getClassName())
                 .description(classDTO.getClassDescription())
                 .academicYear(classDTO.getClassYear())
-                .isActive(isActive).build()
-        );
+                .isActive(classDTO.getIsActive()).build()
+            );
+        return ClassDTO.builder()
+                .id(savedClass.getId())
+                .className(savedClass.getName())
+                .classDescription(savedClass.getDescription())
+                .classYear(savedClass.getAcademicYear())
+                .isActive(savedClass.isActive()).build();
     }
 
     @Override
-    public void updateClass(int id, ClassDTO classDTO) {
-        classRepository.updateClass(id, classDTO.getClassName(), classDTO.getClassYear(), classDTO.getClassDescription(), Boolean.valueOf(classDTO.getIsActive()));
+    public ClassDTO updateClass(int id, ClassDTO classDTO) {
+        Clazz clazz = classRepository.findById(id).orElse(null);
+        clazz.setName(classDTO.getClassName());
+        clazz.setDescription(classDTO.getClassDescription());
+        clazz.setAcademicYear(classDTO.getClassYear());
+        clazz.setActive(classDTO.getIsActive());
+
+        Clazz updatedClass = classRepository.save(clazz);
+        return ClassDTO.builder()
+                .id(updatedClass.getId())
+                .className(updatedClass.getName())
+                .classDescription(updatedClass.getDescription())
+                .classYear(updatedClass.getAcademicYear())
+                .isActive(updatedClass.isActive())
+                .numOfStudents(updatedClass.getStudents().size()).build();
     }
 
     @Override
-    public void addNewYearClasses() {
-        List<ClassDTO> prevYearClasses = findClassesByStatus(true);
-        prevYearClasses.stream().forEach(c -> c.setClassYear(c.getClassYear()+1));
-        prevYearClasses.stream().forEach(c -> c.setClassName(updateClassName(c.getClassName())));
-        prevYearClasses.stream().forEach(c -> saveClass(c));
+    public List<ClassDTO> addNewYearClasses() {
+        List<ClassDTO> allClasses = getAllClasses();
+        List<Clazz> newYearClasses = new ArrayList<>();
+
+        for (ClassDTO classDTO : allClasses){
+            if (classDTO.getIsActive() == true && classDTO.getNumOfStudents() > 0 && !classDTO.getClassName().startsWith("11")){
+                newYearClasses.add(
+                Clazz.builder()
+                        .name(updateClassName(classDTO.getClassName()))
+                        .description(classDTO.getClassDescription())
+                        .academicYear(classDTO.getClassYear()+1)
+                        .isActive(classDTO.getIsActive()).build()
+                );
+            }
+        }
+        List<Clazz> classes = classRepository.saveAll(newYearClasses);
+        return classes.stream().map(c -> ClassDTO.builder()
+                .id(c.getId())
+                .className(c.getName())
+                .classDescription(c.getDescription())
+                .classYear(c.getAcademicYear())
+                .isActive(c.isActive()).build()).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
-    public List<ClassDTO> getActiveClassesWithStudents() {
-        List<Clazz> aClasses = classRepository.getActiveClassesWithStudents();
-        return aClasses.stream().map(i -> ClassDTO.builder()
-                .id(i.getId())
-                .className(i.getName())
-                .classYear(i.getAcademicYear())
-                .classDescription(i.getDescription()).build()
-        ).collect(Collectors.toCollection(ArrayList::new));
+    public void updateClassStatusById(List<NYTransitionDTO> transitionDTOS, boolean status) {
+        for (NYTransitionDTO dto: transitionDTOS){
+            classRepository.updateClassStatusById(dto.getOldClassId(), status);
+        }
     }
 
-    @Override
     public String updateClassName(String className) {
         String[] classNameParts = className.split("-");
         if (classNameParts.length>1){
@@ -86,5 +116,16 @@ public class ClassServiceImpl implements ClassService{
         }
     }
 
-
+    @Override
+    public List<ClassDTO> getClassesBySubject(Integer subjectId) {
+        List<Clazz> clazzList = classRepository.findClassesBySubject(subjectId);
+        return clazzList.stream().map((i) -> ClassDTO.builder()
+                .id(i.getId())
+                .className(i.getName())
+                .classDescription(i.getDescription())
+                .classYear(i.getAcademicYear())
+                .isActive(i.isActive())
+                .numOfStudents(i.getStudents().size()).build()
+        ).collect(Collectors.toCollection(ArrayList::new));
+    }
 }

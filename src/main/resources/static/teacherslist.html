@@ -1,57 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Список вчителів</title>
-	<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
-	<style type="text/css">
-	.left-menu{
-		width: 300px;
-		float: left;
-		height: 100vh;
-	}
-	.main{
-		padding-top: 15px;
-		margin: auto;
-    	width: 35%;
-	}	
-	.main ul li a{
-		font-size: 19px;
-		text-decoration: none;
-	}
-	
-	li{
-		margin-top: 5px;
-	}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Список вчителів</title>
+    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
+    <script src="/js/JS.js"></script>
+    <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-	<div class="header"></div>
-	<div>
-		<div class="main">
-			<h2 align="center">Всі вчителі</h2>
-			<ul id="teacherslist" style="list-style-type: square;">
-			</ul>
-		</div>
-	</ul>
-</div>	
-<script type="text/javascript"> 
-	 $(function() {
-      $(".header").load("/views/header.html");
-    });
-    </script> 
-<script type="text/javascript">
-	$(document).ready(function () {
-		$.getJSON('http://localhost:8080/teachers', function (data) {
-			console.log(data);
-			$.each(data, function (i, item) {
-				$('#teacherslist').append($('<li>').append($('<a>').attr('href','/teachers/'+item.id+'/edit').append(item.firstname)
-					.append(' ' + item.lastname).append(' ' + item.patronymic)))
-			});		
-		});
+<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;"></nav>
+<div class="row" id="body-row">
+    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
+    <div class="col py-3">
 
-	});
-</script>
+            <div class="container">
+                <div class="row justify-content-center mt-3">
+                    <h1>Всі вчителі</h1>
+                </div>                
+                <div class="row mainbox justify-content-center">
+                    <ul id="teacherslist" class="list-group-flush">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            refreshToken();
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    if (getJwtToken()) {
+                        xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
+                    }
+                }
+            })
+        })
+
+        $(document).ready(function () {
+            $.getJSON(host + 'teachers', function (data) {
+                console.log(data);
+                $.each(data.data, function (i, item) {
+                    $('#teacherslist').append($('<li class="list-group-item">').append($('<a>').attr('href','/ui/teachers/'+item.id+'/edit').append(item.firstname)
+                        .append(' ' + item.lastname).append(' ' + item.patronymic)))
+                });        
+            }).fail(function (data) {
+                if (new RegExp("4[0-9][0-9]").test(data.status)){
+                    window.location.href='/ui/login'
+                }
+            });
+        });
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#sidebar-container").load("/views/admin-sidebar.html");
+            $(".navbar").load("/views/admin-header.html");
+        });
+    </script>
 </body>
 </html>

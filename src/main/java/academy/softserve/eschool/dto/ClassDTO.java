@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import java.util.List;
+
 @ApiModel
 @Data
 @AllArgsConstructor
@@ -23,6 +25,16 @@ public class ClassDTO {
     private String classDescription;
 
     @ApiModelProperty(required = true, notes = "true or false")
-    private String isActive;
+    private boolean isActive;
 
+    @ApiModelProperty(required = false, notes = "Num of students in currently class. Only for get methods")
+    private int numOfStudents;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
 }

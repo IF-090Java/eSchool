@@ -1,1481 +1,418 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="/css/globalStyle.css">
+<link rel="stylesheet" type="text/css" href="/css/global-style.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<!-- CSS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+<link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
+  <!-- CSS -->
 <style type="text/css">
-body {
-margin:0px;
-background-image:none;
-position:static;
-left:auto;
-width:1024px;
-margin-left:0;
-margin-right:0;
-text-align:left;
-}
-.header{
-	height: 55px;
-	background: #FFA500;
-	border: 1px solid black;
-	text-align: center;
-	font-weight: bold;
-	font-size: 18px;
-	z-index:1;
-	position:absolute;
-	left:180px;
-	top:0px;
-	width:1000px;
-}
-#u0_div {
-border-width:0px;
-position:absolute;
-left:180px;
-top:0px;
-width:1000px;
-height:1263px;
-background:inherit;
-background-color:rgba(242, 242, 242, 0.788235294117647);
-border:none;
-border-radius:0px;
--moz-box-shadow:none;
--webkit-box-shadow:none;
-box-shadow:none;
-}
-
-#u1 {
-border-width:0px;
-position:absolute;
-left:500px;
-top:47px;
-width:307px;
-height:37px;
-font-family:'Arial Полужирный', 'Arial Обычный', 'Arial';
-font-weight:700;
-font-style:normal;
-text-align:center;
-white-space:nowrap;
-}
-#u3 {
-border-width:0px;
-position:absolute;
-left:200px;
-top:179px;
-width:120px;
-height:16px;
-white-space:nowrap;
-}
-#u6 {
-border-width:0px;
-position:absolute;
-left:650px;
-top:179px;
-width:111px;
-height:16px;
-white-space:nowrap;
-}
-#u13 {
-border-width:0px;
-position:absolute;
-left:200px;
-top:106px;
-width:177px;
-height:16px;
-font-family:'Arial Полужирный Курсив', 'Arial Обычный', 'Arial';
-font-weight:700;
-font-style:italic;
-white-space:nowrap;
-}
-#u14 {
-border-width:0px;
-position:absolute;
-left:200px;
-top:249px;
-width:104px;
-height:16px;
-font-family:'Arial Полужирный Курсив', 'Arial Обычный', 'Arial';
-font-weight:700;
-font-style:italic;
-white-space:nowrap;
-}
-#u15 {
-border-width:0px;
-position:absolute;
-left:400px;
-top:260px;
-width:143px;
-height:22px;
-}
-#u15_input {
-position:absolute;
-left:0px;
-top:0px;
-width:143px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u15_input:disabled {
-color:grayText;
-}
-
-#u17 {
-border-width:0px;
-position:absolute;
-left:600px;
-top:1200px;
-width: 140px;
-height:60px;
-}
-
-#u19 {
-border-width:0px;
-position:absolute;
-left:200px;
-top:323px;
-width:71px;
-height:16px;
-font-family:'Arial Полужирный Курсив', 'Arial Обычный', 'Arial';
-font-weight:700;
-font-style:italic;
-text-decoration:underline;
-white-space:nowrap;
-}
-#u21 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:370px;
-width:300px;
-height:22px;
-}
-#u21_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u21_input:disabled {
-color:grayText;
-}
-#u23 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:398px;
-width:300px;
-height:22px;
-}
-#u23_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u23_input:disabled {
-color:grayText;
-}
-#u25 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:431px;
-width:300px;
-height:22px;
-}
-#u25_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u25_input:disabled {
-color:grayText;
-}
-#u27 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:470px;
-width:300px;
-height:22px;
-}
-#u27_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u27_input:disabled {
-color:grayText;
-}
-#u29 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:498px;
-width:300px;
-height:22px;
-}
-#u29_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u29_input:disabled {
-color:grayText;
-}
-#u31 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:531px;
-width:300px;
-height:22px;
-}
-#u31_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u31_input:disabled {
-color:grayText;
-}
-#u33 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:570px;
-width:300px;
-height:22px;
-}
-#u33_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u33_input:disabled {
-color:grayText;
-}
-#u35 {
-border-width:0px;
-position:absolute;
-left:598px;
-top:323px;
-width:55px;
-height:16px;
-font-family:'Arial Полужирный Курсив', 'Arial Обычный', 'Arial';
-font-weight:700;
-font-style:italic;
-text-decoration:underline;
-white-space:nowrap;
-}
-#u37 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:368px;
-width:300px;
-height:22px;
-}
-#u37_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u37_input:disabled {
-color:grayText;
-}
-#u39 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:398px;
-width:300px;
-height:22px;
-}
-#u39_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u39_input:disabled {
-color:grayText;
-}
-#u41 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:431px;
-width:300px;
-height:22px;
-}
-#u41_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u41_input:disabled {
-color:grayText;
-}
-#u43 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:470px;
-width:300px;
-height:22px;
-}
-#u43_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u43_input:disabled {
-color:grayText;
-}
-#u45 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:498px;
-width:300px;
-height:22px;
-}
-#u45_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u45_input:disabled {
-color:grayText;
-}
-#u46 {
-border-width:0px;
-position:absolute;
-left:598px;
-top:531px;
-width:13px;
-height:16px;
-white-space:nowrap;
-}
-#u47 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:531px;
-width:300px;
-height:22px;
-}
-#u47_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u47_input:disabled {
-color:grayText;
-}
-#u49 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:570px;
-width:300px;
-height:22px;
-}
-#u49_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u49_input:disabled {
-color:grayText;
-}
-#u51 {
-border-width:0px;
-position:absolute;
-left:598px;
-top:616px;
-width:68px;
-height:16px;
-font-family:'Arial Полужирный Курсив', 'Arial Обычный', 'Arial';
-font-weight:700;
-font-style:italic;
-text-decoration:underline;
-white-space:nowrap;
-}
-#u53 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:655px;
-width:300px;
-height:22px;
-}
-#u53_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u53_input:disabled {
-color:grayText;
-}
-#u55 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:691px;
-width:300px;
-height:22px;
-}
-#u55_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u55_input:disabled {
-color:grayText;
-}
-#u57 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:724px;
-width:300px;
-height:22px;
-}
-#u57_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u57_input:disabled {
-color:grayText;
-}
-#u59 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:758px;
-width:300px;
-height:22px;
-}
-#u59_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u59_input:disabled {
-color:grayText;
-}
-#u61 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:791px;
-width:300px;
-height:22px;
-}
-#u61_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u61_input:disabled {
-color:grayText;
-}
-#u63 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:824px;
-width:300px;
-height:22px;
-}
-#u63_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u63_input:disabled {
-color:grayText;
-}
-#u65 {
-border-width:0px;
-position:absolute;
-left:658px;
-top:861px;
-width:300px;
-height:22px;
-}
-#u65_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u65_input:disabled {
-color:grayText;
-}
-#u67 {
-border-width:0px;
-position:absolute;
-left:200px;
-top:616px;
-width:66px;
-height:16px;
-font-family:'Arial Полужирный Курсив', 'Arial Обычный', 'Arial';
-font-weight:700;
-font-style:italic;
-text-decoration:underline;
-white-space:nowrap;
-}
-#u69 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:655px;
-width:300px;
-height:22px;
-}
-#u69_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u69_input:disabled {
-color:grayText;
-}
-#u71 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:691px;
-width:300px;
-height:22px;
-}
-#u71_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u71_input:disabled {
-color:grayText;
-}
-#u73 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:724px;
-width:300px;
-height:22px;
-}
-#u73_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u73_input:disabled {
-color:grayText;
-}
-#u75 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:758px;
-width:300px;
-height:22px;
-}
-#u75_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u75_input:disabled {
-color:grayText;
-}
-#u77 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:791px;
-width:300px;
-height:22px;
-}
-#u77_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u77_input:disabled {
-color:grayText;
-}
-#u79 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:824px;
-width:300px;
-height:22px;
-}
-#u79_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u79_input:disabled {
-color:grayText;
-}
-#u81 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:861px;
-width:300px;
-height:22px;
-}
-#u81_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u81_input:disabled {
-color:grayText;
-}
-#u83 {
-border-width:0px;
-position:absolute;
-left:200px;
-top:923px;
-width:51px;
-height:16px;
-font-family:'Arial Полужирный Курсив', 'Arial Обычный', 'Arial';
-font-weight:700;
-font-style:italic;
-text-decoration:underline;
-white-space:nowrap;
-}
-#u85 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:962px;
-width:300px;
-height:22px;
-}
-#u85_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u85_input:disabled {
-color:grayText;
-}
-#u87 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:998px;
-width:300px;
-height:22px;
-}
-#u87_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u87_input:disabled {
-color:grayText;
-}
-#u89 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:1031px;
-width:300px;
-height:22px;
-}
-#u89_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u89_input:disabled {
-color:grayText;
-}
-#u91 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:1065px;
-width:300px;
-height:22px;
-}
-#u91_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u91_input:disabled {
-color:grayText;
-}
-#u93 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:1098px;
-width:300px;
-height:22px;
-}
-#u93_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u93_input:disabled {
-color:grayText;
-}
-#u95 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:1131px;
-width:300px;
-height:22px;
-}
-#u95_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u95_input:disabled {
-color:grayText;
-}
-#u97 {
-border-width:0px;
-position:absolute;
-left:250px;
-top:1168px;
-width:300px;
-height:22px;
-}
-#u97_input {
-position:absolute;
-left:0px;
-top:0px;
-width:300px;
-height:22px;
-font-family:'Arial Обычный', 'Arial';
-font-weight:400;
-font-style:normal;
-font-size:13px;
-text-decoration:none;
-color:#000000;
-}
-#u97_input:disabled {
-color:grayText;
-}
-input[type=date] {
-width: 150px;
-}
+.nowrap {
+  white-space: nowrap ;
+}
+.error {
+    color: red;
+}
+select {
+   -webkit-appearance: button;
+   -webkit-border-radius: 2px;
+   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+   -webkit-padding-end: 20px;
+   -webkit-padding-start: 2px;
+   -webkit-user-select: none;
+   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+   background-position: 97% center;
+   background-repeat: no-repeat;
+   border: 1px solid #AAA;
+   color: #555;
+   font-size: inherit;
+   margin-bottom: 8px;
+   overflow: hidden;
+   padding: 5px 10px;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width: 250px;
+ }
 </style>
 <head>
-  <title>Schedule</title>
+    <title>Schedule</title>
+    <script src="/js/JS.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;"></nav>
+<div class="row" id="body-row">
+    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
+    <div class="col py-3">
+        <div class="container">
+            <div id="message" align="center"></div>
+            <div id="u1" align="center" style="padding-bottom:10px; padding-top:10px">
+                <p><h1><span>Внесення розкладу</span></h1></p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="main">
 
-<div class="header">
-		<a href="/admin"><img id="logo" src="/img/logo.png" width="144" height="45" alt="logo"></a>
-		<span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Admin01</span>
-		<span style="float: left; margin-left: 12%; margin-top: 15px" id="status">Статус: Адміністратор</span>
-		<span style="float: right; margin-right: 40px; margin-top: 14px; font-size: 20px;"><a href="/"> Вийти</a></span>
-	</div>
-<form action= "/schedule" method="post">
-<div id="base" class="">
+                        <div class="container">
+                            <form id = "myForm">
+                                <div class="row">
 
-  <!-- Background-->
-  <div id="u0_div" class="ax_default box_2">
-  </div>
 
-  <!-- Text -->
-  <div id="u1" class="ax_default heading_1">
-    <p><h1><span>Внесення розкладу</span></h1></p>
-  </div>
+                                    <div class="col">
+                                        <p for="start"  class="control-label col-4 requiredField font-weight-bold nowrap" style="padding-top:25px">Введіть початок семестру:<span class="asteriskField">*</span></p>
+                                        <div class="controls col-8">
+                                            <input class="input-md form-control" id="start" type="date" name="startDate" style="width:200px">
+                                        </div>
+                                    </div>
 
-  <!-- Text -->
-  <div id="u13" class="ax_default label">
-    <p><span>Виберіть межі семестру</span></p>
-  </div>
+                                    <div class="col">
+                                        <p for="end"  class="control-label col-4 requiredField font-weight-bold nowrap" style="padding-top:25px">Введіть кінець семестру:<span class="asteriskField">*</span></p>
+                                        <div class="controls col-8">
+                                            <input class="input-md form-control" id="end" type="date" name="endDate" style="width:200px">
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col">
+                                        <p for="u15_input" class="control-label col-4 requiredField font-weight-bold nowrap" style="padding-top:25px">Виберіть клас:<span class="asteriskField">*</span></p>
+                                        <div class="controls col-8">
+                                            <select id="u15_input" style="width:200px">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="container" style="padding-top:20px">
+                            <div class="row">
+                                <div class="col">
+                                    <p>Понеділок</p>
+                                    <ol id="monday">
+                                        <div class="controls1">
+                                            <form role="form" autocomplete="off">
+                                                <div class="entry input-group col-xs-3">
+                                                    <div class="row">
+                                                    <li>
+                                                        <select name="monday" class="ax_default_droplist1" data-type="answer" class="select">
+                                                            <option value="0">-</option>
+                                                        </select>
+
+                                                        <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+                                                    </li>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </ol>
+                                </div>
+
+                                <div class="col">
+                                    <p>Четвер</p>
+                                    <ol id="thursday">
+                                        <div class="controls4">
+                                            <form role="form" autocomplete="off">
+                                                <div class="entry input-group col-xs-3">
+                                                    <div class="row">
+                                                    <li>
+                                                        <select name="thursday" class="ax_default_droplist4" data-type="answer" class="select">
+                                                            <option value="0">-</option>
+                                                        </select>
+
+                                                        <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+                                                    </li>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </ol>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <p>Вівторок</p>
+                                    <ol id="tuesday">
+                                        <div class="controls2">
+                                            <form role="form" autocomplete="off">
+                                                <div class="entry input-group col-xs-3">
+                                                    <div class="row">
+                                                    <li>
+                                                        <select name="tuesday" class="ax_default_droplist2" data-type="answer" class="select">
+                                                            <option value="0">-</option>
+                                                        </select>
+
+                                                        <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+                                                    </li>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </ol>
+                                </div>
+
+                                <div class="col">
+                                    <p>П'ятниця</p>
+                                    <ol id="friday">
+                                        <div class="controls5">
+                                            <form role="form" autocomplete="off">
+                                                <div class="entry input-group col-xs-3">
+                                                    <div class="row">
+                                                    <li>
+                                                        <select name="friday" class="ax_default_droplist5" data-type="answer" class="select">
+                                                            <option value="0">-</option>
+                                                        </select>
+
+                                                        <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+                                                    </li>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </ol>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <p>Середа</p>
+                                    <ol id="wednesday">
+                                        <div class="controls3">
+                                            <form role="form" autocomplete="off">
+                                                <div class="entry input-group col-xs-3">
+                                                    <div class="row">
+                                                    <li>
+                                                        <select name="wednesday" class="ax_default_droplist3" data-type="answer" class="select">
+                                                            <option value="0">-</option>
+                                                        </select>
+
+                                                        <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+                                                    </li>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="u17" align="center" style="text-align: center; margin: 0 auto; padding-top: 25px; padding-bottom: 100px">
+                            <button id="submitButton" class="btn btn-success" type="submit">Створити розклад</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u3" class="ax_default label">
-    <form>
-        <label for="start">Введіть початок семетру:</label>
-        <input type="date" id="start" name="start" required>
-    </form>
-  </div>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u6" class="ax_default label">
-      <form>
-          <label for="end">Введіть кінець семетру:</label>
-          <input type="date" id="end" name="end" required>
-      </form>
-  </div>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u14" class="ax_default label">
-    <p><span>Виберіть клас</span></p>
-  </div>
-
-  <!-- Classes Droplist -->
-  <div id="u15" class="ax_default droplist">
-    <select id="u15_input">
-    </select>
-  </div>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u19" class="ax_default label">
-    <p><span style="text-decoration:underline;">Понеділок</span></p>
-  </div>
-
-  <ol>
-
-    <!-- Subject (Droplist) -->
-    <li id="u21" data-label="Subject">
-      <select id="u21_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u23" data-label="Subject">
-      <select id="u23_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u25" data-label="Subject">
-      <select id="u25_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u27" data-label="Subject">
-      <select id="u27_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u29" data-label="Subject">
-      <select id="u29_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u31" data-label="Subject">
-      <select id="u31_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u33" data-label="Subject">
-      <select id="u33_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-  </ol>
-  <!-- Unnamed (Rectangle) -->
-  <div id="u67" class="ax_default label">
-    <p><span style="text-decoration:underline;">Вівторок</span></p>
-  </div>
-
-  <ol>
-    <!-- Subject (Droplist) -->
-    <li id="u69" data-label="Subject">
-      <select id="u69_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u71" data-label="Subject">
-      <select id="u71_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u73" data-label="Subject">
-      <select id="u73_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u75" data-label="Subject">
-      <select id="u75_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u77" data-label="Subject">
-      <select id="u77_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u79" data-label="Subject">
-      <select id="u79_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u81" data-label="Subject">
-      <select id="u81_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-  </ol>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u83" class="ax_default label">
-    <p><span style="text-decoration:underline;">Середа</span></p>
-  </div>
-
-  <ol>
-    <!-- Subject (Droplist) -->
-    <li id="u85" data-label="Subject">
-      <select id="u85_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u87" data-label="Subject">
-      <select id="u87_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u89" data-label="Subject">
-      <select id="u89_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u91" data-label="Subject">
-      <select id="u91_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u93" data-label="Subject">
-      <select id="u93_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u95" data-label="Subject">
-      <select id="u95_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u97" data-label="Subject">
-      <select id="u97_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-  </ol>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u35" class="ax_default label">
-    <p><span style="text-decoration:underline;">Четвер</span></p>
-  </div>
-
-  <ol>
-    <!-- Subject (Droplist) -->
-    <li id="u37" data-label="Subject">
-      <select id="u37_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u39" data-label="Subject">
-      <select id="u39_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u41" data-label="Subject">
-      <select id="u41_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u43" data-label="Subject">
-      <select id="u43_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u45" data-label="Subject">
-      <select id="u45_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u47" data-label="Subject">
-      <select id="u47_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u49" data-label="Subject">
-      <select id="u49_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-  </ol>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u51" class="ax_default label">
-    <p><span style="text-decoration:underline;">П'ятниця</span></p>
-  </div>
-
-  <ol>
-    <!-- Subject (Droplist) -->
-    <li id="u53" data-label="Subject">
-      <select id="u53_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u55" data-label="Subject">
-      <select id="u55_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u57" data-label="Subject">
-      <select id="u57_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u59" data-label="Subject">
-      <select id="u59_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u61" data-label="Subject">
-      <select id="u61_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u63" data-label="Subject">
-      <select id="u63_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-
-    <!-- Subject (Droplist) -->
-    <li id="u65" data-label="Subject">
-      <select id="u65_input" class="ax_default_droplist">
-        <option value="0">-</option>
-      </select>
-    </li>
-  </ol>
-
-  <!-- Unnamed (Rectangle) -->
-  <div id="u17" class="ax_default primary_button">
-    <button id="submitButton">Створити розклад</button>
-  </div>
-</form>
 <script type="text/javascript">
-
-		$(document).ready(function() {
-
-			$.getJSON('http://localhost:8080/subjects', function (data) {
-
-				var subjectNames = [];
-				$.each(data, function(key, value) {
-						subjectNames.push(value.subjectName);
-					});
-				for (i=0; i < subjectNames.length; i++)
-				{
-					$('.ax_default_droplist').append('<option value="' + (i+1) + '">' + subjectNames[i] + '</option>');
-				}
-			});
-			
-			$.getJSON('http://localhost:8080/classes', function(data){
-
-					var classNames = [];
-					$.each(data, function(key, value) {
-						classNames.push(value.className);
-					});
-					for (i=0; i < classNames.length; i++)
-					$('#u15_input').append('<option value="' + (i+1) + '">' + classNames[i] + '</option>');
-				});
-
-
-			$('#submitButton').click(function(){
-				var startdate = $('#start').val();
-				var enddate = $('#end').val();
-
-				var classObj = {id: $('#u15_input').find(":selected").val(), classYear: (new Date()).getFullYear(),
-				className: $("#u15_input").find('option:selected').text(), classDescription: " ", isActive: "true"};
-				id_class = $('#u15_input').find(":selected").val();
-
-				var monday = [];
-				var tuesday = [];
-				var wednesday = [];
-				var thursday = [];
-				var friday = [];
-
-				monday.push({subjectId: $('#u21_input').find(":selected").val(), subjectName: $('#u21_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u23_input').find(":selected").val(), subjectName: $('#u23_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u25_input').find(":selected").val(), subjectName: $('#u25_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u27_input').find(":selected").val(), subjectName: $('#u27_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u29_input').find(":selected").val(), subjectName: $('#u29_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u31_input').find(":selected").val(), subjectName: $('#u31_input').find("option:selected").text(), subjectDescription: ""});
-				monday.push({subjectId: $('#u33_input').find(":selected").val(), subjectName: $('#u33_input').find("option:selected").text(), subjectDescription: ""});
-
-                tuesday.push({subjectId: $('#u69_input').find(":selected").val(), subjectName: $('#u69_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u71_input').find(":selected").val(), subjectName: $('#u71_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u73_input').find(":selected").val(), subjectName: $('#u73_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u75_input').find(":selected").val(), subjectName: $('#u75_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u77_input').find(":selected").val(), subjectName: $('#u77_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u79_input').find(":selected").val(), subjectName: $('#u79_input').find("option:selected").text(), subjectDescription: ""});
-				tuesday.push({subjectId: $('#u81_input').find(":selected").val(), subjectName: $('#u81_input').find("option:selected").text(), subjectDescription: ""});
-
-				wednesday.push({subjectId: $('#u85_input').find(":selected").val(), subjectName: $('#u85_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u87_input').find(":selected").val(), subjectName: $('#u87_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u89_input').find(":selected").val(), subjectName: $('#u98_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u91_input').find(":selected").val(), subjectName: $('#u91_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u93_input').find(":selected").val(), subjectName: $('#u93_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u95_input').find(":selected").val(), subjectName: $('#u95_input').find("option:selected").text(), subjectDescription: ""});
-				wednesday.push({subjectId: $('#u97_input').find(":selected").val(), subjectName: $('#u97_input').find("option:selected").text(), subjectDescription: ""});
-
-				thursday.push({subjectId: $('#u37_input').find(":selected").val(), subjectName: $('#u37_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u39_input').find(":selected").val(), subjectName: $('#u39_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u41_input').find(":selected").val(), subjectName: $('#u41_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u43_input').find(":selected").val(), subjectName: $('#u43_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u45_input').find(":selected").val(), subjectName: $('#u45_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u47_input').find(":selected").val(), subjectName: $('#u47_input').find("option:selected").text(), subjectDescription: ""});
-				thursday.push({subjectId: $('#u49_input').find(":selected").val(), subjectName: $('#u49_input').find("option:selected").text(), subjectDescription: ""});
-
-				friday.push({subjectId: $('#u53_input').find(":selected").val(), subjectName: $('#u53_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u55_input').find(":selected").val(), subjectName: $('#u55_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u57_input').find(":selected").val(), subjectName: $('#u57_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u59_input').find(":selected").val(), subjectName: $('#u59_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u61_input').find(":selected").val(), subjectName: $('#u61_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u63_input').find(":selected").val(), subjectName: $('#u63_input').find("option:selected").text(), subjectDescription: ""});
-				friday.push({subjectId: $('#u65_input').find(":selected").val(), subjectName: $('#u65_input').find("option:selected").text(), subjectDescription: ""});
-
+/****************************************Add more selects*********************************************************************/
+function addMore(obj, controls)
+{
+      $(obj).on('click', '.btn-add', function(e)
+    {
+        e.preventDefault();
+        var controlForm = $(controls + ' form:first'),
+            currentEntry = $(this).parents('.entry:first'),
+            newEntry = $(currentEntry.clone()).appendTo(controlForm);
+        var id = 0;
+        newEntry.each(function(){
+                   $(this).find('select').attr('id', id + 1);
+                });
+        controlForm.find('.entry:not(:last) .btn-add')
+            .removeClass('btn-add').addClass('btn-remove')
+            .removeClass('btn-success').addClass('btn-danger')
+            .html('<span> - </span>');
+    }).on('click', '.btn-remove', function(e)
+    {
+        $(this).parents('.entry:first').remove();
+        e.preventDefault();
+        return false;
+    });
+}
+$(function()
+{
+  addMore('#monday', '.controls1');
+  addMore('#tuesday', '.controls2');
+  addMore('#wednesday', '.controls3');
+  addMore('#thursday', '.controls4');
+  addMore('#friday', '.controls5');
+});
+/****************************************Security*********************************************************************/
+    $(document).ready(function () {
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                if (getJwtToken()) {
+                    xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
+                }
+            }
+        })
+    })
+/****************************************Valdation of forms*********************************************************************/
+        <!--var markDates = [];-->
+           <!--$.getJSON(host + 'marksDescription', function(data){-->
+                    <!--$.each(data.data, function(key, value) {-->
+                            <!--markDates.push(value.dateMark);-->
+                    <!--});-->
+                <!--}).fail(function (data) {-->
+                <!--if (new RegExp("4[0-9][0-9]").test(data.status)){-->
+                    <!--window.location.href='/ui/login'-->
+                <!--}-->
+            <!--});-->
+        $(document).ready(function() {
+            var today = new Date();
+            var one_day_ago=new Date().setDate(today.getDate()-1);
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+             if(dd<10){
+                    dd='0'+dd
+                }
+                if(mm<10){
+                    mm='0'+mm
+                }
+            today = yyyy+'-'+mm+'-'+dd;
+           jQuery.validator.addMethod("minDate", function(value, element) {
+                 var inputDate = new Date(value);
+                  if (inputDate > one_day_ago)
+                      return true;
+                  return false;
+          }, "Дата повинна бути більшою чи рівною " + today);
+          <!--jQuery.validator.addMethod("markDate", function(value, element) {-->
+                 <!--var inputDate = new Date(value);-->
+                 <!--for (var i = 0; i < markDates.length; i ++){-->
+                  <!--if (inputDate != new Date(markDates[i]))-->
+                      <!--return true;-->
+                   <!--}-->
+                  <!--return false;-->
+          <!--}, "За цю дату уже виставлені оцінки");-->
+          jQuery.validator.addMethod("endOfDate", function(value, element) {
+            var startdatevalue = $("#start").val();
+            if (new Date(startdatevalue) < new Date(value))
+                      return true;
+                  return false;
+            }, "Дата кінця семетру повинна бути більшою чим дата початку семестру");
+          $("#myForm").validate({
+            rules: {
+                startDate: {
+                    required: true,
+                    date: true,
+                    minDate: true,
+                    <!--markDate: true-->
+                },
+                endDate: {
+                    required: true,
+                    date: true,
+                    endOfDate: true,
+                    <!--markDate: true-->
+                }
+            },
+            messages: {
+             startDate: {
+                    required: "Це поле обов'язкове"
+                },
+             endDate: {
+                    required: "Це поле обов'язкове"
+                }
+            }
+        });
+/****************************************Get subjects and classes from endpoints*********************************************************************/
+            $.getJSON(host + 'subjects', function (data) {
+                var subjectNames = [];
+                var id = [];
+                $.each(data.data, function(key, value) {
+                        subjectNames.push(value.subjectName);
+                        id.push(value.subjectId);
+                    });
+                for (i=0; i < subjectNames.length; i++)
+                {
+                    $('.ax_default_droplist1').append('<option value="' + id[i] + '"name="monday">' + subjectNames[i] + '</option>');
+                    $('.ax_default_droplist2').append('<option value="' + id[i] + '"name="tuesday">' + subjectNames[i] + '</option>');
+                    $('.ax_default_droplist3').append('<option value="' + id[i] + '"name="wednesday">' + subjectNames[i] + '</option>');
+                    $('.ax_default_droplist4').append('<option value="' + id[i] + '"name="thursday">' + subjectNames[i] + '</option>');
+                    $('.ax_default_droplist5').append('<option value="' + id[i] + '"name="friday">' + subjectNames[i] + '</option>');
+                }
+                if (subjectNames.length == 0)
+                    {
+                    $("#message").attr("class", "alert alert-danger");
+                    $("#message").html("<strong>Ще не створено предметів. Ви не можете створити розклад.</strong>");
+                    }
+            }).fail(function (data) {
+                if (new RegExp("4[0-9][0-9]").test(data.status)){
+                    window.location.href='/ui/login'
+                }
+            });
+            $.getJSON(host + 'classes', function(data){
+                    var classNames = [];
+                    var id = [];
+                    $.each(data.data, function(key, value) {
+                        if (value.isActive == true) {
+                            classNames.push(value.className);
+                            id.push(value.id);
+                        }
+                    });
+                    for (i=0; i < classNames.length; i++)
+                        $('#u15_input').append('<option value="' + id[i] + '">' + classNames[i] + '</option>');
+                     if (classNames.length == 0)
+                    {
+                    $("#message").attr("class", "alert alert-danger");
+                    $("#message").html("<strong>Ще не створено класи, або всі класи є неактивними. Ви не можете створити розклад.</strong>");
+                    }
+                });
+/****************************************Save data when clicking on the submitButton*********************************************************************/
+            $('#submitButton').click(function(){
+                var startdate = $('#start').val();
+                var enddate = $('#end').val();
+                var classObj = {id: $('#u15_input').find(":selected").val(), classYear: (new Date()).getFullYear(),
+                className: $("#u15_input").find('option:selected').text(), classDescription: " ", isActive: "true"};
+                classId = $('#u15_input').find(":selected").val();
+                var monday = [];
+                var tuesday = [];
+                var wednesday = [];
+                var thursday = [];
+                var friday = [];
+                  $('select > option:selected').each(function() {
+                   if($(this).attr('name') == 'monday')
+                   monday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   if($(this).attr('name') == 'tuesday')
+                   tuesday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   if($(this).attr('name') == 'wednesday')
+                   wednesday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   if($(this).attr('name') == 'thursday')
+                   thursday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   if($(this).attr('name') == 'friday')
+                   friday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                  });
                 function deleteFromArray(array)
                 {
                   var array2 = [];
@@ -1484,10 +421,9 @@ width: 150px;
                     }
                    return array2;
                 }
-
-				$.ajax({
+                $.ajax({
                 type: "post",
-                url: "/classes/" + id_class + "/schedule",
+                url: host + "classes/" + classId + "/schedule",
                 dataType: "json",
                 data: JSON.stringify({
                   "startOfSemester":startdate,
@@ -1500,25 +436,46 @@ width: 150px;
                   "fridaySubjects":deleteFromArray(friday)
                 }),
                 contentType: "application/json",
-  				  statusCode: {
-                      200: function() {
-                      alert( "Операція успішна" );
+                    statusCode: {
+                       200: function() {
+                        $("#message").attr("class", "alert alert-success");
+                        $("#message").html("<strong>Розклад успішно створений</strong>");
                     },
                       201: function() {
-                      alert( "Розклад успішно створений" );
+                      $("#message").attr("class", "alert alert-success");
+                      $("#message").html("<strong>Розклад успішно створений</strong>");
+                    },
+                    400: function() {
+                        $("#message").attr("class", "alert alert-danger");
+                        $("#message").html("<strong>Такий розклад уже існує, та оцінки за ці дати виставлені</strong> <br>Неможливо створити розклад з межами " + startdate + " - " + enddate + "</br>");
                     },
                       500: function() {
-                      alert( "Внутрішня помилка сервера" );
+                      $("#message").attr("class", "alert alert-danger");
+                      $("#message").html("<strong>Внутрішня помилка сервера</strong>");
                     }
                   },
                     success: function (responce) {
-                        window.location.href = "/schedule/create";
+                        $("#start").val("");
+                        $("#end").val("");
+                        $('.controls1').find('.entry:not(:last)').remove();
+                        $('.controls2').find('.entry:not(:last)').remove();
+                        $('.controls3').find('.entry:not(:last)').remove();
+                        $('.controls4').find('.entry:not(:last)').remove();
+                        $('.controls5').find('.entry:not(:last)').remove();
+                        $('select').val("0");
+                        $('#u15_input').val($('#u15_input option:first').val());
                     }
-
             });
-		})
-	})
-	</script>
-
+        })
+    })
+    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(function() {
+        $("#sidebar-container").load("/views/admin-sidebar.html");
+        $(".navbar").load("/views/admin-header.html");
+    });
+</script>
 </body>
 </html>

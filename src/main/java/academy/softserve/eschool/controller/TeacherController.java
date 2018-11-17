@@ -1,15 +1,19 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.repository.UserRepository;
-import academy.softserve.eschool.service.TeacherService;
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
+import academy.softserve.eschool.model.Teacher;
+import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.TeacherRepository;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
+import academy.softserve.eschool.repository.UserRepository;
+import academy.softserve.eschool.service.TeacherService;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
+import io.swagger.annotations.*;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,68 +21,68 @@ import java.util.List;
 @RestController
 @RequestMapping("/teachers")
 @Api(description = "Teachers controller")
+@RequiredArgsConstructor
 public class TeacherController {
 
-    @Autowired
+    @NonNull
     private TeacherRepository teacherRepository;
-
-    @Autowired
+    @NonNull
     private UserRepository userRepository;
-
-
-    @Autowired
+    @NonNull
     private TeacherService teacherService;
 
     @GetMapping("")
     @ApiOperation(value = "Get list of teacher(only id and names)")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 500, message = "Serever error")
-            }
-    )
-    public List<TeacherDTO> getall(){
-        return teacherService.getAll(teacherRepository.findAll());
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public GeneralResponseWrapper<List<TeacherDTO>> getall() {
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.getAll(teacherRepository.findAll()));
     }
-  
+
     @PostMapping
     @ApiOperation(value = "Add teacher, first name and last name passed in html")
-    @ApiResponses(
-            value={
-                    @ApiResponse(code = 201, message = "teacher crated"),
-                    @ApiResponse(code = 500, message = "server error")
-            }
-    )
-    public TeacherDTO addTeacher(@RequestBody TeacherDTO teacher) {
-        return teacher;
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Teacher successfully created"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
+    @PreAuthorize("hasRole('ADMIN')")
+    public GeneralResponseWrapper<User> addTeacher(
+            @ApiParam(value = "teacher object", required = true) @RequestBody TeacherDTO teacher) {
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), teacherService.addOne(teacher));
     }
-  
+
     @ApiOperation(value = "Get all info about teacher")
-    @GetMapping("/{id}")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 500, message = "Serever error")
-            }
-    )
-    public TeacherDTO getTeacher(@PathVariable int id){
-        return teacherService.getOne(teacherRepository.findById(id).get());
+    @GetMapping("/{idTeacher}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Server error")
+    })
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and principal.id == #idTeacher)")
+    public GeneralResponseWrapper<TeacherDTO> getTeacher(
+            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher) {
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.getOne(teacherRepository.findById(idTeacher).get()));
     }
-    @PutMapping("/{id}")
+
+    @PutMapping("/{idTeacher}")
     @ApiOperation(value = "update profile of teacher")
     @ApiResponses(
             value = {
-                    @ApiResponse( code = 201 , message = "Successfully created"),
-                    @ApiResponse( code = 400, message = "Bad data"),
+                    @ApiResponse(code = 200, message = "Teacher successfully updated"),
+                    @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    public void updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int id){
-
-        teacherService.updateTeacher(userRepository.findById(id).get(),teacher);
+    @PreAuthorize("hasRole('TEACHER') and principal.id == #idTeacher")
+    public GeneralResponseWrapper<User> updateTeacher(
+            @ApiParam(value = "user object", required = true) @RequestBody EditUserDTO teacher,
+            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher) {
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.updateTeacher(userRepository.findById(idTeacher).get(), teacher));
     }
-
-
-
 }
 

@@ -1,10 +1,15 @@
 package academy.softserve.eschool.service.base;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
+import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
+import academy.softserve.eschool.dto.MarkDescriptionDTO;
 
 public interface MarkServiceBase {
-	public List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, Date startDate, Date endDate);
+    List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, LocalDate startDate, LocalDate endDate);
+    void saveMark(MarkDTO dto);
+    void updateType(int idLesson, String markType);
+    List<MarkDescriptionDTO> getMarksPuttedInTheFuture();
 }

@@ -1,12 +1,16 @@
 package academy.softserve.eschool.controller;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import springfox.documentation.annotations.ApiIgnore;
 
+
 @Controller
 @ApiIgnore
+@RequestMapping("/ui/")
+@Secured("permitAll")
 public class PageMappingController {
     @RequestMapping("classes/{id}/edit")
     public String editClassPage() {
@@ -23,12 +27,12 @@ public class PageMappingController {
         return "/journalsList.html";
     }
 
-    @RequestMapping("/classes/classList")
+    @RequestMapping("classes/classList")
     public String getClassListShowStudents() {
         return "/classList.html";
     }
 
-    @RequestMapping("/classes/list")
+    @RequestMapping("classes/list")
     public String getClassesListForEdit() {
         return "/classList.html";
     }
@@ -85,12 +89,12 @@ public class PageMappingController {
 
     @RequestMapping("subjects/{id}/edit")
     public String editSubjectPage() {
-        return "/editSubject.html";
+        return "/addEditSubject.html";
     }
 
     @RequestMapping("subjects/add")
     public String addSubjectPage() {
-        return "/addSubject.html";
+        return "/addEditSubject.html";
     }
 
     @RequestMapping("students/class/{id}")
@@ -98,7 +102,7 @@ public class PageMappingController {
         return "/studentClass.html";
     }
 
-    @RequestMapping("studentsList")
+    @RequestMapping("studentsList")//?????
     public String listClasses() {
         return "/chooseClass.html";
     }
@@ -108,7 +112,7 @@ public class PageMappingController {
         return "/editTeacher.html";
     }
 
-    @RequestMapping("/students/new-year-transition")
+    @RequestMapping("students/new-year-transition")
     public String transitionToNewYear(){
         return "/transToNewYear.html";
     }
@@ -135,10 +139,10 @@ public class PageMappingController {
 
     @RequestMapping("admin")
     public String adminHome(){
-        return "/adminHome.html";
+        return "/admin-home.html";
     }
 
-    @RequestMapping("/")
+    @RequestMapping("login")
     public String getLoginPage(){
         return "/loginForm.html";
     }

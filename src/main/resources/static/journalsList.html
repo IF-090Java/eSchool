@@ -4,86 +4,120 @@
     <meta charset="UTF-8">
     <title>Журнали</title>
 
-    <style type="text/css">
-       .journals{
-           font-family: Garamond;
-           font-size: 30px;
-           margin: 50px auto 35px auto;
-           width: 200px;
-           padding: 20px;
-           text-align: center;
-       }
-       table,td,th{
-           border: 1px solid #ddd;
-       }
-       table {
-           border-collapse: collapse;
-           width: 40%;
-           margin: auto;
-       }
-
-       th, td {
-           text-align: left;
-           padding: 8px;
-       }
-
-
-       .header{
-           color: white;
-           height: 50px;
-           background: #4CAF50;
-           border: solid 1px black;
-       }
-
-       .header a{
-           color:white;
-       }
-
-       #table a{
-           color:black;
-       }
-
-       tr:nth-child(even){background-color: #f2f2f2}
-
-       th {
-           background-color: #4CAF50;
-           color: white;
-       }
-    </style>
-
+    <link rel="stylesheet" type="text/css" href="/css/old-sidebar.css">
+    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
+	<link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="/js/JS.js"></script>
+    <script src="/js/jwt-decode.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style type="text/css">
+        thead th{
+            border: 2px solid #ffffff;
+            background-color: #343A40;
+            color:white;
+        }
+        td{
+            border: 2px solid #ddd;
+        }
+    </style>
 </head>
 <body>
-    <div class="header">
-        <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/teachers/1/profile">Домашня сторінка</a></span>
-        <span style="float: left; margin-left: 10px; margin-top: 15px" id="loggeduser">Ви увійшли як Teacher01</span>
-        <span style="float: left; margin-left: 35%; margin-top: 15px" id="status"> Статус: Вчитель</span>
-        <span style="float: right; margin-right: 10px; margin-top: 15px"><a href="/"> Вийти</a></span>
+<div class="wrapper">
+
+    <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
+
+        <div class="container-fluid teacher_nav" style="position: fixed;z-index: 3">
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="height: 80px;font-size: 16px">
+                <a id="logo" href="" class="navbar-brand d-flex w-50 mr-auto">School Management System</a>
+                <div class="navbar-collapse collapse w-100">
+                    <ul class="navbar-nav w-100 justify-content-center">
+                        <li class="nav-item">
+                            <a id="profileLink" class="nav-link" href="">Профіль</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ui/journalsList/view">Журнали</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ui/stats">Успішність</a>
+                        </li>
+                        <li class="nav-item" style="white-space: nowrap">
+                            <a id ="editLink" class="nav-link" href="">Редагувати профіль</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="logOut()">Вийти</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container" style="margin:150px auto;">
+            <div class="row justify-content-center mt-5" style="margin:220px 40px 40px">
+                <h2>Журнали</h2>
+            </div>
+            <div class="container">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="d-flex">
+                        <th class="col-3 ">Предмет</th>
+                        <th class="col-3 ">Клас</th>
+                        <th class="col-3 ">Рік навчання</th>
+                        <th class="col-3 ">Посилання</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="journals">Журнали</div>
-    <table id="table">
-        <tr>
-            <th>Предмет</th>
-            <th>Клас</th>
-            <th>Рік навчання</th>
-        </tr>
-    </table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
+<script type="text/javascript">
     $(document).ready(function () {
-        $.getJSON('http://localhost:8080/journals/teachers/3', function (data) {
-            $.each(data, function(key, val) {
-                var tr=$('<tr></tr>');
-                var ref = 'http://localhost:8080/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
-                $('<td>'+'<a href='+ref+'>'+val.subjectName+'</a>'+'</td>').appendTo(tr);
-                $('<td>'+val.className+'</td>').appendTo(tr);
-                $('<td>'+val.academicYear+'</td>').appendTo(tr);
-                tr.appendTo('#table');
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                if (getJwtToken()) {
+                    xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
+                }
+            }
+        })
+    })
+
+    $(document).ready(function () {
+        var token = parseJwt(getJwtToken())
+        var idUser = token.jti;
+        $("#profileLink").attr("href", "/ui/teachers/" + idUser + "/profile");
+        $("#editLink").attr("href", "/ui/teacher/"+idUser+"/edit");
+        $("#logo").attr("href", "/ui/teachers/" + idUser + "/profile");
+
+
+        $.getJSON(host + 'journals/teachers/'+idUser+'/active', function (data) {
+            var tableBody = $('<tbody></tbody>');
+            $.each(data.data, function(key, val) {
+                var tr=$('<tr class="d-flex"></tr>');
+                var ref = host + 'ui/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
+                $('<td class="col-3 ">'+val.subjectName+'</td>').appendTo(tr);
+                $('<td class="col-3 ">'+val.className+'</td>').appendTo(tr);
+                $('<td class="col-3 ">'+val.academicYear+'/'+(++val.academicYear)+'</td>').appendTo(tr);
+                $('<td class="col-3 ">'+'<a href="'+ref+'">Перейти</a>'+'</td>').appendTo(tr);
+                tr.appendTo(tableBody);
             });
+            tableBody.appendTo('.table');
+        }).fail(function (data) {
+            if (new RegExp("4[0-9][0-9]").test(data.status)){
+                window.location.href='/ui/login'
+            }
         });
     });
+</script>
 
-    </script>
 </body>
 </html>

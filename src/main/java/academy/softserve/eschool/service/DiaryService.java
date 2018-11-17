@@ -1,46 +1,56 @@
 package academy.softserve.eschool.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.service.base.DiaryServiceBase;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class DiaryService implements DiaryServiceBase{
 
-	@Autowired
-	private LessonRepository lessonRepo;
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	
-	@Override
-	public List<DiaryEntryDTO> getDiary(Date weekStartDate, int studentId) {
-		GregorianCalendar cal = new GregorianCalendar();
-		cal.setTime(weekStartDate);
-		cal.add(GregorianCalendar.DAY_OF_MONTH, 4);
-		Date weekEndDate = cal.getTime();
-		String startDate = dateFormat.format(weekStartDate);
-		String endDate = dateFormat.format(weekEndDate);
-		List<Object[]> diaryData = lessonRepo.getDiary(studentId, startDate, endDate);
-		List<DiaryEntryDTO> diary = diaryData.stream().map((obj) -> {
-					Date date = (Date)obj[0];
-					byte no = (byte)obj[1];
-					String lessonName = (String)obj[2];
-					String hometask = obj[3] == null ? "" :(String)obj[3];
-					byte mark = obj[4] == null ? 0 : (byte)obj[4];
-					String note = obj[5] == null ? "" : (String)obj[5];
-					return new DiaryEntryDTO(date, no, lessonName, hometask, mark, note);
-				})
-				.collect(Collectors.toList());
-		System.out.println(diary);
-		return diary;
-	}
+    @NonNull
+    private LessonRepository lessonRepo;
+    private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
+    /**
+     * Returns list of {@link DiaryEntryDTO} that describe one week of diary
+     * @param weekStartDate first day of required week
+     * @param studentId id of student
+     * @return List of {@link DiaryEntryDTO}
+     */
+    @Override
+    public List<DiaryEntryDTO> getDiary(LocalDate weekStartDate, int studentId) {
+        LocalDate weekEndDate = weekStartDate.plusDays(4);
+        String startDate = dateFormat.format(weekStartDate);
+        String endDate = dateFormat.format(weekEndDate);
+        List<Map<String, Object>> diaryData = lessonRepo.getDiary(studentId, startDate, endDate);
+        //todo bk let's think how to refactor it. Just remind me about it when I come.
+        List<DiaryEntryDTO> diary = diaryData.stream().map((obj) -> {
+                    int lessonId = (int)obj.get("id");
+                    Integer homeworkFileId = (Integer)obj.get("homework_file_id");
+                    LocalDate date = ((Date)obj.get("date")).toLocalDate();
+                    byte no = (byte)obj.get("lesson_number");
+                    String lessonName = (String)obj.get("name");
+                    String hometask = obj.get("hometask") == null ? "" :(String)obj.get("hometask");
+                    byte mark = obj.get("mark") == null ? 0 : (byte)obj.get("mark");
+                    String note = obj.get("note") == null ? "" : (String)obj.get("note");
+                    return new DiaryEntryDTO(lessonId, date, no, lessonName, hometask, homeworkFileId, mark, note);
+                })
+                .collect(Collectors.toList());
+        //todo bk ++ don't use sys.out . Use logger instead
+        System.out.println(diary);
+        return diary;
+    }
 
 }
