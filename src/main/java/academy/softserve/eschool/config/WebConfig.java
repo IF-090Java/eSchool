@@ -17,7 +17,11 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedMethods("*");
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization");
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
