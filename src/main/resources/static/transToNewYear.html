@@ -57,13 +57,15 @@
                 <h2>Перехід на новий навчальний рік</h2>
             </div>
             <div class="row justify-content-center mt-3">
-                <div class="col-5">
+                <div class="col-4"></div>
+                <div class="col-4">
                     <button type="button" class="transitButton btn btn-primary btn-block">Новий навчальний рік. Додати класи</button>
                 </div>
+                <div class="col-4 justify-content-left"><i class="far fa-question-circle fa-lg" title="Після натискання кнопки будуть автоматично створені нові класи на основі поточних (крім 11 класу). Наприклад, для 5-А 2018 -> 6-А 2019 і по аналогії"></i></div>
             </div>
             <hr />
             <div class="row justify-content-center mt-5">
-                <div class="col-5"><h3>Зміна поточних класів для учнів</h3></div>
+                <div class="col-10"><center><h3>Зміна поточних класів для учнів</h3></center></div>
             </div>
             <div class="row justify-content-center">
                 <div id="message2" align="center"></div>
@@ -168,7 +170,7 @@ $(document).ready(function () {
                     spoiler.appendTo(tr);
                     tr.appendTo('#tbody');
 
-                    $.each(studList, function (k, v) {
+                    $.each(studList.data, function (k, v) {
                         $('<li><a href="/ui/students/'+v.id+'/edit" target="_blank">'+v.firstname+' ' +v.lastname +'</a></li>').appendTo('#studId_'+item.id);
                     })
 
