@@ -2,8 +2,6 @@ package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
-import academy.softserve.eschool.model.Teacher;
-import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.TeacherRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.service.TeacherService;
@@ -51,9 +49,9 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @PreAuthorize("hasRole('ADMIN')")
-    public GeneralResponseWrapper<User> addTeacher(
+    public GeneralResponseWrapper<TeacherDTO> addTeacher(
             @ApiParam(value = "teacher object", required = true) @RequestBody TeacherDTO teacher) {
-        return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), teacherService.addOne(teacher));
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.addOne(teacher));
     }
 
     @ApiOperation(value = "Get all info about teacher")
@@ -79,7 +77,7 @@ public class TeacherController {
             }
     )
     @PreAuthorize("hasRole('TEACHER') and principal.id == #idTeacher")
-    public GeneralResponseWrapper<User> updateTeacher(
+    public GeneralResponseWrapper<TeacherDTO> updateTeacher(
             @ApiParam(value = "user object", required = true) @RequestBody EditUserDTO teacher,
             @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher) {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.updateTeacher(userRepository.findById(idTeacher).get(), teacher));

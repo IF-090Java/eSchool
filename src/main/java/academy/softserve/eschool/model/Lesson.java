@@ -5,10 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import academy.softserve.eschool.model.Mark.MarkType;
 import lombok.*;
@@ -40,11 +37,11 @@ public class Lesson {
     @Column(name = "lesson_number")
     private byte lessonNumber;
     /**
-     * Date of the lesson. It must be initialized with a date in the future or int the present.
+     * Date of the lesson. It must be initialized with a date in the future.
      */
     @NotNull
     @Temporal(TemporalType.DATE)
-    @FutureOrPresent
+    @Future
     private Date date;
     /**
      * Homework that the teacher gives for the pupils.
@@ -61,8 +58,6 @@ public class Lesson {
     /**
      * File object {@link File} that the teacher uploads for the pupils, as an addition to the lesson
      */
-//    THIS ANNOTATION MAKES A CONFLICT WITH CREATING SCHEDULE
-//    @Size(max=(int)(1000000*1.4))
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "homework_file_id")
     private File file;
