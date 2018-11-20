@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.model.Mark;
 
 @Repository
@@ -42,11 +41,6 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
             "on duplicate key update mark=values(mark),note = values(note)", nativeQuery = true)
     void saveMarkByLesson(@Param("idStudent") int idStudent,@Param("idLesson") int idLesson,
                                 @Param("mark") byte mark,@Param("note") String note);
-
-	@Query(value = "select  m.lesson_id, m.mark, l.date from mark m" +
-			"inner join lesson l on l.id = m.lesson_id" +
-            "where l.date >= curdate()", nativeQuery = true)
-    List<Map<String, Object>> getMarksPuttedInTheFuture();
 
     @Modifying
     @Transactional

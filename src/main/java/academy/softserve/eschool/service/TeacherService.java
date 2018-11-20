@@ -1,6 +1,7 @@
 package academy.softserve.eschool.service;
 
 import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
+import static academy.softserve.eschool.auxiliary.Utility.transform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public class TeacherService {
                 .build();
     }
 
-    public User adminUpdateTeacher(User oldUser, EditUserDTO edited) {
+    public TeacherDTO adminUpdateTeacher(User oldUser, EditUserDTO edited) {
         oldUser.setFirstName(edited.getFirstname());
         oldUser.setLastName(edited.getLastname());
         oldUser.setPatronymic(edited.getPatronymic());
@@ -67,7 +68,7 @@ public class TeacherService {
         return updateTeacher(oldUser, edited);
     }
 
-    public User updateTeacher(User oldUser, EditUserDTO edited) {
+    public TeacherDTO updateTeacher(User oldUser, EditUserDTO edited) {
         oldUser.setDateOfBirth(edited.getDateOfBirth());
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
@@ -77,7 +78,7 @@ public class TeacherService {
             oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
         }
         userRepository.save(oldUser);
-        return oldUser;
+        return transform(oldUser);
     }
 
     /**
@@ -88,7 +89,7 @@ public class TeacherService {
      * @param teacherDTO teacher data.
      * @return saved teacher.
      */
-    public User addOne(TeacherDTO teacherDTO) {
+    public TeacherDTO addOne(TeacherDTO teacherDTO) {
         Teacher teacher = Teacher.builder()
                 .lastName(teacherDTO.getLastname())
                 .firstName(teacherDTO.getFirstname())
@@ -103,6 +104,6 @@ public class TeacherService {
         if (login == null || !generateLogin.isUnique(login))
             teacher.setLogin(generateLogin.generateLogin(teacherDTO.getFirstname(), teacherDTO.getLastname()));
         else teacher.setLogin(login);
-        return teacherRepository.save(teacher);
+        return transform(teacherRepository.save(teacher));
     }
 }
