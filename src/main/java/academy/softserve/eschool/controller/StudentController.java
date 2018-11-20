@@ -11,6 +11,8 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,9 @@ import java.util.List;
 @Api(description = "Student controller")
 @RequiredArgsConstructor
 public class StudentController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
+
 
     @NonNull
     private StudentRepository studentRepository;
@@ -40,6 +45,7 @@ public class StudentController {
     @PostMapping
     public GeneralResponseWrapper<Student> addStudent(
             @ApiParam(value = "student object", required = true) @RequestBody StudentDTO student) {
+        logger.info("Student " + student.getLastname() + " " + student.getFirstname() + " created");
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), studentService.addOne(student));
     }
 
