@@ -114,16 +114,17 @@ public class ScheduleServiceImpl implements ScheduleService{
             }
 
         }
+        LocalDate dateAfterEnd = end.plusDays(1);
         List<Lesson> listOfLessons = new ArrayList<>();
         for (int i = 0; i < list.size(); i ++) {
-            for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+            for (LocalDate date = start; date.isBefore(dateAfterEnd); date = date.plusDays(1)) {
                 DayOfWeek dow = date.getDayOfWeek();
                 if (dow == dayOfWeek) {
                     listOfLessons.add(
                             Lesson.builder()
                                     .lessonNumber((byte) (i + 1))
                                     .date(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                                    .hometask(null)
+                                    .hometask("")
                                     .markType(null)
                                     .file(null)
                                     .clazz(clazz)
