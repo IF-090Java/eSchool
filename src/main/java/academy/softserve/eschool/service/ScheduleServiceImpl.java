@@ -50,7 +50,6 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public ScheduleDTO getScheduleByClassId(int classId) {
         List<Map<String, Object>> lessons = lessonRepository.scheduleByClassId(classId);
-
         Clazz clazz = classRepository.findById(classId).get();
 
         return ScheduleDTO.builder()
@@ -99,34 +98,42 @@ public class ScheduleServiceImpl implements ScheduleService{
      */
     public void saveFunction(List<SubjectDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
     {
-        List<Subject> listOfSubjects = new ArrayList<>();
+        List<Subject> resultList = new ArrayList<>();
         if (list.size() != 0) {
             List<Integer> listOfIds = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 listOfIds.add(list.get(i).getSubjectId());
             }
-            listOfSubjects = subjectRepository.findSubjectsByIds(listOfIds);
+            List<Subject> listOfSubjects = subjectRepository.findAll();
+            for (int i = 0; i < listOfIds.size(); i ++)
+            {
+                for (int j = 0; j < listOfSubjects.size(); j ++) {
+                    if (listOfSubjects.get(j).getId() == listOfIds.get(i))
+                        resultList.add(listOfSubjects.get(j));
+                }
+            }
+
         }
+        LocalDate dateAfterEnd = end.plusDays(1);
         List<Lesson> listOfLessons = new ArrayList<>();
         for (int i = 0; i < list.size(); i ++) {
-            for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+            for (LocalDate date = start; date.isBefore(dateAfterEnd); date = date.plusDays(1)) {
                 DayOfWeek dow = date.getDayOfWeek();
                 if (dow == dayOfWeek) {
                     listOfLessons.add(
                             Lesson.builder()
                                     .lessonNumber((byte) (i + 1))
                                     .date(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                                    .hometask(null)
+                                    .hometask("")
                                     .markType(null)
                                     .file(null)
                                     .clazz(clazz)
-                                    .subject(listOfSubjects.get(i)).build()
+                                    .subject(resultList.get(i)).build()
                     );
                 }
             }
         }
         lessonRepository.saveAll(listOfLessons);
-
     }
 
     /**
@@ -159,5 +166,4 @@ public class ScheduleServiceImpl implements ScheduleService{
         }
         return list;
     }
-
 }

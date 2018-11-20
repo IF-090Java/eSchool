@@ -8,6 +8,8 @@ import javax.validation.ConstraintViolationException;
 
 import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
 import io.jsonwebtoken.ExpiredJwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.http.HttpStatus;
@@ -23,7 +25,7 @@ import academy.softserve.eschool.wrapper.Status;
 @RestControllerAdvice
 public class RestExceptionHandler {
     private final static String VALIDATION_FAILED = "Validation failed";
-    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @ResponseStatus(code=HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public GeneralResponseWrapper<Object> handleValidationException (ConstraintViolationException ex){
@@ -58,6 +60,7 @@ public class RestExceptionHandler {
     @ResponseStatus(code=HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadCredentialsException.class)
     public GeneralResponseWrapper<Object> badCreds(BadCredentialsException ex) {
+        logger.warn("User entered bad creds");
         Status status = new Status(HttpStatus.BAD_REQUEST.value(), "Bad Credentials");
         GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
                 .status(status)
