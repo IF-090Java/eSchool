@@ -10,6 +10,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import academy.softserve.eschool.dto.MarkDescriptionDTO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.dto.MarkDTO;
@@ -22,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class MarkService implements MarkServiceBase{
+    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
     private MarkRepository markRepo;
@@ -63,7 +68,7 @@ public class MarkService implements MarkServiceBase{
                 return new MarkDataPointDTO(averageMark, date, count);
             })
             .collect(Collectors.toList());
-        System.out.println(dataPoints.toString());
+        logger.debug("Mark datapoints", dataPoints.toString());
         return dataPoints;
     }
 

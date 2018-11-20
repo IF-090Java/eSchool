@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.dto.DiaryEntryDTO;
@@ -18,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class DiaryService implements DiaryServiceBase{
+    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
     private LessonRepository lessonRepo;
@@ -34,7 +38,9 @@ public class DiaryService implements DiaryServiceBase{
         LocalDate weekEndDate = weekStartDate.plusDays(4);
         String startDate = dateFormat.format(weekStartDate);
         String endDate = dateFormat.format(weekEndDate);
+        logger.debug("Reading diary data for period '{}' - '{}'", startDate, endDate);
         List<Map<String, Object>> diaryData = lessonRepo.getDiary(studentId, startDate, endDate);
+        logger.debug("Diary data: '{}'", diaryData.toString());
         //todo bk let's think how to refactor it. Just remind me about it when I come.
         List<DiaryEntryDTO> diary = diaryData.stream().map((obj) -> {
                     int lessonId = (int)obj.get("id");
@@ -48,8 +54,8 @@ public class DiaryService implements DiaryServiceBase{
                     return new DiaryEntryDTO(lessonId, date, no, lessonName, hometask, homeworkFileId, mark, note);
                 })
                 .collect(Collectors.toList());
+        logger.debug("Diary DTO: '{}'", diary.toString());
         //todo bk ++ don't use sys.out . Use logger instead
-        System.out.println(diary);
         return diary;
     }
 
