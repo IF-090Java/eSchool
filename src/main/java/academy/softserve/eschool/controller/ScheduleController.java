@@ -1,6 +1,5 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.dto.MarkDescriptionDTO;
 import academy.softserve.eschool.dto.ScheduleDTO;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.service.MarkService;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 /**
  * The controller {@code ScheduleController} contains methods, that are
@@ -74,7 +72,6 @@ public class ScheduleController {
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
             @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)
     {
-        logger.info("Schedule created for class with id="+ scheduleDTO.getClassName().getId());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDate = LocalDate.of(scheduleDTO.getStartOfSemester().getYear(), scheduleDTO.getStartOfSemester().getMonth(), scheduleDTO.getStartOfSemester().getDayOfMonth());
@@ -83,6 +80,9 @@ public class ScheduleController {
         lessonRepository.deleteScheduleByBounds((startDate).format(formatter), (endDate).format(formatter),
                     scheduleDTO.getClassName().getId());
         scheduleService.saveSchedule(scheduleDTO);
+
+        logger.info("Schedule created for class with id="+ scheduleDTO.getClassName().getId());
+
         return new GeneralResponseWrapper<>(new Status(201, "OK"), scheduleDTO);
     }
     /**
@@ -104,21 +104,5 @@ public class ScheduleController {
     public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId){
 
         return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), scheduleService.getScheduleByClassId(classId));
-    }
-
-    @ApiOperation(value = "Returns a little description of marks putted in the future")
-    @ApiResponses(
-            value={
-                    @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 400, message = "Bad request"),
-                    @ApiResponse(code = 500, message = "Server error")
-            }
-    )
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/marksDescription")
-    public GeneralResponseWrapper<List<MarkDescriptionDTO>> getMarksPuttedInTheFuture(){
-        return new GeneralResponseWrapper<>(
-                new Status(HttpStatus.OK.value(), "OK"),
-                markService.getMarksPuttedInTheFuture());
     }
 }
