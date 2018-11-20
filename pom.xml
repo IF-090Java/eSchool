@@ -20,12 +20,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!--Test-->
         <dependency>
@@ -33,22 +27,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>2.0.5.RELEASE</version>
             <scope>test</scope>
-        </dependency>
-        <!--Log4j-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.11.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.11.1</version>
         </dependency>
 
         <dependency>
@@ -61,6 +39,12 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>2.6.1</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>2.7.8</version>
         </dependency>
 
         <dependency>

@@ -1,16 +1,21 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.EditUserDTO;
+import academy.softserve.eschool.dto.TeacherDTO;
+import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.service.StudentService;
 import academy.softserve.eschool.service.TeacherService;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,9 +47,8 @@ public class AdminEditUserController {
     )
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/students/{idStudent}")
-    public void updateStudent(@RequestBody EditUserDTO student, @PathVariable int idStudent){
-
-        studentService.adminUpdateStudent(studentRepository.findById(idStudent).get(), student);
+    public GeneralResponseWrapper<User> updateStudent(@RequestBody EditUserDTO student, @PathVariable int idStudent){
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK) , studentService.adminUpdateStudent(studentRepository.findById(idStudent).get(), student));
 
     }
 
@@ -58,8 +62,7 @@ public class AdminEditUserController {
     )
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/teachers/{idTeacher}")
-    public void updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int idTeacher){
-        //todo bk ++ why did you hardcoded "ADMIN" here. Avoid this.
-        teacherService.adminUpdateTeacher(userRepository.findById(idTeacher).get(), teacher);
+    public GeneralResponseWrapper<TeacherDTO> updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int idTeacher){
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.adminUpdateTeacher(userRepository.findById(idTeacher).get(), teacher));
     }
 }
