@@ -21,7 +21,7 @@ import lombok.*;
 @Entity
 @Table(name = "lesson")
 @Data
-@EqualsAndHashCode(exclude = {"marks", "subject", "clazz"})
+@EqualsAndHashCode(exclude = {"marks", "subject", "clazz", "file"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
