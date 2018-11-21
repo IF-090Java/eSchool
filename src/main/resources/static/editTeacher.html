@@ -316,7 +316,7 @@
                         firstname : $("#fname").val() , lastname: $("#lname").val(),
                         patronymic: $("#patronymic").val(), dateOfBirth: $("#dateOfBirth").val(),
                         login: $("#username").val(),oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),
-                        email: $("#mail").val(), phone : $("#mobile").val(), avatar: fileBase64
+                        email: $("#mail").val(), phone : $("#mobile").val(), avatar: $("#avatar").attr("src")
                     };
                     if (window.location.href.indexOf("ui/teachers/")> -1) {
                         obj.oldPass = "adminchangedpass"
@@ -327,7 +327,7 @@
                         firstname : $("#fname").val() , lastname: $("#lname").val(),
                         patronymic: $("#patronymic").val(),  dateOfBirth: $("#dateOfBirth").val(),
                         login: $("#username").val(), oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),
-                        email: $("#mail").val(), phone : $("#mobile").val(), avatar: fileBase64
+                        email: $("#mail").val(), phone : $("#mobile").val(), avatar: $("#avatar").attr("src")
                     }
                     if (window.location.href.indexOf("ui/students/")> -1) {
                         obj.oldPass = "adminchangedpass"
