@@ -1,4 +1,4 @@
-package service;
+package academy.softserve.eschool.service;
 
 import static org.junit.Assert.assertEquals;
 import academy.softserve.eschool.dto.SubjectDTO;
