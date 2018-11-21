@@ -7,6 +7,7 @@ import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -96,7 +97,7 @@ public class ScheduleServiceImpl implements ScheduleService{
      * @param dayOfWeek day of week for which are the lessons saved
      * @param clazz     class for which is the schedule saved
      */
-    public void saveFunction(List<SubjectDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
+    public List<Lesson> saveFunction(List<SubjectDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
     {
         List<Subject> resultList = new ArrayList<>();
         if (list.size() != 0) {
@@ -112,7 +113,6 @@ public class ScheduleServiceImpl implements ScheduleService{
                         resultList.add(listOfSubjects.get(j));
                 }
             }
-
         }
         LocalDate dateAfterEnd = end.plusDays(1);
         List<Lesson> listOfLessons = new ArrayList<>();
@@ -134,6 +134,7 @@ public class ScheduleServiceImpl implements ScheduleService{
             }
         }
         lessonRepository.saveAll(listOfLessons);
+        return listOfLessons;
     }
 
     /**
