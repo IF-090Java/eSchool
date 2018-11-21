@@ -9,6 +9,8 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,8 @@ import static org.springframework.http.HttpStatus.CREATED;
 @Api(value = "Operations about marks", description="Operations about marks")
 @RequiredArgsConstructor
 public class MarksController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MarksController.class);
 
     @NonNull
     private MarkServiceBase markService;
@@ -73,6 +77,7 @@ public class MarksController {
     public GeneralResponseWrapper<MarkDTO> postMark(
         @ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
         MarkDTO resultMarkDTO =  markService.saveMark(markDTO);
+        logger.info("Added mark for lesson[id="+markDTO.getIdLesson()+"], student[id="+markDTO.getIdStudent()+"]");
         return new GeneralResponseWrapper<>(Status.of(CREATED), resultMarkDTO);
     }
 

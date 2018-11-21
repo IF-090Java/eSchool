@@ -2,13 +2,14 @@ package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.HomeworkDTO;
 import academy.softserve.eschool.dto.HomeworkFileDTO;
-import academy.softserve.eschool.dto.JournalDTO;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,8 @@ import java.util.List;
 @Api(value = "Homework's Endpoint", description = "Get homeworks")
 @RequiredArgsConstructor
 public class HomeworkController {
+
+    private static final Logger logger = LoggerFactory.getLogger(HomeworkController.class);
 
     @NonNull
     private JournalServiceImpl journalServiceImpl;
@@ -66,6 +69,7 @@ public class HomeworkController {
     public GeneralResponseWrapper<HomeworkFileDTO> postHomework(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkFileDTO homeworkFileDTO) {
         journalServiceImpl.saveHomework(homeworkFileDTO);
+        logger.info("Added homework for lesson[id="+homeworkFileDTO.getIdLesson()+"]");
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.NO_CONTENT), null);
     }
 
