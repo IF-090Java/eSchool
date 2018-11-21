@@ -296,7 +296,7 @@ $(function()
                   if (inputDate > new Date())
                       return true;
                   return false;
-          }, "Дата повинна бути більшою " + today);
+          }, "Дата повинна бути більшою чим сьогоднішня: " + today);
 
           jQuery.validator.addMethod("endOfDate", function(value, element) {
             var startdatevalue = $("#start").val();
