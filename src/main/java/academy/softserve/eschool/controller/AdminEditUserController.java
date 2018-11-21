@@ -44,7 +44,7 @@ public class AdminEditUserController {
     @PutMapping("/students/{idStudent}")
     public void updateStudent(@RequestBody EditUserDTO student, @PathVariable int idStudent){
 
-        studentService.updateStudent(studentRepository.findById(idStudent).get(),student, "ADMIN");
+        studentService.adminUpdateStudent(studentRepository.findById(idStudent).get(), student);
 
     }
 
@@ -60,6 +60,6 @@ public class AdminEditUserController {
     @PutMapping("/teachers/{idTeacher}")
     public void updateTeacher(@RequestBody EditUserDTO teacher, @PathVariable int idTeacher){
         //todo bk ++ why did you hardcoded "ADMIN" here. Avoid this.
-        teacherService.updateTeacher(userRepository.findById(idTeacher).get(),teacher, "ADMIN");
+        teacherService.adminUpdateTeacher(userRepository.findById(idTeacher).get(), teacher);
     }
 }

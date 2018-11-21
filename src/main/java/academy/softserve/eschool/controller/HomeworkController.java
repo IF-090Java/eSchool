@@ -50,7 +50,7 @@ public class HomeworkController {
     @PutMapping("/files")
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 204, message = "Homework successfully created"),
+                    @ApiResponse(code = 204, message = "No content"),
                     @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }

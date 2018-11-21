@@ -30,7 +30,7 @@
             </div>
             <div class="container">
                 <div class="row justify-content-center mt-3">
-                    <h3>Особита інформація</h3>
+                    <h3>Особиста інформація</h3>
                 </div>
                 <div class="row mainbox col-md-10 col-lg-8 mt-2 offset-md-1 offset-lg-2 pb-5">
                     <div class="container">
@@ -49,11 +49,11 @@
                             </div>
                             <div class="row form-group required">
                                 <label for="username" class="control-label col-4" >Логін</label>
-                                <div class="controls col-5"><input class="input-md textinput textInput form-control" id="username" type="text" name="login"></div>
-                                <div class="controls col-3"><a class="btn btn-outline-primary" id="generate">Генерувати логін</a> </div>
+                                <div class="controls col-8"><input class="input-md textinput textInput form-control" id="username" type="text" name="login"></div>
+                                <!--<div class="controls col-3"><a class="btn btn-outline-primary" id="generate">Генерувати логін</a> </div>-->
                             </div>
                             <div class="row form-group required">
-                                <label class="control-label col-4  requiredField font-weight-bold" for="selectClass">Класс<span class="asteriskField">*</span></label>
+                                <label class="control-label col-4  requiredField font-weight-bold" for="selectClass">Клас<span class="asteriskField">*</span></label>
                                 <div class="controls col-8"><select class="input-md textinput textInput form-control white" style="height: 32px" id="selectClass" name="select" required><option></option></select></div>
                             </div>
                             <div class="row form-group required">
@@ -217,7 +217,7 @@
                     isUkrainian: 'Тільки українські символи'
                 },
                 login:{
-                    minlength: 'Мінімальна довжина - 5 символsd',
+                    minlength: 'Мінімальна довжина - 5 символів',
                     maxlength: 'Максимальна довжина - 40 символів'
                 },
                 dateOfBirth: {
@@ -265,7 +265,7 @@
             success: function (responce) {
                 $(":input").val("");
                 $("#message").attr("class", "alert alert-success");
-                $("#message").html("<strong>Учнь " + lastName + " " + firstName + " доданий</strong> введіть дані наступного учня");
+                $("#message").html("<strong>Учень " + lastName + " " + firstName + " доданий</strong> введіть дані наступного учня");
             },
             error: function(){
                 $("#message").attr("class", "alert alert-danger");

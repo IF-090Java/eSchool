@@ -22,6 +22,28 @@ public class SecurityExpressionService {
     @NonNull
     private StudentRepository studentRepository;
 
+
+    /**
+     * Сhecks the teacher teaches in this class or not.
+     * @param teacherId teacher's id
+     * @param classId class's id
+     * @return true if teacher teaches in this class else false.
+     */
+    public boolean teachesInClass(int teacherId, int classId) {
+        return !classTSLRepository.findByTeacherIdAndClazzId(teacherId, classId).isEmpty();
+
+    }
+
+    /**
+     * Сhecks the teacher teaches this subject or not.
+     * @param teacherId teacher's id
+     * @param subjectId subject's id
+     * @return true if teacher teaches this subject else false.
+     */
+    public boolean teachesSubject(int teacherId, int subjectId) {
+        return !classTSLRepository.findByTeacherIdAndSubjectId(teacherId, subjectId).isEmpty();
+    }
+
     /**
      * Check by class and subject, has this teacher lesson in this class or not.
      * @param idTeacher teacher's id
@@ -29,7 +51,7 @@ public class SecurityExpressionService {
      * @param idSubject subject's id
      * @return true if teacher have lesson in class else false.
      */
-    public boolean hasLessonsInClass(int idTeacher, int idClass, int idSubject){
+    public boolean hasLessonsInClass(int idTeacher, int idClass, int idSubject) {
         return classTSLRepository.findByTeacherIdAndClazzIdAndSubjectId(idTeacher, idClass, idSubject) != null ? true : false;
     }
 
