@@ -2,6 +2,7 @@ package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.HomeworkDTO;
 import academy.softserve.eschool.dto.HomeworkFileDTO;
+import academy.softserve.eschool.dto.JournalDTO;
 import academy.softserve.eschool.service.JournalServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -23,6 +24,12 @@ public class HomeworkController {
     @NonNull
     private JournalServiceImpl journalServiceImpl;
 
+    /**
+     * Returns list of {@link HomeworkDTO} which contains homeworks of subject and class wrapper in{@link GeneralResponseWrapper}
+     * @param idSubject is id of subject
+     * @param idClass is id of class
+     * @return List of {@link HomeworkDTO} wrapped in {@link GeneralResponseWrapper}
+     */
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     @ApiOperation(value = "Get homeworks by subject and class")
     @ApiResponses(
@@ -62,6 +69,11 @@ public class HomeworkController {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.NO_CONTENT), null);
     }
 
+    /**
+     * Returns object of {@link HomeworkFileDTO} which contains data of file wrapped in{@link GeneralResponseWrapper}
+     * @param idLesson is id of lesson
+     * @return List of {@link HomeworkFileDTO} wrapped in {@link GeneralResponseWrapper}
+     */
     @ApiOperation(value = "Get homework file")
     @GetMapping("/files/{idLesson}")
     @ApiResponses(

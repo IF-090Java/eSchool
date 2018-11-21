@@ -49,6 +49,8 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
     void saveMarkByLesson(@Param("idStudent") int idStudent,@Param("idLesson") int idLesson,
                                 @Param("mark") byte mark,@Param("note") String note);
 
+
+    Mark findTopByStudentIdAndLessonId(int studentId,int lessonId);
     /**
      * This method save mark's type of lesson
      * @param idLesson  id of lesson

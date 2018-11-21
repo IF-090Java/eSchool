@@ -72,10 +72,16 @@ public class MarksController {
     @PostMapping
     public GeneralResponseWrapper<MarkDTO> postMark(
         @ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
-        markService.saveMark(markDTO);
-        return new GeneralResponseWrapper<>(Status.of(CREATED), markDTO);
+        MarkDTO resultMarkDTO =  markService.saveMark(markDTO);
+        return new GeneralResponseWrapper<>(Status.of(CREATED), resultMarkDTO);
     }
 
+    /**
+     * Update mark's type of lesson
+     * lesson's id and mark's type are required.
+     * @param idLesson is id of lesson
+     * @param markType is mark's type
+     */
     @ApiOperation("Update mark's type of lesson")
     @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson)")
     @ApiResponses(value = {

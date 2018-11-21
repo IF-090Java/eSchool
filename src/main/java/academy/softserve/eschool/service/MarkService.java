@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import academy.softserve.eschool.dto.MarkDescriptionDTO;
+import academy.softserve.eschool.model.Mark;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.dto.MarkDTO;
@@ -68,8 +69,17 @@ public class MarkService implements MarkServiceBase{
     }
 
     @Override
-    public void saveMark(MarkDTO dto) {
+    public MarkDTO saveMark(MarkDTO dto) {
         markRepo.saveMarkByLesson(dto.getIdStudent(),dto.getIdLesson(),dto.getMark(),dto.getNote());
+        Mark mark = markRepo.findTopByStudentIdAndLessonId(dto.getIdStudent(),dto.getIdLesson());
+        MarkDTO markDTO = MarkDTO.builder()
+                .idMark(mark.getId())
+                .mark(mark.getMark())
+                .idLesson(mark.getLesson().getId())
+                .idStudent(mark.getStudent().getId())
+                .note(mark.getNote())
+                .build();
+        return markDTO;
     }
 
     @Override
