@@ -1,9 +1,7 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.dto.MarkDescriptionDTO;
 import academy.softserve.eschool.dto.ScheduleDTO;
 import academy.softserve.eschool.repository.LessonRepository;
-import academy.softserve.eschool.service.MarkService;
 import academy.softserve.eschool.service.ScheduleServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -12,13 +10,14 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 /**
  * The controller {@code ScheduleController} contains methods, that are
@@ -39,8 +38,6 @@ public class ScheduleController {
     private ScheduleServiceImpl scheduleService;
     @NonNull
     private LessonRepository lessonRepository;
-    @NonNull
-    private MarkService markService;
 
     /**
      * This POST method creates a schedule for a specific class with id {@link academy.softserve.eschool.dto.ClassDTO#id}.
@@ -74,7 +71,6 @@ public class ScheduleController {
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
             @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)
     {
-        logger.info("Schedule created for class with id="+ scheduleDTO.getClassName().getId());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDate = LocalDate.of(scheduleDTO.getStartOfSemester().getYear(), scheduleDTO.getStartOfSemester().getMonth(), scheduleDTO.getStartOfSemester().getDayOfMonth());
@@ -83,7 +79,10 @@ public class ScheduleController {
         lessonRepository.deleteScheduleByBounds((startDate).format(formatter), (endDate).format(formatter),
                     scheduleDTO.getClassName().getId());
         scheduleService.saveSchedule(scheduleDTO);
-        return new GeneralResponseWrapper<>(new Status(201, "OK"), scheduleDTO);
+
+        logger.info("Schedule created for class with id="+ scheduleDTO.getClassName().getId());
+
+        return new GeneralResponseWrapper<>(Status.of(CREATED), scheduleDTO);
     }
     /**
      * This GET method returns a class of {@link ScheduleDTO} that contains the schedule for a specific class for current week
@@ -103,22 +102,6 @@ public class ScheduleController {
     @GetMapping("/classes/{classId}/schedule")
     public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId){
 
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), scheduleService.getScheduleByClassId(classId));
-    }
-
-    @ApiOperation(value = "Returns a little description of marks putted in the future")
-    @ApiResponses(
-            value={
-                    @ApiResponse(code = 200, message = "OK"),
-                    @ApiResponse(code = 400, message = "Bad request"),
-                    @ApiResponse(code = 500, message = "Server error")
-            }
-    )
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/marksDescription")
-    public GeneralResponseWrapper<List<MarkDescriptionDTO>> getMarksPuttedInTheFuture(){
-        return new GeneralResponseWrapper<>(
-                new Status(HttpStatus.OK.value(), "OK"),
-                markService.getMarksPuttedInTheFuture());
+        return new GeneralResponseWrapper<>(Status.of(OK), scheduleService.getScheduleByClassId(classId));
     }
 }

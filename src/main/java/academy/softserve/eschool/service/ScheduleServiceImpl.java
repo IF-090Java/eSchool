@@ -7,6 +7,7 @@ import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -96,7 +97,7 @@ public class ScheduleServiceImpl implements ScheduleService{
      * @param dayOfWeek day of week for which are the lessons saved
      * @param clazz     class for which is the schedule saved
      */
-    public void saveFunction(List<SubjectDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
+    public List<Lesson> saveFunction(List<SubjectDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
     {
         List<Subject> resultList = new ArrayList<>();
         if (list.size() != 0) {
@@ -114,16 +115,17 @@ public class ScheduleServiceImpl implements ScheduleService{
             }
 
         }
+        LocalDate dateAfterEnd = end.plusDays(1);
         List<Lesson> listOfLessons = new ArrayList<>();
         for (int i = 0; i < list.size(); i ++) {
-            for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+            for (LocalDate date = start; date.isBefore(dateAfterEnd); date = date.plusDays(1)) {
                 DayOfWeek dow = date.getDayOfWeek();
                 if (dow == dayOfWeek) {
                     listOfLessons.add(
                             Lesson.builder()
                                     .lessonNumber((byte) (i + 1))
                                     .date(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                                    .hometask(null)
+                                    .hometask("")
                                     .markType(null)
                                     .file(null)
                                     .clazz(clazz)
@@ -133,6 +135,7 @@ public class ScheduleServiceImpl implements ScheduleService{
             }
         }
         lessonRepository.saveAll(listOfLessons);
+        return listOfLessons;
     }
 
     /**

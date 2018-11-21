@@ -11,5 +11,4 @@ public interface MarkServiceBase {
     List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, LocalDate startDate, LocalDate endDate);
     void saveMark(MarkDTO dto);
     void updateType(int idLesson, String markType);
-    List<MarkDescriptionDTO> getMarksPuttedInTheFuture();
 }

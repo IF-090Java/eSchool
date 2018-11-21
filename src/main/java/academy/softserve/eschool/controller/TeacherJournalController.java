@@ -7,11 +7,15 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 /**
  * The controller {@code TeacherJournalController} contains a method, that is
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class TeacherJournalController {
 
+    private static final Logger logger = LoggerFactory.getLogger(TeacherJournalController.class);
     @NonNull
     private ClassTeacherSubjectServiceImpl classTeacherSubject;
     /**
@@ -52,7 +57,9 @@ public class TeacherJournalController {
             @ApiParam(value = "id of subject", required = true) @PathVariable("subjectId") final int subjectId)
     {
         classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacherId, classId, subjectId), true);
-        return new GeneralResponseWrapper<>(new Status(201, "OK"), new TeacherJournalDTO(teacherId, classId, subjectId));
+        logger.info("Created teacher-journal connection : teahcerId = " + teacherId + ", classId = " + classId +
+                "subjectId = " + subjectId);
+        return new GeneralResponseWrapper<>(Status.of(CREATED), new TeacherJournalDTO(teacherId, classId, subjectId));
     }
 
 
