@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeacherController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TeacherController.class);
 
     @NonNull
     private TeacherRepository teacherRepository;

@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
+    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
 
     @NonNull
