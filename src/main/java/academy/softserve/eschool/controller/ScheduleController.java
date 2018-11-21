@@ -2,7 +2,6 @@ package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.ScheduleDTO;
 import academy.softserve.eschool.repository.LessonRepository;
-import academy.softserve.eschool.service.MarkService;
 import academy.softserve.eschool.service.ScheduleServiceImpl;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -11,12 +10,14 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 /**
  * The controller {@code ScheduleController} contains methods, that are
@@ -37,8 +38,6 @@ public class ScheduleController {
     private ScheduleServiceImpl scheduleService;
     @NonNull
     private LessonRepository lessonRepository;
-    @NonNull
-    private MarkService markService;
 
     /**
      * This POST method creates a schedule for a specific class with id {@link academy.softserve.eschool.dto.ClassDTO#id}.
@@ -83,7 +82,7 @@ public class ScheduleController {
 
         logger.info("Schedule created for class with id="+ scheduleDTO.getClassName().getId());
 
-        return new GeneralResponseWrapper<>(new Status(201, "OK"), scheduleDTO);
+        return new GeneralResponseWrapper<>(Status.of(CREATED), scheduleDTO);
     }
     /**
      * This GET method returns a class of {@link ScheduleDTO} that contains the schedule for a specific class for current week
@@ -103,6 +102,6 @@ public class ScheduleController {
     @GetMapping("/classes/{classId}/schedule")
     public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId){
 
-        return new GeneralResponseWrapper<>(new Status(HttpStatus.OK.value(), "OK"), scheduleService.getScheduleByClassId(classId));
+        return new GeneralResponseWrapper<>(Status.of(OK), scheduleService.getScheduleByClassId(classId));
     }
 }
