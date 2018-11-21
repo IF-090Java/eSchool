@@ -41,22 +41,22 @@ public class DiaryService implements DiaryServiceBase{
         logger.debug("Reading diary data for period '{}' - '{}'", startDate, endDate);
         List<Map<String, Object>> diaryData = lessonRepo.getDiary(studentId, startDate, endDate);
         logger.debug("Diary data: '{}'", diaryData.toString());
-        //todo bk let's think how to refactor it. Just remind me about it when I come.
-        List<DiaryEntryDTO> diary = diaryData.stream().map((obj) -> {
-                    int lessonId = (int)obj.get("id");
-                    Integer homeworkFileId = (Integer)obj.get("homework_file_id");
-                    LocalDate date = ((Date)obj.get("date")).toLocalDate();
-                    byte no = (byte)obj.get("lesson_number");
-                    String lessonName = (String)obj.get("name");
-                    String hometask = obj.get("hometask") == null ? "" :(String)obj.get("hometask");
-                    byte mark = obj.get("mark") == null ? 0 : (byte)obj.get("mark");
-                    String note = obj.get("note") == null ? "" : (String)obj.get("note");
-                    return new DiaryEntryDTO(lessonId, date, no, lessonName, hometask, homeworkFileId, mark, note);
-                })
-                .collect(Collectors.toList());
-        logger.debug("Diary DTO: '{}'", diary.toString());
-        //todo bk ++ don't use sys.out . Use logger instead
-        return diary;
+        return mapToDTO(diaryData);
+    }
+    
+    private List<DiaryEntryDTO> mapToDTO(List<Map<String, Object>> diaryData) {
+        return diaryData.stream().map((obj) -> {
+            int lessonId = (int)obj.get("id");
+            Integer homeworkFileId = (Integer)obj.get("homework_file_id");
+            LocalDate date = ((Date)obj.get("date")).toLocalDate();
+            byte no = (byte)obj.get("lesson_number");
+            String lessonName = (String)obj.get("name");
+            String hometask = obj.get("hometask") == null ? "" :(String)obj.get("hometask");
+            byte mark = obj.get("mark") == null ? 0 : (byte)obj.get("mark");
+            String note = obj.get("note") == null ? "" : (String)obj.get("note");
+            return new DiaryEntryDTO(lessonId, date, no, lessonName, hometask, homeworkFileId, mark, note);
+        })
+        .collect(Collectors.toList());
     }
 
 }

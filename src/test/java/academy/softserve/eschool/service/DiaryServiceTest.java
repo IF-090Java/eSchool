@@ -1,0 +1,94 @@
+package academy.softserve.eschool.service;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import academy.softserve.eschool.dto.DiaryEntryDTO;
+import academy.softserve.eschool.repository.LessonRepository;
+
+@RunWith(SpringRunner.class)
+public class DiaryServiceTest {
+    private static final String NOTE_KEY = "note";
+    private static final String MARK_KEY = "mark";
+    private static final String HOMETASK_KEY = "hometask";
+    private static final String NAME_KEY = "name";
+    private static final String LESSON_NUMBER_KEY = "lesson_number";
+    private static final String DATE_KEY = "date";
+    private static final String HOMEWORK_FILE_ID_KEY = "homework_file_id";
+    private static final String ID_KEY = "id";
+    
+    private int studentId;
+    private String startDate;
+    private String endDate;
+    private int entryId;
+    private int homeworkFileId;
+    private byte lessonNumber;
+    private String lessonName;
+    private String homework;
+    private byte mark;
+    private String note;
+    
+    @InjectMocks
+    private DiaryService diaryService;
+    
+    @Mock
+    private LessonRepository lessonRepository;
+    
+    @Before
+    public void setUp() {
+        studentId = 0;
+        startDate = "2018-09-03";
+        endDate = "2018-09-07";
+        entryId = 1;
+        homeworkFileId = 1;
+        lessonNumber = 1;
+        lessonName = "Хімія";
+        homework = "ДЗ";
+        mark = 9;
+        note = "Молодець";
+        
+        List<Map<String, Object>> diary = new ArrayList<>();
+        Map<String, Object> diaryEntry = new HashMap<>();
+        diaryEntry.put(ID_KEY, entryId);
+        diaryEntry.put(HOMEWORK_FILE_ID_KEY, homeworkFileId);
+        diaryEntry.put(DATE_KEY, Date.valueOf(startDate));
+        diaryEntry.put(LESSON_NUMBER_KEY, lessonNumber);
+        diaryEntry.put(NAME_KEY, lessonName);
+        diaryEntry.put(HOMETASK_KEY, homework);
+        diaryEntry.put(MARK_KEY, mark);
+        diaryEntry.put(NOTE_KEY, note);
+        diary.add(diaryEntry);
+        
+        Mockito.when(lessonRepository.getDiary(studentId, startDate, endDate)).thenReturn(diary);
+    }
+    
+    @Test
+    public void serviceShouldCorrectlyBindRepositoryResultToDTO() {
+        DiaryEntryDTO expectedDTO = DiaryEntryDTO.builder()
+                .lessonId(entryId)
+                .date(LocalDate.parse(startDate))
+                .homeworkFileId(homeworkFileId)
+                .lessonNumber(lessonNumber)
+                .subjectName(lessonName)
+                .homeWork(homework)
+                .mark(mark)
+                .note(note)
+                .build();
+        List<DiaryEntryDTO> result = diaryService.getDiary(LocalDate.parse(startDate), studentId);
+        assertEquals(1, result.size());
+        assertEquals(expectedDTO, result.get(0));
+    }
+}
