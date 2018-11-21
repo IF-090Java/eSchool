@@ -35,6 +35,13 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
     List<Map<String, Object>> getFilteredByParamsGroupedByDate(@Param("subjectId") Integer subjectId, @Param("classId")Integer classId,
             @Param("studentId") Integer studentId, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
+    /**
+     * This method save student's mark by lesson
+     * @param idStudent  id of student
+     * @param idLesson  id of lesson
+     * @param mark  mark value
+     * @param note  note for mark or lesson
+     */
     @Modifying
     @Transactional
     @Query(value = "insert into mark(mark,note,lesson_id,student_id) values(:mark,:note,:idLesson,:idStudent)\n" +
@@ -42,8 +49,13 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
     void saveMarkByLesson(@Param("idStudent") int idStudent,@Param("idLesson") int idLesson,
                                 @Param("mark") byte mark,@Param("note") String note);
 
+    /**
+     * This method save mark's type of lesson
+     * @param idLesson  id of lesson
+     * @param markType  String value of enum(mark type)
+     */
     @Modifying
     @Transactional
     @Query(value = "update lesson set mark_type=:markType where id=:idLesson", nativeQuery = true)
-    void saveTypeByLesson(@Param("idLesson") int idStudent,@Param("markType") String markType);
+    void saveTypeByLesson(@Param("idLesson") int idLesson,@Param("markType") String markType);
 }
