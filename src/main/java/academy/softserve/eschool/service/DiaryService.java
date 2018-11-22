@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class DiaryService implements DiaryServiceBase{
+public class DiaryService implements DiaryServiceBase {
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

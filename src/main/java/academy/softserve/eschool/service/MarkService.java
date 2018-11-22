@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import academy.softserve.eschool.dto.MarkDescriptionDTO;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MarkService implements MarkServiceBase{
+public class MarkService implements MarkServiceBase {
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
