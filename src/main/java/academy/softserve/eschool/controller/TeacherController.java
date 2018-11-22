@@ -10,6 +10,8 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +24,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeacherController {
 
+    private static final Logger logger = LoggerFactory.getLogger(TeacherController.class);
+
     @NonNull
     private TeacherRepository teacherRepository;
+
     @NonNull
     private UserRepository userRepository;
+
     @NonNull
     private TeacherService teacherService;
 
@@ -51,6 +57,7 @@ public class TeacherController {
     @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<TeacherDTO> addTeacher(
             @ApiParam(value = "teacher object", required = true) @RequestBody TeacherDTO teacher) {
+        logger.info("Teacher " + teacher.getLastname() + " " +  teacher.getFirstname() + "created");
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.addOne(teacher));
     }
 
