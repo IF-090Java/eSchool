@@ -46,7 +46,7 @@ public class ClassController {
     public GeneralResponseWrapper<ClassDTO> addClass(
             @ApiParam(value = "class object", required = true) @RequestBody ClassDTO newClassDTO){
         return new GeneralResponseWrapper<>(
-                new Status().of(HttpStatus.CREATED),
+                Status.of(HttpStatus.CREATED),
                 classService.saveClass(newClassDTO));
     }
 
@@ -69,7 +69,7 @@ public class ClassController {
     public GeneralResponseWrapper<ClassDTO> getClassById(
             @ApiParam(value = "id of class", required = true) @PathVariable int classId){
         return new GeneralResponseWrapper<>(
-                new Status().of(HttpStatus.OK),
+                Status.of(HttpStatus.OK),
                 classService.findClassById(classId)
         );
     }
@@ -96,12 +96,12 @@ public class ClassController {
             @ApiParam(value="Only classes that study subject with specified id will be returned") @RequestParam(required=false) Integer subjectId){
         if (subjectId == null) {
             return new GeneralResponseWrapper<>(
-                    new Status().of(HttpStatus.OK),
+                    Status.of(HttpStatus.OK),
                     classService.getAllClasses()
             );
         } else {
             return new GeneralResponseWrapper<>(
-                    new Status().of(HttpStatus.OK),
+                    Status.of(HttpStatus.OK),
                     classService.getClassesBySubject(subjectId)
             );
         }
@@ -131,7 +131,7 @@ public class ClassController {
         //todo bk ++ updating objects with native queries bring a lot af mess into the app. And it's hard to support them. Use entity and repository for it.
 
         return new GeneralResponseWrapper<>(
-                new Status().of(HttpStatus.CREATED),
+                Status.of(HttpStatus.CREATED),
                 classService.updateClass(id, editableClass)
         );
     }
