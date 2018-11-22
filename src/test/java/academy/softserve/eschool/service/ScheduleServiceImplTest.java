@@ -8,6 +8,7 @@ import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
+import academy.softserve.eschool.service.ScheduleServiceImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,7 @@ public class ScheduleServiceImplTest {
     private Clazz clazz;
     private List<Subject> subjectList = new ArrayList<>();
     private List<Map<String, Object>> listOfMaps = new ArrayList<>();
+
 
     @Before
     public void init()
