@@ -10,9 +10,9 @@ import academy.softserve.eschool.model.User.Role;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
+import academy.softserve.eschool.security.CustomPasswordEncoder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class StudentService {
     private StudentRepository studentRepository;
 
     @NonNull
-    private BCryptPasswordEncoder bcryptEncoder;
+    private CustomPasswordEncoder passwordEncoder;
 
     @NonNull
     private LoginGeneratorService generateLogin;
@@ -72,9 +72,9 @@ public class StudentService {
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
-        if ((bcryptEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))
+        if ((passwordEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))
                 && edited.getNewPass().length() > 0) {
-            oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
+            oldUser.setPassword(passwordEncoder.encode(edited.getNewPass()));
         }
         userRepository.save(oldUser);
         return oldUser;
@@ -93,7 +93,7 @@ public class StudentService {
                 .lastName(studentDTO.getLastname())
                 .firstName(studentDTO.getFirstname())
                 .patronymic(studentDTO.getPatronymic())
-                .password(bcryptEncoder.encode(generatePassword(7)))
+                .password(passwordEncoder.encode(generatePassword(7)))
                 .phone(studentDTO.getPhone())
                 .email(studentDTO.getEmail())
                 .dateOfBirth(studentDTO.getDateOfBirth())

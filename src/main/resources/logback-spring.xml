@@ -15,7 +15,7 @@
               class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} %highlight([%-5p]) %-40.40c{1.}:%L - %m%n
+                %d{yyyy-MM-dd HH:mm:ss} %highlight([%-5p]) %-40.40c{40}:%L - %m%n
             </Pattern>
         </layout>
     </appender>
@@ -28,7 +28,7 @@
         </filter>
         <encoder
                 class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d{yyyy-MM-dd HH:mm:ss} %p %-40.40c{1.}:%L [%t] - %m%n%throwable</Pattern>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] %-40.40c{40}:%L [%t] - %m%n%throwable</Pattern>
         </encoder>
 
         <rollingPolicy

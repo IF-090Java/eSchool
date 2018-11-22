@@ -8,6 +8,9 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -27,9 +30,11 @@ import static org.springframework.http.HttpStatus.OK;
 @Api(value = "Reads students' diaries", description = "Reads students' diaries")
 @RequiredArgsConstructor
 public class DiaryController {
+    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
-    DiaryServiceBase diaryService;
+    private DiaryServiceBase diaryService;
 
     /**
      * Returns list of {@link DiaryEntryDTO} that describe one week of diary wrapped
@@ -52,6 +57,7 @@ public class DiaryController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JwtUser user = (JwtUser) auth.getPrincipal();
         //todo bk Use such stile across the whole app. Looks much simpler and easier for reading
+        logger.debug("Reading diary for student '{}' '{}'", user.getId(), user.getUsername());
         return new GeneralResponseWrapper<>(Status.of(OK), diaryService.getDiary(weekStartDate, user.getId().intValue()));
     }
 }
