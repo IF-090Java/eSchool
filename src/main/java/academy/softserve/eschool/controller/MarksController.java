@@ -9,6 +9,9 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,8 @@ import static org.springframework.http.HttpStatus.CREATED;
 @Api(value = "Operations about marks", description="Operations about marks")
 @RequiredArgsConstructor
 public class MarksController {
+    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
     private MarkServiceBase markService;
@@ -49,7 +54,7 @@ public class MarksController {
             @ApiParam(value = "filter results by class id") @RequestParam(value = "class_id", required = false) Integer classId,
             @ApiParam(value = "get marks received after specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodStart,
             @ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodEnd){
-
+        logger.debug("Reading marks for student '{}', subject '{}', class '{}', '{}' - '{}'", studentId, subjectId, classId, periodStart, periodEnd);
         return new GeneralResponseWrapper<>(
                 Status.of(OK),
                 markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd));

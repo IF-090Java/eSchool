@@ -7,7 +7,6 @@ import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -147,22 +146,22 @@ public class ScheduleServiceImpl implements ScheduleService{
     public List<SubjectDTO> convertFromObject(List<Map<String, Object>> someList, DayOfWeek dayOfWeek)
     {
         List<LocalDate> listDate = someList.stream().map((obj) -> {
-            LocalDate date = (LocalDate) obj.get("date");
+            LocalDate date = LocalDate.parse((CharSequence) obj.get("date"));
             return date;
         })
                 .collect(Collectors.toList());
 
-        List<SubjectDTO> list = new ArrayList<>();
-
-        for (int i = 0; i < listDate.size(); i++) {
-            if (listDate.get(i).getDayOfWeek() == dayOfWeek) {
-                list = someList.stream().map((obj) -> {
-                    int id = (int) obj.get("id");
+        List<SubjectDTO> list = someList.stream().map((obj) -> {
+                    int id = Integer.valueOf((String) obj.get("id"));
                     String name = (String) obj.get("name");
                     String description = (String) obj.get("description");
                     return new SubjectDTO(id, name, description);
+
                 })
                         .collect(Collectors.toList());
+        for (int i = 0; i < listDate.size(); i++) {
+            if (listDate.get(i).getDayOfWeek() != dayOfWeek) {
+                list.remove(i);
             }
         }
         return list;

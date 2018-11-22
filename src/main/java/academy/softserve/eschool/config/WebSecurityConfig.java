@@ -1,10 +1,12 @@
 package academy.softserve.eschool.config;
 
+import academy.softserve.eschool.security.CustomPasswordEncoder;
 import academy.softserve.eschool.security.exceptions.ExceptionHandlerFilter;
 import academy.softserve.eschool.security.JwtAuthenticationEntryPoint;
 import academy.softserve.eschool.security.JwtAuthorizationTokenFilter;
 import academy.softserve.eschool.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,6 +36,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
 
+    @Value("${security.password.encodingKey}")
+    private String key;
+
     @Autowired
     JwtAuthorizationTokenFilter authenticationTokenFilter;
 
@@ -56,8 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoderBean() {
-        return new BCryptPasswordEncoder();
+    public CustomPasswordEncoder passwordEncoderBean() {
+        return new CustomPasswordEncoder(key);
     }
 
     @Override
