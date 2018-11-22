@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import academy.softserve.eschool.security.CustomPasswordEncoder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.dto.EditUserDTO;
@@ -31,7 +31,7 @@ public class TeacherService {
     private TeacherRepository teacherRepository;
 
     @NonNull
-    private BCryptPasswordEncoder bcryptEncoder;
+    private CustomPasswordEncoder passwordEncoder;
 
     @NonNull
     private LoginGeneratorService generateLogin;
@@ -73,9 +73,9 @@ public class TeacherService {
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
-        if ((bcryptEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))
+        if ((passwordEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))
                 && edited.getNewPass().length() > 0) {
-            oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
+            oldUser.setPassword(passwordEncoder.encode(edited.getNewPass()));
         }
         userRepository.save(oldUser);
         return transform(oldUser);
@@ -94,7 +94,7 @@ public class TeacherService {
                 .lastName(teacherDTO.getLastname())
                 .firstName(teacherDTO.getFirstname())
                 .patronymic(teacherDTO.getPatronymic())
-                .password(bcryptEncoder.encode(generatePassword(7)))
+                .password(passwordEncoder.encode(generatePassword(7)))
                 .phone(teacherDTO.getPhone())
                 .email(teacherDTO.getEmail())
                 .dateOfBirth(teacherDTO.getDateOfBirth())
