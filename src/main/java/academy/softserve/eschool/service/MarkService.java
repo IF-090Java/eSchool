@@ -1,5 +1,6 @@
 package academy.softserve.eschool.service;
 
+import academy.softserve.eschool.service.base.MarkServiceBase;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Date;
@@ -8,21 +9,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import academy.softserve.eschool.dto.MarkDescriptionDTO;
-import academy.softserve.eschool.model.Mark;
 import org.springframework.stereotype.Service;
-
+import academy.softserve.eschool.model.Mark;
 import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.repository.MarkRepository;
-import academy.softserve.eschool.service.base.MarkServiceBase;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MarkService implements MarkServiceBase{
+public class MarkService implements MarkServiceBase {
 
     @NonNull
     private MarkRepository markRepo;
