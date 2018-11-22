@@ -51,8 +51,10 @@ public class StudentService {
                 .firstname(i.getFirstName())
                 .lastname(i.getLastName())
                 .patronymic(i.getPatronymic())
+                .login(i.getLogin())
                 .dateOfBirth(i.getDateOfBirth())
                 .classe(i.getClasses().stream().filter(Clazz::isActive).findAny().orElseGet(Clazz::new).getName())
+                .classId(i.getClasses().stream().filter(Clazz::isActive).findAny().orElseGet(Clazz::new).getId())
                 .email(i.getEmail())
                 .phone(i.getPhone()).build()
         ).collect(Collectors.toCollection(ArrayList::new));

@@ -80,6 +80,7 @@ public class StudentServiceTest {
 
     @Test
     public void getAll() {
+        assertEquals(studentDTOS, studentService.getAll(students));
     }
 
     @After
