@@ -96,7 +96,7 @@ public class ScheduleServiceImpl implements ScheduleService{
      * @param dayOfWeek day of week for which are the lessons saved
      * @param clazz     class for which is the schedule saved
      */
-    public void saveFunction(List<SubjectDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
+    public List<Lesson> saveFunction(List<SubjectDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
     {
         List<Subject> resultList = new ArrayList<>();
         if (list.size() != 0) {
@@ -112,7 +112,6 @@ public class ScheduleServiceImpl implements ScheduleService{
                         resultList.add(listOfSubjects.get(j));
                 }
             }
-
         }
         LocalDate dateAfterEnd = end.plusDays(1);
         List<Lesson> listOfLessons = new ArrayList<>();
@@ -134,6 +133,7 @@ public class ScheduleServiceImpl implements ScheduleService{
             }
         }
         lessonRepository.saveAll(listOfLessons);
+        return listOfLessons;
     }
 
     /**
@@ -146,22 +146,22 @@ public class ScheduleServiceImpl implements ScheduleService{
     public List<SubjectDTO> convertFromObject(List<Map<String, Object>> someList, DayOfWeek dayOfWeek)
     {
         List<LocalDate> listDate = someList.stream().map((obj) -> {
-            LocalDate date = (LocalDate) obj.get("date");
+            LocalDate date = LocalDate.parse((CharSequence) obj.get("date"));
             return date;
         })
                 .collect(Collectors.toList());
 
-        List<SubjectDTO> list = new ArrayList<>();
-
-        for (int i = 0; i < listDate.size(); i++) {
-            if (listDate.get(i).getDayOfWeek() == dayOfWeek) {
-                list = someList.stream().map((obj) -> {
-                    int id = (int) obj.get("id");
+        List<SubjectDTO> list = someList.stream().map((obj) -> {
+                    int id = Integer.valueOf((String) obj.get("id"));
                     String name = (String) obj.get("name");
                     String description = (String) obj.get("description");
                     return new SubjectDTO(id, name, description);
+
                 })
                         .collect(Collectors.toList());
+        for (int i = 0; i < listDate.size(); i++) {
+            if (listDate.get(i).getDayOfWeek() != dayOfWeek) {
+                list.remove(i);
             }
         }
         return list;

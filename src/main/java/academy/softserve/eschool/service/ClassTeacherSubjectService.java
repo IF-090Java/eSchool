@@ -1,6 +1,7 @@
 package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.dto.TeacherJournalDTO;
+import academy.softserve.eschool.model.ClassTeacherSubjectLink;
 
 /**
  * This is an interface that the {@link ClassTeacherSubjectServiceImpl} implements
@@ -9,5 +10,5 @@ import academy.softserve.eschool.dto.TeacherJournalDTO;
  */
 public interface ClassTeacherSubjectService {
 
-    void saveClassTeacherSubject(TeacherJournalDTO teacherJournalDTO, boolean isActive);
+    ClassTeacherSubjectLink saveClassTeacherSubject(TeacherJournalDTO teacherJournalDTO, boolean isActive);
 }
