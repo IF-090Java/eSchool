@@ -1,5 +1,6 @@
 package academy.softserve.eschool.service;
 
+import academy.softserve.eschool.service.base.DiaryServiceBase;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,13 +12,12 @@ import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.repository.LessonRepository;
-import academy.softserve.eschool.service.base.DiaryServiceBase;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class DiaryService implements DiaryServiceBase{
+public class DiaryService implements DiaryServiceBase {
 
     @NonNull
     private LessonRepository lessonRepo;
