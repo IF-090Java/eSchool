@@ -6,7 +6,7 @@ import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
-import lombok.NonNull;
+import academy.softserve.eschool.security.CustomPasswordEncoder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * This is a test class for {@link StudentService}
@@ -38,7 +38,7 @@ public class StudentServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private BCryptPasswordEncoder bcryptEncoder;
+    private CustomPasswordEncoder passwordEncoder;
 
     @Mock
     private LoginGeneratorService generateLogin;
@@ -73,8 +73,9 @@ public class StudentServiceTest {
 
     @Test
     public void getOne() {
-        Mockito.when(studentRepository.getOne(1)).thenReturn(students.get(0));
         assertEquals(studentDTOS.get(0), studentService.getOne(students.get(0)));
+        assertEquals(studentDTOS.get(1), studentService.getOne(students.get(1)));
+        assertNotEquals(studentDTOS.get(1), studentService.getOne(students.get(2)));
     }
 
     @Test
