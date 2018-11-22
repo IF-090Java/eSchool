@@ -7,8 +7,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * This class implements the interface {@link ClassTeacherSubjectService}
  * and contains a method that saves the connection between a teacher, a subject and a class
@@ -34,7 +32,7 @@ public class ClassTeacherSubjectServiceImpl implements ClassTeacherSubjectServic
      * @param isActive          indicates if is this connection is up-to-date
      */
     @Override
-    public void saveClassTeacherSubject(TeacherJournalDTO teacherJournalDTO, boolean isActive) {
+    public ClassTeacherSubjectLink saveClassTeacherSubject(TeacherJournalDTO teacherJournalDTO, boolean isActive) {
         ClassTeacherSubjectLink classTeacherSubject = new ClassTeacherSubjectLink();
 
         int classId = teacherJournalDTO.getClassId();
@@ -53,6 +51,6 @@ public class ClassTeacherSubjectServiceImpl implements ClassTeacherSubjectServic
                 .subject(subject)
                 .subject_id(subjectId)
                 .isActive(isActive).build());
+        return new ClassTeacherSubjectLink(classId, teacherId, subjectId, clazz, teacher, subject, isActive);
     }
-
 }
