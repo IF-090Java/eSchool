@@ -26,6 +26,9 @@ public class JournalController {
     @NonNull
     private JournalServiceImpl journalServiceImpl;
 
+    /**
+     * @return List of {@link JournalDTO} which contains data of all journals wrapped in {@link GeneralResponseWrapper}
+     */
     @ApiOperation(value = "Get list of all journals")
     @ApiResponses(
             value = {
@@ -40,6 +43,11 @@ public class JournalController {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getJournals());
     }
 
+    /**
+     * Returns list of {@link JournalDTO} which contains data of all journals of specific teacher wrapped in {@link GeneralResponseWrapper}
+     * @param idTeacher if specified marks are filtered by user id
+     * @return List of {@link JournalDTO} wrapped in {@link GeneralResponseWrapper}
+     */
     @ApiOperation(value = "Get list of all teacher's journals")
     @ApiResponses(
             value = {
@@ -55,6 +63,11 @@ public class JournalController {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getJournalsByTeacher(idTeacher));
     }
 
+    /**
+     * Returns list of {@link JournalDTO} which contains data of active journals of specific teacher wrapped in {@link GeneralResponseWrapper}
+     * @param idTeacher if specified marks are filtered by user id
+     * @return List of {@link JournalDTO} wrapped in {@link GeneralResponseWrapper}
+     */
     @ApiOperation(value = "Get list of active teacher's journals")
     @ApiResponses(
             value = {
@@ -73,8 +86,8 @@ public class JournalController {
 
     /**
      * Returns list of {@link JournalMarkDTO} which contains student's data and his marks wrapped in {@link GeneralResponseWrapper}
-     * @param idSubject if specified marks are filtered by user id
-     * @param idClass if specified marks are filtered by subject id
+     * @param idSubject is id of subject
+     * @param idClass is id of class
      * @return List of {@link JournalMarkDTO} wrapped in {@link GeneralResponseWrapper}
      */
     @ApiResponses(

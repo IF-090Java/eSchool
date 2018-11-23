@@ -9,16 +9,13 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
-
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -77,10 +74,17 @@ public class MarksController {
     @PostMapping
     public GeneralResponseWrapper<MarkDTO> postMark(
         @ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
-        markService.saveMark(markDTO);
-        return new GeneralResponseWrapper<>(Status.of(CREATED), markDTO);
+        MarkDTO resultMarkDTO =  markService.saveMark(markDTO);
+        logger.info("Added mark for lesson[id="+markDTO.getIdLesson()+"], student[id="+markDTO.getIdStudent()+"]");
+        return new GeneralResponseWrapper<>(Status.of(CREATED), resultMarkDTO);
     }
 
+    /**
+     * Update mark's type of lesson
+     * lesson's id and mark's type are required.
+     * @param idLesson is id of lesson
+     * @param markType is mark's type
+     */
     @ApiOperation("Update mark's type of lesson")
     @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson)")
     @ApiResponses(value = {
