@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 
+/**
+ * Created for transliteration of Ukrainian names, surnames, as well as names of cities, villages, rivers into English.
+ * Rules got from site http://zakon.rada.gov.ua/laws/show/55-2010-%D0%BF.
+ */
 public class Transliteration {
-    @Autowired
-    private UserRepository userRepository;
 
     /**
      * Contains the Ukrainian letters as keys and the as value their transliteration in lowercase
