@@ -8,6 +8,8 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +22,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeworkController {
 
+    private static final Logger logger = LoggerFactory.getLogger(HomeworkController.class);
+
     @NonNull
     private JournalServiceImpl journalServiceImpl;
 
+    /**
+     * Returns list of {@link HomeworkDTO} which contains homeworks of subject and class wrapper in{@link GeneralResponseWrapper}
+     * @param idSubject is id of subject
+     * @param idClass is id of class
+     * @return List of {@link HomeworkDTO} wrapped in {@link GeneralResponseWrapper}
+     */
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     @ApiOperation(value = "Get homeworks by subject and class")
     @ApiResponses(
@@ -50,7 +60,7 @@ public class HomeworkController {
     @PutMapping("/files")
     @ApiResponses(
             value = {
-                    @ApiResponse(code = 204, message = "Homework successfully created"),
+                    @ApiResponse(code = 204, message = "No content"),
                     @ApiResponse(code = 400, message = "Bad request"),
                     @ApiResponse(code = 500, message = "Server error")
             }
@@ -59,9 +69,15 @@ public class HomeworkController {
     public GeneralResponseWrapper<HomeworkFileDTO> postHomework(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkFileDTO homeworkFileDTO) {
         journalServiceImpl.saveHomework(homeworkFileDTO);
+        logger.info("Added homework for lesson[id="+homeworkFileDTO.getIdLesson()+"]");
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.NO_CONTENT), null);
     }
 
+    /**
+     * Returns object of {@link HomeworkFileDTO} which contains data of file wrapped in{@link GeneralResponseWrapper}
+     * @param idLesson is id of lesson
+     * @return List of {@link HomeworkFileDTO} wrapped in {@link GeneralResponseWrapper}
+     */
     @ApiOperation(value = "Get homework file")
     @GetMapping("/files/{idLesson}")
     @ApiResponses(

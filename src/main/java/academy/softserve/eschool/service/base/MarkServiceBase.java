@@ -9,6 +9,6 @@ import academy.softserve.eschool.dto.MarkDescriptionDTO;
 
 public interface MarkServiceBase {
     List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, LocalDate startDate, LocalDate endDate);
-    void saveMark(MarkDTO dto);
+    MarkDTO saveMark(MarkDTO dto);
     void updateType(int idLesson, String markType);
 }

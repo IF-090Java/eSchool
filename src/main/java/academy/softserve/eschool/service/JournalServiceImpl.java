@@ -81,7 +81,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public List<JournalMarkDTO> getJournal(int idSubject, int idClass) {
-        List<Map<String,Object>>  list = studentRepository.findJournal(idSubject,idClass);
+         List<Map<String,Object>>  list = studentRepository.findJournal(idSubject,idClass);
          List<JournalMarkDTO> JMDto = new ArrayList<>();
          Map<Integer,String> students = new HashMap<>();
          for(Map<String,Object> map: list){

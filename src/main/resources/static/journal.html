@@ -528,7 +528,7 @@
         }
 
         function setHomeWork(idLesson){
-            var task = $('tr[idLes=' + currentCell.attr("idLes") + '] .homeColTask').text();
+            var task = $('tr[idLes=' + idLesson + '] .homeColTask').text();
             $('#homework_form').val(task);
         }
 

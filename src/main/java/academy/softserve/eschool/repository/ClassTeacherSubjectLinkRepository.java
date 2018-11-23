@@ -13,6 +13,11 @@ import java.util.List;
 @Repository
 public interface ClassTeacherSubjectLinkRepository extends JpaRepository<ClassTeacherSubjectLink, ClassTeacherSubjectLinkId> {
 
+    /**
+     * Find all journals for a teacher by his id
+     * @param idTeacher teacher's id
+     * @return {@link ClassTeacherSubjectLink}
+     */
     @Query(value = "select distinct * from class_teacher_subject_link ct\n" +
             "left join clazz on ct.clazz_id=clazz.id\n" +
             "left join subject on subject.id=ct.subject_id\n" +
@@ -20,6 +25,11 @@ public interface ClassTeacherSubjectLinkRepository extends JpaRepository<ClassTe
             "where ct.teacher_id = :idTeacher", nativeQuery=true)
     List<ClassTeacherSubjectLink> findJournalsByTeacher(@Param("idTeacher") int idTeacher);
 
+    /**
+     * Find all active journals for a teacher by his id
+     * @param idTeacher teacher's id
+     * @return {@link ClassTeacherSubjectLink}
+     */
     @Query(value = "select distinct * from class_teacher_subject_link ct\n" +
             "left join clazz on ct.clazz_id=clazz.id\n" +
             "left join subject on subject.id=ct.subject_id\n" +
@@ -27,6 +37,10 @@ public interface ClassTeacherSubjectLinkRepository extends JpaRepository<ClassTe
             "where ct.teacher_id = :idTeacher and clazz.is_active=true ", nativeQuery=true)
     List<ClassTeacherSubjectLink> findActiveJournalsByTeacher(@Param("idTeacher") int idTeacher);
 
+    /**
+     * Find all journals f
+     * @return {@link ClassTeacherSubjectLink}
+     */
     @Query(value = "select distinct * from class_teacher_subject_link ct\n" +
             "left join clazz on ct.clazz_id=clazz.id\n" +
             "left join subject on subject.id=ct.subject_id\n" +
