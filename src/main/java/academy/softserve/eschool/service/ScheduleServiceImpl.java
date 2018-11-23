@@ -112,6 +112,7 @@ public class ScheduleServiceImpl implements ScheduleService{
                         resultList.add(listOfSubjects.get(j));
                 }
             }
+
         }
         LocalDate dateAfterEnd = end.plusDays(1);
         List<Lesson> listOfLessons = new ArrayList<>();

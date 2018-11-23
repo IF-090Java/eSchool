@@ -3,14 +3,14 @@ package academy.softserve.eschool.dto;
 import java.time.LocalDate;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
+@Builder
 public class DiaryEntryDTO {
     
     @ApiModelProperty(required = true, notes = "id of lesson")
