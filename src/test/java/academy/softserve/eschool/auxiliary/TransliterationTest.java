@@ -4,55 +4,39 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(Parameterized.class)
+@SuppressWarnings("WeakerAccess")
+@RunWith(MockitoJUnitRunner.class)
 class TransliterationTest {
-    private String inputWord;
-    private String expectedWord;
+
+    private List<String> ukrainianWords = new ArrayList<>();
+
+    private List<String> englishWords = new ArrayList<>();
 
     @Before
     public void init() {
-
-    }
-
-    public TransliterationTest(String inputWord, String expectedWord) {
-        this.inputWord = inputWord;
-        this.expectedWord = expectedWord;
-    }
-
-
-    @Parameterized.Parameters
-    public static Collection data() {
-        return Arrays.asList(new Object[][] {
-                { "Алушта", "alushta" },
-                { "Борщагівка", "borshchahivka" },
-                { "Ґалаґан", "galagan" },
-                { "Єнакієве", "yenakiieve" },
-                { "Їжакевич", "yizhakevych" },
-                { "Йосипівка", "yosypivka" },
-                { "Юрій", "yurii" },
-                { "Яготин", "yahotyn" },
-                { "зг", "zgh" },
-                { "Знам'янка", "znamianka" },
-                { "Корюківка", "koriukivka" },
-                { "Стрий", "stryi" },
-                { "Есмань", "esman" }
-        });
+        ukrainianWords.addAll(Arrays.asList("Алушта", "Борщагівка", "Ґалаґан", "Єнакієве", "Їжакевич", "Йосипівка", "Юрій",
+                "Яготин", "зг", "Знам'янка", "Корюківка", "Стрий", "Есмань"));
+        englishWords.addAll(Arrays.asList("alushta", "borshchahivka", "galagan", "yenakiieve", "yizhakevych", "yosypivka", "yurii",
+                "yahotyn", "zgh", "znamianka", "koriukivka", "stryi", "esman"));
     }
 
     @Test
     void transliteration() {
-        assertEquals(expectedWord, Transliteration.transliteration(inputWord));
+        for (int i = 0, length = ukrainianWords.size(); i < length; i++)
+            assertEquals(englishWords.get(i), Transliteration.transliteration(ukrainianWords.get(i)));
     }
 
     @After
     public void destroy() {
-
+        ukrainianWords = null;
+        englishWords = null;
     }
 }
