@@ -50,7 +50,7 @@ public class ClassController {
     @PostMapping
     public GeneralResponseWrapper<ClassDTO> addClass(
             @ApiParam(value = "class object", required = true) @RequestBody ClassDTO newClassDTO){
-        LOGGER.info("Try to add class " +newClassDTO.getClassName() +" "+newClassDTO.getClassYear());
+        LOGGER.info("An attempt to add class " +newClassDTO.getClassName() +" "+newClassDTO.getClassYear());
         return new GeneralResponseWrapper<>(
                 Status.of(HttpStatus.CREATED),
                 classService.saveClass(newClassDTO));
@@ -133,7 +133,7 @@ public class ClassController {
             @ApiParam(value = "id of class", required = true) @PathVariable int id,
             @ApiParam(value = "object of class", required = true) @RequestBody ClassDTO editableClass){
 
-        LOGGER.info("Try to update class with id " +id);
+        LOGGER.info("An attempt to update class with id " +id);
         return new GeneralResponseWrapper<>(
                 Status.of(HttpStatus.CREATED),
                 classService.updateClass(id, editableClass)
