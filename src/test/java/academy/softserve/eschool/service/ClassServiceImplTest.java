@@ -34,11 +34,11 @@ public class ClassServiceImplTest {
     private boolean isActive;
     private int numOfStudents;
 
-    Clazz clazzObject;
-    Clazz classToSave;
-    ClassDTO expectedClassDTO;
-    List<Clazz> clazzList;
-    List<ClassDTO> classDTOList;
+    private Clazz clazzObject;
+    private Clazz classToSave;
+    private ClassDTO expectedClassDTO;
+    private List<Clazz> clazzList;
+    private List<ClassDTO> classDTOList;
 
     @Before
     public void init(){
