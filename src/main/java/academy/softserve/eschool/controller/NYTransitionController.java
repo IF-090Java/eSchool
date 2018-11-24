@@ -3,6 +3,8 @@ package academy.softserve.eschool.controller;
 import academy.softserve.eschool.service.ClassService;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,6 +34,7 @@ import java.util.List;
 @Api(value = "transition", description = "Endpoints for transition to new school year")
 @RequiredArgsConstructor
 public class NYTransitionController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NYTransitionController.class);
 
     //todo bk ++ use autowiring via constructors.
     //todo bk you should not use Impl class here. Use interface for injection and make the fields private
@@ -55,6 +58,7 @@ public class NYTransitionController {
             @ApiResponse(code = 500, message = "Server error")
     })
     public GeneralResponseWrapper<List<ClassDTO>> addNewYearClasses(){
+        LOGGER.info("Try to add classes for new academic year");
         return new GeneralResponseWrapper<>(
                 new Status(HttpServletResponse.SC_CREATED, "New classes successfully added"),
                 classService.addNewYearClasses()
@@ -79,6 +83,7 @@ public class NYTransitionController {
     @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<List<NYTransitionDTO>> bindingStudentsToNewClasses(
             @ApiParam(value = "transition class(new and old classes id)", required = true) @RequestBody List<NYTransitionDTO> transitionDTOS){
+        LOGGER.info("Try to update old year class status to false and rebind students to new classes.");
         classService.updateClassStatusById(transitionDTOS, false);
         studentService.studentClassesRebinding(transitionDTOS);
         return new GeneralResponseWrapper<>(
