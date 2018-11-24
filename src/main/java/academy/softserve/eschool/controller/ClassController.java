@@ -7,6 +7,8 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,9 @@ import java.util.List;
 @Api(value = "classes", description = "Endpoints for classes")
 @RequiredArgsConstructor
 public class ClassController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClassController.class);
+
 	@NonNull
     private ClassServiceImpl classService;
 
@@ -45,6 +50,7 @@ public class ClassController {
     @PostMapping
     public GeneralResponseWrapper<ClassDTO> addClass(
             @ApiParam(value = "class object", required = true) @RequestBody ClassDTO newClassDTO){
+        LOGGER.info("Try to add class " +newClassDTO.getClassName() +" "+newClassDTO.getClassYear());
         return new GeneralResponseWrapper<>(
                 new Status().of(HttpStatus.CREATED),
                 classService.saveClass(newClassDTO));
@@ -122,14 +128,12 @@ public class ClassController {
     })
     @ApiOperation("Update class")
     @PreAuthorize("hasRole('ADMIN')")
-    //todo bk ++ it's better to name param as classId instead. But I'd name it as 'id' in current case.
-    //todo bk It's too obvious that 'classId' belongs to the class. But in case you have few ids then name it properly
     @PutMapping("/{id}")
     public GeneralResponseWrapper<ClassDTO> editClass(
             @ApiParam(value = "id of class", required = true) @PathVariable int id,
             @ApiParam(value = "object of class", required = true) @RequestBody ClassDTO editableClass){
-        //todo bk ++ updating objects with native queries bring a lot af mess into the app. And it's hard to support them. Use entity and repository for it.
 
+        LOGGER.info("Try to update class with id " +id);
         return new GeneralResponseWrapper<>(
                 new Status().of(HttpStatus.CREATED),
                 classService.updateClass(id, editableClass)

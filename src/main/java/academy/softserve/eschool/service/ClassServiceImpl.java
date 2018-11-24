@@ -4,6 +4,8 @@ import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.dto.NYTransitionDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.repository.ClassRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ClassServiceImpl implements ClassService{
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClassServiceImpl.class);
+
     @Autowired ClassRepository classRepository;
 
     @Override
@@ -47,6 +51,8 @@ public class ClassServiceImpl implements ClassService{
                 .academicYear(classDTO.getClassYear())
                 .isActive(classDTO.getIsActive()).build()
             );
+
+        LOGGER.info("Class " +savedClass.getName() +" " +savedClass.getAcademicYear() +" saved.");
         return ClassDTO.builder()
                 .id(savedClass.getId())
                 .className(savedClass.getName())
@@ -64,6 +70,7 @@ public class ClassServiceImpl implements ClassService{
         clazz.setActive(classDTO.getIsActive());
 
         Clazz updatedClass = classRepository.save(clazz);
+        LOGGER.info("Class with id " +updatedClass.getId() +" updated.");
         return ClassDTO.builder()
                 .id(updatedClass.getId())
                 .className(updatedClass.getName())
@@ -80,6 +87,7 @@ public class ClassServiceImpl implements ClassService{
 
         for (ClassDTO classDTO : allClasses){
             if (classDTO.getIsActive() == true && classDTO.getNumOfStudents() > 0 && !classDTO.getClassName().startsWith("11")){
+                LOGGER.debug("Created new class based on " +classDTO.getClassName() +" " +classDTO.getClassYear());
                 newYearClasses.add(
                 Clazz.builder()
                         .name(updateClassName(classDTO.getClassName()))
@@ -90,6 +98,7 @@ public class ClassServiceImpl implements ClassService{
             }
         }
         List<Clazz> classes = classRepository.saveAll(newYearClasses);
+        LOGGER.info("Classes for new academic year added. Count " +newYearClasses.size());
         return classes.stream().map(c -> ClassDTO.builder()
                 .id(c.getId())
                 .className(c.getName())
@@ -102,7 +111,9 @@ public class ClassServiceImpl implements ClassService{
     public void updateClassStatusById(List<NYTransitionDTO> transitionDTOS, boolean status) {
         for (NYTransitionDTO dto: transitionDTOS){
             classRepository.updateClassStatusById(dto.getOldClassId(), status);
+            LOGGER.debug("Status of class with id " +dto.getOldClassId() +"updated. New status - false.");
         }
+        LOGGER.info("Status of old year classes set to false.");
     }
 
     public String updateClassName(String className) {

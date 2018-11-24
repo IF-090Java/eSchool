@@ -13,6 +13,8 @@ import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.security.CustomPasswordEncoder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ import static academy.softserve.eschool.auxiliary.Utility.transform;
 @Service
 @RequiredArgsConstructor
 public class StudentService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
+
     @NonNull
     private UserRepository userRepository;
 
@@ -119,12 +123,12 @@ public class StudentService {
                     List<Clazz> clazzes = student.getClasses();
                     clazzes.add(classRepository.findById(nDTO.getNewClassId()).orElse(null));
                     student.setClasses(clazzes);
-
-                    //todo bk !!!!!!! Never do it again - calling repository method in loop. Just prepare all required data and save it once
                     updatedStudentsList.add(student);
                 }
             }
+            LOGGER.debug("Students from class with id=" +nDTO.getOldClassId() +" to class with id=" +nDTO.getNewClassId() +" added.");
         }
         studentRepository.saveAll(updatedStudentsList);
+        LOGGER.info("Students from old year classes to new year classes added.");
     }
 }
