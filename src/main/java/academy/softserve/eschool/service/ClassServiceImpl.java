@@ -30,7 +30,7 @@ public class ClassServiceImpl implements ClassService{
 
     @Override
     public ClassDTO findClassById(int id) {
-        Clazz clazz = classRepository.findById(id).orElse(null);
+        Clazz clazz = classRepository.getOne(id);
         return ClassDTO.builder()
                 .className(clazz.getName())
                 .classDescription(clazz.getDescription())
@@ -57,7 +57,7 @@ public class ClassServiceImpl implements ClassService{
 
     @Override
     public ClassDTO updateClass(int id, ClassDTO classDTO) {
-        Clazz clazz = classRepository.findById(id).orElse(null);
+        Clazz clazz = classRepository.getOne(id);
         clazz.setName(classDTO.getClassName());
         clazz.setDescription(classDTO.getClassDescription());
         clazz.setAcademicYear(classDTO.getClassYear());
@@ -109,7 +109,7 @@ public class ClassServiceImpl implements ClassService{
         String[] classNameParts = className.split("-");
         if (classNameParts.length>1){
             int classNum = Integer.parseInt(classNameParts[0])+1;
-            return String.valueOf(classNum)+"-"+classNameParts[1];
+            return classNum+"-"+classNameParts[1];
         } else {
             int classNum = Integer.parseInt(classNameParts[0])+1;
             return String.valueOf(classNum);
