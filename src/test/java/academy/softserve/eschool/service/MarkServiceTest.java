@@ -108,11 +108,19 @@ public class MarkServiceTest {
 
     @Test
     public void saveMarkTest(){
-        Mockito.when(markRepository.findTopByStudentIdAndLessonId(1,1)).thenReturn(mark);
+        Mockito.when(markRepository.findTopByStudentIdAndLessonId(Mockito.anyInt(),Mockito.anyInt())).thenReturn(mark);
         assertEquals("Test markDTO",markDTO.getIdStudent(),markService.saveMark(markDTO).getIdStudent());
         assertEquals("Test markDTO",markDTO.getIdLesson(),markService.saveMark(markDTO).getIdLesson());
         assertEquals("Test markDTO",markDTO.getMark(),markService.saveMark(markDTO).getMark());
         assertEquals("Test markDTO",markDTO.getNote(),markService.saveMark(markDTO).getNote());
+    }
+
+    @Test
+    public void updateTypeTest(){
+        int idLesson = 1;
+        String markType = "Module";
+        markService.updateType(idLesson,markType);
+        Mockito.verify(markRepository,Mockito.times(1)).saveTypeByLesson(idLesson,"Module");
     }
 
 }

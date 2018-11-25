@@ -35,8 +35,6 @@ public class JournalServiceImpTest {
     @InjectMocks
     private static JournalServiceImpl journalService;
 
-    private static HomeworkFileDTO homeworkFileDTO;
-
     private static Lesson lesson;
 
     private static List<ClassTeacherSubjectLink> listConnections;
@@ -59,7 +57,12 @@ public class JournalServiceImpTest {
 
     private static Map<String,Object> journalMarks;
 
+    private static HomeworkFileDTO homeworkFileDTO;
+
+    private static File tempFile;
+
     private static int idTeacher;
+
     private static int idLesson;
 
     @BeforeClass
@@ -115,6 +118,20 @@ public class JournalServiceImpTest {
                 .idClass(1)
                 .idSubject(1)
                 .subjectName("Українська мова")
+                .build();
+
+        homeworkFileDTO = HomeworkFileDTO.builder()
+                .fileType("text")
+                .fileName("testName.txt")
+                .fileData("data")
+                .idLesson(1)
+                .homework("testHomework")
+                .build();
+
+        tempFile = File.builder()
+                .file("data")
+                .fileName("testName.txt")
+                .fileType("text")
                 .build();
 
         journalDTOList.add(journalDTO);
@@ -209,9 +226,26 @@ public class JournalServiceImpTest {
         assertEquals("Test homeworkDTOList",homeworkDTOList,journalService.getHomework(anyInt(),anyInt()));
     }
 
+    @Test
+    public void saveHomeworkTest(){
+        Mockito.when(lessonRepository.findById(anyInt())).thenReturn(Optional.ofNullable(lesson));
+        Mockito.when(fileRepository.save(tempFile)).thenReturn(tempFile);
+
+        journalService.saveHomework(homeworkFileDTO);
+        Mockito.verify(lessonRepository,Mockito.times(1)).saveHomeWork(homeworkFileDTO.getHomework(),file.getId(),homeworkFileDTO.getIdLesson());
+    }
+
+    @Test
+    public void saveHomeworkTest2(){
+        Mockito.when(lessonRepository.findById(anyInt())).thenReturn(Optional.ofNullable(null));
+
+        journalService.saveHomework(homeworkFileDTO);
+        Mockito.verify(lessonRepository,Mockito.times(0)).saveHomeWork(homeworkFileDTO.getHomework(),file.getId(),homeworkFileDTO.getIdLesson());
+    }
+
+
     @AfterClass
     public static void destroy() {
-        homeworkFileDTO = null;
         lesson = null;
         listConnections = null;
         journalDTO = null;
