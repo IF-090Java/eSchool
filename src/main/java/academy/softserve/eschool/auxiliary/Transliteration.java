@@ -59,15 +59,15 @@ public class Transliteration {
     }
 
     /**
-     * Transliterating first two letters
+     * Transliterating first two letters.
+     * Check special cases(began from: "є", "ї", "й", "ю", "я", "зг") of first two letters and transliterate them.
      * @param first letter
      * @param second letter
      * @return transliterated letters
      */
-    //todo bk too many if statements. Refactor it
     private static String firstTwo(Character first, Character second) {
         String result = "";
-        //checking special cases of first letter
+        //checking special cases of first letters
         switch (first){
             case 'є': result += "ye";
                 break;
@@ -77,9 +77,9 @@ public class Transliteration {
                 break;
             case 'ю': result += "yu";
                 break;
-            case 'я': result += "ia";
+            case 'я': result += "ya";
                 break;
-            case 'з': if (second.equals('г'))
+            case 'з': if (second != null && second.equals('г'))
                 return "zgh";
             default: result = letters.get(first);
         }
