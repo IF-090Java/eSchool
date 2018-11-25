@@ -7,6 +7,8 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.*;
 
+import academy.softserve.eschool.dto.MarkDTO;
+import academy.softserve.eschool.model.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,8 +34,12 @@ public class MarkServiceTest {
     private String endDate;
     private BigDecimal avg_mark;
     private String date;
-    private BigInteger count; 
-    
+    private BigInteger count;
+    private MarkDTO markDTO;
+    private Mark mark;
+    private Student student;
+    private Lesson lesson;
+
     @InjectMocks
     private MarkService markService;
     
@@ -60,6 +66,35 @@ public class MarkServiceTest {
         
         Mockito.when(markRepository.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate))
                 .thenReturn(result);
+
+        markDTO = MarkDTO.builder()
+                .idStudent(1)
+                .idLesson(1)
+                .note("note")
+                .mark((byte)12)
+                .build();
+
+        lesson = Lesson.builder()
+                .id(1)
+                .markType(Mark.MarkType.Module)
+                .hometask("testHomeWork")
+                .date(java.sql.Date.valueOf(LocalDate.of(2012,2,2)))
+                .lessonNumber((byte)3)
+                .build();
+
+        student = Student.builder()
+                .firstName("Ruslan")
+                .lastName("Kharevych")
+                .build();
+        student.setId(1);
+
+        mark = Mark.builder()
+                .id(1)
+                .mark((byte)12)
+                .note("note")
+                .lesson(lesson)
+                .student(student)
+                .build();
     }
     
     @Test
@@ -69,6 +104,15 @@ public class MarkServiceTest {
         
         assertEquals(1, result.size());
         assertEquals(expectedDataPoint, result.get(0));
+    }
+
+    @Test
+    public void saveMarkTest(){
+        Mockito.when(markRepository.findTopByStudentIdAndLessonId(1,1)).thenReturn(mark);
+        assertEquals("Test markDTO",markDTO.getIdStudent(),markService.saveMark(markDTO).getIdStudent());
+        assertEquals("Test markDTO",markDTO.getIdLesson(),markService.saveMark(markDTO).getIdLesson());
+        assertEquals("Test markDTO",markDTO.getMark(),markService.saveMark(markDTO).getMark());
+        assertEquals("Test markDTO",markDTO.getNote(),markService.saveMark(markDTO).getNote());
     }
 
 }

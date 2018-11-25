@@ -59,12 +59,17 @@ public class JournalServiceImpTest {
 
     private static Map<String,Object> journalMarks;
 
+    private static int idTeacher;
+    private static int idLesson;
+
     @BeforeClass
     public static void init() {
         listConnections = new ArrayList<>();
         listJournalMark = new ArrayList<>();
         listLesson = new ArrayList<>();
         journalDTOList = new ArrayList<>();
+        idLesson = 1;
+        idTeacher = 1;
 
         clazz = Clazz.builder()
                 .id(1)
@@ -140,19 +145,19 @@ public class JournalServiceImpTest {
                 .homework("testHomeWork")
                 .build();
         Mockito.when(lessonRepository.findFile(anyInt())).thenReturn(lesson);
-        assertEquals("Test fileDTO", homeworkFileDTO, journalService.getFile(1));
+        assertEquals("Test fileDTO", homeworkFileDTO, journalService.getFile(idLesson));
     }
 
     @Test
     public void getJournalsByTeacherTest(){
         Mockito.when(classTeacherSubjectLinkRepository.findJournalsByTeacher(anyInt())).thenReturn(listConnections);
-        assertEquals("Test journalDTOList",journalDTOList,journalService.getJournalsByTeacher(1));
+        assertEquals("Test journalDTOList",journalDTOList,journalService.getJournalsByTeacher(idTeacher));
     }
 
     @Test
     public void getActiveJournalsByTeacherTest(){
         Mockito.when(classTeacherSubjectLinkRepository.findActiveJournalsByTeacher(anyInt())).thenReturn(listConnections);
-        assertEquals("Test journalDTOList",journalDTOList,journalService.getActiveJournalsByTeacher(1));
+        assertEquals("Test journalDTOList",journalDTOList,journalService.getActiveJournalsByTeacher(idTeacher));
     }
 
     @Test
