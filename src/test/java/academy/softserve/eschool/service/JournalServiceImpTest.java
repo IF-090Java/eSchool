@@ -5,7 +5,6 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.model.*;
 import academy.softserve.eschool.repository.*;
-import jdk.nashorn.internal.scripts.JO;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
