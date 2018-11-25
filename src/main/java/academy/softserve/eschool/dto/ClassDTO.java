@@ -46,4 +46,12 @@ public class ClassDTO {
             notes = "Contains the number of students that are actually studying in the specified class. " +
                     "This field is shown only for GET methods.")
     private int numOfStudents;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
 }
