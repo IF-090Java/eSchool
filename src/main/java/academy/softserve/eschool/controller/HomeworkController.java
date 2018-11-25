@@ -22,8 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeworkController {
 
-    private static final Logger logger = LoggerFactory.getLogger(HomeworkController.class);
-
     @NonNull
     private JournalServiceImpl journalServiceImpl;
 
@@ -69,7 +67,6 @@ public class HomeworkController {
     public GeneralResponseWrapper<HomeworkFileDTO> postHomework(
             @ApiParam(value = "homework object", required = true)@RequestBody HomeworkFileDTO homeworkFileDTO) {
         journalServiceImpl.saveHomework(homeworkFileDTO);
-        logger.info("Added homework for lesson[id="+homeworkFileDTO.getIdLesson()+"]");
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.NO_CONTENT), null);
     }
 

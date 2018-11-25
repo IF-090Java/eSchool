@@ -80,11 +80,13 @@ public class MarkService implements MarkServiceBase {
                 .idStudent(mark.getStudent().getId())
                 .note(mark.getNote())
                 .build();
+        logger.info("Added mark for lesson[id="+dto.getIdLesson()+"], student[id="+dto.getIdStudent()+"]");
         return markDTO;
     }
 
     @Override
     public void updateType(int idLesson, String markType) {
         markRepo.saveTypeByLesson(idLesson,markType);
+        logger.info("Edited mark type for lesson[id="+idLesson+"], newType = "+markType);
     }
 }

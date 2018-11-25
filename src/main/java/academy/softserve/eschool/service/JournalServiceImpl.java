@@ -1,5 +1,6 @@
 package academy.softserve.eschool.service;
 
+import academy.softserve.eschool.controller.HomeworkController;
 import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.model.ClassTeacherSubjectLink;
 import academy.softserve.eschool.model.File;
@@ -10,6 +11,8 @@ import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -26,6 +29,8 @@ public class JournalServiceImpl implements JournalService {
     private LessonRepository lessonRepository;
     @NonNull
     private FileRepository fileRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(HomeworkController.class);
 
 
     @Override
@@ -166,6 +171,7 @@ public class JournalServiceImpl implements JournalService {
                     lessonRepository.saveHomeWork(fileDTO.getHomework(), lesson.getFile().getId(), fileDTO.getIdLesson());
                 }
             }
+            logger.info("Added homework for lesson[id="+fileDTO.getIdLesson()+"]");
         }
 
     }
