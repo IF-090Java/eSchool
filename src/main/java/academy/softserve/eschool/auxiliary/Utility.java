@@ -17,12 +17,14 @@ public class Utility {
      * @return {@link StudentDTO} created from student.
      */
     public static StudentDTO transform(Student student){
+        Clazz clazz = student.getClasses().stream().filter(Clazz::isActive).findFirst().orElseGet(Clazz::new);
         return StudentDTO.builder().firstname(student.getFirstName())
                 .lastname(student.getLastName())
                 .patronymic(student.getPatronymic())
                 .login(student.getLogin())
                 .dateOfBirth(student.getDateOfBirth())
-                .classe(student.getClasses().stream().filter(Clazz::isActive).findFirst().orElseGet(Clazz::new).getName())
+                .classe(clazz.getName())
+                .classId(clazz.getId())
                 .email(student.getEmail())
                 .avatar(student.getAvatar())
                 .phone(student.getPhone()).build();

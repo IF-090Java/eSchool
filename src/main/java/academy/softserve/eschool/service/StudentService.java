@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
+import static academy.softserve.eschool.auxiliary.Utility.transform;
 
 @Service
 @RequiredArgsConstructor
@@ -42,15 +43,7 @@ public class StudentService {
 
     //todo bk ++ move all of your transfomers into some util class. Don't keep it within services
     public StudentDTO getOne(Student s) {
-        return StudentDTO.builder().firstname(s.getFirstName())
-                .lastname(s.getLastName())
-                .patronymic(s.getPatronymic())
-                .login(s.getLogin())
-                .dateOfBirth(s.getDateOfBirth())
-                .classe(s.getClasses().stream().filter(Clazz::isActive).findFirst().orElseGet(Clazz::new).getName())
-                .email(s.getEmail())
-                .avatar(s.getAvatar())
-                .phone(s.getPhone()).build();
+        return transform(s);
     }
 
     public List<StudentDTO> getAll(List<Student> students) {
@@ -58,8 +51,10 @@ public class StudentService {
                 .firstname(i.getFirstName())
                 .lastname(i.getLastName())
                 .patronymic(i.getPatronymic())
+                .login(i.getLogin())
                 .dateOfBirth(i.getDateOfBirth())
                 .classe(i.getClasses().stream().filter(Clazz::isActive).findAny().orElseGet(Clazz::new).getName())
+                .classId(i.getClasses().stream().filter(Clazz::isActive).findAny().orElseGet(Clazz::new).getId())
                 .email(i.getEmail())
                 .phone(i.getPhone()).build()
         ).collect(Collectors.toCollection(ArrayList::new));

@@ -52,4 +52,17 @@ public class StudentDTO {
 
     @ApiModelProperty(notes = "Avatar in Base64")
     private String avatar;
+
+    public StudentDTO(String firstname, String lastname, String patronymic, String classe, int classId, LocalDate dateOfBirth, String login, String email, String phone, String avatar) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.patronymic = patronymic;
+        this.classe = classe;
+        this.classId = classId;
+        this.dateOfBirth = dateOfBirth;
+        this.login = login;
+        this.email = email;
+        this.phone = phone;
+        this.avatar = avatar;
+    }
 }
