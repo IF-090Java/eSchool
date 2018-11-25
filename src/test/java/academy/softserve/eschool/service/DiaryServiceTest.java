@@ -1,34 +1,32 @@
 package academy.softserve.eschool.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.repository.LessonRepository;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class DiaryServiceTest {
-    private static final String NOTE_KEY = "note";
-    private static final String MARK_KEY = "mark";
-    private static final String HOMETASK_KEY = "hometask";
-    private static final String NAME_KEY = "name";
-    private static final String LESSON_NUMBER_KEY = "lesson_number";
-    private static final String DATE_KEY = "date";
-    private static final String HOMEWORK_FILE_ID_KEY = "homework_file_id";
-    private static final String ID_KEY = "id";
+    private String NOTE_KEY = "note";
+    private String MARK_KEY = "mark";
+    private String HOMETASK_KEY = "hometask";
+    private String NAME_KEY = "name";
+    private String LESSON_NUMBER_KEY = "lesson_number";
+    private String DATE_KEY = "date";
+    private String HOMEWORK_FILE_ID_KEY = "homework_file_id";
+    private String ID_KEY = "id";
     
     private int studentId;
     private String startDate;
