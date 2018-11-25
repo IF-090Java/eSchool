@@ -1,5 +1,7 @@
 package academy.softserve.eschool;
 
+import academy.softserve.eschool.security.CustomPasswordEncoder;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

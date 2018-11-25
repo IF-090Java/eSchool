@@ -35,13 +35,13 @@ public class JournalServiceImpTest {
     @InjectMocks
     private static JournalServiceImpl journalService;
 
-    private static HomeworkFileDTO homeworkFileDTO;
-
     private static Lesson lesson;
 
     private static List<ClassTeacherSubjectLink> listConnections;
 
     private static JournalDTO journalDTO;
+
+    private static List<JournalDTO> journalDTOList;
 
     private static List<Map<String,Object>> listJournalMark;
 
@@ -49,34 +49,96 @@ public class JournalServiceImpTest {
 
     private static Clazz clazz;
 
-    private static Teacher teacher;
-
     private static Subject subject;
 
     private static File file;
 
     private static ClassTeacherSubjectLink link;
 
+    private static Map<String,Object> journalMarks;
 
+    private static HomeworkFileDTO homeworkFileDTO;
+
+    private static File tempFile;
+
+    private static int idTeacher;
+
+    private static int idLesson;
 
     @BeforeClass
     public static void init() {
         listConnections = new ArrayList<>();
         listJournalMark = new ArrayList<>();
         listLesson = new ArrayList<>();
+        journalDTOList = new ArrayList<>();
+        idLesson = 1;
+        idTeacher = 1;
 
-        clazz = new Clazz(1,"7-А","description",2018,true);
-        teacher = new Teacher("login","password","email", User.Role.ROLE_TEACHER,"Антон","Вітонюк", "patr",LocalDate.of(1980,2,1), User.Sex.male,"52141","avatar","description");
-        subject = new Subject(1,"Українська мова","descr");
+        clazz = Clazz.builder()
+                .id(1)
+                .name("7-А")
+                .description("description")
+                .academicYear(2018)
+                .isActive(true)
+                .build();
 
-        file = File.builder().fileType("testType").fileName("test.txt").file("testData").build();
-        lesson = new Lesson(1,(byte)3,java.sql.Date.valueOf(LocalDate.of(2012,2,2)),"testHomeWork",Mark.MarkType.Module,file,clazz,subject);
+        subject = Subject.builder()
+                .id(1)
+                .description("descr")
+                .name("Українська мова")
+                .build();
 
-        link = new ClassTeacherSubjectLink(clazz,teacher,subject,true);
+        file = File.builder()
+                .fileType("testType")
+                .fileName("test.txt")
+                .file("testData")
+                .build();
+
+        lesson = Lesson.builder()
+                .id(1)
+                .markType(Mark.MarkType.Module)
+                .hometask("testHomeWork")
+                .date(java.sql.Date.valueOf(LocalDate.of(2012,2,2)))
+                .clazz(clazz)
+                .subject(subject)
+                .file(file)
+                .lessonNumber((byte)3)
+                .build();
+
+        link = ClassTeacherSubjectLink.builder()
+                .clazz(clazz)
+                .teacher(new Teacher())
+                .subject(subject)
+                .isActive(true)
+                .build();
+
+        journalDTO = JournalDTO.builder()
+                .academicYear(2018)
+                .className("7-А")
+                .idClass(1)
+                .idSubject(1)
+                .subjectName("Українська мова")
+                .build();
+
+        homeworkFileDTO = HomeworkFileDTO.builder()
+                .fileType("text")
+                .fileName("testName.txt")
+                .fileData("data")
+                .idLesson(1)
+                .homework("testHomework")
+                .build();
+
+        tempFile = File.builder()
+                .file("data")
+                .fileName("testName.txt")
+                .fileType("text")
+                .build();
+
+        journalDTOList.add(journalDTO);
         listConnections.add(link);
-        journalDTO = new JournalDTO(1,1,"Українська мова","7-А",2018);
+        listLesson.add(lesson);
 
-        Map<String,Object> journalMarks = new HashMap<>();
+        journalMarks = new HashMap<>();
         journalMarks.put("first_name","Ruslan");
         journalMarks.put("last_name","Kharevych");
         journalMarks.put("id_student",1);
@@ -88,9 +150,7 @@ public class JournalServiceImpTest {
         journalMarks.put("note","note");
         listJournalMark.add(journalMarks);
 
-        listLesson.add(lesson);
     }
-
 
     @Test
     public void getFileTest(){
@@ -102,56 +162,90 @@ public class JournalServiceImpTest {
                 .homework("testHomeWork")
                 .build();
         Mockito.when(lessonRepository.findFile(anyInt())).thenReturn(lesson);
-        assertEquals("Test fileDTO int method getFile()", homeworkFileDTO, journalService.getFile(1));
+        assertEquals("Test fileDTO", homeworkFileDTO, journalService.getFile(idLesson));
     }
 
     @Test
     public void getJournalsByTeacherTest(){
         Mockito.when(classTeacherSubjectLinkRepository.findJournalsByTeacher(anyInt())).thenReturn(listConnections);
-        assertEquals("Test journalDTO in method getJournalsByTeacher()",journalDTO,journalService.getJournalsByTeacher(1).get(0));
-        assertEquals("Test list size in method getJournalsByTeacher()",listConnections.size(),journalService.getJournalsByTeacher(1).size());
+        assertEquals("Test journalDTOList",journalDTOList,journalService.getJournalsByTeacher(idTeacher));
     }
 
     @Test
     public void getActiveJournalsByTeacherTest(){
         Mockito.when(classTeacherSubjectLinkRepository.findActiveJournalsByTeacher(anyInt())).thenReturn(listConnections);
-        assertEquals("Test journalDTO in method getActiveJournalsByTeacher()",journalDTO,journalService.getActiveJournalsByTeacher(1).get(0));
-        assertEquals("Test list size in method getActiveJournalsByTeacher()",listConnections.size(),journalService.getActiveJournalsByTeacher(1).size());
+        assertEquals("Test journalDTOList",journalDTOList,journalService.getActiveJournalsByTeacher(idTeacher));
     }
 
     @Test
     public void getJournalsTest(){
         Mockito.when(classTeacherSubjectLinkRepository.findJournals()).thenReturn(listConnections);
-        assertEquals("Test journalDTO in method getJournals()",journalDTO,journalService.getJournals().get(0));
-        assertEquals("Test list size in method getJournals()",listConnections.size(),journalService.getJournals().size());
+        assertEquals("Test journalDTOList",journalDTOList,journalService.getJournals());
     }
 
     @Test
     public void getJournalTest(){
         List<MarkDescriptionDTO> desList = new ArrayList<>();
-        desList.add(new MarkDescriptionDTO(1,(byte)12,java.sql.Date.valueOf(LocalDate.of(2012,2,2)),"Module","note"));
-        JournalMarkDTO testJMDTO = new JournalMarkDTO(1,"Ruslan Kharevych",desList);
-        List<JournalMarkDTO> journalMarkDTO = new ArrayList<>();
-        journalMarkDTO.add(testJMDTO);
+
+        MarkDescriptionDTO markDescriptionDTO = MarkDescriptionDTO.builder()
+                .idLesson(1)
+                .mark((byte)12)
+                .typeMark("Module")
+                .note("note")
+                .dateMark(java.sql.Date.valueOf(LocalDate.of(2012,2,2)))
+                .build();
+
+        JournalMarkDTO testJMDTO = JournalMarkDTO.builder()
+                .idStudent(1)
+                .studentFullName("Ruslan Kharevych")
+                .marks(desList)
+                .build();
+
+        desList.add(markDescriptionDTO);
+        List<JournalMarkDTO> journalMarkDTOList = new ArrayList<>();
+        journalMarkDTOList.add(testJMDTO);
 
         Mockito.when(studentRepository.findJournal(anyInt(),anyInt())).thenReturn(listJournalMark);
-        assertEquals("Test journalMarkDTO in method getJournals()",journalMarkDTO,journalService.getJournal(anyInt(),anyInt()));
-        assertEquals("Test list size in method getActiveJournalsByTeacher()",listJournalMark.size(),journalService.getJournal(anyInt(),anyInt()).size());
+        assertEquals("Test journalMarkDTOList",journalMarkDTOList,journalService.getJournal(anyInt(),anyInt()));
     }
 
     @Test
     public void getHomeworkTest(){
-        List<HomeworkDTO> homeworkDTOS = new ArrayList<>();
-        homeworkDTOS.add(new HomeworkDTO(1,java.sql.Date.valueOf(LocalDate.of(2012,2,2)),"testHomeWork","test.txt"));
+        List<HomeworkDTO> homeworkDTOList = new ArrayList<>();
+
+        HomeworkDTO homeworkDTO = HomeworkDTO.builder()
+                .idLesson(1)
+                .date(java.sql.Date.valueOf(LocalDate.of(2012,2,2)))
+                .homework("testHomeWork")
+                .fileName("test.txt")
+                .build();
+
+        homeworkDTOList.add(homeworkDTO);
 
         Mockito.when(lessonRepository.findHomework(anyInt(),anyInt())).thenReturn(listLesson);
-        assertEquals("Test journalMarkDTO in method getHomework()",homeworkDTOS,journalService.getHomework(anyInt(),anyInt()));
-        assertEquals("Test list size in method getHomework()",listLesson.size(),journalService.getHomework(anyInt(),anyInt()).size());
+        assertEquals("Test homeworkDTOList",homeworkDTOList,journalService.getHomework(anyInt(),anyInt()));
     }
+
+    @Test
+    public void saveHomeworkTest(){
+        Mockito.when(lessonRepository.findById(anyInt())).thenReturn(Optional.ofNullable(lesson));
+        Mockito.when(fileRepository.save(tempFile)).thenReturn(tempFile);
+
+        journalService.saveHomework(homeworkFileDTO);
+        Mockito.verify(lessonRepository,Mockito.times(1)).saveHomeWork(homeworkFileDTO.getHomework(),file.getId(),homeworkFileDTO.getIdLesson());
+    }
+
+    @Test
+    public void saveHomeworkTest2(){
+        Mockito.when(lessonRepository.findById(anyInt())).thenReturn(Optional.ofNullable(null));
+
+        journalService.saveHomework(homeworkFileDTO);
+        Mockito.verify(lessonRepository,Mockito.times(0)).saveHomeWork(homeworkFileDTO.getHomework(),file.getId(),homeworkFileDTO.getIdLesson());
+    }
+
 
     @AfterClass
     public static void destroy() {
-        homeworkFileDTO = null;
         lesson = null;
         listConnections = null;
         journalDTO = null;
@@ -159,10 +253,11 @@ public class JournalServiceImpTest {
         listLesson = null;
         listLesson = null;
         clazz = null;
-        teacher = null;
         subject = null;
         file = null;
         link = null;
+        journalMarks = null;
+        journalDTOList = null;
     }
 }
 

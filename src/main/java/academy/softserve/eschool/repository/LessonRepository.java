@@ -1,6 +1,5 @@
 package academy.softserve.eschool.repository;
 
-import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.model.Lesson;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -86,4 +85,5 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
     @Transactional
     @Query(value = "update lesson set hometask=:hometask,homework_file_id=:idFile where id=:idLesson", nativeQuery = true)
     void saveHomeWork(@Param("hometask") String hometask, @Param("idFile") Integer idFile,  @Param("idLesson") Integer idLesson);
+
 }
