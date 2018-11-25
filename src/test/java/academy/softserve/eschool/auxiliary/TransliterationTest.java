@@ -1,38 +1,50 @@
 package academy.softserve.eschool.auxiliary;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
-class TransliterationTest {
+@RunWith(Parameterized.class)
+public class TransliterationTest {
+    private String inputWord;
+    private String expectedWord;
 
-    private static List<String> ukrainianWords = new ArrayList<>();
+    public TransliterationTest(String inputWord, String expectedWord) {
+        this.inputWord = inputWord;
+        this.expectedWord = expectedWord;
+    }
 
-    private static List<String> englishWords = new ArrayList<>();
-
-    @BeforeClass
-    public static void init() {
-        ukrainianWords.addAll(Arrays.asList("Алушта", "Борщагівка", "Ґалаґан", "Єнакієве", "Їжакевич", "Йосипівка", "Юрій",
-                "Яготин", "зг", "Знам'янка", "Корюківка", "Стрий", "Есмань", "З"));
-        englishWords.addAll(Arrays.asList("alushta", "borshchahivka", "galagan", "yenakiieve", "yizhakevych", "yosypivka", "yurii",
-                "yahotyn", "zgh", "znamianka", "koriukivka", "stryi", "esman", "z"));
+    /**
+     * Prepare set data for inputWord and expectedWord.
+     * @return {@link Collection} of test data.
+     */
+    @Parameterized.Parameters
+    public static Collection data() {
+        return Arrays.asList(new Object[][]{
+                {"Алушта", "alushta"},
+                {"Борщагівка", "borshchahivka"},
+                {"Ґалаґан", "galagan"},
+                {"Єнакієве", "yenakiieve"},
+                {"Їжакевич", "yizhakevych"},
+                {"Йосипівка", "yosypivka"},
+                {"Юрій", "yurii"},
+                {"Яготин", "yahotyn"},
+                {"зг", "zgh"},
+                {"Знам'янка", "znamianka"},
+                {"Корюківка", "koriukivka"},
+                {"Стрий", "stryi"},
+                {"Есмань", "esman"},
+                {"з", "z"}
+        });
     }
 
     @Test
-    void transliteration() {
-        for (int i = 0, length = ukrainianWords.size(); i < length; i++)
-            assertEquals(englishWords.get(i), Transliteration.transliteration(ukrainianWords.get(i)));
-    }
-
-    @AfterClass
-    public void destroy() {
-        ukrainianWords = null;
-        englishWords = null;
+    public void transliteration() {
+        assertEquals(expectedWord, Transliteration.transliteration(inputWord));
     }
 }

@@ -1,8 +1,5 @@
 package academy.softserve.eschool.auxiliary;
 
-import academy.softserve.eschool.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.HashMap;
 
 /**
