@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
@@ -23,6 +24,10 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+/**
+ * This is a test class for {@link TeacherService}
+ * {@link Mockito} mock framework is used in conjunction with {@link org.junit.runners.JUnit4}
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class TeacherServiceTest {
     @Mock

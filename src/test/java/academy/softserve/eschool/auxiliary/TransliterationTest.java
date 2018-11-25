@@ -1,14 +1,20 @@
 package academy.softserve.eschool.auxiliary;
 
+import academy.softserve.eschool.service.StudentService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * This is a test class for {@link StudentService}
+ * In test used {@link Parameterized} class used in conjunction with {@link org.junit.runners.JUnit4}
+ */
 @RunWith(Parameterized.class)
 public class TransliterationTest {
     private String inputWord;
