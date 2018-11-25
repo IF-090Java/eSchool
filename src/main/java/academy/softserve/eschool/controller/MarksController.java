@@ -24,7 +24,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @Api(value = "Operations about marks", description="Operations about marks")
 @RequiredArgsConstructor
 public class MarksController {
-    
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
@@ -75,7 +75,6 @@ public class MarksController {
     public GeneralResponseWrapper<MarkDTO> postMark(
         @ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
         MarkDTO resultMarkDTO =  markService.saveMark(markDTO);
-        logger.info("Added mark for lesson[id="+markDTO.getIdLesson()+"], student[id="+markDTO.getIdStudent()+"]");
         return new GeneralResponseWrapper<>(Status.of(CREATED), resultMarkDTO);
     }
 
