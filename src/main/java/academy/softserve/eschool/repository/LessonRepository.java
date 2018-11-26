@@ -1,6 +1,5 @@
 package academy.softserve.eschool.repository;
 
-import academy.softserve.eschool.dto.DiaryEntryDTO;
 import academy.softserve.eschool.model.Lesson;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -32,6 +31,13 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
     List<Map<String, Object>> getDiary(@Param("studentId") int studentId, @Param("startDate") String startDate,
                                               @Param("endDate") String endDate);
 
+    /**
+     * Returns a list of {@link academy.softserve.eschool.model.Lesson}}
+     * @param idSubject   id of the subject
+     * @param idClass    id of the class
+     * @return          list of {@link academy.softserve.eschool.model.Lesson} objects that contains homeworks of
+     *                  specific subject and class
+     */
     @Query(value = "select * from lesson where lesson.clazz_id=:idClass and lesson.subject_id=:idSubject\n" +
             "order by lesson.date", nativeQuery = true)
     List<Lesson> findHomework(@Param("idSubject") int idSubject, @Param("idClass") int idClass);
@@ -61,12 +67,23 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
             "        and clazz_id = :classId", nativeQuery = true)
     void deleteScheduleByBounds(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("classId") int classId);
 
+    /**
+     * Returns a {@link academy.softserve.eschool.model.Lesson} object that contains information about file}
+     * @param idLesson  id of the lesson
+     */
     @Query(value = "select * from lesson inner join file on lesson.homework_file_id = file.id where lesson.id=:idLesson " +
             "order by lesson.date", nativeQuery = true)
     Lesson findFile(@Param("idLesson") int idLesson);
 
+    /**
+     * This method save hometask and file for specific lesson
+     * @param hometask hometask for a lesson
+     * @param idFile  id of homework's file
+     * @param idLesson   id of lesson
+     */
     @Modifying
     @Transactional
     @Query(value = "update lesson set hometask=:hometask,homework_file_id=:idFile where id=:idLesson", nativeQuery = true)
     void saveHomeWork(@Param("hometask") String hometask, @Param("idFile") Integer idFile,  @Param("idLesson") Integer idLesson);
+
 }

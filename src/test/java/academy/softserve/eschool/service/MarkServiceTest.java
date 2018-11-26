@@ -7,23 +7,28 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.*;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
+import academy.softserve.eschool.model.Lesson;
+import academy.softserve.eschool.model.Mark;
+import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.repository.MarkRepository;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class MarkServiceTest {
     
-    private static String AVG_MARK_KEY = "avg_mark";
-    private static String DATE_KEY = "date";
-    private static String COUNT_KEY = "count";
+    private String AVG_MARK_KEY = "avg_mark";
+    private String DATE_KEY = "date";
+    private String COUNT_KEY = "count";
     
     private Integer subjectId;
     private Integer classId;
@@ -32,8 +37,12 @@ public class MarkServiceTest {
     private String endDate;
     private BigDecimal avg_mark;
     private String date;
-    private BigInteger count; 
-    
+    private BigInteger count;
+    private MarkDTO markDTO;
+    private Mark mark;
+    private Student student;
+    private Lesson lesson;
+
     @InjectMocks
     private MarkService markService;
     
@@ -60,6 +69,35 @@ public class MarkServiceTest {
         
         Mockito.when(markRepository.getFilteredByParamsGroupedByDate(subjectId, classId, studentId, startDate, endDate))
                 .thenReturn(result);
+
+        markDTO = MarkDTO.builder()
+                .idStudent(1)
+                .idLesson(1)
+                .note("note")
+                .mark((byte)12)
+                .build();
+
+        lesson = Lesson.builder()
+                .id(1)
+                .markType(Mark.MarkType.Module)
+                .hometask("testHomeWork")
+                .date(java.sql.Date.valueOf(LocalDate.of(2012,2,2)))
+                .lessonNumber((byte)3)
+                .build();
+
+        student = Student.builder()
+                .firstName("Ruslan")
+                .lastName("Kharevych")
+                .build();
+        student.setId(1);
+
+        mark = Mark.builder()
+                .id(1)
+                .mark((byte)12)
+                .note("note")
+                .lesson(lesson)
+                .student(student)
+                .build();
     }
     
     @Test
@@ -71,4 +109,21 @@ public class MarkServiceTest {
         assertEquals(expectedDataPoint, result.get(0));
     }
 
+    @Test
+    public void saveMarkTest(){
+        Mockito.when(markRepository.findTopByStudentIdAndLessonId(Mockito.anyInt(),Mockito.anyInt())).thenReturn(mark);
+        assertEquals("Test markDTO",markDTO.getIdStudent(),markService.saveMark(markDTO).getIdStudent());
+        assertEquals("Test markDTO",markDTO.getIdLesson(),markService.saveMark(markDTO).getIdLesson());
+        assertEquals("Test markDTO",markDTO.getMark(),markService.saveMark(markDTO).getMark());
+        assertEquals("Test markDTO",markDTO.getNote(),markService.saveMark(markDTO).getNote());
+    }
+
+    @Test
+    public void updateTypeTest(){
+        int idLesson = 1;
+        String markType = "Module";
+        markService.updateType(idLesson,markType);
+        Mockito.verify(markRepository,Mockito.times(1)).saveTypeByLesson(idLesson,"Module");
+    }
+    
 }

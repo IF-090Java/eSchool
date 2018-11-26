@@ -8,11 +8,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
+import academy.softserve.eschool.model.Mark;
 import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.repository.MarkRepository;
@@ -71,12 +70,23 @@ public class MarkService implements MarkServiceBase {
     }
 
     @Override
-    public void saveMark(MarkDTO dto) {
+    public MarkDTO saveMark(MarkDTO dto) {
         markRepo.saveMarkByLesson(dto.getIdStudent(),dto.getIdLesson(),dto.getMark(),dto.getNote());
+        Mark mark = markRepo.findTopByStudentIdAndLessonId(dto.getIdStudent(),dto.getIdLesson());
+        MarkDTO markDTO = MarkDTO.builder()
+                .idMark(mark.getId())
+                .mark(mark.getMark())
+                .idLesson(mark.getLesson().getId())
+                .idStudent(mark.getStudent().getId())
+                .note(mark.getNote())
+                .build();
+        logger.info("Added mark for lesson[id="+dto.getIdLesson()+"], student[id="+dto.getIdStudent()+"]");
+        return markDTO;
     }
 
     @Override
     public void updateType(int idLesson, String markType) {
         markRepo.saveTypeByLesson(idLesson,markType);
+        logger.info("Edited mark type for lesson[id="+idLesson+"], newType = "+markType);
     }
 }
