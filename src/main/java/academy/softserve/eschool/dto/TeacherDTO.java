@@ -44,4 +44,15 @@ public class TeacherDTO {
 
     @ApiModelProperty(notes = "Avatar in Base64")
     private String avatar;
+
+    public TeacherDTO(String firstname, String lastname, String patronymic, LocalDate dateOfBirth, String login, String email, String phone, String avatar) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.patronymic = patronymic;
+        this.dateOfBirth = dateOfBirth;
+        this.login = login;
+        this.email = email;
+        this.phone = phone;
+        this.avatar = avatar;
+    }
 }
