@@ -24,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/classes")
-@Api(value = "classes", description = "Endpoints for classes")
+@Api(description = "Endpoints for classes: add a class, get a class by ID, get all classes and edit them.")
 @RequiredArgsConstructor
 public class ClassController {
 
@@ -45,11 +45,11 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Create class")
+    @ApiOperation(value = "Admin creates a class")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public GeneralResponseWrapper<ClassDTO> addClass(
-            @ApiParam(value = "class object", required = true) @RequestBody ClassDTO newClassDTO){
+            @ApiParam(value = "Class object", required = true) @RequestBody ClassDTO newClassDTO){
         LOGGER.info("An attempt to add class " +newClassDTO.getClassName() +" "+newClassDTO.getClassYear());
         return new GeneralResponseWrapper<>(
                 Status.of(HttpStatus.CREATED),
@@ -68,12 +68,12 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad data"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Get Class")
+    @ApiOperation(value = "User gets a class by ID")
     @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and @securityExpressionService.teachesInClass(principal.id, #classId)) " +
             "or (hasRole('USER') and @securityExpressionService.isMemberOfClass(principal.id, #classId))")
     @GetMapping("/{classId}")
     public GeneralResponseWrapper<ClassDTO> getClassById(
-            @ApiParam(value = "id of class", required = true) @PathVariable int classId){
+            @ApiParam(value = "ID of class", required = true) @PathVariable int classId){
         return new GeneralResponseWrapper<>(
                 Status.of(HttpStatus.OK),
                 classService.findClassById(classId)
@@ -95,11 +95,11 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Get all classes")
+    @ApiOperation(value = "Admin or teacher gets all classes")
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping
     public GeneralResponseWrapper<List<ClassDTO>> getAllClasses(
-            @ApiParam(value="Only classes that study subject with specified id will be returned") @RequestParam(required=false) Integer subjectId){
+            @ApiParam(value="Only the classes that learn the subject with specified ID will be returned") @RequestParam(required=false) Integer subjectId){
         if (subjectId == null) {
             return new GeneralResponseWrapper<>(
                     Status.of(HttpStatus.OK),
@@ -126,12 +126,12 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation("Update class")
+    @ApiOperation("Admin updates a class with specified ID")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public GeneralResponseWrapper<ClassDTO> editClass(
-            @ApiParam(value = "id of class", required = true) @PathVariable int id,
-            @ApiParam(value = "object of class", required = true) @RequestBody ClassDTO editableClass){
+            @ApiParam(value = "ID of class", required = true) @PathVariable int id,
+            @ApiParam(value = "Class object", required = true) @RequestBody ClassDTO editableClass){
 
         LOGGER.info("An attempt to update class with id " +id);
         return new GeneralResponseWrapper<>(

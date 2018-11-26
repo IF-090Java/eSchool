@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@Api(value = "operations with users entity")
+@Api(value = "Operations with users entity")
 @RequiredArgsConstructor
 public class UserController {
     @NonNull
@@ -28,7 +28,7 @@ public class UserController {
     private PasswordDecodeService passwordDecodeService;
 
     @GetMapping("")
-    @ApiOperation(value = "get list of all users(with passwords)")
+    @ApiOperation(value = "Admin gets the list of all users (with passwords)")
     @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<List<AddedUsersDTO>> getAllUsers(){
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), passwordDecodeService.decodemultiple(userRepository.getRegisteredUsers()));

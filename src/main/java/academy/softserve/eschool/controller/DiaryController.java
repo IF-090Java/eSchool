@@ -27,7 +27,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/diaries")
-@Api(value = "Reads students' diaries", description = "Reads students' diaries")
+@Api(value = "Diary endpoint", description = "Reads students' diaries")
 @RequiredArgsConstructor
 public class DiaryController {
     
@@ -47,7 +47,7 @@ public class DiaryController {
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    @ApiOperation(value = "Get student's diary")
+    @ApiOperation(value = "User gets student's diary")
     @PreAuthorize("hasRole('USER')")
     @GetMapping("")
     GeneralResponseWrapper<List<DiaryEntryDTO>> getDiary(

@@ -27,7 +27,7 @@ import static org.springframework.http.HttpStatus.CREATED;
  */
 @RestController
 @RequestMapping("/subjects")
-@Api(value = "subjects", description = "API endpoints for subjects")
+@Api(value = "Subjects' endpoints", description = "API endpoints for subjects")
 @RequiredArgsConstructor
 public class SubjectController {
 
@@ -49,7 +49,7 @@ public class SubjectController {
 			@ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@ApiOperation(value = "Get all subjects")
+	@ApiOperation(value = "Admin or teacher gets all subjects")
 	@PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
 	@GetMapping()
 	public GeneralResponseWrapper<List<SubjectDTO>> getAllSubjects(
@@ -72,11 +72,11 @@ public class SubjectController {
 			@ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@ApiOperation(value = "Get a subject by Id")
+	@ApiOperation(value = "Admin or teacher get a subject by ID")
 	@PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and  @securityExpressionService.teachesSubject(principal.id, #id))")
 	@GetMapping("/{id}")
 	public GeneralResponseWrapper<SubjectDTO> getSubjectById(
-			@ApiParam(value = "Id of subject", required = true) @PathVariable int id) {
+			@ApiParam(value = "ID of subject", required = true) @PathVariable int id) {
 			return new GeneralResponseWrapper<>(Status.of(OK), subjectService.getSubjectById(id));
 	}
 
@@ -94,11 +94,11 @@ public class SubjectController {
 			@ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@ApiOperation(value = "Get all subjects by teacher", response = SubjectDTO.class)
+	@ApiOperation(value = "Teacher gets all subjects by teacher", response = SubjectDTO.class)
 	@PreAuthorize("hasRole('TEACHER') and principal.id == #id")
 	@GetMapping("/teachers/{id}")
 	public GeneralResponseWrapper<List<SubjectDTO>> getSubjectsTeacher(
-			@ApiParam(value = "id of teacher", required = true) @PathVariable int id) {
+			@ApiParam(value = "ID of teacher", required = true) @PathVariable int id) {
 			return new GeneralResponseWrapper<>(Status.of(OK), subjectService.getSubjectsByTeacher(id));
 	}
 
@@ -114,7 +114,7 @@ public class SubjectController {
 			@ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@ApiOperation(value = "Add new subject")
+	@ApiOperation(value = "Admin adds new subject")
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
 	public GeneralResponseWrapper<SubjectDTO> addSubject(
@@ -135,11 +135,11 @@ public class SubjectController {
 			@ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@ApiOperation("Edit a subject")
+	@ApiOperation("Admin edits a subject")
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public GeneralResponseWrapper<SubjectDTO> editSubject(
-			@ApiParam(value = "Id of object", required = true) @PathVariable int id,
+			@ApiParam(value = "ID of object", required = true) @PathVariable int id,
 			@ApiParam(value = "Subject object", required = true) @RequestBody SubjectDTO editSubject) {
 			return new GeneralResponseWrapper<>(Status.of(CREATED), subjectService.editSubject(id, editSubject));
 	}

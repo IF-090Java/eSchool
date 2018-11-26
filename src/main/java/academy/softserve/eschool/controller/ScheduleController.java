@@ -58,7 +58,7 @@ public class ScheduleController {
      * @param scheduleDTO   new class object
      * @return              Class of {@link ScheduleDTO} wrapped in {@link GeneralResponseWrapper}
      */
-    @ApiOperation(value = "Creates a schedule for a class")
+    @ApiOperation(value = "Admin creates a schedule for a class")
     @ApiResponses(
             value={
                     @ApiResponse(code = 201, message = "Schedule successfully created"),
@@ -69,7 +69,7 @@ public class ScheduleController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/classes/{classId}/schedule")
     public GeneralResponseWrapper<ScheduleDTO> postSchedule(
-            @ApiParam(value = "schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)
+            @ApiParam(value = "Schedule object", required = true) @RequestBody ScheduleDTO scheduleDTO)
     {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -90,7 +90,7 @@ public class ScheduleController {
      * @param   classId id of the class which we want to get the schedule
      * @return  Class of {@link ScheduleDTO} wrapped in {@link GeneralResponseWrapper}
      */
-    @ApiOperation(value = "Gets schedule for the class with id")
+    @ApiOperation(value = "Admin gets schedule for the class with id")
     @ApiResponses(
             value={
                     @ApiResponse(code = 200, message = "OK"),
@@ -100,7 +100,7 @@ public class ScheduleController {
     )
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/classes/{classId}/schedule")
-    public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId){
+    public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "ID of class", required = true) @PathVariable("classId") final int classId){
 
         return new GeneralResponseWrapper<>(Status.of(OK), scheduleService.getScheduleByClassId(classId));
     }

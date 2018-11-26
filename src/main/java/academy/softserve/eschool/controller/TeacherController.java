@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/teachers")
-@Api(description = "Teachers controller")
+@Api(value = "Teacher endpoints", description = "Teachers controller")
 @RequiredArgsConstructor
 public class TeacherController {
 
@@ -36,7 +36,7 @@ public class TeacherController {
     private TeacherService teacherService;
 
     @GetMapping("")
-    @ApiOperation(value = "Get list of teacher(only id and names)")
+    @ApiOperation(value = "Admin gets list of teacher(only id and names)")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad request"),
@@ -48,7 +48,7 @@ public class TeacherController {
     }
 
     @PostMapping
-    @ApiOperation(value = "Add teacher, first name and last name passed in html")
+    @ApiOperation(value = "Admin adds a teacher, first name and last name passed in html")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Teacher successfully created"),
             @ApiResponse(code = 400, message = "Bad request"),
@@ -56,12 +56,12 @@ public class TeacherController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<TeacherDTO> addTeacher(
-            @ApiParam(value = "teacher object", required = true) @RequestBody TeacherDTO teacher) {
+            @ApiParam(value = "Teacher object", required = true) @RequestBody TeacherDTO teacher) {
         logger.info("Teacher " + teacher.getLastname() + " " +  teacher.getFirstname() + "created");
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.addOne(teacher));
     }
 
-    @ApiOperation(value = "Get all info about teacher")
+    @ApiOperation(value = "Admin or teacher get all info about teacher")
     @GetMapping("/{idTeacher}")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
@@ -70,12 +70,12 @@ public class TeacherController {
     })
     @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and principal.id == #idTeacher)")
     public GeneralResponseWrapper<TeacherDTO> getTeacher(
-            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher) {
+            @ApiParam(value = "ID of teacher", required = true) @PathVariable int idTeacher) {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.getOne(teacherRepository.findById(idTeacher).get()));
     }
 
     @PutMapping("/{idTeacher}")
-    @ApiOperation(value = "update profile of teacher")
+    @ApiOperation(value = "Teacher updates his profile")
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "Teacher successfully updated"),
@@ -85,8 +85,8 @@ public class TeacherController {
     )
     @PreAuthorize("hasRole('TEACHER') and principal.id == #idTeacher")
     public GeneralResponseWrapper<TeacherDTO> updateTeacher(
-            @ApiParam(value = "user object", required = true) @RequestBody EditUserDTO teacher,
-            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher) {
+            @ApiParam(value = "User object", required = true) @RequestBody EditUserDTO teacher,
+            @ApiParam(value = "ID of teacher", required = true) @PathVariable int idTeacher) {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.updateTeacher(userRepository.findById(idTeacher).get(), teacher));
     }
 }

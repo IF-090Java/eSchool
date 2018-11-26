@@ -32,7 +32,7 @@ public class HomeworkController {
      * @return List of {@link HomeworkDTO} wrapped in {@link GeneralResponseWrapper}
      */
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
-    @ApiOperation(value = "Get homeworks by subject and class")
+    @ApiOperation(value = "Teacher gets homework by subject and class")
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
@@ -42,8 +42,8 @@ public class HomeworkController {
     )
     @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idClass, #idSubject)")
     public GeneralResponseWrapper<List<HomeworkDTO>> getHomeworks(
-            @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
-            @ApiParam(value = "id of class", required = true) @PathVariable int idClass) {
+            @ApiParam(value = "ID of subject", required = true) @PathVariable int idSubject,
+            @ApiParam(value = "ID of class", required = true) @PathVariable int idClass) {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getHomework(idSubject,idClass));
     }
 
@@ -54,7 +54,7 @@ public class HomeworkController {
      * @return Created homework for transmitted class and subject in HomeworkDTO
      *         as {@link HomeworkFileDTO} object in {@link GeneralResponseWrapper} with http status code
      */
-    @ApiOperation(value = "Save homework")
+    @ApiOperation(value = "Teacher saves the homework")
     @PutMapping("/files")
     @ApiResponses(
             value = {
@@ -65,7 +65,7 @@ public class HomeworkController {
     )
     @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #homeworkFileDTO.idLesson)")
     public GeneralResponseWrapper<HomeworkFileDTO> postHomework(
-            @ApiParam(value = "homework object", required = true)@RequestBody HomeworkFileDTO homeworkFileDTO) {
+            @ApiParam(value = "Homework object", required = true)@RequestBody HomeworkFileDTO homeworkFileDTO) {
         journalServiceImpl.saveHomework(homeworkFileDTO);
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.NO_CONTENT), null);
     }
@@ -75,7 +75,7 @@ public class HomeworkController {
      * @param idLesson is id of lesson
      * @return List of {@link HomeworkFileDTO} wrapped in {@link GeneralResponseWrapper}
      */
-    @ApiOperation(value = "Get homework file")
+    @ApiOperation(value = "User gets the homework file")
     @GetMapping("/files/{idLesson}")
     @ApiResponses(
             value = {
@@ -87,7 +87,7 @@ public class HomeworkController {
     @PreAuthorize("(hasRole('USER') and @securityExpressionService.isAttendingLesson(principal.id, #idLesson))"
             + " or (hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson))")
     public GeneralResponseWrapper<HomeworkFileDTO> getFile(
-            @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson){
+            @ApiParam(value = "ID of the lesson", required = true) @PathVariable int idLesson){
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getFile(idLesson));
     }
 }

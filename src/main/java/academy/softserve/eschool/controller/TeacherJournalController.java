@@ -41,7 +41,7 @@ public class TeacherJournalController {
      * @param subjectId     id of the subject {@link academy.softserve.eschool.dto.SubjectDTO#subjectId}
      * @return              Class of {@link TeacherJournalDTO} wrapped in {@link GeneralResponseWrapper}
      */
-    @ApiOperation(value = "Connects a teacher with a journal")
+    @ApiOperation(value = "Admin connects a teacher with a journal")
     @PostMapping("/teachers/{teacherId}/classes/{classId}/subjects/{subjectId}/journal")
     @ApiResponses(
             value={
@@ -52,9 +52,9 @@ public class TeacherJournalController {
     )
     @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<TeacherJournalDTO> postConection(
-            @ApiParam(value = "id of teacher", required = true) @PathVariable("teacherId") final int teacherId,
-            @ApiParam(value = "id of class", required = true) @PathVariable("classId") final int classId,
-            @ApiParam(value = "id of subject", required = true) @PathVariable("subjectId") final int subjectId)
+            @ApiParam(value = "ID of teacher", required = true) @PathVariable("teacherId") final int teacherId,
+            @ApiParam(value = "ID of class", required = true) @PathVariable("classId") final int classId,
+            @ApiParam(value = "ID of subject", required = true) @PathVariable("subjectId") final int subjectId)
     {
         classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacherId, classId, subjectId), true);
         logger.info("Created teacher-journal connection : teahcerId = " + teacherId + ", classId = " + classId +
