@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MarkTypeDTO {
-    @ApiModelProperty(notes = "type of mark",required = true)
+    @ApiModelProperty(required = true, notes = "Contains the type of the mark. " +
+            "It can be one of the following: Control, Practic, Module or Labaratorna.")
     private String markType;
 }

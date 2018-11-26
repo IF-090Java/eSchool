@@ -40,7 +40,7 @@ public class ClassTeacherSubjectServiceImplTest {
     @InjectMocks
     private ClassTeacherSubjectServiceImpl classTeacherSubjectService;
 
-    private TeacherJournalDTO teacherJournalDTO;
+    private static TeacherJournalDTO teacherJournalDTO;
 
     @Before
     public void init()

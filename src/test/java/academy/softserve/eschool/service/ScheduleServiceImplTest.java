@@ -46,12 +46,12 @@ public class ScheduleServiceImplTest {
     @InjectMocks
     private ScheduleServiceImpl scheduleService;
 
-    private List<SubjectDTO> list = new ArrayList<>();
-    private LocalDate start, end;
-    private DayOfWeek dayOfWeek;
-    private Clazz clazz;
-    private List<Subject> subjectList = new ArrayList<>();
-    private List<Map<String, Object>> listOfMaps = new ArrayList<>();
+    private static List<SubjectDTO> list = new ArrayList<>();
+    private static LocalDate start, end;
+    private static DayOfWeek dayOfWeek;
+    private static Clazz clazz;
+    private static List<Subject> subjectList = new ArrayList<>();
+    private static List<Map<String, Object>> listOfMaps = new ArrayList<>();
 
 
     @Before
