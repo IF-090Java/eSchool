@@ -7,25 +7,28 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.*;
 
-import academy.softserve.eschool.dto.MarkDTO;
-import academy.softserve.eschool.model.*;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
+import academy.softserve.eschool.model.Lesson;
+import academy.softserve.eschool.model.Mark;
+import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.repository.MarkRepository;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class MarkServiceTest {
     
-    private static String AVG_MARK_KEY = "avg_mark";
-    private static String DATE_KEY = "date";
-    private static String COUNT_KEY = "count";
+    private String AVG_MARK_KEY = "avg_mark";
+    private String DATE_KEY = "date";
+    private String COUNT_KEY = "count";
     
     private Integer subjectId;
     private Integer classId;
@@ -122,5 +125,5 @@ public class MarkServiceTest {
         markService.updateType(idLesson,markType);
         Mockito.verify(markRepository,Mockito.times(1)).saveTypeByLesson(idLesson,"Module");
     }
-
+    
 }
