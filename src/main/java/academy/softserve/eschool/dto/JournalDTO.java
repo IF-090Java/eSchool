@@ -27,8 +27,7 @@ public class JournalDTO {
             "so you have two ways to enter the class's name: \n" +
             "1) a string that is only composed of one or two numbers. For example: 9 or 10, but not 100.\n" +
             "2) a string that is composed of one or two numbers, a \"-\" symbol and a single Ukrainian character. " +
-            "For example: \"9-Б\" or \"10-а\", but not \"5-B\".\n" +
-            "The entered number must be greater than or equal to 5." +
+            "For example: \"9-Б\" or \"10-а\", but not \"5-d\".\n" +
             "The name must have maximum length of 4 symbols and it can't be blank.")
     private String className;
     
