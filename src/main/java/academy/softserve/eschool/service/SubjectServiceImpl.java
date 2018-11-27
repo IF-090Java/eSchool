@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SubjectServiceImpl implements SubjectService {
 	
-	 private static final Logger LOGGER = LoggerFactory.getLogger(SubjectServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SubjectServiceImpl.class);
 	
 	@NonNull
 	SubjectRepository subjectRepository;
@@ -43,7 +43,7 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	public SubjectDTO getSubjectById(int id) {
-		Subject subject = subjectRepository.findById(id).orElse(null);
+		Subject subject = subjectRepository.getOne(id);
 		return SubjectDTO.builder()
 				.subjectName(subject.getName())
 				.subjectDescription(subject.getDescription())
@@ -69,7 +69,7 @@ public class SubjectServiceImpl implements SubjectService {
 	
 	@Override
     public SubjectDTO editSubject(int id, SubjectDTO subjectDTO) {
-        Subject subject = subjectRepository.findById(id).orElse(null);
+        Subject subject = subjectRepository.getOne(id);
         subject.setName(subjectDTO.getSubjectName());
         subject.setDescription(subjectDTO.getSubjectDescription());
 
