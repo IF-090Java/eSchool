@@ -149,3 +149,6 @@ DEFAULT CHARACTER SET = utf8;
 
 --changeset VitaliyPopovych:add_unique_pair_class_name_year
 ALTER TABLE clazz ADD UNIQUE nameYearIndex(name, academic_year);
+
+--changeset by IhorKudiarskyi:make_unique_name_of_subject
+ALTER TABLE subject ADD UNIQUE (name);
