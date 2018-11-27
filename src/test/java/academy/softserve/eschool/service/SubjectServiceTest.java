@@ -15,6 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 
+import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.dto.SubjectDTO;
 import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.SubjectRepository;
@@ -78,7 +79,7 @@ public class SubjectServiceTest {
     	subjectDTOsList.add(expectedSubjectDTO);
     	
     	Mockito.when(subjectRepository.findSubjectsByTeacher(1)).thenReturn(subjectList);
-    	List<SubjectDTO> actualSubjectList = subjectService.getAllSubjects();
+    	List<SubjectDTO> actualSubjectList = subjectService.getSubjectsByTeacher(1);
     	assertEquals("Getting subject for a specific teacher", subjectDTOsList, actualSubjectList);
     }
     
@@ -88,7 +89,7 @@ public class SubjectServiceTest {
     	subjectDTOsList.add(expectedSubjectDTO);
     	
     	Mockito.when(subjectRepository.findSubjectsByClass(1)).thenReturn(subjectList);
-    	List<SubjectDTO> actualSubjectList = subjectService.getAllSubjects();
+    	List<SubjectDTO> actualSubjectList = subjectService.getSubjectsByClass(1);
     	assertEquals("Getting subject for a specific class", subjectDTOsList, actualSubjectList);
     }
     
