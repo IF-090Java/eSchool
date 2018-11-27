@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin")
-@Api(description = "The administrator changes user (teacher or pupil) data.")
+@Api(description = "Operations with changing user data for the admin.")
 @RequiredArgsConstructor
 public class AdminEditUserController {
 
@@ -34,7 +34,8 @@ public class AdminEditUserController {
     @NonNull
     private TeacherService teacherService;
 
-    @ApiOperation(value = "Admin updates the profile of the pupil")
+    @ApiOperation(value = "Admin updates the profile of the pupil", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to update every account")})})
     @ApiResponses(
             value = {
                     @ApiResponse( code = 201 , message = "Successfully created"),
@@ -51,7 +52,8 @@ public class AdminEditUserController {
 
     }
 
-    @ApiOperation(value = "Admin updates the profile of the teacher.")
+    @ApiOperation(value = "Admin updates the profile of the teacher.", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to update every account")})})
     @ApiResponses(
             value = {
                     @ApiResponse( code = 201 , message = "Successfully created"),

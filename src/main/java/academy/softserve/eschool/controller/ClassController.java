@@ -24,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/classes")
-@Api(description = "Endpoints for classes: add a class, get a class by ID, get all classes and edit them.")
+@Api(value="Endpoints for classes", description = "Operations with classes")
 @RequiredArgsConstructor
 public class ClassController {
 
@@ -45,7 +45,8 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Admin creates a class")
+    @ApiOperation(value = "Admin creates a class", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to add new classes to the database")})})
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public GeneralResponseWrapper<ClassDTO> addClass(
@@ -68,7 +69,11 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad data"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "User gets a class by ID")
+    @ApiOperation(value = "User gets a class by ID", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to class by ID"),
+            @ExtensionProperty(name = "teacher", value = "a teacher is allowed to get class by ID"),
+            @ExtensionProperty(name = "user", value = "a pupil that is a member of the class with specified " +
+                    "ID can get the data of this class")})})
     @PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and @securityExpressionService.teachesInClass(principal.id, #classId)) " +
             "or (hasRole('USER') and @securityExpressionService.isMemberOfClass(principal.id, #classId))")
     @GetMapping("/{classId}")
@@ -95,7 +100,9 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Admin or teacher gets all classes")
+    @ApiOperation(value = "Admin or teacher gets all classes", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to get all classes"),
+            @ExtensionProperty(name = "teacher", value = "a teacher is allowed to get all classes")})})
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping
     public GeneralResponseWrapper<List<ClassDTO>> getAllClasses(
@@ -126,7 +133,8 @@ public class ClassController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation("Admin updates a class with specified ID")
+    @ApiOperation(value = "Admin updates a class with specified ID", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to update a class")})})
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public GeneralResponseWrapper<ClassDTO> editClass(

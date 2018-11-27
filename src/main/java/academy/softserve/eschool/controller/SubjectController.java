@@ -27,7 +27,7 @@ import static org.springframework.http.HttpStatus.CREATED;
  */
 @RestController
 @RequestMapping("/subjects")
-@Api(value = "Subjects' endpoints", description = "API endpoints for subjects")
+@Api(value = "Pupils' endpoints", description = "Operations with subjects")
 @RequiredArgsConstructor
 public class SubjectController {
 
@@ -49,7 +49,9 @@ public class SubjectController {
 			@ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@ApiOperation(value = "Admin or teacher gets all subjects")
+	@ApiOperation(value = "Admin or teacher gets all subjects", extensions = {@Extension(name = "roles", properties = {
+			@ExtensionProperty(name = "teacher", value = "a teacher is allowed to view information about subjects"),
+			@ExtensionProperty(name = "admin", value = "the admin is allowed to view information about subjects")})})
 	@PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
 	@GetMapping()
 	public GeneralResponseWrapper<List<SubjectDTO>> getAllSubjects(
@@ -72,7 +74,9 @@ public class SubjectController {
 			@ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@ApiOperation(value = "Admin or teacher get a subject by ID")
+	@ApiOperation(value = "Admin or teacher get a subject by ID", extensions = {@Extension(name = "roles", properties = {
+			@ExtensionProperty(name = "teacher", value = "a teacher is allowed to get a subject(that he teaches) by ID"),
+			@ExtensionProperty(name = "admin", value = "the admin is allowed to get a subject by ID")})})
 	@PreAuthorize("hasRole('ADMIN') or (hasRole('TEACHER') and  @securityExpressionService.teachesSubject(principal.id, #id))")
 	@GetMapping("/{id}")
 	public GeneralResponseWrapper<SubjectDTO> getSubjectById(
@@ -94,7 +98,8 @@ public class SubjectController {
 			@ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@ApiOperation(value = "Teacher gets all subjects by teacher", response = SubjectDTO.class)
+	@ApiOperation(value = "Teacher gets all subjects by teacher", response = SubjectDTO.class, extensions = {@Extension(name = "roles", properties = {
+			@ExtensionProperty(name = "teacher", value = "a teacher is allowed to get all the subjects he teaches")})})
 	@PreAuthorize("hasRole('TEACHER') and principal.id == #id")
 	@GetMapping("/teachers/{id}")
 	public GeneralResponseWrapper<List<SubjectDTO>> getSubjectsTeacher(
@@ -114,7 +119,8 @@ public class SubjectController {
 			@ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@ApiOperation(value = "Admin adds new subject")
+	@ApiOperation(value = "Admin adds new subject", extensions = {@Extension(name = "roles", properties = {
+			@ExtensionProperty(name = "admin", value = "the admin is allowed to create a new subject")})})
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
 	public GeneralResponseWrapper<SubjectDTO> addSubject(
@@ -135,7 +141,8 @@ public class SubjectController {
 			@ApiResponse(code = 400, message = "Bad Request"),
 			@ApiResponse(code = 500, message = "Internal Server Error")
 	})
-	@ApiOperation("Admin edits a subject")
+	@ApiOperation(value = "Admin edits a subject", extensions = {@Extension(name = "roles", properties = {
+			@ExtensionProperty(name = "admin", value = "the admin is allowed to edit a subject")})})
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public GeneralResponseWrapper<SubjectDTO> editSubject(

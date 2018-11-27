@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("/login")
-@Api(description = "Login generator controller")
+@Api(description = "Operation to create login")
 public class LoginGeneratorController {
     @Autowired
     LoginGeneratorService loginGeneratorService;
@@ -19,7 +19,8 @@ public class LoginGeneratorController {
             @ApiResponse(code = 200, message = "Login successfully generated"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @ApiOperation(value = "Admin creates a login")
+    @ApiOperation(value = "Admin creates a login", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to create a login")})})
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/generate")
     public DataForLoginDTO getLogin(@ApiParam(value = "Data for login", required = true) @RequestBody DataForLoginDTO data) {

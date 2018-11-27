@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/homeworks")
-@Api(value = "Homework's Endpoint", description = "Get homeworks")
+@Api(value = "Homework's Endpoint", description = "Operations with getting homework")
 @RequiredArgsConstructor
 public class HomeworkController {
 
@@ -32,7 +32,8 @@ public class HomeworkController {
      * @return List of {@link HomeworkDTO} wrapped in {@link GeneralResponseWrapper}
      */
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
-    @ApiOperation(value = "Teacher gets homework by subject and class")
+    @ApiOperation(value = "Teacher gets homework by subject and class", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher", value = "a teacher can only see the homework of the class where he/she teaches a subject")})})
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
@@ -54,7 +55,8 @@ public class HomeworkController {
      * @return Created homework for transmitted class and subject in HomeworkDTO
      *         as {@link HomeworkFileDTO} object in {@link GeneralResponseWrapper} with http status code
      */
-    @ApiOperation(value = "Teacher saves the homework")
+    @ApiOperation(value = "Teacher saves the homework", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher", value = "a teacher can only give homework for a class where he/she teaches a subject")})})
     @PutMapping("/files")
     @ApiResponses(
             value = {
@@ -75,7 +77,9 @@ public class HomeworkController {
      * @param idLesson is id of lesson
      * @return List of {@link HomeworkFileDTO} wrapped in {@link GeneralResponseWrapper}
      */
-    @ApiOperation(value = "User gets the homework file")
+    @ApiOperation(value = "User gets the homework file", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher", value = "a teacher is allowed to get the homework file of the class where he/she teaches"),
+            @ExtensionProperty(name = "user", value = "a pupil is allowed to get his homework")})})
     @GetMapping("/files/{idLesson}")
     @ApiResponses(
             value = {

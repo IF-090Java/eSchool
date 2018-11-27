@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/students")
-@Api(value = "Student's Endpoints", description = "Student controller")
+@Api(value = "Pupil's Endpoints", description = "Operations with pupils")
 @RequiredArgsConstructor
 public class StudentController {
 
@@ -32,7 +32,8 @@ public class StudentController {
     @NonNull
     StudentService studentService;
 
-    @ApiOperation(value = "Admin creates a new student (first name, last name and class passed in html)")
+    @ApiOperation(value = "Admin creates a new student (first name, last name and class passed in html)", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to create a new student")})})
     @ApiResponses(
             value={
                     @ApiResponse(code = 201, message = "student created"),
@@ -49,7 +50,10 @@ public class StudentController {
     }
 
     @GetMapping("/{idStudent}")
-    @ApiOperation(value = "User gets student")
+    @ApiOperation(value = "User gets pupil", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to view the information about the pupil"),
+            @ExtensionProperty(name = "teacher", value = "a teacher is allowed to view the information about the pupil"),
+            @ExtensionProperty(name = "user", value = "a pupil is allowed to see information about himself")})})
     @ApiResponses(
             value={
                     @ApiResponse(code = 200, message = "student found and passed"),
@@ -63,7 +67,9 @@ public class StudentController {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), studentService.getOne(studentRepository.findById(idStudent).get()));
     }
 
-    @ApiOperation(value = "Admin or teacher get students from class")
+    @ApiOperation(value = "Admin or teacher gets pupils from class", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher", value = "a teacher is allowed to view information about the pupils of a class"),
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to view information about the pupils of a class")})})
     @ApiResponses(
             value={
                     @ApiResponse(code = 200, message = "student found and passed"),
@@ -79,7 +85,8 @@ public class StudentController {
     }
 
     @PutMapping("/{idStudent}")
-    @ApiOperation(value = "User updates the profile of the pupil")
+    @ApiOperation(value = "User updates the profile of the pupil", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "user", value = "a pupil is allowed to update his own profile")})})
     @ApiResponses(
             value = {
                     @ApiResponse( code = 201 , message = "Student successfully updated"),

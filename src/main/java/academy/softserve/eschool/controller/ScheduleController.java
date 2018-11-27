@@ -29,7 +29,7 @@ import static org.springframework.http.HttpStatus.OK;
  */
 @RestController
 @RequestMapping("")
-@Api(value = "Schedule Endpoint", description = "Crate a schedule for a semester")
+@Api(value = "Schedule Endpoint", description = "Operations to crate a schedule for a semester")
 @RequiredArgsConstructor
 public class ScheduleController {
 
@@ -58,7 +58,8 @@ public class ScheduleController {
      * @param scheduleDTO   new class object
      * @return              Class of {@link ScheduleDTO} wrapped in {@link GeneralResponseWrapper}
      */
-    @ApiOperation(value = "Admin creates a schedule for a class")
+    @ApiOperation(value = "Admin creates a schedule for a class", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to create a schedule for a class")})})
     @ApiResponses(
             value={
                     @ApiResponse(code = 201, message = "Schedule successfully created"),
@@ -90,7 +91,8 @@ public class ScheduleController {
      * @param   classId id of the class which we want to get the schedule
      * @return  Class of {@link ScheduleDTO} wrapped in {@link GeneralResponseWrapper}
      */
-    @ApiOperation(value = "Admin gets schedule for the class with id")
+    @ApiOperation(value = "Admin gets schedule for the class with id", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to view a schedule for a class")})})
     @ApiResponses(
             value={
                     @ApiResponse(code = 200, message = "OK"),

@@ -27,7 +27,7 @@ import static org.springframework.http.HttpStatus.CREATED;
  */
 @RestController
 @RequestMapping("")
-@Api(value = "Teacher's Endpoint", description = "Connects a teacher with a journal")
+@Api(value = "Teacher's Endpoint", description = "Operations about connection of a teacher with a journal")
 @RequiredArgsConstructor
 public class TeacherJournalController {
 

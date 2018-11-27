@@ -31,7 +31,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/students/transition")
-@Api(value = "transition", description = "Endpoints for transition to new school year")
+@Api(value = "Transition Endpoints", description = "Operations for transition to new school year")
 @RequiredArgsConstructor
 public class NYTransitionController {
     private static final Logger LOGGER = LoggerFactory.getLogger(NYTransitionController.class);
@@ -49,7 +49,8 @@ public class NYTransitionController {
      * @return List of created {@link ClassDTO} objects
      *         in {@link GeneralResponseWrapper} with http status code
      */
-    @ApiOperation(value = "Admin adds new classes based on currently classes with new year and name")
+    @ApiOperation(value = "Admin adds new classes based on currently classes with new year and name", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to add new classes based on currently classes with new year and name")})})
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ApiResponses(value = {
@@ -74,7 +75,8 @@ public class NYTransitionController {
      *         in {@link GeneralResponseWrapper} with http status code
      */
     @PutMapping
-    @ApiOperation(value = "Admin binds students to new classes, deactivate previous year classes")
+    @ApiOperation(value = "Admin binds students to new classes, deactivate previous year classes", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to bind students to new classes, deactivate previous year classes")})})
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully updated"),
             @ApiResponse(code = 400, message = "Bad request"),
