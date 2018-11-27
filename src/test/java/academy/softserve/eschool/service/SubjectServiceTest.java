@@ -15,7 +15,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 
-import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.dto.SubjectDTO;
 import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.SubjectRepository;
