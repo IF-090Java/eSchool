@@ -75,6 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/favicon.ico").permitAll()
                 .antMatchers("/signin").permitAll()
                 .antMatchers("/refresh").permitAll()
+                .antMatchers("/h2/**").permitAll()
                 .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger-resources/configuration/ui","/swagger-ui.html").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/ui/**").permitAll()
@@ -103,7 +104,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js"
-                ).antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**");
+                )
+                .antMatchers("/h2/**")
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**");
     }
 
     @Bean

@@ -51,7 +51,7 @@ public class User {
     
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(length = 8)
+    @Column(length = 12)
     private Role role;
     
     @NotBlank
