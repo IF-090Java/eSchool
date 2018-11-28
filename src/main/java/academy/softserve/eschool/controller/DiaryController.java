@@ -52,12 +52,9 @@ public class DiaryController {
     @GetMapping("")
     GeneralResponseWrapper<List<DiaryEntryDTO>> getDiary(
             @ApiParam(value = "first day of week, accepts date in format 'yyyy-MM-dd'", required=true) @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate weekStartDate){
-        //todo bk ++ instead of 3 lines of code use just one. Keep it simple.
-        //return new GeneralResponseWrapper<>(new Status(200, "OK"), diaryService.getDiary(weekStartDate, studentId))
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JwtUser user = (JwtUser) auth.getPrincipal();
-        //todo bk Use such stile across the whole app. Looks much simpler and easier for reading
-        logger.debug("Reading diary for student '{}' '{}'", user.getId(), user.getUsername());
+        logger.debug("Called getDiary() for weekStartDate : [{}]", weekStartDate);
         return new GeneralResponseWrapper<>(Status.of(OK), diaryService.getDiary(weekStartDate, user.getId().intValue()));
     }
 }
