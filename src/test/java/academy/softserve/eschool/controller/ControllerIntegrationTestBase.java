@@ -20,7 +20,7 @@ public abstract class ControllerIntegrationTestBase {
     
     protected static final String ADMIN_CREDENTIALS = "{\"username\":\"admin\", \"password\":\"admin\"}";
     protected static final String TEACHER_CREDENTIALS = "{\"username\":\"aEinst14\", \"password\":\"password\"}";
-    protected static final String USER_CREDENTIALS = "{\"username\":\"tKutsa01\", \"password\":\"password\"}";
+    protected static final String USER_CREDENTIALS = "{\"username\":\"kPolyan16\", \"password\":\"password\"}";
     protected static final ObjectMapper mapper = new ObjectMapper();
     
     @Value("${jwt.token.header}")
