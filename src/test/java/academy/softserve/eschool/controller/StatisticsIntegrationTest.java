@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-public class MarkControllerIntegrationTest extends ControllerIntegrationTestBase {
+public class StatisticsIntegrationTest extends ControllerIntegrationTestBase {
 
     private String token;
     private HttpHeaders headers;
