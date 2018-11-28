@@ -29,7 +29,7 @@ import static org.springframework.http.HttpStatus.CREATED;
  */
 @RestController
 @RequestMapping("/subjects")
-@Api(value = "Pupils' endpoints", description = "Operations with subjects")
+@Api(value = "Subject endpoints", description = "Operations with subjects")
 @RequiredArgsConstructor
 public class SubjectController {
 	
