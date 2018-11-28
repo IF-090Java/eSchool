@@ -48,7 +48,7 @@ public class DiaryServiceTest {
     public void serviceShouldCorrectlyBindRepositoryResultToDTO() {
         studentId = 0;
         startDate = "2018-09-03";
-        endDate = "2018-09-07";
+        endDate = "2018-09-08";
         entryId = 1;
         homeworkFileId = 1;
         lessonNumber = 1;
@@ -82,8 +82,8 @@ public class DiaryServiceTest {
                 .note(note)
                 .build();
         List<DiaryEntryDTO> result = diaryService.getDiary(LocalDate.parse(startDate), studentId);
-        assertEquals(1, result.size());
-        assertEquals(expectedDTO, result.get(0));
+        assertEquals("result size", 1, result.size());
+        assertEquals("result object", expectedDTO, result.get(0));
     }
     
     
@@ -91,7 +91,7 @@ public class DiaryServiceTest {
     public void serviceShouldCorrectlyHandleNullsInResultSet() {
         studentId = 0;
         startDate = "2018-09-03";
-        endDate = "2018-09-07";
+        endDate = "2018-09-08";
         entryId = 1;
         homeworkFileId = null;
         lessonNumber = 1;

@@ -44,8 +44,6 @@ public class MarksController {
     @GetMapping("")
     @ApiOperation(value = "Get marks by date filtered by specified params")
     GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
-            //todo bk Don't you see that IDEA marks @ApiParam 'required = false' by grey color??
-            //todo bk Look into javaDocs and remove the option: 'Path parameters will always be set as required, whether you set this property or not'
             @ApiParam(value = "filter results by student id") @RequestParam(value = "student_id", required = false) Integer studentId,
             @ApiParam(value = "filter results by subject id") @RequestParam(value = "subject_id", required = false) Integer subjectId,
             @ApiParam(value = "filter results by class id") @RequestParam(value = "class_id", required = false) Integer classId,

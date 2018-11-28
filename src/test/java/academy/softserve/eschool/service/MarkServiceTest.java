@@ -105,8 +105,8 @@ public class MarkServiceTest {
         MarkDataPointDTO expectedDataPoint = new MarkDataPointDTO(avg_mark.doubleValue(), LocalDate.parse(date), count.intValue());
         List<MarkDataPointDTO> result = markService.getFilteredByParams(subjectId, classId, studentId, LocalDate.parse(startDate), LocalDate.parse(endDate));
         
-        assertEquals(1, result.size());
-        assertEquals(expectedDataPoint, result.get(0));
+        assertEquals("result length", 1, result.size());
+        assertEquals("result object", expectedDataPoint, result.get(0));
     }
 
     @Test
