@@ -11,12 +11,17 @@ import lombok.*;
 @AllArgsConstructor
 public class SubjectDTO {
 
-    @ApiModelProperty(required = true, notes = "Id of the subject")
+    @ApiModelProperty(required = true, notes = "Contains the ID of the subject.")
     private int subjectId;
 
-    @ApiModelProperty(required = false, notes = "Subject name. For example: history. Can be null")
+    @ApiModelProperty(required = false, notes = "Contains the name of the subject: " +
+            "the name must match the pattern \"[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+\", " +
+            "so you should enter only Ukrainian characters and the first one must be capitalized." +
+            "The name must have maximum length of 50 symbols. " +
+            "For example, the subjects's name can be \"Фізика\", but not \"фізИка\" or \"Fisica\".")
     private String subjectName;
 
-    @ApiModelProperty(required = false, notes = "Additional information describing the subject. Can be null")
+    @ApiModelProperty(required = false, notes = "Contains additional information describing the subject. Can be null. " +
+            "It's maximum length is 500 characters.")
     private String subjectDescription;
 }

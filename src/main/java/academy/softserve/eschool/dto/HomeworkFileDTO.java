@@ -14,15 +14,16 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Builder
 public class HomeworkFileDTO{
-    @ApiModelProperty(notes = "id of lesson",required = true)
+    @ApiModelProperty(required = true, notes="Contains the ID of the lesson. It's a generated value in the database.")
     private int idLesson;
-    @ApiModelProperty(notes = "homework description")
+    @ApiModelProperty(notes = "Contains the homework's description. It's maximum length is 500 characters.")
     private String homework;
-    @ApiModelProperty(notes = "base64 representation of file(use with fileName and fileType)")
+    @ApiModelProperty(notes = "Contains Base64 representation of the file(use with fileName and fileType). " +
+            "It's maximum size is 500KB.")
     private String fileData;
-    @ApiModelProperty(notes = "name of file(use with fileData and fileType)")
+    @ApiModelProperty(notes = "Contains the name of the file(use with fileData and fileType). It can't be null.")
     private String fileName;
-    @ApiModelProperty(notes = "mime type of file(use with fileData and fileName)")
+    @ApiModelProperty(notes = "Contains the mime type of file(use with fileData and fileName).")
     private String fileType;
 
 }

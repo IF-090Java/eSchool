@@ -4,6 +4,8 @@ import java.util.List;
 
 import academy.softserve.eschool.service.SubjectService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +32,8 @@ import static org.springframework.http.HttpStatus.CREATED;
 @Api(value = "subjects", description = "API endpoints for subjects")
 @RequiredArgsConstructor
 public class SubjectController {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(SubjectController.class);
 
 	@NonNull
 	private SubjectService subjectService;
@@ -119,6 +123,8 @@ public class SubjectController {
 	@PostMapping
 	public GeneralResponseWrapper<SubjectDTO> addSubject(
 			@ApiParam(value = "Subject object", required = true) @RequestBody SubjectDTO newSubject) {
+		
+			LOGGER.info("Adding a new subject " + newSubject.getSubjectName());
 			return new GeneralResponseWrapper<>(Status.of(CREATED), subjectService.addSubject(newSubject));
 	}
 	
@@ -141,6 +147,8 @@ public class SubjectController {
 	public GeneralResponseWrapper<SubjectDTO> editSubject(
 			@ApiParam(value = "Id of object", required = true) @PathVariable int id,
 			@ApiParam(value = "Subject object", required = true) @RequestBody SubjectDTO editSubject) {
+		
+			LOGGER.info("Updating an existing subject with id " + id);
 			return new GeneralResponseWrapper<>(Status.of(CREATED), subjectService.editSubject(id, editSubject));
 	}
 }

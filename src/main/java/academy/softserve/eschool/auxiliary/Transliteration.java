@@ -1,13 +1,12 @@
 package academy.softserve.eschool.auxiliary;
 
-import academy.softserve.eschool.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.HashMap;
 
+/**
+ * Created for transliteration of Ukrainian names, surnames, as well as names of cities, villages, rivers into English.
+ * Rules got from site http://zakon.rada.gov.ua/laws/show/55-2010-%D0%BF.
+ */
 public class Transliteration {
-    @Autowired
-    private UserRepository userRepository;
 
     /**
      * Contains the Ukrainian letters as keys and the as value their transliteration in lowercase
@@ -57,15 +56,15 @@ public class Transliteration {
     }
 
     /**
-     * Transliterating first two letters
+     * Transliterating first two letters.
+     * Check special cases(began from: "є", "ї", "й", "ю", "я", "зг") of first two letters and transliterate them.
      * @param first letter
      * @param second letter
      * @return transliterated letters
      */
-    //todo bk too many if statements. Refactor it
     private static String firstTwo(Character first, Character second) {
         String result = "";
-        //checking special cases of first letter
+        //checking special cases of first letters
         switch (first){
             case 'є': result += "ye";
                 break;
@@ -75,9 +74,9 @@ public class Transliteration {
                 break;
             case 'ю': result += "yu";
                 break;
-            case 'я': result += "ia";
+            case 'я': result += "ya";
                 break;
-            case 'з': if (second.equals('г'))
+            case 'з': if (second != null && second.equals('г'))
                 return "zgh";
             default: result = letters.get(first);
         }

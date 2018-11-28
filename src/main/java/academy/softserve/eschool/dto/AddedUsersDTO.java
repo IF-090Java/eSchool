@@ -12,23 +12,40 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AddedUsersDTO {
-    @ApiModelProperty(notes = "contains student first name")
+    @ApiModelProperty(notes = "Contains the first name of the user (teacher or pupil): " +
+            "the name must match the pattern \"([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+\", " +
+            "so you should enter only Ukrainian characters and the first one must be capitalized." +
+            "The name must have maximum length of 25 symbols and minimum - 3 symbols. " +
+            "For example, the teacher's name can be \" Світлана\" or \" Мар'ян\", but not \" Andriy\" or \" надія\".")
     private String firstname;
 
-    @ApiModelProperty(notes = "contains student last name")
+    @ApiModelProperty(notes = "Contains the surname of the user (teacher or pupil). " +
+            "It has the same rules of input as the first name: " +
+            "the surname must match the pattern \"([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+\", " +
+            "so you should enter only Ukrainian characters and the first one must be capitalized." +
+            "The surname must have maximum length of 25 symbols and minimum - 3 symbols. " +
+            "For example, the pupil's surname can be \" Прусак\", but not \" ПрУсак\" or \" prusak\".  " +
+            "It can't be blank.")
     private String lastname;
 
-    @ApiModelProperty(notes = "contains a patronymic")
+    @ApiModelProperty(notes = "Contains the patronymic of the user (teacher or pupil). " +
+            "It has the same rules of input as the first name: " +
+            "the patronymic must match the pattern \"([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+\", " +
+            "so you should enter only Ukrainian characters and the first one must be capitalized." +
+            "The patronymic must have maximum length 25 symbols and minimum - 3 symbols. " +
+            "For example, the pupil's patronymic can be \" Андріївна\", but not \" аНдріЇвна\" or \" Andriyivna\". " +
+            "It can't be blank.")
     private String patronymic;
 
-    @ApiModelProperty(notes = "Role (teacher or student)")
+    @ApiModelProperty(notes = "Contains the role of the user: " +
+            "it must correspond to one of the values of the Role ENUM (TEACHER or USER). " +
+            "The role can't be null.")
     private User.Role role;
 
-    @ApiModelProperty(notes = "student login")
+    @ApiModelProperty(notes = "Contains the user's login. This field's maximum length is 100 symbols " +
+            "and minimum length - 5 symbols. It can't be blank.")
     private String login;
 
-    @ApiModelProperty(notes = "Password of user")
+    @ApiModelProperty(notes = "Contains the user's password. This field's maximum length is 255 symbols. It can't be blank.")
     private String password;
-
-
 }

@@ -7,8 +7,8 @@ import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.security.CustomPasswordEncoder;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -49,11 +49,11 @@ public class StudentServiceTest {
     @InjectMocks
     private StudentService studentService;
 
-    private List<StudentDTO> studentDTOS = new ArrayList<>();
-    private List<Student> students = new ArrayList<>();
+    private static List<StudentDTO> studentDTOS = new ArrayList<>();
+    private static List<Student> students = new ArrayList<>();
 
-    @Before
-    public void init() {
+    @BeforeClass
+    public static void init() {
         students.add(new Student("iivanov", "password", "@mail.com", Student.Role.ROLE_USER, "Іван", "Іванов", "Іванович", LocalDate.of(2003, Month.DECEMBER, 4), null, "0995456198", null, ""));
         students.add(new Student("iivanov1", "password", "@mail.com", Student.Role.ROLE_USER, "Іван", "Іванов", "Іванович", LocalDate.of(2003, Month.DECEMBER, 4), null, "0995456198", null, ""));
         students.add(new Student("afedoriv", "password", "@mail.com", Student.Role.ROLE_USER, "Аліна", "Федорів", "Петрівна", LocalDate.of(2003, Month.DECEMBER, 4), null, "0995456198", null, ""));
@@ -83,8 +83,8 @@ public class StudentServiceTest {
         assertEquals(studentDTOS, studentService.getAll(students));
     }
 
-    @After
-    public void destroy() {
+    @AfterClass
+    public static void destroy() {
         students.clear();
         studentDTOS.clear();
     }
