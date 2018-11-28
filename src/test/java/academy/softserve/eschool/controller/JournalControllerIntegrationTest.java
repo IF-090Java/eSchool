@@ -1,5 +1,6 @@
 package academy.softserve.eschool.controller;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 
 import academy.softserve.eschool.dto.EditUserDTO;
@@ -58,12 +59,6 @@ public class JournalControllerIntegrationTest {
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private JournalService journalService;
-
     @Before
     public void setUp() throws Exception {
         mvc.perform(MockMvcRequestBuilders.post("/signin")
@@ -96,10 +91,8 @@ public class JournalControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idClass").value(5))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].subjectName").value("Українська література"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].className").value("5-А"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].academicYear").value("2016"));
-        List<JournalDTO> list = journalService.getJournals();
-        assertEquals("Test size of journal's list",24, list.size());
-
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].academicYear").value("2016"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.*", hasSize(24)));
     }
 
     @Test
@@ -115,9 +108,8 @@ public class JournalControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idClass").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].subjectName").value("Англійська мова"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].className").value("7-А"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].academicYear").value("2018"));
-        List<JournalDTO> list = journalService.getJournalsByTeacher(2);
-        assertEquals("Test size of teacher's list of journals", 2, list.size());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].academicYear").value("2018"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.*", hasSize(2)));
     }
 
     @Test
@@ -133,26 +125,20 @@ public class JournalControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idClass").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].subjectName").value("Англійська мова"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].className").value("7-А"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].academicYear").value("2018"));
-        List<JournalDTO> list = journalService.getActiveJournalsByTeacher(2);
-        assertEquals("Test size of teacher's list of active journals", 1, list.size());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].academicYear").value("2018"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.*", hasSize(1)));
     }
 
-    /*@Test
+    @Test
     public void getJournalTableTest() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/journals/subjects/3/classes/1")
+        mvc.perform(MockMvcRequestBuilders.get("/journals/subjects/3/classes/2")
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headers))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idSubject").value(3))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idClass").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].subjectName").value("Англійська мова"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].className").value("7-А"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].academicYear").value("2018"));
-        List<JournalMarkDTO> list = journalService.getJournal(3,1);
-        assertEquals("Test size of mark's list", 100, list.size());
-    }*/
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.*", hasSize(3)));
+
+    }
 }
