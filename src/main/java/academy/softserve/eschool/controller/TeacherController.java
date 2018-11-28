@@ -36,7 +36,7 @@ public class TeacherController {
     private TeacherService teacherService;
 
     @GetMapping("")
-    @ApiOperation(value = "Admin gets list of teacher(only id and names)", extensions = {@Extension(name = "roles", properties = {
+    @ApiOperation(value = "Admin gets list of teachers", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "admin", value = "the admin is allowed to get the list of teachers")})})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
