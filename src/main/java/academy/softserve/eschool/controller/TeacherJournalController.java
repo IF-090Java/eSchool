@@ -31,7 +31,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequiredArgsConstructor
 public class TeacherJournalController {
 
-    private static final Logger logger = LoggerFactory.getLogger(TeacherJournalController.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @NonNull
     private ClassTeacherSubjectServiceImpl classTeacherSubject;
     /**
@@ -57,8 +57,7 @@ public class TeacherJournalController {
             @ApiParam(value = "ID of subject", required = true) @PathVariable("subjectId") final int subjectId)
     {
         classTeacherSubject.saveClassTeacherSubject(new TeacherJournalDTO(teacherId, classId, subjectId), true);
-        logger.info("Created teacher-journal connection : teahcerId = " + teacherId + ", classId = " + classId +
-                "subjectId = " + subjectId);
+        logger.info("Connection: teacher[{}], class[{}], subject[{}] ",teacherId, classId, subjectId);
         return new GeneralResponseWrapper<>(Status.of(CREATED), new TeacherJournalDTO(teacherId, classId, subjectId));
     }
 
