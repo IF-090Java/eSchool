@@ -161,32 +161,33 @@ public class JournalServiceImpTest {
                 .fileType("testType")
                 .homework("testHomeWork")
                 .build();
+
         Mockito.when(lessonRepository.findFile(anyInt())).thenReturn(lesson);
-        assertEquals("Test fileDTO", homeworkFileDTO, journalService.getFile(idLesson));
+
+        assertEquals("Test getting a file", homeworkFileDTO, journalService.getFile(idLesson));
     }
 
     @Test
     public void getJournalsByTeacherTest(){
         Mockito.when(classTeacherSubjectLinkRepository.findJournalsByTeacher(anyInt())).thenReturn(listConnections);
-        assertEquals("Test journalDTOList",journalDTOList,journalService.getJournalsByTeacher(idTeacher));
+        assertEquals("Test getting a teacher's list of journals",journalDTOList,journalService.getJournalsByTeacher(idTeacher));
     }
 
     @Test
     public void getActiveJournalsByTeacherTest(){
         Mockito.when(classTeacherSubjectLinkRepository.findActiveJournalsByTeacher(anyInt())).thenReturn(listConnections);
-        assertEquals("Test journalDTOList",journalDTOList,journalService.getActiveJournalsByTeacher(idTeacher));
+        assertEquals("Test getting a teacher's list of active journals",journalDTOList,journalService.getActiveJournalsByTeacher(idTeacher));
     }
 
     @Test
     public void getJournalsTest(){
         Mockito.when(classTeacherSubjectLinkRepository.findJournals()).thenReturn(listConnections);
-        assertEquals("Test journalDTOList",journalDTOList,journalService.getJournals());
+        assertEquals("Test getting a list of journals",journalDTOList,journalService.getJournals());
     }
 
     @Test
     public void getJournalTest(){
         List<MarkDescriptionDTO> desList = new ArrayList<>();
-
         MarkDescriptionDTO markDescriptionDTO = MarkDescriptionDTO.builder()
                 .idLesson(1)
                 .mark((byte)12)
@@ -206,7 +207,8 @@ public class JournalServiceImpTest {
         journalMarkDTOList.add(testJMDTO);
 
         Mockito.when(studentRepository.findJournal(anyInt(),anyInt())).thenReturn(listJournalMark);
-        assertEquals("Test journalMarkDTOList",journalMarkDTOList,journalService.getJournal(anyInt(),anyInt()));
+
+        assertEquals("Test getting a journal",journalMarkDTOList,journalService.getJournal(anyInt(),anyInt()));
     }
 
     @Test
@@ -219,11 +221,11 @@ public class JournalServiceImpTest {
                 .homework("testHomeWork")
                 .fileName("test.txt")
                 .build();
-
         homeworkDTOList.add(homeworkDTO);
 
         Mockito.when(lessonRepository.findHomework(anyInt(),anyInt())).thenReturn(listLesson);
-        assertEquals("Test homeworkDTOList",homeworkDTOList,journalService.getHomework(anyInt(),anyInt()));
+
+        assertEquals("Test getting a list of homeworks",homeworkDTOList,journalService.getHomework(anyInt(),anyInt()));
     }
 
     @Test
