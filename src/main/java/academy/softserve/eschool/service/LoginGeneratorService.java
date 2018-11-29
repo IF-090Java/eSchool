@@ -45,14 +45,14 @@ public class LoginGeneratorService {
      * @return generated login
      */
     public String generateLogin(String firstName, String lastName) {
-        Character f = firstName.charAt(0);
-        String login = transliteration(f.toString());
+        Character firstLetter = firstName.charAt(0);
+        String login = transliteration(firstLetter.toString());
         login += transliteration(lastName);
-        users = userRepository.findByLastName(lastName);
-        int similarLogins = 0;
-        for (User user : users)
-            if (user.getLogin().startsWith(login))
-                similarLogins++;
+        users = userRepository.findUsersWithPartOfLogin(login);
+        int similarLogins = users.size();
+//        for (User user : users)
+//            if (user.getLogin().startsWith(login))
+//                similarLogins++;
         return similarLogins == 0 ? login : login + similarLogins;
     }
 
