@@ -45,14 +45,12 @@ public class MarksController {
     @ApiOperation(value = "Teacher gets marks by date filtered by specified params", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "teacher", value = "a teacher is allowed to view marks by date filtered by specified params")})})
     GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
-            //todo bk Don't you see that IDEA marks @ApiParam 'required = false' by grey color??
-            //todo bk Look into javaDocs and remove the option: 'Path parameters will always be set as required, whether you set this property or not'
             @ApiParam(value = "filter results by student id") @RequestParam(value = "student_id", required = false) Integer studentId,
             @ApiParam(value = "filter results by subject id") @RequestParam(value = "subject_id", required = false) Integer subjectId,
             @ApiParam(value = "filter results by class id") @RequestParam(value = "class_id", required = false) Integer classId,
             @ApiParam(value = "get marks received after specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodStart,
             @ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodEnd){
-        logger.debug("Reading marks for student '{}', subject '{}', class '{}', '{}' - '{}'", studentId, subjectId, classId, periodStart, periodEnd);
+        logger.debug("Called getMarks() with params: studentId : [{}], subjectId : [{}], classId : [{}], period : [{} - {}]", studentId, subjectId, classId, periodStart, periodEnd);
         return new GeneralResponseWrapper<>(
                 Status.of(OK),
                 markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd));

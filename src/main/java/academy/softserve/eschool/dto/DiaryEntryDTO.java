@@ -30,16 +30,16 @@ public class DiaryEntryDTO {
                     "the name matches the pattern \"[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+\".")
     private String subjectName;
     
-    @ApiModelProperty(notes = "Contains the homework, given at the lesson. Not null.")
+    @ApiModelProperty(required = true, notes = "Contains the homework, given at the lesson. Not null.")
     private String homeWork;
     
     @ApiModelProperty(notes = "Contains the ID of the file attached to the homework.It can be null.")
     private Integer homeworkFileId;
     
-    @ApiModelProperty(notes = "Contains the mark received by the pupil. It's a positive number (greater than 0) " +
+    @ApiModelProperty(required = true, notes = "Contains the mark received by the pupil. It's a positive number (greater than 0) " +
             "and it's maximum value is 12.")
     private byte mark;
     
-    @ApiModelProperty(notes = "Contains the teacher's note putted for the pupil. The field's maximum length is 200 characters.")
+    @ApiModelProperty(required = true, notes = "Contains the teacher's note putted for the pupil. The field's maximum length is 200 characters.")
     private String note;
 }

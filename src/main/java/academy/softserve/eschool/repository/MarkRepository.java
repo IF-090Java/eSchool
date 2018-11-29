@@ -24,7 +24,7 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
      * @param endDate if specified only marks received before this date are returned
      * @return list of Map objects
      */
-    @Query(value="select AVG(m.mark) as avg_mark, COUNT(m.mark) as count, l.date as date "
+    @Query(value="select AVG(CAST(m.mark as DECIMAL)) as avg_mark, COUNT(m.mark) as count, l.date as date "
             + "from mark m left join lesson l on m.lesson_id = l.id "
             + "where (:subjectId is null or l.subject_id = :subjectId)"
             + "and (:classId is null or l.clazz_id = :classId)"
