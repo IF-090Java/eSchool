@@ -35,6 +35,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public List<JournalDTO> getJournalsByTeacher(int idTeacher) {
+        logger.debug("Getting all teacher's journals teacher[id={}]", idTeacher);
         List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findJournalsByTeacher(idTeacher);
         List<JournalDTO> listDTO = new ArrayList<>();
         for(ClassTeacherSubjectLink link: listCTS){
@@ -52,6 +53,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public List<JournalDTO> getActiveJournalsByTeacher(int idTeacher) {
+        logger.debug("Getting active teacher's journals teacher[id={}]", idTeacher);
         List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findActiveJournalsByTeacher(idTeacher);
         List<JournalDTO> listDTO = new ArrayList<>();
         for(ClassTeacherSubjectLink link: listCTS){
@@ -69,6 +71,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public List<JournalDTO> getJournals() {
+        logger.debug("Getting all journals");
         List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findJournals();
         List<JournalDTO> listDTO = new ArrayList<>();
         for(ClassTeacherSubjectLink link: listCTS){
@@ -86,6 +89,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public List<JournalMarkDTO> getJournal(int idSubject, int idClass) {
+         logger.debug("Getting journal class[id={}],subject[id={}]", idClass,idSubject);
          List<Map<String,Object>>  list = studentRepository.findJournal(idSubject,idClass);
          List<JournalMarkDTO> JMDto = new ArrayList<>();
          Map<Integer,String> students = new HashMap<>();
@@ -120,6 +124,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public List<HomeworkDTO> getHomework(int idSubject, int idClass) {
+        logger.debug("Getting homeworks class[id={}],subject[id={}]", idClass,idSubject);
         List<Lesson> list = lessonRepository.findHomework(idSubject,idClass);
         List<HomeworkDTO> homeworkDTOS = new ArrayList<>();
         for(Lesson lesson: list){
@@ -139,6 +144,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public HomeworkFileDTO getFile(int idLesson) {
+        logger.debug("Getting file lesson[id={}]", idLesson);
         Lesson lesson = lessonRepository.findFile(idLesson);
         HomeworkFileDTO homeworkFileDTO = HomeworkFileDTO.builder()
                 .idLesson(idLesson)
@@ -152,6 +158,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public void saveHomework(HomeworkFileDTO fileDTO) {
+        logger.info("Adding homework lesson[id={}]",fileDTO.getIdLesson());
         Lesson lesson = lessonRepository.findById(fileDTO.getIdLesson()).orElse(null);
         if(lesson!=null){
             if(fileDTO.getFileName()!=null){
@@ -171,7 +178,6 @@ public class JournalServiceImpl implements JournalService {
                     lessonRepository.saveHomeWork(fileDTO.getHomework(), lesson.getFile().getId(), fileDTO.getIdLesson());
                 }
             }
-            logger.info("Added homework for lesson[id="+fileDTO.getIdLesson()+"]");
         }
 
     }
