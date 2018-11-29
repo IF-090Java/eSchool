@@ -65,12 +65,13 @@ public class MarkService implements MarkServiceBase {
                 return new MarkDataPointDTO(averageMark, date, count);
             })
             .collect(Collectors.toList());
-        logger.debug("Mark datapoints", dataPoints.toString());
+        logger.debug("Mark datapoints : [{}]", dataPoints.toString());
         return dataPoints;
     }
 
     @Override
     public MarkDTO saveMark(MarkDTO dto) {
+        logger.info("Adding mark lesson[id={}],student[id={}",dto.getIdLesson(),dto.getIdStudent());
         markRepo.saveMarkByLesson(dto.getIdStudent(),dto.getIdLesson(),dto.getMark(),dto.getNote());
         Mark mark = markRepo.findTopByStudentIdAndLessonId(dto.getIdStudent(),dto.getIdLesson());
         MarkDTO markDTO = MarkDTO.builder()
@@ -80,13 +81,12 @@ public class MarkService implements MarkServiceBase {
                 .idStudent(mark.getStudent().getId())
                 .note(mark.getNote())
                 .build();
-        logger.info("Added mark for lesson[id="+dto.getIdLesson()+"], student[id="+dto.getIdStudent()+"]");
         return markDTO;
     }
 
     @Override
     public void updateType(int idLesson, String markType) {
+        logger.info("Editing markType[{}] lesson[id={}]",markType,idLesson);
         markRepo.saveTypeByLesson(idLesson,markType);
-        logger.info("Edited mark type for lesson[id="+idLesson+"], newType = "+markType);
     }
 }

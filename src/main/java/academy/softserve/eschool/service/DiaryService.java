@@ -35,12 +35,12 @@ public class DiaryService implements DiaryServiceBase {
      */
     @Override
     public List<DiaryEntryDTO> getDiary(LocalDate weekStartDate, int studentId) {
-        LocalDate weekEndDate = weekStartDate.plusDays(4);
+        LocalDate weekEndDate = weekStartDate.plusDays(5);
         String startDate = dateFormat.format(weekStartDate);
         String endDate = dateFormat.format(weekEndDate);
-        logger.debug("Reading diary data for period '{}' - '{}'", startDate, endDate);
+        logger.debug("Reading diary data for user_id : [{}] period : [{} - {}]", studentId, startDate, endDate);
         List<Map<String, Object>> diaryData = lessonRepo.getDiary(studentId, startDate, endDate);
-        logger.debug("Diary data: '{}'", diaryData.toString());
+        logger.debug("Diary data: [{}]", diaryData.toString());
         return mapToDTO(diaryData);
     }
     

@@ -21,7 +21,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/marks")
-@Api(value = "Operations about marks", description="Operations about marks")
+@Api(value = "Marks' endpoints", description="Operations about marks")
 @RequiredArgsConstructor
 public class MarksController {
 
@@ -42,16 +42,15 @@ public class MarksController {
 
     @PreAuthorize("hasRole('TEACHER')")//need access for teacher on statistics page
     @GetMapping("")
-    @ApiOperation(value = "Get marks by date filtered by specified params")
+    @ApiOperation(value = "Teacher gets marks by date filtered by specified params", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher", value = "a teacher is allowed to view marks by date filtered by specified params")})})
     GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
-            //todo bk Don't you see that IDEA marks @ApiParam 'required = false' by grey color??
-            //todo bk Look into javaDocs and remove the option: 'Path parameters will always be set as required, whether you set this property or not'
             @ApiParam(value = "filter results by student id") @RequestParam(value = "student_id", required = false) Integer studentId,
             @ApiParam(value = "filter results by subject id") @RequestParam(value = "subject_id", required = false) Integer subjectId,
             @ApiParam(value = "filter results by class id") @RequestParam(value = "class_id", required = false) Integer classId,
             @ApiParam(value = "get marks received after specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodStart,
             @ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodEnd){
-        logger.debug("Reading marks for student '{}', subject '{}', class '{}', '{}' - '{}'", studentId, subjectId, classId, periodStart, periodEnd);
+        logger.debug("Called getMarks() with params: studentId : [{}], subjectId : [{}], classId : [{}], period : [{} - {}]", studentId, subjectId, classId, periodStart, periodEnd);
         return new GeneralResponseWrapper<>(
                 Status.of(OK),
                 markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd));
@@ -64,7 +63,8 @@ public class MarksController {
      * @return Created mark for transmitted student and subject in HomeworkDTO
      *         as {@link MarkDTO} object in {@link GeneralResponseWrapper} with http status code
      */
-    @ApiOperation(value = "Save mark of students by lesson")
+    @ApiOperation(value = "Teacher saves mark of students by lesson", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher", value = "a teacher is allowed to save marks of students by the lesson he gave")})})
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Mark successfully created"),
             @ApiResponse(code = 400, message = "Bad request"),
@@ -84,7 +84,8 @@ public class MarksController {
      * @param idLesson is id of lesson
      * @param markType is mark's type
      */
-    @ApiOperation("Update mark's type of lesson")
+    @ApiOperation(value = "Teacher updates mark's type of lesson", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher", value = "a teacher is allowed to update mark's type of the lesson he gave")})})
     @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson)")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully updated"),
@@ -93,8 +94,8 @@ public class MarksController {
     })
     @PutMapping("/lessons/{idLesson}/marktype")
     public GeneralResponseWrapper editType(
-            @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson,
-            @ApiParam(value = "type of mark", required = true) @RequestBody MarkTypeDTO markType){
+            @ApiParam(value = "ID of lesson", required = true) @PathVariable int idLesson,
+            @ApiParam(value = "Type of mark", required = true) @RequestBody MarkTypeDTO markType){
         markService.updateType(idLesson, markType.getMarkType());
         return new GeneralResponseWrapper<>(Status.of(CREATED), null);
     }

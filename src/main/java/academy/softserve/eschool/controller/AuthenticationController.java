@@ -23,6 +23,8 @@ import java.util.Objects;
  * Controller for authentication and refreshing token
  */
 @RestController
+@Api(description = "Get the token to authorize " +
+        "(in the swagger.ui page look at the \"Authorize\" button in the upper right corner) and refresh it.")
 public class AuthenticationController {
 
     @Value("${jwt.token.header}")
@@ -52,7 +54,8 @@ public class AuthenticationController {
      * @return Jwt token wrapped in {@link academy.softserve.eschool.wrapper.GeneralResponseWrapper}
      */
     @PostMapping("signin")
-    @ApiOperation("Login to site with username and password. Returns token")
+    @ApiOperation("Enter login and password of the required user in the authenticationRequest field " +
+            "and find the token in the Response Header(authorization field) to authorize")
     @ApiResponses(
             value = {
                     @ApiResponse(code = 204, message = "Successfully signed in"),
@@ -79,7 +82,7 @@ public class AuthenticationController {
      * @throws TokenGlobalTimeExpiredException if token cannot be refreshed
      * @return Jwt token wrapped in {@link academy.softserve.eschool.wrapper.GeneralResponseWrapper}
      */
-    @ApiOperation("Refresh token. Requires valid and active token. Returns new token")
+    @ApiOperation("Refresh token. Requires valid and active token. Returns new token.")
     @ApiResponses(
             value = {
                     @ApiResponse(code = 204, message = "Token refreshed"),
