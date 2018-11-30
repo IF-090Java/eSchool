@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query("SELECT u FROM User u WHERE u.login LIKE CONCAT(:partLogin,'%')")
+    @Query("SELECT u FROM User u WHERE u.login LIKE CONCAT(:partLogin,'%') ORDER BY u.login")
     List<User> findUsersWithPartOfLogin(@Param("partLogin") String login);
 
     User findByLogin(String username);
