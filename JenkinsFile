@@ -1,0 +1,19 @@
+pipeline{
+    agent any
+    stages{
+        stage('build'){
+            steps{
+                withMaven(maven : 'maven3'){
+                    sh 'mvn clean compile'
+                }
+            }
+        }
+        stage('test'){
+            steps{
+                withMaven(maven : 'maven3'){
+                    sh 'mvn test'
+                }
+            }
+        }
+    }
+}
