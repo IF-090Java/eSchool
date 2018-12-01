@@ -44,6 +44,8 @@ public class ClassServiceImpl implements ClassService{
 
     @Override
     public ClassDTO saveClass(ClassDTO classDTO) {
+        LOGGER.info("Saving class [{} - {}]", classDTO.getClassName(), classDTO.getClassYear());
+
         Clazz savedClass = classRepository.save(
             Clazz.builder()
                 .name(classDTO.getClassName())
@@ -52,7 +54,6 @@ public class ClassServiceImpl implements ClassService{
                 .isActive(classDTO.getIsActive()).build()
             );
 
-        LOGGER.info("Class " +savedClass.getName() +" " +savedClass.getAcademicYear() +" saved.");
         return ClassDTO.builder()
                 .id(savedClass.getId())
                 .className(savedClass.getName())
@@ -63,6 +64,8 @@ public class ClassServiceImpl implements ClassService{
 
     @Override
     public ClassDTO updateClass(int id, ClassDTO classDTO) {
+        LOGGER.info("Updating class [id={}]", id);
+
         Clazz clazz = classRepository.getOne(id);
         clazz.setName(classDTO.getClassName());
         clazz.setDescription(classDTO.getClassDescription());
@@ -70,7 +73,6 @@ public class ClassServiceImpl implements ClassService{
         clazz.setActive(classDTO.getIsActive());
 
         Clazz updatedClass = classRepository.save(clazz);
-        LOGGER.info("Class with id " +updatedClass.getId() +" updated.");
         return ClassDTO.builder()
                 .id(updatedClass.getId())
                 .className(updatedClass.getName())
@@ -87,7 +89,7 @@ public class ClassServiceImpl implements ClassService{
 
         for (ClassDTO classDTO : allClasses){
             if (classDTO.getIsActive() == true && classDTO.getNumOfStudents() > 0 && !classDTO.getClassName().startsWith("11")){
-                LOGGER.debug("Created new class based on " +classDTO.getClassName() +" " +classDTO.getClassYear());
+                LOGGER.debug("Creating new class based on [{} - {}]", classDTO.getClassName(), classDTO.getClassYear());
                 newYearClasses.add(
                 Clazz.builder()
                         .name(updateClassName(classDTO.getClassName()))
@@ -97,8 +99,8 @@ public class ClassServiceImpl implements ClassService{
                 );
             }
         }
+        LOGGER.info("Saving new year classes, [count={}]", newYearClasses.size());
         List<Clazz> classes = classRepository.saveAll(newYearClasses);
-        LOGGER.info("Classes for new academic year added. Count " +newYearClasses.size());
         return classes.stream().map(c -> ClassDTO.builder()
                 .id(c.getId())
                 .className(c.getName())
@@ -111,9 +113,9 @@ public class ClassServiceImpl implements ClassService{
     public void updateClassStatusById(List<NYTransitionDTO> transitionDTOS, boolean status) {
         for (NYTransitionDTO dto: transitionDTOS){
             classRepository.updateClassStatusById(dto.getOldClassId(), status);
-            LOGGER.debug("Status of class with id " +dto.getOldClassId() +"updated. New status - false.");
+            LOGGER.debug("Class [id={}] status updated to [false]", dto.getOldClassId());
         }
-        LOGGER.info("Status of old year classes set to false.");
+        LOGGER.info("Old year classes [status=false].");
     }
 
     public String updateClassName(String className) {
