@@ -51,7 +51,6 @@ public class User {
     
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(length = 12)
     private Role role;
     
     @NotBlank
@@ -79,7 +78,6 @@ public class User {
     private LocalDate dateOfBirth;
     
     @Enumerated(EnumType.STRING)
-    @Column(length = 6)
     private Sex sex;
     
     @Size(max=20)
