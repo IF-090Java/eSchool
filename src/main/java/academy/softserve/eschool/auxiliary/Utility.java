@@ -53,7 +53,7 @@ public class Utility {
     }
 
     /**
-     * Transform {@link User} to {@link TeacherDTO}.
+     * Transform list  of {@link User} to list of {@link AddedUsersDTO}.
      * @param users object with data for transformation.
      * @return list of {@link AddedUsersDTO} created from users.
      */
