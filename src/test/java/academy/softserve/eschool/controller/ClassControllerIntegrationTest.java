@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -57,53 +58,68 @@ public class ClassControllerIntegrationTest {
 
     @Test
     public void testGetClassById() throws Exception {
+        String expectedJSON = "{\"status\":{\"code\":200,\"message\":\"OK\"},"
+                + "\"data\":{\"id\":0,\"classYear\":2017,\"className\":\"8-А\",\"classDescription\":null,\"isActive\":false,\"numOfStudents\":0}}";
         mvc.perform(MockMvcRequestBuilders.get("/classes/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headers))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.className").value("8-А"));
+                .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 
     @Test
     public void testGetAllClassesBySubject() throws Exception {
+        String expectedJSON = "{\"status\":{\"code\": 200,\"message\": \"OK\"},\"data\": ["
+                + "{\"id\": 1,\"classYear\": 2017,\"className\": \"8-А\",\"classDescription\": null,\"isActive\": false,\"numOfStudents\": 3},"
+                + "{\"id\": 5,\"classYear\": 2016,\"className\": \"5-А\",\"classDescription\": null,\"isActive\": false,\"numOfStudents\": 3},"
+                + "{\"id\": 3,\"classYear\": 2018,\"className\": \"7-Б\",\"classDescription\": null,\"isActive\": true,\"numOfStudents\": 3}]}";
         mvc.perform(MockMvcRequestBuilders.get("/classes?subjectId=1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headers))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].className").value("8-А"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[1].className").value("5-А"));
+                .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 
     @Test
     public void testGetAllClasses() throws Exception {
+        String expectedJSON = "{\"status\":{\"code\": 200,\"message\": \"OK\"},\"data\": ["
+                + "{\"id\": 1,\"classYear\": 2017,\"className\": \"8-А\",\"classDescription\": null,\"isActive\": false,\"numOfStudents\": 3},"
+                + "{\"id\": 2,\"classYear\": 2019,\"className\": \"7-А\",\"classDescription\": \"Updated class\",\"isActive\": true,\"numOfStudents\": 3},"
+                + "{\"id\": 3,\"classYear\": 2018,\"className\": \"7-Б\",\"classDescription\": null,\"isActive\": true,\"numOfStudents\": 3},"
+                + "{\"id\": 4,\"classYear\": 2018,\"className\": \"9\",\"classDescription\": null,\"isActive\": true,\"numOfStudents\": 6},"
+                + "{\"id\": 5,\"classYear\": 2016,\"className\": \"5-А\",\"classDescription\": null,\"isActive\": false,\"numOfStudents\": 3},"
+                + "{\"id\": 6,\"classYear\": 2019,\"className\": \"7-Б\",\"classDescription\":\"\",\"isActive\": true,\"numOfStudents\": 0}]}";
         mvc.perform(MockMvcRequestBuilders.get("/classes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headers))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].className").value("8-А"));
+                .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 
     @Test
     public void testAddClass() throws Exception {
+        String expectedJSON = "{\"status\":{\"code\":201,\"message\":\"Created\"},"
+                + "\"data\":{\"id\":6,\"classYear\":2019,\"className\":\"7-Б\",\"classDescription\":\"\",\"isActive\":true,\"numOfStudents\":0}}";
         mvc.perform(MockMvcRequestBuilders.post("/classes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headers)
                 .content(mapper.writeValueAsString(testClass1)))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.className").value("7-Б"));
+                .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 
     @Test
     public void testUpdateClass() throws Exception {
+        String expectedJSON = "{\"status\":{\"code\":201,\"message\":\"Created\"},"
+                + "\"data\":{\"id\":2,\"classYear\":2019,\"className\":\"7-А\",\"classDescription\":\"Updated class\",\"isActive\":true,\"numOfStudents\":3}}";
         mvc.perform(MockMvcRequestBuilders.put("/classes/2")
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headers)
                 .content(mapper.writeValueAsString(testClass2)))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.classYear").value(2019))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.classDescription").value("Updated class"));
+                .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 }

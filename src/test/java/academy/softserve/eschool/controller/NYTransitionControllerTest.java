@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -55,23 +56,28 @@ public class NYTransitionControllerTest {
 
     @Test
     public void testAddNewYearClasses() throws Exception {
+        String expectedJSON = "{\"status\":{\"code\": 201,\"message\": \"Created\"},\"data\": ["
+                + "{\"id\": 6,\"classYear\": 2019,\"className\": \"8-А\",\"classDescription\": null,\"isActive\": true,\"numOfStudents\": 0},"
+                + "{\"id\": 7,\"classYear\": 2019,\"className\": \"8-Б\",\"classDescription\": null,\"isActive\": true,\"numOfStudents\": 0},"
+                + "{\"id\": 8,\"classYear\": 2019,\"className\": \"10\",\"classDescription\": null,\"isActive\": true,\"numOfStudents\": 0}]}";
         mvc.perform(MockMvcRequestBuilders.post("/students/transition")
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headers))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].className").value("8-А"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[1].className").value("8-Б"));
+                .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 
     @Test
     public void testBindingStudentsToNewClasses() throws Exception {
+        String expectedJSON = "{\"status\":{\"code\": 201,\"message\": \"Created\"},\"data\": ["
+                + "{\"newClassId\": 2, \"oldClassId\": 1}]}";
         mvc.perform(MockMvcRequestBuilders.put("/students/transition")
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headers)
                 .content(mapper.writeValueAsString(testList1)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].oldClassId").value(1));
+                .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 }
