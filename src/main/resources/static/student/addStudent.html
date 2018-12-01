@@ -125,27 +125,6 @@
                     }
                 });
             });
-        // $("#generate").on("click", function () {
-        //     var firstname   = $("#firstName").val();
-        //     var lastname    = $("#lastName").val();
-        //     if (!(firstname == '' || lastname == '')) {
-        //         $.ajax({
-        //             type: "past",
-        //             url: host + "login/generate",
-        //             dataType: "json",
-        //             data: JSON.stringify({
-        //                 "firstName": firstname,
-        //                 "lastName": lastname,
-        //
-        //                 contentType: "application/json",
-        //
-        //                 success: function (responce) {
-        //                     $('#username').attr("value", data.login);
-        //                 }
-        //             })
-        //         })
-        //     }
-        // });
         jQuery.validator.addMethod("isUkrainian", function(value, element) {
             var ukr = value;
             if (ukr.match(/^([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+$/))
