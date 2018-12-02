@@ -119,6 +119,10 @@ INSERT INTO students_classes(student_id, class_id) VALUES
 ((SELECT id FROM `user` WHERE `login` LIKE 'zZapukh31'), (SELECT id FROM `clazz` WHERE name LIKE '9')),
 ((SELECT id FROM `user` WHERE `login` LIKE 'tKutsa01'), (SELECT id FROM `clazz` WHERE name LIKE '9'));
 
+
+INSERT INTO file(file_name, file, file_type) VALUES
+('test.txt','testData','testType');
+
 --Inserting lessons
 
 INSERT INTO lesson(clazz_id, subject_id, date, homework_file_id, hometask, lesson_number, mark_type) VALUES
@@ -132,7 +136,7 @@ INSERT INTO lesson(clazz_id, subject_id, date, homework_file_id, hometask, lesso
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Українська література'), '2018-09-04', null, '', 3, 'Control'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Біологія'), '2018-09-04', null, '', 4, 'Practic'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Біологія'), '2018-09-04', null, 'Домашнє завдання #18, #84', 5, 'Control'),
-((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Англійська мова'), '2018-09-05', null, '', 1, 'Control'),
+((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Англійська мова'), '2018-09-05', (SELECT id FROM file WHERE file_name = 'test.txt'), 'Домашнє завдання #15', 1, 'Control'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Фізика'), '2018-09-05', null, 'Домашнє завдання #15, #92', 2, 'Module'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Українська література'), '2018-09-05', null, '', 3, 'Labaratorna'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Українська література'), '2018-09-05', null, '', 4, 'Control'),
@@ -162,7 +166,7 @@ INSERT INTO lesson(clazz_id, subject_id, date, homework_file_id, hometask, lesso
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Українська мова'), '2018-09-13', null, '', 3, 'Labaratorna'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Українська література'), '2018-09-14', null, '', 1, 'Labaratorna'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Біологія'), '2018-09-14', null, 'Домашнє завдання #91, #75', 2, 'Labaratorna'),
-((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Англійська мова'), '2018-09-14', null, '', 3, 'Module'),
+((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Англійська мова'), '2018-09-14', null, 'Домашнє завдання #83', 3, 'Module'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Історія України'), '2018-09-14', null, '', 4, 'Module'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Математика'), '2018-09-17', null, '', 1, 'Practic'),
 ((SELECT id FROM clazz WHERE name = '7-А'), (SELECT id FROM subject WHERE name = 'Хімія'), '2018-09-17', null, 'Домашнє завдання #34, #62', 2, 'Module'),

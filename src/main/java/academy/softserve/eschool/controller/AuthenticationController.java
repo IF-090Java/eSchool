@@ -23,8 +23,8 @@ import java.util.Objects;
  * Controller for authentication and refreshing token
  */
 @RestController
-@Api(description = "Get the token to authorize in the swagger.ui page " +
-        "(look at the \"Authorize\" button in the upper right corner) and refresh it.")
+@Api(description = "Get the token to authorize " +
+        "(in the swagger.ui page look at the \"Authorize\" button in the upper right corner) and refresh it.")
 public class AuthenticationController {
 
     @Value("${jwt.token.header}")
