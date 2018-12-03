@@ -81,7 +81,7 @@ public class ScheduleController {
                     scheduleDTO.getClassName().getId());
         scheduleService.saveSchedule(scheduleDTO);
 
-        logger.info("Schedule created for class with id="+ scheduleDTO.getClassName().getId());
+        logger.info("Created for class[{}]", scheduleDTO.getClassId());
 
         return new GeneralResponseWrapper<>(Status.of(CREATED), scheduleDTO);
     }
@@ -104,6 +104,7 @@ public class ScheduleController {
     @GetMapping("/classes/{classId}/schedule")
     public GeneralResponseWrapper<ScheduleDTO> getSchedule(@ApiParam(value = "ID of class", required = true) @PathVariable("classId") final int classId){
 
+        logger.debug("Shown for class [{}]", classId);
         return new GeneralResponseWrapper<>(Status.of(OK), scheduleService.getScheduleByClassId(classId));
     }
 }

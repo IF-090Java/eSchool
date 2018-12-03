@@ -38,7 +38,9 @@ VALUES('Михайло', 'Грушевський', 'Сергійович', '1964
 ('Олег', 'Ляховський', 'Богданович', '2002-03-10', 'oLyakh10', 'JUshMvH8yBczcYBriFMOxFM6rj65Dj3r', default, default, default, default, 'ROLE_USER', 'male'),
 ('Іван', 'Черв''яковський', 'Орестович', '2001-05-08', 'iCherv08', 'JUshMvH8yBczcYBriFMOxFM6rj65Dj3r', default, default, default, default, 'ROLE_USER', 'male'),
 ('Іван', 'Черв''яковський', 'Орестович', '2001-05-08', 'admin', 'zlozB47ak74T1Th8uIMyag==', default, default, default, default, 'ROLE_ADMIN', 'male');
-INSERT INTO `clazz`(name, academic_year, description, is_active) VALUES('8-А', 2017, default, false),
+
+INSERT INTO `clazz`(name, academic_year, description, is_active) VALUES
+('8-А', 2017, default, false),
 ('7-А', 2018, default, true),
 ('7-Б', 2018, default, true),
 ('9', 2018, default, true),

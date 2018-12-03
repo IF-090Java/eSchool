@@ -33,6 +33,7 @@ public class ClassTeacherSubjectServiceImpl implements ClassTeacherSubjectServic
      */
     @Override
     public ClassTeacherSubjectLink saveClassTeacherSubject(TeacherJournalDTO teacherJournalDTO, boolean isActive) {
+
         ClassTeacherSubjectLink classTeacherSubject = new ClassTeacherSubjectLink();
 
         int classId = teacherJournalDTO.getClassId();
