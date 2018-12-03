@@ -2,7 +2,7 @@ void setBuildStatus(String message, String state) {
   step([
       $class: "GitHubCommitStatusSetter",
       reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/IF-090Java/eSchool"],
-      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "Unit tests an code analysis"],
       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
   ]);
@@ -33,6 +33,14 @@ pipeline{
                 }
             }
         }
+        stage("Quality Gate"){
+                  timeout(time: 5, unit: 'MINUTES') {
+                      def qg = waitForQualityGate()
+                      if (qg.status != 'OK') {
+                          error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                      }
+                  }
+              }
     }
     post {
     success {
