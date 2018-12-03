@@ -15,5 +15,14 @@ pipeline{
                 }
             }
         }
+        stage('Sonar analysis'){
+            steps{
+                withMaven(maven : 'maven3'){
+                    withSonarqubeEnv('sonar6'){
+                        sh 'mvn sonar:sonar'
+                    }
+                }
+            }
+        }
     }
 }
