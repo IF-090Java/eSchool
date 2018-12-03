@@ -9,6 +9,8 @@ import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -36,6 +38,7 @@ import java.util.stream.Collectors;
 @Service
 public class ScheduleServiceImpl implements ScheduleService{
 
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleServiceImpl.class);
     @NonNull
     LessonRepository lessonRepository;
     @NonNull
@@ -105,15 +108,14 @@ public class ScheduleServiceImpl implements ScheduleService{
                 listOfIds.add(list.get(i).getSubjectId());
             }
             List<Subject> listOfSubjects = subjectRepository.findAll();
-            for (int i = 0; i < listOfIds.size(); i ++)
-            {
+            for (int i = 0; i < listOfIds.size(); i ++) {
                 for (int j = 0; j < listOfSubjects.size(); j ++) {
                     if (listOfSubjects.get(j).getId() == listOfIds.get(i))
                         resultList.add(listOfSubjects.get(j));
                 }
             }
-
         }
+
         LocalDate dateAfterEnd = end.plusDays(1);
         List<Lesson> listOfLessons = new ArrayList<>();
         for (int i = 0; i < list.size(); i ++) {
@@ -134,6 +136,8 @@ public class ScheduleServiceImpl implements ScheduleService{
             }
         }
         lessonRepository.saveAll(listOfLessons);
+        logger.info("Lessons' quantity for [{}] is [{}], semester's bound [{}]-[{}], class [{}]",
+                 dayOfWeek, listOfLessons.size(), start, end, clazz.getId());
         return listOfLessons;
     }
 
@@ -165,6 +169,7 @@ public class ScheduleServiceImpl implements ScheduleService{
                 list.remove(i);
             }
         }
+        logger.debug("Lessons' quantity for [{}] is [{}]", dayOfWeek, list.size());
         return list;
     }
 }

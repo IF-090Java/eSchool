@@ -104,4 +104,9 @@ public class ScheduleDTO {
             "3) The subject description. It's maximum length is 500 characters." )
     private List<SubjectDTO> fridaySubjects;
 
+    public int getClassId()
+    {
+        return className.getId();
+    }
+
 }

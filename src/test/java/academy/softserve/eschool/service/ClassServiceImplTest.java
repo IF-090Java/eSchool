@@ -144,11 +144,14 @@ public class ClassServiceImplTest {
     }
 
     @Test
-    public void testUpdateClassName(){
+    public void testUpdateClassNameWithLetter(){
         String newNameWithLetter = classService.updateClassName("9-Б");
-        String newNameWithoutLetter = classService.updateClassName("10");
-
         assertEquals("10-Б", newNameWithLetter);
+    }
+
+    @Test
+    public void testUpdateClassNameWithoutLetter(){
+        String newNameWithoutLetter = classService.updateClassName("10");
         assertEquals("11", newNameWithoutLetter);
     }
 
