@@ -1,6 +1,7 @@
 package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.dto.AddedUsersDTO;
+import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.security.CustomPasswordEncoder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static academy.softserve.eschool.auxiliary.Utility.transform;
+
 @Service
 @RequiredArgsConstructor
 public class PasswordDecodeService {
     @NonNull
-    CustomPasswordEncoder encoder;
+    private CustomPasswordEncoder encoder;
+
+    @NonNull
+    private UserRepository userRepository;
 
     public List<AddedUsersDTO> decodemultiple(List<AddedUsersDTO> usersDTOList){
         return usersDTOList.stream().map(i-> AddedUsersDTO.builder()
@@ -25,5 +31,12 @@ public class PasswordDecodeService {
                 .password(encoder.decode(i.getPassword()))
                 .role(i.getRole())
                 .build()).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public List<AddedUsersDTO> decodemultiple(){
+        List<AddedUsersDTO> addedUsers = transform(userRepository.findAll());
+        for (AddedUsersDTO addedUsersDTO : addedUsers)
+            addedUsersDTO.setPassword(encoder.decode(addedUsersDTO.getPassword()));
+        return addedUsers;
     }
 }

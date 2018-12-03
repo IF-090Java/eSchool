@@ -1,10 +1,15 @@
 package academy.softserve.eschool.auxiliary;
 
+import academy.softserve.eschool.dto.AddedUsersDTO;
 import academy.softserve.eschool.dto.StudentDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The utility class created to transform the DTO to model, and vice versa.
@@ -45,5 +50,21 @@ public class Utility {
                 .dateOfBirth(teacher.getDateOfBirth())
                 .avatar(teacher.getAvatar())
                 .build();
+    }
+
+    /**
+     * Transform list  of {@link User} to list of {@link AddedUsersDTO}.
+     * @param users object with data for transformation.
+     * @return list of {@link AddedUsersDTO} created from users.
+     */
+    public static List<AddedUsersDTO> transform(List<User> users){
+        return users.stream().map(i-> AddedUsersDTO.builder()
+                .firstname(i.getFirstName())
+                .lastname(i.getLastName())
+                .patronymic(i.getPatronymic())
+                .login(i.getLogin())
+                .password(i.getPassword())
+                .role(i.getRole())
+                .build()).collect(Collectors.toCollection(ArrayList::new));
     }
 }
