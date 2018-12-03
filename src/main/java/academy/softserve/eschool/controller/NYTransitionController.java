@@ -5,6 +5,7 @@ import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -59,11 +60,8 @@ public class NYTransitionController {
             @ApiResponse(code = 500, message = "Server error")
     })
     public GeneralResponseWrapper<List<ClassDTO>> addNewYearClasses(){
-        LOGGER.info("An attempt to add classes for new academic year");
-        return new GeneralResponseWrapper<>(
-                new Status(HttpServletResponse.SC_CREATED, "New classes successfully added"),
-                classService.addNewYearClasses()
-        );
+        LOGGER.info("Add classes for new academic year");
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), classService.addNewYearClasses());
     }
 
     /**
@@ -85,12 +83,9 @@ public class NYTransitionController {
     @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<List<NYTransitionDTO>> bindingStudentsToNewClasses(
             @ApiParam(value = "Transition of the class(new and old classes ID)", required = true) @RequestBody List<NYTransitionDTO> transitionDTOS){
-        LOGGER.info("An attempt to update old year class status to false and rebind students to new classes.");
+        LOGGER.info("Update old year class status, rebind students to new classes.");
         classService.updateClassStatusById(transitionDTOS, false);
         studentService.studentClassesRebinding(transitionDTOS);
-        return new GeneralResponseWrapper<>(
-                new Status(HttpServletResponse.SC_CREATED, "Old classes disabled, students bindet to new classes"),
-                transitionDTOS
-        );
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), transitionDTOS);
     }
 }
