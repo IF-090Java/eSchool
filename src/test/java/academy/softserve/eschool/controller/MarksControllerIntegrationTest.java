@@ -91,6 +91,7 @@ public class MarksControllerIntegrationTest {
                 .content(mapper.writeValueAsString(markTypeDTO))
                 .headers(headers))
                 .andExpect((MockMvcResultMatchers.jsonPath("$.status.code")).value(201));
+
     }
 
 }
