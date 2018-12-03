@@ -1,25 +1,11 @@
 package academy.softserve.eschool.controller;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertEquals;
-
-import academy.softserve.eschool.dto.EditUserDTO;
-import academy.softserve.eschool.dto.JournalDTO;
-import academy.softserve.eschool.dto.JournalMarkDTO;
-import academy.softserve.eschool.dto.TeacherDTO;
-import academy.softserve.eschool.model.User;
-import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.security.JwtAuthenticationRequest;
-import academy.softserve.eschool.service.JournalService;
-import academy.softserve.eschool.service.JournalServiceImpl;
-import academy.softserve.eschool.service.MarkService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,12 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.time.LocalDate;
-import java.util.List;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
