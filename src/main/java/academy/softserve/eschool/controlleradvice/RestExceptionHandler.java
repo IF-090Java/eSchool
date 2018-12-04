@@ -3,24 +3,23 @@ package academy.softserve.eschool.controlleradvice;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.servlet.ServletException;
 import javax.validation.ConstraintViolationException;
 
-import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
-import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
-import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
+import io.jsonwebtoken.MalformedJwtException;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
@@ -32,7 +31,7 @@ public class RestExceptionHandler {
         List<String> errors = ex.getConstraintViolations()
                 .stream()
                 .map((violation) -> {
-                    String className = violation.getRootBeanClass().getName();
+                    String className = violation.getRootBeanClass().getSimpleName();
                     String propertyPath = violation.getPropertyPath().toString();
                     String message = violation.getMessage();
                     return  String.format("%s %s: %s", className, propertyPath, message);
@@ -43,6 +42,19 @@ public class RestExceptionHandler {
         GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
                 .status(status)
                 .data(errors)
+                .build();
+        return response;
+    }
+    
+    @ResponseStatus(code=HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(TransactionSystemException.class)
+    public GeneralResponseWrapper<Object> handleTransactionException(TransactionSystemException ex){
+        if (ex.getRootCause() instanceof ConstraintViolationException) {
+            return handleValidationException((ConstraintViolationException)ex.getRootCause());
+        }
+        Status status = new Status(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getLocalizedMessage());
+        GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+                .status(status)
                 .build();
         return response;
     }
