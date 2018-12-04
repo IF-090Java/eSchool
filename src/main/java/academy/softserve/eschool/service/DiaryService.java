@@ -40,7 +40,6 @@ public class DiaryService implements DiaryServiceBase {
         String endDate = dateFormat.format(weekEndDate);
         logger.debug("Reading diary data for user_id : [{}] period : [{} - {}]", studentId, startDate, endDate);
         List<Map<String, Object>> diaryData = lessonRepo.getDiary(studentId, startDate, endDate);
-        logger.debug("Diary data: [{}]", diaryData.toString());
         return mapToDTO(diaryData);
     }
     
