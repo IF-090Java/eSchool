@@ -1,42 +1,25 @@
 package academy.softserve.eschool.controller;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertEquals;
-
-import academy.softserve.eschool.dto.EditUserDTO;
-import academy.softserve.eschool.dto.JournalDTO;
-import academy.softserve.eschool.dto.JournalMarkDTO;
-import academy.softserve.eschool.dto.TeacherDTO;
-import academy.softserve.eschool.model.User;
-import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.security.JwtAuthenticationRequest;
-import academy.softserve.eschool.service.JournalService;
-import academy.softserve.eschool.service.JournalServiceImpl;
-import academy.softserve.eschool.service.MarkService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.time.LocalDate;
-import java.util.List;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -44,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource(
         locations = "classpath:application-integrationtest.properties")
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 public class JournalControllerIntegrationTest {
 
     private String token;
@@ -72,6 +55,32 @@ public class JournalControllerIntegrationTest {
 
     @Test
     public void getJournalsTest() throws Exception {
+        String expectedJSON = "{\"status\":{\"code\":200,\"message\":\"OK\"},\"data\":[" +
+                "{\"idSubject\":5,\"idClass\":5,\"subjectName\":\"Українська література\",\"className\":\"5-А\",\"academicYear\":2016}," +
+                "{\"idSubject\":5,\"idClass\":3,\"subjectName\":\"Українська література\",\"className\":\"7-Б\",\"academicYear\":2018}," +
+                "{\"idSubject\":10,\"idClass\":4,\"subjectName\":\"Хімія\",\"className\":\"9\",\"academicYear\":2018}," +
+                "{\"idSubject\":9,\"idClass\":5,\"subjectName\":\"Математика\",\"className\":\"5-А\",\"academicYear\":2016}," +
+                "{\"idSubject\":4,\"idClass\":1,\"subjectName\":\"Українська мова\",\"className\":\"8-А\",\"academicYear\":2017}," +
+                "{\"idSubject\":7,\"idClass\":4,\"subjectName\":\"Географія\",\"className\":\"9\",\"academicYear\":2018}," +
+                "{\"idSubject\":4,\"idClass\":3,\"subjectName\":\"Українська мова\",\"className\":\"7-Б\",\"academicYear\":2018}," +
+                "{\"idSubject\":2,\"idClass\":1,\"subjectName\":\"Інформатика\",\"className\":\"8-А\",\"academicYear\":2017}," +
+                "{\"idSubject\":1,\"idClass\":1,\"subjectName\":\"Історія України\",\"className\":\"8-А\",\"academicYear\":2017}," +
+                "{\"idSubject\":8,\"idClass\":3,\"subjectName\":\"Біологія\",\"className\":\"7-Б\",\"academicYear\":2018}," +
+                "{\"idSubject\":8,\"idClass\":4,\"subjectName\":\"Біологія\",\"className\":\"9\",\"academicYear\":2018}," +
+                "{\"idSubject\":9,\"idClass\":2,\"subjectName\":\"Математика\",\"className\":\"7-А\",\"academicYear\":2018}," +
+                "{\"idSubject\":9,\"idClass\":4,\"subjectName\":\"Математика\",\"className\":\"9\",\"academicYear\":2018}," +
+                "{\"idSubject\":2,\"idClass\":5,\"subjectName\":\"Інформатика\",\"className\":\"5-А\",\"academicYear\":2016}," +
+                "{\"idSubject\":3,\"idClass\":2,\"subjectName\":\"Англійська мова\",\"className\":\"7-А\",\"academicYear\":2018}," +
+                "{\"idSubject\":1,\"idClass\":5,\"subjectName\":\"Історія України\",\"className\":\"5-А\",\"academicYear\":2016}," +
+                "{\"idSubject\":1,\"idClass\":3,\"subjectName\":\"Історія України\",\"className\":\"7-Б\",\"academicYear\":2018}," +
+                "{\"idSubject\":3,\"idClass\":1,\"subjectName\":\"Англійська мова\",\"className\":\"8-А\",\"academicYear\":2017}," +
+                "{\"idSubject\":5,\"idClass\":2,\"subjectName\":\"Українська література\",\"className\":\"7-А\",\"academicYear\":2018}," +
+                "{\"idSubject\":5,\"idClass\":1,\"subjectName\":\"Українська література\",\"className\":\"8-А\",\"academicYear\":2017}," +
+                "{\"idSubject\":6,\"idClass\":2,\"subjectName\":\"Фізика\",\"className\":\"7-А\",\"academicYear\":2018}," +
+                "{\"idSubject\":6,\"idClass\":4,\"subjectName\":\"Фізика\",\"className\":\"9\",\"academicYear\":2018}," +
+                "{\"idSubject\":10,\"idClass\":3,\"subjectName\":\"Хімія\",\"className\":\"7-Б\",\"academicYear\":2018}," +
+                "{\"idSubject\":10,\"idClass\":5,\"subjectName\":\"Хімія\",\"className\":\"5-А\",\"academicYear\":2016}]}";
+
         mvc.perform(MockMvcRequestBuilders.post("/signin")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(new JwtAuthenticationRequest("admin", "admin"))))
@@ -87,16 +96,15 @@ public class JournalControllerIntegrationTest {
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idSubject").value(5))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idClass").value(5))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].subjectName").value("Українська література"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].className").value("5-А"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].academicYear").value("2016"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.*", hasSize(24)));
+                .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 
     @Test
     public void getJournalsTeacherTest() throws Exception {
+        String expectedJSON = "{\"status\":{\"code\":200,\"message\":\"OK\"},\"data\":[" +
+                "{\"idSubject\":3,\"idClass\":2,\"subjectName\":\"Англійська мова\",\"className\":\"7-А\",\"academicYear\":2018}," +
+                "{\"idSubject\":3,\"idClass\":1,\"subjectName\":\"Англійська мова\",\"className\":\"8-А\",\"academicYear\":2017}]}";
+
         mvc.perform(MockMvcRequestBuilders.get("/journals/teachers/2")
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headers))
@@ -104,16 +112,14 @@ public class JournalControllerIntegrationTest {
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idSubject").value(3))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idClass").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].subjectName").value("Англійська мова"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].className").value("7-А"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].academicYear").value("2018"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.*", hasSize(2)));
+                .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 
     @Test
     public void getActiveJournalsTeacherTest() throws Exception {
+        String expectedJSON = "{\"status\":{\"code\":200,\"message\":\"OK\"},\"data\":[" +
+                "{\"idSubject\":3,\"idClass\":2,\"subjectName\":\"Англійська мова\",\"className\":\"7-А\",\"academicYear\":2018}]}";
+
         mvc.perform(MockMvcRequestBuilders.get("/journals/teachers/2/active")
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headers))
@@ -121,12 +127,7 @@ public class JournalControllerIntegrationTest {
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idSubject").value(3))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idClass").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].subjectName").value("Англійська мова"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].className").value("7-А"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].academicYear").value("2018"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.*", hasSize(1)));
+                .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 
     @Test
@@ -138,7 +139,16 @@ public class JournalControllerIntegrationTest {
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.*", hasSize(3)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.*", hasSize(3)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].idStudent").value(18))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].studentFullName").value("Ірина Грушецька"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].marks").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[1].idStudent").value(19))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[1].studentFullName").value("Катерина Полянська"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].marks").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[2].idStudent").value(20))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[2].studentFullName").value("Марія Василик"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].marks").isNotEmpty());
 
     }
 }

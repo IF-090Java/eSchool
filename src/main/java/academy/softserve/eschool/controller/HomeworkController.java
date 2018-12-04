@@ -90,6 +90,7 @@ public class HomeworkController {
             + " or (hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson))")
     public GeneralResponseWrapper<HomeworkFileDTO> getFile(
             @ApiParam(value = "ID of the lesson", required = true) @PathVariable int idLesson){
+        System.out.println(journalServiceImpl.getFile(idLesson));
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getFile(idLesson));
     }
 }
