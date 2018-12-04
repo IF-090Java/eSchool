@@ -1,18 +1,12 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.dto.HomeworkFileDTO;
 import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkTypeDTO;
-import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.security.JwtAuthenticationRequest;
-import academy.softserve.eschool.service.JournalService;
-import static org.hamcrest.Matchers.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,8 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -33,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource(
         locations = "classpath:application-integrationtest.properties")
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MarksControllerIntegrationTest {
 
     private String token;
@@ -91,6 +82,7 @@ public class MarksControllerIntegrationTest {
                 .content(mapper.writeValueAsString(markTypeDTO))
                 .headers(headers))
                 .andExpect((MockMvcResultMatchers.jsonPath("$.status.code")).value(201));
+
     }
 
 }
