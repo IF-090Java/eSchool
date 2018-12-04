@@ -10,7 +10,7 @@ void setBuildStatus(String message, String state) {
 pipeline{
     agent any
     stages{
-        stage('build'){
+        stage('compile'){
             steps{
                 withMaven(maven : 'maven3'){
                     sh 'mvn clean compile'
@@ -45,7 +45,7 @@ pipeline{
                  }
              }
         }
-        stage{
+        stage("Build"){
             steps{
                 withMaven(maven : 'maven3'){
                     sh 'mvn package -Dmaven.test.skip=true'
