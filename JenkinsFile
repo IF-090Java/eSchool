@@ -1,0 +1,67 @@
+void setBuildStatus(String message, String state) {
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/IF-090Java/eSchool"],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "Unit tests an code analysis"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+pipeline{
+    agent any
+    stages{
+        stage('compile'){
+            steps{
+                withMaven(maven : 'maven3'){
+                    sh 'mvn clean compile'
+                }
+            }
+        }
+        stage('test'){
+            steps{
+                withMaven(maven : 'maven3'){
+                    sh 'mvn test -Dtest=!academy.softserve.eschool.*.*IntegrationTest'
+                }
+            }
+        }
+        stage('Sonar analysis'){
+            steps{
+                withMaven(maven : 'maven3'){
+                    withSonarQubeEnv('sonar6'){
+                        sh 'mvn sonar:sonar'
+                    }
+                }
+            }
+        }
+        stage("Quality Gate"){
+             steps{
+                 timeout(time: 5, unit: 'MINUTES') {
+                     script{
+                         def qg = waitForQualityGate()
+                         if (qg.status != 'OK') {
+                             error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                         }
+                     }
+                 }
+             }
+        }
+        stage("Build"){
+            steps{
+                withMaven(maven : 'maven3'){
+                    sh 'mvn package -Dmaven.test.skip=true'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: '**/*.jar', onlyIfSuccessful: true
+        }
+        success {
+            setBuildStatus("Build succeeded", "SUCCESS");
+        }
+        failure {
+            setBuildStatus("Build failed", "FAILURE");
+        }
+    }
+}
