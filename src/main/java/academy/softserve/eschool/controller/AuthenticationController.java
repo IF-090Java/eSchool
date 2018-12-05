@@ -1,10 +1,9 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.security.JwtAuthenticationRequest;
-import academy.softserve.eschool.security.JwtTokenUtil;
-import academy.softserve.eschool.security.JwtUser;
-import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
-import io.swagger.annotations.*;
+import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +15,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
+import academy.softserve.eschool.security.*;
+import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
+import academy.softserve.eschool.service.base.EmailServiceBase;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
+import io.swagger.annotations.*;
 
 /**
  * Controller for authentication and refreshing token
@@ -38,13 +41,21 @@ public class AuthenticationController {
     private JwtTokenUtil jwtTokenUtil;
 
     private UserDetailsService userDetailsService;
+    
+    private EmailServiceBase mailService;
+    
+    private CustomPasswordEncoder passwEncoder;
 
     @Autowired
     public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
-                                    @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService){
+                                    @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService,
+                                    EmailServiceBase mailService,
+                                    CustomPasswordEncoder passwEncoder){
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
+        this.mailService = mailService;
+        this.passwEncoder = passwEncoder;
     }
 
     /**
@@ -105,6 +116,25 @@ public class AuthenticationController {
         } else {
             throw new TokenGlobalTimeExpiredException("Token global lifetime expired");
         }
+    }
+    
+    @GetMapping("/recoverPassword")
+    @ResponseBody
+    public GeneralResponseWrapper<String> recoverPassword(@RequestParam String username){
+        String message;
+        JwtUser user = (JwtUser)userDetailsService.loadUserByUsername(username);
+        String email = user.getEmail();
+        if (email != null) {
+            mailService.sendSimpleMessage(
+                    email,
+                    "Відновлення паролю",
+                    String.format("Ваш пароль: %s", passwEncoder.decode(user.getPassword())));
+            message = "Пароль відправлено на Вашу пошту";
+        } else {
+            message = "Для відновлення паролю зв'яжіться з адміністратором";
+        }
+        
+        return new GeneralResponseWrapper<String>(Status.of(HttpStatus.OK), message);
     }
 
     private void authenticate(String username, String password) {
