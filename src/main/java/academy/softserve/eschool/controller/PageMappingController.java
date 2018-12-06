@@ -146,6 +146,16 @@ public class PageMappingController {
     public String getLoginPage(){
         return "/loginForm.html";
     }
+    
+    @RequestMapping("requestPasswordReset")
+    public String getRequestPasswordRecoveryPage() {
+        return "/passwordResetRequest.html";
+    }
+    
+    @RequestMapping("resetPassword")
+    public String getResetPasswordPage() {
+        return "/passwordReset.html";
+    }
 
 }
 

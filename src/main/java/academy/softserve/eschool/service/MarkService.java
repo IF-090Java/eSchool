@@ -65,7 +65,6 @@ public class MarkService implements MarkServiceBase {
                 return new MarkDataPointDTO(averageMark, date, count);
             })
             .collect(Collectors.toList());
-        logger.debug("Mark datapoints : [{}]", dataPoints.toString());
         return dataPoints;
     }
 

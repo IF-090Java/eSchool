@@ -1,10 +1,9 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.security.JwtAuthenticationRequest;
-import academy.softserve.eschool.security.JwtTokenUtil;
-import academy.softserve.eschool.security.JwtUser;
-import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
-import io.swagger.annotations.*;
+import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +15,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
+import academy.softserve.eschool.dto.PasswordResetDTO;
+import academy.softserve.eschool.security.JwtAuthenticationRequest;
+import academy.softserve.eschool.security.JwtTokenUtil;
+import academy.softserve.eschool.security.JwtUser;
+import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
+import academy.softserve.eschool.service.PasswordResetService;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
+import io.swagger.annotations.*;
 
 /**
  * Controller for authentication and refreshing token
@@ -26,7 +32,7 @@ import java.util.Objects;
 @Api(description = "Get the token to authorize " +
         "(in the swagger.ui page look at the \"Authorize\" button in the upper right corner) and refresh it.")
 public class AuthenticationController {
-
+    
     @Value("${jwt.token.header}")
     private String tokenHeader;
 
@@ -38,13 +44,17 @@ public class AuthenticationController {
     private JwtTokenUtil jwtTokenUtil;
 
     private UserDetailsService userDetailsService;
+    
+    private PasswordResetService passwordResetService;
 
     @Autowired
     public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
-                                    @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService){
+                                    @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService,
+                                    PasswordResetService passwordResetService){
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
+        this.passwordResetService = passwordResetService;
     }
 
     /**
@@ -105,6 +115,25 @@ public class AuthenticationController {
         } else {
             throw new TokenGlobalTimeExpiredException("Token global lifetime expired");
         }
+    }
+    
+    @GetMapping("/requestPasswordReset")
+    @ResponseBody
+    @ApiOperation("Try to send password recovery email")
+    public GeneralResponseWrapper<String> recoverPassword(
+            @ApiParam(value = "Login or email", required = true) @RequestParam String query){
+        return new GeneralResponseWrapper<String>(
+                Status.of(HttpStatus.OK), 
+                passwordResetService.trySendPasswordResetEmail(query));
+    }
+    
+    @PutMapping("/resetPassword")
+    @ResponseBody
+    @ApiOperation("Update user's password")
+    public GeneralResponseWrapper<String> updatePassword(@RequestBody PasswordResetDTO passwordDTO){
+        return new GeneralResponseWrapper<String>(
+                Status.of(HttpStatus.OK), 
+                passwordResetService.tryChangePassword(passwordDTO));
     }
 
     private void authenticate(String username, String password) {
