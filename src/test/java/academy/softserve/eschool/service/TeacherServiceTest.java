@@ -1,9 +1,11 @@
 package academy.softserve.eschool.service;
 
 
+import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.model.Teacher;
+import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.TeacherRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.security.CustomPasswordEncoder;
@@ -73,6 +75,48 @@ public class TeacherServiceTest {
     @Test
     public void getAll() {
         assertEquals(teacherDTOS, teacherService.getAll(teachers));
+    }
+
+    @Test
+    public void adminUpdateTeacher() {
+        TeacherDTO teacher = new TeacherDTO("Іван", "Іванов", "Іванович", LocalDate.of(2000, Month.DECEMBER, 4), "ivanIvanov", "iivanov@gmail.com", "0123456789", "");
+        EditUserDTO editUser = EditUserDTO.builder()
+                .login("ivanIvanov")
+                .oldPass("password")
+                .newPass("password1")
+                .email("iivanov@gmail.com")
+                .firstname("Іван")
+                .lastname("Іванов")
+                .patronymic("Іванович")
+                .dateOfBirth(LocalDate.of(2000, Month.DECEMBER, 4))
+                .phone("0123456789")
+                .avatar("")
+                .build();
+        assertEquals(teacher, teacherService.adminUpdateTeacher(teachers.get(0), editUser));
+    }
+
+    @Test
+    public void updateTeacher() {
+        TeacherDTO teacher = new TeacherDTO("Іван", "Іванов", "Іванович", LocalDate.of(2000, Month.DECEMBER, 4), "ivanIvanov", "iivanov@gmail.com", "0123456789", "");
+        EditUserDTO editUser = EditUserDTO.builder()
+                .login("ivanIvanov")
+                .oldPass("password")
+                .newPass("password1")
+                .email("iivanov@gmail.com")
+                .firstname("Іван")
+                .lastname("Іванов")
+                .patronymic("Іванович")
+                .dateOfBirth(LocalDate.of(2000, Month.DECEMBER, 4))
+                .phone("0123456789")
+                .avatar("")
+                .build();
+        assertNotEquals(teacher, teacherService.updateTeacher(teachers.get(0), editUser));
+        teacher.setLogin("iivanov");
+        assertEquals(teacher, teacherService.updateTeacher(teachers.get(0), editUser));
+    }
+
+    @Test
+    public void addOne() {
     }
 
     @AfterClass
