@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.auxiliary.PasswordResetTokenGenerator;
@@ -15,7 +14,6 @@ import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.PasswordResetTokenRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.security.CustomPasswordEncoder;
-import academy.softserve.eschool.security.JwtUser;
 import academy.softserve.eschool.service.base.EmailServiceBase;
 import academy.softserve.eschool.service.base.PasswordResetServiceBase;
 import lombok.NonNull;
@@ -44,18 +42,19 @@ public class PasswordResetService implements PasswordResetServiceBase{
     private EmailServiceBase mailService;
     
     @NonNull
-    private UserDetailsService userDetailsService;
-    
-    @NonNull
     private UserRepository userRepo;
     
     @NonNull
     private PasswordResetTokenRepository passwordTokenRepo;
     
     @Override
-    public String trySendPasswordResetEmail(String username) {
+    public String trySendPasswordResetEmail(String query) {
         String message;
-        JwtUser user = (JwtUser)userDetailsService.loadUserByUsername(username);
+        User user = userRepo.findByLoginOrEmail(query, query);
+        if (user == null) {
+            return "Не вдалося знайти користувача з такими даними";
+        }
+        
         String email = user.getEmail();
         if (email != null) {
             String token = PasswordResetTokenGenerator.generateToken();

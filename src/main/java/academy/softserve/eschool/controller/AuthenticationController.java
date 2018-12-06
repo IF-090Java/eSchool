@@ -120,10 +120,11 @@ public class AuthenticationController {
     @GetMapping("/requestPasswordReset")
     @ResponseBody
     @ApiOperation("Try to send password recovery email")
-    public GeneralResponseWrapper<String> recoverPassword(@RequestParam String username){
+    public GeneralResponseWrapper<String> recoverPassword(
+            @ApiParam(value = "Login or email", required = true) @RequestParam String query){
         return new GeneralResponseWrapper<String>(
                 Status.of(HttpStatus.OK), 
-                passwordResetService.trySendPasswordResetEmail(username));
+                passwordResetService.trySendPasswordResetEmail(query));
     }
     
     @PutMapping("/resetPassword")

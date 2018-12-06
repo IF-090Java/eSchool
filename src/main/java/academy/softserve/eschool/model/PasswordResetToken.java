@@ -30,7 +30,7 @@ public class PasswordResetToken {
     
     @NonNull
     @Column(name="user_id")
-    private Long userId;
+    private int userId;
     
     @CreationTimestamp
     @Column(name="created_at")

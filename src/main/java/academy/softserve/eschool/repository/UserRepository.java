@@ -18,6 +18,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findUsersWithPartOfLogin(@Param("partLogin") String login);
 
     User findByLogin(String username);
+    
+    User findByEmail(String email);
+    
+    User findByLoginOrEmail(String login, String email);
 
     @Query("select " +
     "new academy.softserve.eschool.dto.AddedUsersDTO(u.firstName, u.lastName, u.patronymic, u.role, u.login, u.password) " +
