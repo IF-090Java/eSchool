@@ -1,8 +1,6 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.dto.MarkDTO;
-import academy.softserve.eschool.dto.MarkDataPointDTO;
-import academy.softserve.eschool.dto.MarkTypeDTO;
+import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.service.base.MarkServiceBase;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
@@ -54,6 +52,16 @@ public class MarksController {
         return new GeneralResponseWrapper<>(
                 Status.of(OK),
                 markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd));
+    }
+    
+    @PreAuthorize("hasRole('TEACHER')")
+    @GetMapping("/avg")
+    GeneralResponseWrapper<List<SubjectAvgMarkDTO>> getAverageMarks (
+            @ApiParam(value = "student id") @RequestParam(value = "student_id", required = false) Integer studentId){
+        logger.debug("Called getAverageMarks() for studentId:[{}]");
+        return new GeneralResponseWrapper<List<SubjectAvgMarkDTO>>(
+                Status.of(OK),
+                markService.getAverageMarks(studentId));
     }
 
     /**

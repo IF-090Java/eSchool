@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import academy.softserve.eschool.model.Mark;
 import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
+import academy.softserve.eschool.dto.SubjectAvgMarkDTO;
 import academy.softserve.eschool.repository.MarkRepository;
 import academy.softserve.eschool.service.base.MarkServiceBase;
 import lombok.NonNull;
@@ -87,5 +88,16 @@ public class MarkService implements MarkServiceBase {
     public void updateType(int idLesson, String markType) {
         logger.info("Editing markType[{}] lesson[id={}]",markType,idLesson);
         markRepo.saveTypeByLesson(idLesson,markType);
+    }
+
+
+    /**
+     * Returns average marks grouped by subject for specified student
+     * @param studentId id of student
+     * @return list of {@link SubjectAvgMarkDTO}
+     */
+    @Override
+    public List<SubjectAvgMarkDTO> getAverageMarks(Integer studentId) {
+        return markRepo.getFilteredByStudentGroupedBySubject(studentId);
     }
 }
