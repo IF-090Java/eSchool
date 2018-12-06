@@ -1,6 +1,5 @@
 package academy.softserve.eschool.service;
 
-import static org.junit.Assert.assertEquals;
 import academy.softserve.eschool.dto.SubjectDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Lesson;
@@ -8,7 +7,6 @@ import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
-import academy.softserve.eschool.service.ScheduleServiceImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,10 +20,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * This is a test class for {@link ScheduleServiceImpl}
