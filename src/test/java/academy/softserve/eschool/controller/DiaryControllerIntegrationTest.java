@@ -38,7 +38,7 @@ public class DiaryControllerIntegrationTest extends ControllerIntegrationTestBas
                 + "{\"lessonId\":8,\"date\":[2018,9,4],\"lessonNumber\":3,\"subjectName\":\"Українська література\",\"homeWork\":\"\",\"homeworkFileId\":null,\"mark\":0,\"note\":\"\"},"
                 + "{\"lessonId\":9,\"date\":[2018,9,4],\"lessonNumber\":4,\"subjectName\":\"Біологія\",\"homeWork\":\"\",\"homeworkFileId\":null,\"mark\":9,\"note\":\"\"},"
                 + "{\"lessonId\":10,\"date\":[2018,9,4],\"lessonNumber\":5,\"subjectName\":\"Біологія\",\"homeWork\":\"Домашнє завдання #18, #84\",\"homeworkFileId\":null,\"mark\":0,\"note\":\"\"},"
-                + "{\"lessonId\":11,\"date\":[2018,9,5],\"lessonNumber\":1,\"subjectName\":\"Англійська мова\",\"homeWork\":\"\",\"homeworkFileId\":null,\"mark\":4,\"note\":\"Не готовий!\"},"
+                + "{\"lessonId\":11,\"date\":[2018,9,5],\"lessonNumber\":1,\"subjectName\":\"Англійська мова\",\"homeWork\":\"Домашнє завдання #15\",\"homeworkFileId\":1,\"mark\":4,\"note\":\"Не готовий!\"},"
                 + "{\"lessonId\":12,\"date\":[2018,9,5],\"lessonNumber\":2,\"subjectName\":\"Фізика\",\"homeWork\":\"Домашнє завдання #15, #92\",\"homeworkFileId\":null,\"mark\":4,\"note\":\"Не готовий!\"},"
                 + "{\"lessonId\":13,\"date\":[2018,9,5],\"lessonNumber\":3,\"subjectName\":\"Українська література\",\"homeWork\":\"\",\"homeworkFileId\":null,\"mark\":0,\"note\":\"\"},"
                 + "{\"lessonId\":14,\"date\":[2018,9,5],\"lessonNumber\":4,\"subjectName\":\"Українська література\",\"homeWork\":\"\",\"homeworkFileId\":null,\"mark\":0,\"note\":\"\"},"
