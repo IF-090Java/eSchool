@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" monitorInterval="30">
-    <property name="LOGS" value="./logs" />
-
-    <if condition='isDefined("catalina.base")'>
-        <then>
-            <property name="log.folder" value="${catalina.base}/logs"/>
-        </then>
-        <else>
-            <property name="log.folder" value="./target/logs"/>
-        </else>
-    </if>
-
+    <property name="log.folder" value="${LOG_PATH}"/>
     <appender name="ConsoleLogger"
               class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -22,10 +12,7 @@
 
     <appender name="RollingFileLogger"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.folder}/logs/spring-boot-logger.log</file>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
+        <file>${log.folder}/spring-boot-logger.log</file>
         <encoder
                 class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] %-40.40c{40}:%L [%t] - %m%n%throwable</Pattern>
@@ -33,7 +20,7 @@
 
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.folder}/logs/spring-boot-logger-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${log.folder}/spring-boot-logger-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -42,12 +29,12 @@
         </rollingPolicy>
     </appender>
 
-    <root level="info">
+    <root>
         <appender-ref ref="ConsoleLogger" />
         <appender-ref ref="RollingFileLogger" />
     </root>
 
-    <logger name="academy.softserve.eschool" level="debug" additivity="false">
+    <logger name="academy.softserve.eschool" additivity="false">
         <appender-ref ref="ConsoleLogger" />
         <appender-ref ref="RollingFileLogger" />
     </logger>
