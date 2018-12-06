@@ -83,12 +83,6 @@ public class StudentServiceTest {
         assertEquals(studentDTOS, studentService.getAll(students));
     }
 
-    @AfterClass
-    public static void destroy() {
-        students.clear();
-        studentDTOS.clear();
-    }
-
     @Test
     public void adminUpdateStudent() {
     }
@@ -99,5 +93,11 @@ public class StudentServiceTest {
 
     @Test
     public void addOne() {
+    }
+
+    @AfterClass
+    public static void destroy() {
+        students.clear();
+        studentDTOS.clear();
     }
 }
