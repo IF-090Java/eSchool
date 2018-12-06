@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeacherController {
 
-    private static final Logger logger = LoggerFactory.getLogger(TeacherController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeacherController.class);
 
     @NonNull
     private TeacherRepository teacherRepository;
@@ -59,7 +59,7 @@ public class TeacherController {
     @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<TeacherDTO> addTeacher(
             @ApiParam(value = "Teacher object", required = true) @RequestBody TeacherDTO teacher) {
-        logger.info("Teacher " + teacher.getLastname() + " " +  teacher.getFirstname() + "created");
+        LOGGER.info("Creating teacher [{} {}]", teacher.getLastname(), teacher.getFirstname() + "created");
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.addOne(teacher));
     }
 

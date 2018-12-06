@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentController {
 
-    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
 
     @NonNull
     private StudentRepository studentRepository;
@@ -45,7 +45,7 @@ public class StudentController {
     @PostMapping
     public GeneralResponseWrapper<Student> addStudent(
             @ApiParam(value = "Student object", required = true) @RequestBody StudentDTO student) {
-        logger.info("Student " + student.getLastname() + " " + student.getFirstname() + " created");
+        LOGGER.info("Creating student [{} {}]", student.getLastname(), student.getFirstname());
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), studentService.addOne(student));
     }
 
