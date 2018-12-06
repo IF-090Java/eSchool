@@ -54,8 +54,14 @@ public class MarksController {
                 markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd));
     }
     
+    /**
+     * Returns list of strudent's average marks grouped by subject
+     * @param studentId
+     * @return list of {@link SubjectAvgMarkDTO}
+     */
     @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("/avg")
+    @ApiOperation(value = "Teacher gets student's average marks")
     GeneralResponseWrapper<List<SubjectAvgMarkDTO>> getAverageMarks (
             @ApiParam(value = "student id") @RequestParam(value = "student_id", required = false) Integer studentId){
         logger.debug("Called getAverageMarks() for studentId:[{}]");
