@@ -1,11 +1,9 @@
 package academy.softserve.eschool.service;
 
 
-import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.model.Teacher;
-import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.TeacherRepository;
 import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.security.CustomPasswordEncoder;
