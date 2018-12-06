@@ -147,9 +147,5 @@ public class PageMappingController {
         return "/loginForm.html";
     }
 
-    @RequestMapping("/users/credentials")
-    public String getListOfUserCredentials(){
-        return "/ListOfUserCredentials.html";
-    }
 }
 

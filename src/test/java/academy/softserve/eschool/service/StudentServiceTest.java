@@ -88,4 +88,16 @@ public class StudentServiceTest {
         students.clear();
         studentDTOS.clear();
     }
+
+    @Test
+    public void adminUpdateStudent() {
+    }
+
+    @Test
+    public void updateStudent() {
+    }
+
+    @Test
+    public void addOne() {
+    }
 }
