@@ -24,8 +24,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PasswordResetService implements PasswordResetServiceBase{
-    private final static String PASSWORD_RESET_EMAIL = "<div>Для відновлення паролю перейдіть за посиланням:</div>"
-            + "<a href=\"%1$s\">%1$s</a><div>Дане посилання буде активним на протязі години</div>";
+    private final static String PASSWORD_RESET_EMAIL = "<div><p>Для відновлення паролю перейдіть за посиланням:</p>"
+            + "<a href=\"%1$s\">%1$s</a><p>Дане посилання буде активним протягом години<p></div>";
     //TODO change host to appropriate host address
     private final static String PASSWORD_RESET_LINK = "%s/ui/resetPassword?token=%s";
     
@@ -86,7 +86,7 @@ public class PasswordResetService implements PasswordResetServiceBase{
             passwordTokenRepo.delete(token.get());
             logger.debug("PasswordResetToken removed from database");
         } else {
-            throw new RuntimeException("Посилання застаріло");
+            message = "Посилання застаріло";
         }
         return message;
     }

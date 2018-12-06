@@ -18,7 +18,7 @@ public class PasswordResetDTO {
     String password;
     
     /**
-     * Token used to identify user
+     * Token used to identify user, found in password recovery link sent to user's email
      */
     String token;
 }

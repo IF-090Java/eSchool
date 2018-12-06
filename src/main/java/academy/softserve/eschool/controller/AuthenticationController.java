@@ -119,6 +119,7 @@ public class AuthenticationController {
     
     @GetMapping("/requestPasswordReset")
     @ResponseBody
+    @ApiOperation("Try to send password recovery email")
     public GeneralResponseWrapper<String> recoverPassword(@RequestParam String username){
         return new GeneralResponseWrapper<String>(
                 Status.of(HttpStatus.OK), 
@@ -127,6 +128,7 @@ public class AuthenticationController {
     
     @PutMapping("/resetPassword")
     @ResponseBody
+    @ApiOperation("Update user's password")
     public GeneralResponseWrapper<String> updatePassword(@RequestBody PasswordResetDTO passwordDTO){
         return new GeneralResponseWrapper<String>(
                 Status.of(HttpStatus.OK), 
