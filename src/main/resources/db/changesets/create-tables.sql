@@ -152,3 +152,21 @@ ALTER TABLE clazz ADD UNIQUE nameYearIndex(name, academic_year);
 
 --changeset by IhorKudiarskyi:make_unique_name_of_subject
 ALTER TABLE subject ADD UNIQUE (name);
+
+--changeset serhiiboiko:password_reset_token_table_and_scheduler
+CREATE TABLE IF NOT EXISTS `password_reset_token` (
+    `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `user_id` INT NOT NULL,
+    `token` VARCHAR(255) NOT NULL,
+    `created_at` DATETIME NOT NULL
+);
+
+SET GLOBAL event_scheduler = ON;
+
+CREATE EVENT remove_expired_password_reset_tokens
+ON SCHEDULE EVERY 5 MINUTE
+STARTS CURRENT_TIMESTAMP
+DO
+   DELETE FROM password_reset_token
+   WHERE ADDTIME(password_reset_token.created_at, "1:00:00") < now();
+   

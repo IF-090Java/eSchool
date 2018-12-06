@@ -15,9 +15,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
-import academy.softserve.eschool.security.*;
+import academy.softserve.eschool.dto.PasswordResetDTO;
+import academy.softserve.eschool.security.JwtAuthenticationRequest;
+import academy.softserve.eschool.security.JwtTokenUtil;
+import academy.softserve.eschool.security.JwtUser;
 import academy.softserve.eschool.security.exceptions.TokenGlobalTimeExpiredException;
-import academy.softserve.eschool.service.base.EmailServiceBase;
+import academy.softserve.eschool.service.PasswordResetService;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
@@ -29,7 +32,7 @@ import io.swagger.annotations.*;
 @Api(description = "Get the token to authorize " +
         "(in the swagger.ui page look at the \"Authorize\" button in the upper right corner) and refresh it.")
 public class AuthenticationController {
-
+    
     @Value("${jwt.token.header}")
     private String tokenHeader;
 
@@ -42,20 +45,16 @@ public class AuthenticationController {
 
     private UserDetailsService userDetailsService;
     
-    private EmailServiceBase mailService;
-    
-    private CustomPasswordEncoder passwEncoder;
+    private PasswordResetService passwordResetService;
 
     @Autowired
     public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil,
                                     @Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService,
-                                    EmailServiceBase mailService,
-                                    CustomPasswordEncoder passwEncoder){
+                                    PasswordResetService passwordResetService){
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
-        this.mailService = mailService;
-        this.passwEncoder = passwEncoder;
+        this.passwordResetService = passwordResetService;
     }
 
     /**
@@ -118,23 +117,20 @@ public class AuthenticationController {
         }
     }
     
-    @GetMapping("/recoverPassword")
+    @GetMapping("/requestPasswordReset")
     @ResponseBody
     public GeneralResponseWrapper<String> recoverPassword(@RequestParam String username){
-        String message;
-        JwtUser user = (JwtUser)userDetailsService.loadUserByUsername(username);
-        String email = user.getEmail();
-        if (email != null) {
-            mailService.sendSimpleMessage(
-                    email,
-                    "Відновлення паролю",
-                    String.format("Ваш пароль: %s", passwEncoder.decode(user.getPassword())));
-            message = "Пароль відправлено на Вашу пошту";
-        } else {
-            message = "Для відновлення паролю зв'яжіться з адміністратором";
-        }
-        
-        return new GeneralResponseWrapper<String>(Status.of(HttpStatus.OK), message);
+        return new GeneralResponseWrapper<String>(
+                Status.of(HttpStatus.OK), 
+                passwordResetService.trySendPasswordResetEmail(username));
+    }
+    
+    @PutMapping("/resetPassword")
+    @ResponseBody
+    public GeneralResponseWrapper<String> updatePassword(@RequestBody PasswordResetDTO passwordDTO){
+        return new GeneralResponseWrapper<String>(
+                Status.of(HttpStatus.OK), 
+                passwordResetService.tryChangePassword(passwordDTO));
     }
 
     private void authenticate(String username, String password) {
