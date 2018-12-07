@@ -4,6 +4,8 @@ import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +34,9 @@ import io.swagger.annotations.*;
 @Api(description = "Get the token to authorize " +
         "(in the swagger.ui page look at the \"Authorize\" button in the upper right corner) and refresh it.")
 public class AuthenticationController {
-    
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Value("${jwt.token.header}")
     private String tokenHeader;
 
@@ -82,6 +86,7 @@ public class AuthenticationController {
         final String token = jwtTokenUtil.generateToken(userDetails);
         HttpHeaders headers = new HttpHeaders();
         headers.add(tokenHeader, tokenPrefix + token);
+        logger.info("User {} successfully authenticated", authenticationRequest.getUsername());
 
         return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
     }
@@ -111,8 +116,10 @@ public class AuthenticationController {
         if (jwtTokenUtil.canTokenBeRefreshed(token)) {
             HttpHeaders headers = new HttpHeaders();
             headers.add(tokenHeader, tokenPrefix + jwtTokenUtil.refreshToken(token));
+            logger.info("Token refresed for user {}", username);
             return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
         } else {
+            logger.warn("Token global lifetime expired, token was issued ", jwtTokenUtil.getIssuedAtDateFromToken(token));
             throw new TokenGlobalTimeExpiredException("Token global lifetime expired");
         }
     }
