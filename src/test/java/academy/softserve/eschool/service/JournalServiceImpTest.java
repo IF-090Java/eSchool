@@ -1,11 +1,14 @@
 package academy.softserve.eschool.service;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.model.*;
-import academy.softserve.eschool.repository.*;
-import org.junit.*;
+import academy.softserve.eschool.repository.ClassTeacherSubjectLinkRepository;
+import academy.softserve.eschool.repository.FileRepository;
+import academy.softserve.eschool.repository.LessonRepository;
+import academy.softserve.eschool.repository.StudentRepository;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,6 +17,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
 import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 /**
  * This is a test class for {@link ScheduleServiceImpl}

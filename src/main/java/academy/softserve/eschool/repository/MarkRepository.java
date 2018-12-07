@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import academy.softserve.eschool.dto.SubjectAvgMarkDTO;
 import academy.softserve.eschool.model.Mark;
 
 @Repository
@@ -60,4 +61,16 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
     @Transactional
     @Query(value = "update lesson set mark_type=:markType where id=:idLesson", nativeQuery = true)
     void saveTypeByLesson(@Param("idLesson") int idLesson,@Param("markType") String markType);
+
+    
+    /**
+     * Returns average marks grouped by subject for specified student
+     * @param studentId id of student
+     * @return list of {@link SubjectAvgMarkDTO}
+     */
+    @Query("select new academy.softserve.eschool.dto.SubjectAvgMarkDTO(avg(m.mark), m.lesson.subject.id, m.lesson.subject.name)"
+            + " from Mark m"
+            + " where m.student.id = :studentId"
+            + " group by m.lesson.subject.id")
+    List<SubjectAvgMarkDTO> getFilteredByStudentGroupedBySubject(Integer studentId);
 }

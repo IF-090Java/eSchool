@@ -1,8 +1,11 @@
 package academy.softserve.eschool.service;
 
+import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.StudentDTO;
+import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Student;
+import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
@@ -81,6 +84,12 @@ public class StudentServiceTest {
     @Test
     public void getAll() {
         assertEquals(studentDTOS, studentService.getAll(students));
+    }
+
+    @Test
+    public void addOne() {
+        Mockito.when(studentRepository.save(students.get(0))).thenReturn(students.get(0));
+        assertEquals(students.get(0), studentService.addOne(studentDTOS.get(0)));
     }
 
     @AfterClass

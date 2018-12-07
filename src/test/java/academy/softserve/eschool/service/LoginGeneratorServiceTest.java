@@ -18,6 +18,11 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+
+/**
+ * This is a test class for {@link LoginGeneratorService}.
+ * {@link Mockito} mock framework is used in conjunction with {@link org.junit.runners.JUnit4}
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class LoginGeneratorServiceTest {
 
@@ -49,10 +54,13 @@ public class LoginGeneratorServiceTest {
         Mockito.when(userRepository.findUsersWithPartOfLogin("iivanov")).thenReturn(users.subList(0, 3));
         assertEquals("iivanov3", loginGeneratorService.generateLogin(user.getFirstName(), user.getLastName()));
 
-        Mockito.when(userRepository.findUsersWithPartOfLogin("iivanov")).thenReturn(Arrays.asList(users.get(0), users.get(2)));
-        assertEquals("iivanov1", loginGeneratorService.generateLogin(user.getFirstName(), user.getLastName()));
+        Mockito.when(userRepository.findUsersWithPartOfLogin("iivanov")).thenReturn(Arrays.asList(users.get(0), users.get(3)));
+        assertEquals("Login iivanov and iivanov3 already exist","iivanov1", loginGeneratorService.generateLogin(user.getFirstName(), user.getLastName()));
 
-        Mockito.when(userRepository.findUsersWithPartOfLogin("iivanov")).thenReturn(Arrays.asList(users.get(0), users.get(1), users.get(3)));
-        assertEquals("iivanov2", loginGeneratorService.generateLogin(user.getFirstName(), user.getLastName()));
+        Mockito.when(userRepository.findUsersWithPartOfLogin("iivanov")).thenReturn(Arrays.asList( users.get(1), users.get(3)));
+        assertEquals("Login iivanov1 and iivanov3 already exist","iivanov", loginGeneratorService.generateLogin(user.getFirstName(), user.getLastName()));
+
+        Mockito.when(userRepository.findUsersWithPartOfLogin("iivanov")).thenReturn(Arrays.asList( users.get(0), users.get(1), users.get(3)));
+        assertEquals("Login iivanov, iivanov1 and iivanov3 already exist", "iivanov2", loginGeneratorService.generateLogin(user.getFirstName(), user.getLastName()));
     }
 }
