@@ -59,7 +59,7 @@ public class TeacherController {
     @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<TeacherDTO> addTeacher(
             @ApiParam(value = "Teacher object", required = true) @RequestBody TeacherDTO teacher) {
-        LOGGER.info("Creating teacher [{} {}]", teacher.getLastname(), teacher.getFirstname() + "created");
+        LOGGER.info("Creating teacher [{} {}]", teacher.getLastname(), teacher.getFirstname());
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.addOne(teacher));
     }
 
