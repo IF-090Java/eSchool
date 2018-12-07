@@ -2,6 +2,7 @@ package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.StudentDTO;
+import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.StudentRepository;
@@ -29,9 +30,17 @@ public class StudentController {
 
     @NonNull
     private StudentRepository studentRepository;
+
     @NonNull
     StudentService studentService;
 
+    /**
+     * Admin creates a new pupil.
+     * First name, last name, patronymic, date of birth and class in {@link StudentDTO} are required.
+     * @param student User object.
+     * @return Saved pupil as {@link TeacherDTO} object
+     *          in {@link GeneralResponseWrapper} with http status code.
+     */
     @ApiOperation(value = "Admin creates a new student (first name, last name and class passed in html)", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "admin", value = "the admin is allowed to create a new student")})})
     @ApiResponses(
@@ -49,6 +58,14 @@ public class StudentController {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), studentService.addOne(student));
     }
 
+    /**
+     * Admin, teacher or pupil get all info about pupil by ID of pupil.
+     * The admin or teacher is allowed to get all info about a pupil.
+     * A pupil is allowed to get all info about himself.
+     * @param idStudent ID of pupil.
+     * @return Pupil data in {@link StudentDTO} object
+     *         in {@link GeneralResponseWrapper} with http status code
+     */
     @GetMapping("/{idStudent}")
     @ApiOperation(value = "User gets pupil", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "admin", value = "the admin is allowed to view the information about the pupil"),
@@ -63,10 +80,17 @@ public class StudentController {
     )
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER') or (hasRole('USER') and principal.id == #idStudent)")
     public GeneralResponseWrapper<StudentDTO>getStudent(
-            @ApiParam(value = "ID of lesson", required = true) @PathVariable int idStudent) {
+            @ApiParam(value = "ID of student", required = true) @PathVariable int idStudent) {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), studentService.getOne(studentRepository.findById(idStudent).get()));
     }
 
+    /**
+     * Admin or teacher get all info about pupil in class with passed ID.
+     * The admin or teacher is allowed to get all all pupils.
+     * @param idClass ID of class.
+     * @return List of {@link StudentDTO} object
+     *         in {@link GeneralResponseWrapper} with http status code
+     */
     @ApiOperation(value = "Admin or teacher gets pupils from class", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "teacher", value = "a teacher is allowed to view information about the pupils of a class"),
             @ExtensionProperty(name = "admin", value = "the admin is allowed to view information about the pupils of a class")})})
@@ -84,6 +108,14 @@ public class StudentController {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), studentService.getAll(studentRepository.findByClazzId(idClass)));
     }
 
+    /**
+     * Pupil updates his profile.
+     * Only a pupil is allowed to update his profile.
+     * @param student User object
+     * @param idStudent ID of the pupil.
+     * @return Updated teacher as {@link StudentDTO} object
+     *          in {@link GeneralResponseWrapper} with http status code.
+     */
     @PutMapping("/{idStudent}")
     @ApiOperation(value = "User updates the profile of the pupil", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "user", value = "a pupil is allowed to update his own profile")})})
@@ -98,6 +130,7 @@ public class StudentController {
     public GeneralResponseWrapper<User> updateStudent(
             @ApiParam(value = "User object", required = true)  @RequestBody EditUserDTO student,
             @ApiParam(value = "ID of pupil", required = true)  @PathVariable int idStudent){
+        LOGGER.info("Updating student [{} {}]", student.getLastname(), student.getFirstname());
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK) , studentService.updateStudent(studentRepository.findById(idStudent).get(), student));
 
     }
