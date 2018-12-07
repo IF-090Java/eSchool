@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 
-import io.jsonwebtoken.UnsupportedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -84,7 +83,7 @@ public class RestExceptionHandler {
     @ResponseStatus(code=HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MalformedJwtException.class)
     public GeneralResponseWrapper<Object> malformedToken(MalformedJwtException  ex) {
-        logger.warn("Error occured during validating token", ex.getMessage());
+        logger.warn("Error occured during validating token", ex);
         Status status = new Status(HttpStatus.BAD_REQUEST.value(), "Bad token");
         GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
                 .status(status)
