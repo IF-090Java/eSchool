@@ -72,7 +72,7 @@ public class RestExceptionHandler {
     @ResponseStatus(code=HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadCredentialsException.class)
     public GeneralResponseWrapper<Object> badCreds(BadCredentialsException ex) {
-        logger.warn("User entered bad creds");
+        logger.info("User entered bad creds");
         Status status = new Status(HttpStatus.BAD_REQUEST.value(), "Bad Credentials");
         GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
                 .status(status)
@@ -82,7 +82,8 @@ public class RestExceptionHandler {
 
     @ResponseStatus(code=HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MalformedJwtException.class)
-    public GeneralResponseWrapper<Object> malformedToken(MalformedJwtException ex) {
+    public GeneralResponseWrapper<Object> malformedToken(MalformedJwtException  ex) {
+        logger.warn("Error occured during validating token", ex);
         Status status = new Status(HttpStatus.BAD_REQUEST.value(), "Bad token");
         GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
                 .status(status)
