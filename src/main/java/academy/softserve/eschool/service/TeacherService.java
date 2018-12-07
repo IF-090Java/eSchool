@@ -77,7 +77,7 @@ public class TeacherService {
                 && edited.getNewPass().length() > 0) {
             oldUser.setPassword(passwordEncoder.encode(edited.getNewPass()));
         }
-        userRepository.save(oldUser);
+        oldUser = userRepository.save(oldUser);
         return transform(oldUser);
     }
 

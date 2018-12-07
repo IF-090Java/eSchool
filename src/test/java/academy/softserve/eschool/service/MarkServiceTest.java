@@ -1,13 +1,11 @@
 package academy.softserve.eschool.service;
 
-import static org.junit.Assert.assertEquals;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.*;
-
-import org.junit.AfterClass;
+import academy.softserve.eschool.dto.MarkDTO;
+import academy.softserve.eschool.dto.MarkDataPointDTO;
+import academy.softserve.eschool.model.Lesson;
+import academy.softserve.eschool.model.Mark;
+import academy.softserve.eschool.model.Student;
+import academy.softserve.eschool.repository.MarkRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,12 +14,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import academy.softserve.eschool.dto.MarkDTO;
-import academy.softserve.eschool.dto.MarkDataPointDTO;
-import academy.softserve.eschool.model.Lesson;
-import academy.softserve.eschool.model.Mark;
-import academy.softserve.eschool.model.Student;
-import academy.softserve.eschool.repository.MarkRepository;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MarkServiceTest {

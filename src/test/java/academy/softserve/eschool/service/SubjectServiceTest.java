@@ -1,8 +1,8 @@
 package academy.softserve.eschool.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import academy.softserve.eschool.dto.SubjectDTO;
+import academy.softserve.eschool.model.Subject;
+import academy.softserve.eschool.repository.SubjectRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,12 +12,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
-
-import academy.softserve.eschool.dto.SubjectDTO;
-import academy.softserve.eschool.model.Subject;
-import academy.softserve.eschool.repository.SubjectRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SubjectServiceTest {

@@ -1,11 +1,7 @@
 package academy.softserve.eschool.service;
 
-import static org.junit.Assert.assertEquals;
-
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.*;
-
+import academy.softserve.eschool.dto.DiaryEntryDTO;
+import academy.softserve.eschool.repository.LessonRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -13,8 +9,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import academy.softserve.eschool.dto.DiaryEntryDTO;
-import academy.softserve.eschool.repository.LessonRepository;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DiaryServiceTest {
