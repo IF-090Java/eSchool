@@ -44,7 +44,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        logger.debug("processing authentication for '{}'", httpServletRequest.getRequestURL());
+        logger.trace("processing authentication for '{}'", httpServletRequest.getRequestURL());
 
         final String requestHeader = httpServletRequest.getHeader(this.tokenHeader);
 
@@ -58,19 +58,19 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
                 logger.error("an error occured during getting username from token", e);
             }
         } else {
-            logger.warn("couldn't find bearer string, will ignore the header");
+            logger.debug("couldn't find bearer string, will ignore the header");
         }
 
         logger.debug("checking authentication for user '{}'", username);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            logger.debug("security context was null, so authorizating user");
+            logger.trace("security context was null, so authorizating user");
 
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
             if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                logger.info("authorizated user '{}', setting security context", username);
+                logger.trace("authorizated user '{}', setting security context", username);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
