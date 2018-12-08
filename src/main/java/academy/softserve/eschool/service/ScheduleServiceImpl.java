@@ -104,14 +104,14 @@ public class ScheduleServiceImpl implements ScheduleService{
         List<Subject> resultList = new ArrayList<>();
         if (list.size() != 0) {
             List<Integer> listOfIds = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                listOfIds.add(list.get(i).getSubjectId());
+            for (SubjectDTO subjectDTO : list) {
+                listOfIds.add(subjectDTO.getSubjectId());
             }
             List<Subject> listOfSubjects = subjectRepository.findAll();
-            for (int i = 0; i < listOfIds.size(); i ++) {
-                for (int j = 0; j < listOfSubjects.size(); j ++) {
-                    if (listOfSubjects.get(j).getId() == listOfIds.get(i))
-                        resultList.add(listOfSubjects.get(j));
+            for (int id : listOfIds) {
+                for (Subject subject : listOfSubjects) {
+                    if (subject.getId() == id)
+                        resultList.add(subject);
                 }
             }
         }
