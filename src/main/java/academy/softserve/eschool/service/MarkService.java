@@ -97,7 +97,16 @@ public class MarkService implements MarkServiceBase {
      * @return list of {@link SubjectAvgMarkDTO}
      */
     @Override
-    public List<SubjectAvgMarkDTO> getAverageMarks(Integer studentId) {
-        return markRepo.getFilteredByStudentGroupedBySubject(studentId);
+    public List<SubjectAvgMarkDTO> getAverageMarks(Integer studentId, LocalDate periodStart, LocalDate periodEnd) {
+        String startDate = null;
+        String endDate = null;
+        
+        if (periodStart != null) {
+            startDate = dateFormat.format(periodStart);
+        }
+        if (periodEnd != null) {
+            endDate = dateFormat.format(periodEnd);
+        }
+        return markRepo.getFilteredByStudentGroupedBySubject(studentId, startDate, endDate);
     }
 }

@@ -71,6 +71,11 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
     @Query("select new academy.softserve.eschool.dto.SubjectAvgMarkDTO(avg(m.mark), m.lesson.subject.id, m.lesson.subject.name)"
             + " from Mark m"
             + " where m.student.id = :studentId"
+            + " and (m.lesson.date >= :startDate or :startDate is null)"
+            + " and (m.lesson.date <= :endDate  or :startDate is null)"
             + " group by m.lesson.subject.id")
-    List<SubjectAvgMarkDTO> getFilteredByStudentGroupedBySubject(Integer studentId);
+    List<SubjectAvgMarkDTO> getFilteredByStudentGroupedBySubject(
+            @Param ("studentId") Integer studentId, 
+            @Param("startDate") String startDate, 
+            @Param("endDate") String endDate);
 }

@@ -63,11 +63,13 @@ public class MarksController {
     @GetMapping("/avg")
     @ApiOperation(value = "Teacher gets student's average marks")
     GeneralResponseWrapper<List<SubjectAvgMarkDTO>> getAverageMarks (
-            @ApiParam(value = "student id") @RequestParam(value = "student_id", required = false) Integer studentId){
-        logger.debug("Called getAverageMarks() for studentId:[{}]");
+            @ApiParam(value = "student id", required = true) @RequestParam(value = "student_id", required = true) Integer studentId,
+            @ApiParam(value = "period start", required = false) @RequestParam(value = "period_start", required = false) LocalDate periodStart,
+            @ApiParam(value = "period end", required = false) @RequestParam(value = "period_end", required = false) LocalDate periodEnd){
+        logger.debug("Called getAverageMarks() for studentId:[{}], period:[{} - {}]", studentId, periodStart, periodEnd);
         return new GeneralResponseWrapper<List<SubjectAvgMarkDTO>>(
                 Status.of(OK),
-                markService.getAverageMarks(studentId));
+                markService.getAverageMarks(studentId, periodStart, periodEnd));
     }
 
     /**
