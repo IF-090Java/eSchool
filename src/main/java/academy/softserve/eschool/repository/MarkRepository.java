@@ -76,7 +76,7 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
             + " and (m.lesson.date <= :endDate  or :endDate is null)"
             + " group by m.lesson.subject.id")
     List<SubjectAvgMarkDTO> getFilteredByStudentGroupedBySubject(
-            @Param ("studentId") Integer studentId, 
+            @Param("studentId") Integer studentId, 
             @Param("startDate") Date startDate, 
             @Param("endDate") Date endDate);
 }
