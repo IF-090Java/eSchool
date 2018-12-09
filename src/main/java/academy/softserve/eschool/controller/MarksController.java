@@ -64,8 +64,8 @@ public class MarksController {
     @ApiOperation(value = "Teacher gets student's average marks")
     GeneralResponseWrapper<List<SubjectAvgMarkDTO>> getAverageMarks (
             @ApiParam(value = "student id", required = true) @RequestParam(value = "student_id", required = true) Integer studentId,
-            @ApiParam(value = "period start", required = false) @RequestParam(value = "period_start", required = false) LocalDate periodStart,
-            @ApiParam(value = "period end", required = false) @RequestParam(value = "period_end", required = false) LocalDate periodEnd){
+            @ApiParam(value = "get average calculated after specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodStart,
+            @ApiParam(value = "get average calculated before specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodEnd){
         logger.debug("Called getAverageMarks() for studentId:[{}], period:[{} - {}]", studentId, periodStart, periodEnd);
         return new GeneralResponseWrapper<List<SubjectAvgMarkDTO>>(
                 Status.of(OK),

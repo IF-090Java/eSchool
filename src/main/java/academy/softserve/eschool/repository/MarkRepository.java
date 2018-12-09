@@ -1,5 +1,6 @@
 package academy.softserve.eschool.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -72,10 +73,10 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
             + " from Mark m"
             + " where m.student.id = :studentId"
             + " and (m.lesson.date >= :startDate or :startDate is null)"
-            + " and (m.lesson.date <= :endDate  or :startDate is null)"
+            + " and (m.lesson.date <= :endDate  or :endDate is null)"
             + " group by m.lesson.subject.id")
     List<SubjectAvgMarkDTO> getFilteredByStudentGroupedBySubject(
             @Param ("studentId") Integer studentId, 
-            @Param("startDate") String startDate, 
-            @Param("endDate") String endDate);
+            @Param("startDate") Date startDate, 
+            @Param("endDate") Date endDate);
 }
