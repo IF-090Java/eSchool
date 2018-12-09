@@ -1,10 +1,12 @@
 package academy.softserve.eschool.service;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.auxiliary.PasswordResetTokenGenerator;
@@ -22,15 +24,24 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PasswordResetService implements PasswordResetServiceBase{
-    private final static String PASSWORD_RESET_EMAIL = "<div><p>Для відновлення паролю перейдіть за посиланням:</p>"
-            + "<a href=\"%1$s\">%1$s</a><p>Дане посилання буде активним протягом години<p></div>";
-    //TODO change host to appropriate host address
-    private final static String PASSWORD_RESET_LINK = "%s/ui/resetPassword?token=%s";
     
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
+    @Value("#{messageSource.getMessage(\"password_recovery.email.body\", null, T(java.util.Locale).getDefault())}")
+    private String passwordResetEmail;
+    
+    @Value("#{messageSource.getMessage(\"password_recovery.email.subject\", null, T(java.util.Locale).getDefault())}")
+    private String passwordResetEmailSubject;
+    
+    //TODO change host to appropriate host address
     @Value("${academy.softserve.eschool.host}")
     private String host;
+    
+    @Value("${academy.softserve.eschool.password_reset_link_template}")
+    private String passwordResetLinkTemplate;
+    
+    @NonNull
+    private MessageSource messageSource;
     
     @NonNull
     private CustomPasswordEncoder passwordEncoder;
@@ -49,10 +60,9 @@ public class PasswordResetService implements PasswordResetServiceBase{
     
     @Override
     public String trySendPasswordResetEmail(String query) {
-        String message;
         User user = userRepo.findByLoginOrEmail(query, query);
         if (user == null) {
-            return "Не вдалося знайти користувача з такими даними";
+            return messageSource.getMessage("password_recovery.no_user", null, Locale.getDefault());
         }
         
         String email = user.getEmail();
@@ -61,18 +71,16 @@ public class PasswordResetService implements PasswordResetServiceBase{
             passwordResetTokenRepo.save(new PasswordResetToken(token, user.getId()));
             mailService.sendHtmlMessage(
                     email,
-                    "Відновлення паролю",
-                    String.format(PASSWORD_RESET_EMAIL, String.format(PASSWORD_RESET_LINK, host, token)));
-            message = "Посилання для відновлення паролю відправлено на Вашу пошту";
+                    passwordResetEmailSubject,
+                    String.format(passwordResetEmail, String.format(passwordResetLinkTemplate, host, token)));
+            return messageSource.getMessage("password_recovery.message_send", null, Locale.getDefault());
         } else {
-            message = "Для відновлення паролю зв'яжіться з адміністратором";
+            return messageSource.getMessage("password_recovery.contact_admin", null, Locale.getDefault());
         }
-        return message;
     }
 
     @Override
     public String tryChangePassword(PasswordResetDTO passwordDTO) {
-        String message;
         Optional<PasswordResetToken> token = passwordTokenRepo.findOptionalByToken(passwordDTO.getToken());
         logger.debug("Recovery token [{}], is present [{}]", passwordDTO.getToken(), token.isPresent());
         if (token.isPresent()) {
@@ -81,13 +89,12 @@ public class PasswordResetService implements PasswordResetServiceBase{
             logger.info("Setting password for userID [{}], user [{}]", userId, user);
             user.setPassword(passwordEncoder.encode(passwordDTO.getPassword()));
             userRepo.save(user);
-            message = "Пароль оновлено!";
             passwordTokenRepo.delete(token.get());
             logger.debug("PasswordResetToken removed from database");
+            return messageSource.getMessage("password_recovery.password_updated", null, Locale.getDefault());
         } else {
-            message = "Посилання застаріло";
+            return messageSource.getMessage("password_recovery.link_expired", null, Locale.getDefault());
         }
-        return message;
     }
 
 }
