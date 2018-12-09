@@ -1,7 +1,10 @@
 package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.dto.TeacherJournalDTO;
-import academy.softserve.eschool.model.*;
+import academy.softserve.eschool.model.ClassTeacherSubjectLink;
+import academy.softserve.eschool.model.Clazz;
+import academy.softserve.eschool.model.Subject;
+import academy.softserve.eschool.model.Teacher;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.ClassTeacherSubjectLinkRepository;
 import academy.softserve.eschool.repository.SubjectRepository;

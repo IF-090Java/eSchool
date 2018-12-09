@@ -157,9 +157,5 @@ public class PageMappingController {
         return "/passwordReset.html";
     }
 
-    @RequestMapping("/users/credentials")
-    public String getListOfUserCredentials(){
-        return "/ListOfUserCredentials.html";
-    }
 }
 

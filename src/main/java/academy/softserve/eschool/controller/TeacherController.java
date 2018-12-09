@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeacherController {
 
-    private static final Logger logger = LoggerFactory.getLogger(TeacherController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeacherController.class);
 
     @NonNull
     private TeacherRepository teacherRepository;
@@ -35,6 +35,10 @@ public class TeacherController {
     @NonNull
     private TeacherService teacherService;
 
+    /**
+     * Admin gets list of teachers. The admin is allowed to get the list of teachers.
+     * @return list of {@link TeacherDTO} in {@link GeneralResponseWrapper} with http status code.
+     */
     @GetMapping("")
     @ApiOperation(value = "Admin gets list of teachers", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "admin", value = "the admin is allowed to get the list of teachers")})})
@@ -48,6 +52,12 @@ public class TeacherController {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.getAll(teacherRepository.findAll()));
     }
 
+    /**
+     * Admin adds a teacher. First name, last name, patronymic and date of birth in {@link TeacherDTO} are required.
+     * @param teacher User object.
+     * @return Saved teacher as {@link TeacherDTO} object
+     *          in {@link GeneralResponseWrapper} with http status code.
+     */
     @PostMapping
     @ApiOperation(value = "Admin adds a teacher, first name and last name passed in html", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "admin", value = "the admin is allowed to create a new teacher")})})
@@ -59,10 +69,18 @@ public class TeacherController {
     @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<TeacherDTO> addTeacher(
             @ApiParam(value = "Teacher object", required = true) @RequestBody TeacherDTO teacher) {
-        logger.info("Teacher " + teacher.getLastname() + " " +  teacher.getFirstname() + "created");
+        LOGGER.info("Creating teacher [{} {}]", teacher.getLastname(), teacher.getFirstname());
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.addOne(teacher));
     }
 
+    /**
+     * Admin or teacher get all info about teacher.
+     * The admin is allowed to get all info about a teacher.
+     * A teacher is allowed to get all info about himself.
+     * @param idTeacher ID of teacher.
+     * @return Teacher data in {@link TeacherDTO} object
+     *         in {@link GeneralResponseWrapper} with http status code
+     */
     @ApiOperation(value = "Admin or teacher get all info about teacher", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "admin", value = "the admin is allowed to get all info about a teacher"),
             @ExtensionProperty(name = "teacher", value = "a teacher is allowed to get all info about himself")})})
@@ -78,6 +96,14 @@ public class TeacherController {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.getOne(teacherRepository.findById(idTeacher).get()));
     }
 
+    /**
+     * Teacher updates his profile.
+     * Only a teacher is allowed to update his profile.
+     * @param teacher User object
+     * @param idTeacher ID of the teacher.
+     * @return Updated teacher as {@link TeacherDTO} object
+     *          in {@link GeneralResponseWrapper} with http status code.
+     */
     @PutMapping("/{idTeacher}")
     @ApiOperation(value = "Teacher updates his profile", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "teacher", value = "a teacher is allowed to update his profile")})})
@@ -92,6 +118,7 @@ public class TeacherController {
     public GeneralResponseWrapper<TeacherDTO> updateTeacher(
             @ApiParam(value = "User object", required = true) @RequestBody EditUserDTO teacher,
             @ApiParam(value = "ID of teacher", required = true) @PathVariable int idTeacher) {
+        LOGGER.info("Updating teacher [{} {}]", teacher.getLastname(), teacher.getFirstname() + "created");
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), teacherService.updateTeacher(userRepository.findById(idTeacher).get(), teacher));
     }
 }

@@ -82,8 +82,7 @@ public class StudentService {
                 && edited.getNewPass().length() > 0) {
             oldUser.setPassword(passwordEncoder.encode(edited.getNewPass()));
         }
-        userRepository.save(oldUser);
-        return oldUser;
+        return userRepository.save(oldUser);
     }
 
     /**

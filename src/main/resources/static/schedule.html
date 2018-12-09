@@ -328,31 +328,6 @@ $(function()
             }
         });
 /****************************************Get subjects and classes from endpoints*********************************************************************/
-            $.getJSON(host + 'subjects', function (data) {
-                var subjectNames = [];
-                var id = [];
-                $.each(data.data, function(key, value) {
-                        subjectNames.push(value.subjectName);
-                        id.push(value.subjectId);
-                    });
-                for (i=0; i < subjectNames.length; i++)
-                {
-                    $('.ax_default_droplist1').append('<option value="' + id[i] + '"name="monday">' + subjectNames[i] + '</option>');
-                    $('.ax_default_droplist2').append('<option value="' + id[i] + '"name="tuesday">' + subjectNames[i] + '</option>');
-                    $('.ax_default_droplist3').append('<option value="' + id[i] + '"name="wednesday">' + subjectNames[i] + '</option>');
-                    $('.ax_default_droplist4').append('<option value="' + id[i] + '"name="thursday">' + subjectNames[i] + '</option>');
-                    $('.ax_default_droplist5').append('<option value="' + id[i] + '"name="friday">' + subjectNames[i] + '</option>');
-                }
-                if (subjectNames.length == 0)
-                    {
-                    $("#message").attr("class", "alert alert-danger");
-                    $("#message").html("<strong>Ще не створено предметів. Ви не можете створити розклад.</strong>");
-                    }
-            }).fail(function (data) {
-                if (new RegExp("4[0-9][0-9]").test(data.status)){
-                    window.location.href='/ui/login'
-                }
-            });
             $.getJSON(host + 'classes', function(data){
                     var classNames = [];
                     var id = [];
@@ -362,14 +337,67 @@ $(function()
                             id.push(value.id);
                         }
                     });
-                    for (i=0; i < classNames.length; i++)
+                    for (i=0; i < classNames.length; i++) {
                         $('#u15_input').append('<option value="' + id[i] + '">' + classNames[i] + '</option>');
-                     if (classNames.length == 0)
+                    }
+                $.getJSON(host + 'subjects?classId=' + id[0], function (data) {
+                    var subjectNames = [];
+                    var idSubj = [];
+                    $.each(data.data, function(key, value) {
+                            subjectNames.push(value.subjectName);
+                            idSubj.push(value.subjectId);
+                        });
+                     for (i=0; i < subjectNames.length; i++) {
+                        $('.ax_default_droplist1').append('<option value="' + idSubj[i] + '"name="monday">' + subjectNames[i] + '</option>');
+                        $('.ax_default_droplist2').append('<option value="' + idSubj[i] + '"name="tuesday">' + subjectNames[i] + '</option>');
+                        $('.ax_default_droplist3').append('<option value="' + idSubj[i] + '"name="wednesday">' + subjectNames[i] + '</option>');
+                        $('.ax_default_droplist4').append('<option value="' + idSubj[i] + '"name="thursday">' + subjectNames[i] + '</option>');
+                        $('.ax_default_droplist5').append('<option value="' + idSubj[i] + '"name="friday">' + subjectNames[i] + '</option>');
+                    }
+                 });
+                    if (classNames.length == 0) {
+                        $("#message").attr("class", "alert alert-danger");
+                        $("#message").html("<strong>Ще не створено класи, або всі класи є неактивними. Ви не можете створити розклад.</strong>");
+                    }
+
+                });
+
+
+               $('#u15_input').change(function() {
+               $.getJSON(host + 'subjects?classId=' + $(this).val(), function (data) {
+                var subjectNames = [];
+                var id = [];
+                $.each(data.data, function(key, value) {
+                        subjectNames.push(value.subjectName);
+                        id.push(value.subjectId);
+                    });
+               for (i = 1; i < 6; i ++)
+               $('.ax_default_droplist' + i)
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append('<option value="0">-</option>')
+                    .val('0')
+                ;
+                for (i=0; i < subjectNames.length; i++) {
+                    $('.ax_default_droplist1').append('<option value="' + id[i] + '"name="monday">' + subjectNames[i] + '</option>');
+                    $('.ax_default_droplist2').append('<option value="' + id[i] + '"name="tuesday">' + subjectNames[i] + '</option>');
+                    $('.ax_default_droplist3').append('<option value="' + id[i] + '"name="wednesday">' + subjectNames[i] + '</option>');
+                    $('.ax_default_droplist4').append('<option value="' + id[i] + '"name="thursday">' + subjectNames[i] + '</option>');
+                    $('.ax_default_droplist5').append('<option value="' + id[i] + '"name="friday">' + subjectNames[i] + '</option>');
+                }
+                if (subjectNames.length == 0)
                     {
                     $("#message").attr("class", "alert alert-danger");
-                    $("#message").html("<strong>Ще не створено класи, або всі класи є неактивними. Ви не можете створити розклад.</strong>");
+                    $("#message").html("<strong>Ще не додано предметів для цього класу. Ви не можете створити розклад. Для того щоб додати предмет перейдіть за <a href='/ui/teachers/add/journal'>посиланням</a></strong>");
                     }
-                });
+            }).fail(function (data) {
+                if (new RegExp("4[0-9][0-9]").test(data.status)){
+                    window.location.href='/ui/login'
+                }
+            });
+
+            });
 /****************************************Save data when clicking on the submitButton*********************************************************************/
             $('#submitButton').click(function(){
                 var startdate = $('#start').val();

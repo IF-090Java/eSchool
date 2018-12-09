@@ -52,14 +52,14 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	public SubjectDTO addSubject(SubjectDTO subjectDTO) {
+		LOGGER.info("Saving a new subject [{}]", subjectDTO.getSubjectName());
+		
 		Subject savedSubject = subjectRepository.save(
 				Subject.builder()
 				.name(subjectDTO.getSubjectName())
 				.description(subjectDTO.getSubjectDescription())
 				.build()
 		);
-		
-		LOGGER.info("Subject " + savedSubject.getName() + " saved.");
 		return SubjectDTO.builder()
 				.subjectId(savedSubject.getId())
 				.subjectName(savedSubject.getName())
@@ -69,12 +69,13 @@ public class SubjectServiceImpl implements SubjectService {
 	
 	@Override
     public SubjectDTO editSubject(int id, SubjectDTO subjectDTO) {
+		LOGGER.info("Updating an existing subject with id = [{}] ", id);
+		
         Subject subject = subjectRepository.getOne(id);
         subject.setName(subjectDTO.getSubjectName());
         subject.setDescription(subjectDTO.getSubjectDescription());
 
         Subject updatedSubject = subjectRepository.save(subject);
-        LOGGER.info("Subject with id " + updatedSubject.getId() + " updated.");
         return SubjectDTO.builder()
                 .subjectId(updatedSubject.getId())
                 .subjectName(updatedSubject.getName())

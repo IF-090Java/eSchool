@@ -1,8 +1,8 @@
 package academy.softserve.eschool.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import academy.softserve.eschool.dto.SubjectDTO;
+import academy.softserve.eschool.model.Subject;
+import academy.softserve.eschool.repository.SubjectRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,12 +12,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
-
-import academy.softserve.eschool.dto.SubjectDTO;
-import academy.softserve.eschool.model.Subject;
-import academy.softserve.eschool.repository.SubjectRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SubjectServiceTest {
@@ -44,12 +43,22 @@ public class SubjectServiceTest {
 		subjectName = "Історія України";
 		subjectDescription = "";
 
-		subjectObject = Subject.builder().id(subjectId).name(subjectName).description(subjectDescription).build();
+		subjectObject = Subject.builder()
+				.id(subjectId)
+				.name(subjectName)
+				.description(subjectDescription)
+				.build();
 
-		subjectForSave = Subject.builder().name(subjectName).description(subjectDescription).build();
+		subjectForSave = Subject.builder()
+				.name(subjectName)
+				.description(subjectDescription)
+				.build();
 
-		expectedSubjectDTO = SubjectDTO.builder().subjectId(subjectId).subjectName(subjectName)
-				.subjectDescription(subjectDescription).build();
+		expectedSubjectDTO = SubjectDTO.builder()
+				.subjectId(subjectId)
+				.subjectName(subjectName)
+				.subjectDescription(subjectDescription)
+				.build();
 	}
 
 	@Test
@@ -95,7 +104,7 @@ public class SubjectServiceTest {
 		Mockito.when(subjectRepository.save(subjectForSave)).thenReturn(subjectObject);
 		SubjectDTO actualSubject = subjectService
 				.addSubject(new SubjectDTO(subjectId, subjectName, subjectDescription));
-		assertEquals(expectedSubjectDTO, actualSubject);
+		assertEquals("Adding a new subject", expectedSubjectDTO, actualSubject);
 	}
 
 	@Test
@@ -104,7 +113,7 @@ public class SubjectServiceTest {
 		Mockito.when(subjectRepository.save(subjectForSave)).thenReturn(subjectObject);
 		SubjectDTO actualSubject = subjectService.editSubject(1,
 				new SubjectDTO(subjectId, subjectName, subjectDescription));
-		assertEquals(expectedSubjectDTO, actualSubject);
+		assertEquals("Updating an existing subject", expectedSubjectDTO, actualSubject);
 	}
 
 	@After

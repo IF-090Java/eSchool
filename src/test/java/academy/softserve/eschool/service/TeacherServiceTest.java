@@ -75,6 +75,10 @@ public class TeacherServiceTest {
         assertEquals(teacherDTOS, teacherService.getAll(teachers));
     }
 
+    @Test
+    public void addOne() {
+    }
+
     @AfterClass
     public static void destroy() {
         teachers.clear();

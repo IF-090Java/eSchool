@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-public class NYTransitionControllerTest {
+public class NYTransitionControllerIntegrationTest {
     private String token;
     @Value("${jwt.token.header}")
     private String tokenHeader;
