@@ -4,17 +4,20 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import academy.softserve.eschool.model.Mark;
+
 import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.dto.SubjectAvgMarkDTO;
+import academy.softserve.eschool.model.Mark;
 import academy.softserve.eschool.repository.MarkRepository;
 import academy.softserve.eschool.service.base.MarkServiceBase;
 import lombok.NonNull;
@@ -97,7 +100,16 @@ public class MarkService implements MarkServiceBase {
      * @return list of {@link SubjectAvgMarkDTO}
      */
     @Override
-    public List<SubjectAvgMarkDTO> getAverageMarks(Integer studentId) {
-        return markRepo.getFilteredByStudentGroupedBySubject(studentId);
+    public List<SubjectAvgMarkDTO> getAverageMarks(Integer studentId, LocalDate periodStart, LocalDate periodEnd) {
+        java.util.Date startDate = null;
+        java.util.Date endDate = null;
+        
+        if (periodStart != null) {
+            startDate = Date.from(periodStart.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        }
+        if (periodEnd != null) {
+            endDate = Date.from(periodEnd.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        }
+        return markRepo.getFilteredByStudentGroupedBySubject(studentId, startDate, endDate);
     }
 }
