@@ -34,7 +34,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class Clazz {    
-    public final static String CLASS_NAME_PATTERN = "[\\dА-ЯІЇЄҐа-яіїєґ()- ]+";
+    public final static String CLASS_NAME_PATTERN = "[\\dА-ЯІЇЄҐа-яіїєґ()' -]+";
     /**
     * Id of the class.
     */
