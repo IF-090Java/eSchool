@@ -34,7 +34,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class Clazz {    
-    private final static String CLASS_NAME_PATTERN = "\\d{1,2}-?[А-ЯІЇЄҐа-яіїєґ]?";
+    public final static String CLASS_NAME_PATTERN = "[\\dА-ЯІЇЄҐа-яіїєґ()- ]+";
     /**
     * Id of the class.
     */
@@ -46,7 +46,7 @@ public class Clazz {
     * Name of the class.
     */
     @NotBlank
-    @Size(max=4)
+    @Size(max=20)
     @RegexPattern(pattern=CLASS_NAME_PATTERN, message="Input must match " + CLASS_NAME_PATTERN)
     private String name;
 
