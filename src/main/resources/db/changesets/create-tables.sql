@@ -1,7 +1,14 @@
 --liquibase formatted sql
 
---changeset User1:1
+--changeset vHotsuliak:mark_types
+CREATE TABLE IF NOT EXISTS `mark_type` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `mark_type` VARCHAR(255) NOT NULL UNIQUE,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
+--changeset User1:1
 CREATE TABLE IF NOT EXISTS `subject` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
@@ -16,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `last_name` VARCHAR(255) NOT NULL,
   `patronymic` VARCHAR(255) NOT NULL,
   `date_of_birth` DATE NOT NULL,
-  `login` VARCHAR(255) NOT NULL,
+  `login` VARCHAR(255) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
   `avatar` MEDIUMTEXT NULL DEFAULT NULL,
   `description` VARCHAR(255) NULL DEFAULT NULL,
@@ -87,10 +94,13 @@ CREATE TABLE IF NOT EXISTS `lesson` (
   `date` DATE NOT NULL,
   `hometask` VARCHAR(255) NULL DEFAULT NULL,
   `lesson_number` TINYINT(2) NOT NULL,
-  `mark_type` ENUM('Labaratorna','Practic','Control','Module') CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `mark_type_id` INT(11) NOT NULL,
   `homework_file_id` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `FKlqfrfxjgij4gjebdvvaeoyr14` (`clazz_id` ASC),
+  CONSTRAINT `fk_mark_type`
+    FOREIGN KEY (`mark_type_id`)
+    REFERENCES `mark_type` (`id`),
   CONSTRAINT `fk_lesson_class`
     FOREIGN KEY (`clazz_id`)
     REFERENCES `clazz` (`id`),
@@ -169,4 +179,11 @@ STARTS CURRENT_TIMESTAMP
 DO
    DELETE FROM password_reset_token
    WHERE ADDTIME(password_reset_token.created_at, "1:00:00") < now();
-   
+
+--changeset vHotsuliak:markTypes
+CREATE TABLE IF NOT EXISTS `mark_type` (
+  `id` INT(11) NOT NULL,
+  `mark_type` VARCHAR(255) NOT NULL UNIQUE,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
