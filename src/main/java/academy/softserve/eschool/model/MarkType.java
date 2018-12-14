@@ -3,6 +3,7 @@ package academy.softserve.eschool.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * This class represents the mark_type table of the DB
@@ -18,5 +19,12 @@ public class MarkType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String mark_type;
+    @Column(name = "mark_type")
+    private String markType;
+
+    private String description;
+
+    @NotNull
+    @Column(name = "is_active")
+    boolean isActive;
 }

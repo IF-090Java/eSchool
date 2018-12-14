@@ -4,6 +4,8 @@
 CREATE TABLE IF NOT EXISTS `mark_type` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `mark_type` VARCHAR(255) NOT NULL UNIQUE,
+  `description` VARCHAR(255),
+  `is_active` BIT(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;

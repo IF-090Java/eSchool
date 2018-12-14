@@ -14,4 +14,7 @@ public class MarkTypeDTO {
     @ApiModelProperty(required = true, notes = "Contains the type of the mark. " +
             "It can be one of the following: Control, Practic, Module or Labaratorna.")
     private String markType;
+
+    @ApiModelProperty(required = true, notes = "Contains a description of the mark type.")
+    private String description;
 }

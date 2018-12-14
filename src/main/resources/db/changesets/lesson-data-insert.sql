@@ -1,11 +1,11 @@
 --liquibase formatted sql
 
 --changeset vHotsuliak:inser_mark_types
-INSERT INTO mark_type(mark_type) VALUES (''),
-            ('Control'),
-            ('Labaratorna'),
-            ('Module'),
-            ('Practic');
+INSERT INTO mark_type(mark_type, is_active) VALUES ('', true),
+            ('Контрольна', true),
+            ('Лабораторна', true),
+            ('Модуль', true),
+            ('Практична', true);
 
 --changeset serhiiboiko:lessons_insert
 
