@@ -45,6 +45,7 @@ public class TeacherService {
                 .login(i.getLogin())
                 .dateOfBirth(i.getDateOfBirth())
                 .phone(i.getPhone())
+                .avatar(i.getAvatar())
                 .email(i.getEmail()).build()).collect(Collectors.toCollection(ArrayList::new));
     }
 
