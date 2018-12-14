@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import static academy.softserve.eschool.model.Subject.SUBJECT_NAME_PATTERN;
+
 @ApiModel
 @Data
 @NoArgsConstructor
@@ -15,8 +17,8 @@ public class SubjectDTO {
     private int subjectId;
 
     @ApiModelProperty(required = false, notes = "Contains the name of the subject: " +
-            "the name must match the pattern \"[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+\", " +
-            "so you should enter only Ukrainian characters and the first one must be capitalized." +
+            "the name must match the pattern " + SUBJECT_NAME_PATTERN + ", " +
+            "so you should enter only Ukrainian characters." +
             "The name must have maximum length of 50 symbols. " +
             "For example, the subjects's name can be \"Фізика\", but not \"фізИка\" or \"Fisica\".")
     private String subjectName;

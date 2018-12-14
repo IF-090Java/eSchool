@@ -155,7 +155,7 @@ public class SubjectController {
 			@ApiParam(value = "ID of object", required = true) @PathVariable int id,
 			@ApiParam(value = "Subject object", required = true) @RequestBody SubjectDTO editSubject) {
 		
-			LOGGER.info("Updating an existing subject with [{}] ", id);
+			LOGGER.info("Updating an existing subject with id = [{}] ", id);
 			return new GeneralResponseWrapper<>(Status.of(CREATED), subjectService.editSubject(id, editSubject));
 	}
 }

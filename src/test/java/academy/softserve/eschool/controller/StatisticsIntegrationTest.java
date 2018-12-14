@@ -6,9 +6,11 @@ import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 public class StatisticsIntegrationTest extends ControllerIntegrationTestBase {
 
     private String token;

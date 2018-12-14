@@ -43,12 +43,22 @@ public class SubjectServiceTest {
 		subjectName = "Історія України";
 		subjectDescription = "";
 
-		subjectObject = Subject.builder().id(subjectId).name(subjectName).description(subjectDescription).build();
+		subjectObject = Subject.builder()
+				.id(subjectId)
+				.name(subjectName)
+				.description(subjectDescription)
+				.build();
 
-		subjectForSave = Subject.builder().name(subjectName).description(subjectDescription).build();
+		subjectForSave = Subject.builder()
+				.name(subjectName)
+				.description(subjectDescription)
+				.build();
 
-		expectedSubjectDTO = SubjectDTO.builder().subjectId(subjectId).subjectName(subjectName)
-				.subjectDescription(subjectDescription).build();
+		expectedSubjectDTO = SubjectDTO.builder()
+				.subjectId(subjectId)
+				.subjectName(subjectName)
+				.subjectDescription(subjectDescription)
+				.build();
 	}
 
 	@Test
@@ -94,7 +104,7 @@ public class SubjectServiceTest {
 		Mockito.when(subjectRepository.save(subjectForSave)).thenReturn(subjectObject);
 		SubjectDTO actualSubject = subjectService
 				.addSubject(new SubjectDTO(subjectId, subjectName, subjectDescription));
-		assertEquals(expectedSubjectDTO, actualSubject);
+		assertEquals("Adding a new subject", expectedSubjectDTO, actualSubject);
 	}
 
 	@Test
@@ -103,7 +113,7 @@ public class SubjectServiceTest {
 		Mockito.when(subjectRepository.save(subjectForSave)).thenReturn(subjectObject);
 		SubjectDTO actualSubject = subjectService.editSubject(1,
 				new SubjectDTO(subjectId, subjectName, subjectDescription));
-		assertEquals(expectedSubjectDTO, actualSubject);
+		assertEquals("Updating an existing subject", expectedSubjectDTO, actualSubject);
 	}
 
 	@After
