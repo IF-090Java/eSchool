@@ -103,6 +103,15 @@ public class ScheduleDTO {
             "3) The subject description. It's maximum length is 500 characters." )
     private List<SubjectDTO> fridaySubjects;
 
+    /**
+     * list of lessons (SubjectDTO objects) {@link SubjectDTO} for Saturday schedule
+     */
+    @ApiModelProperty(notes = "Contains the schedule for Saturday. It's an array of subjects. Every element of the array should contain: \n" +
+            "1) The ID of the subject\n" +
+            "2) The name of the subject (only Ukrainian characters and the first one must be capitalized)\n" +
+            "3) The subject description. It's maximum length is 500 characters." )
+    private List<SubjectDTO> saturdaySubjects;
+
     public int getClassId()
     {
         return className.getId();

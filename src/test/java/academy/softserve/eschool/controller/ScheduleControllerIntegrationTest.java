@@ -65,6 +65,10 @@ public class ScheduleControllerIntegrationTest {
                 "[{\"subjectId\":8,\"subjectName\":\"Біологія\",\"subjectDescription\":\"Природничий навчальний предмет. Починає вивчатись із 6-го класу\"}," +
                 "{\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}," +
                 "{\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}]," +
+            "\"saturdaySubjects\":" +
+                "[{\"subjectId\":8,\"subjectName\":\"Біологія\",\"subjectDescription\":\"Природничий навчальний предмет. Починає вивчатись із 6-го класу\"}," +
+                "{\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}," +
+                "{\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}]," +
             "\"classId\":2}";
 
     @Before

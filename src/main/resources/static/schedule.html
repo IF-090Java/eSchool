@@ -222,7 +222,34 @@ select {
                                         </div>
                                     </ol>
                                 </div>
+
+
+                            <div class="col">
+                                <p>Субота</p>
+                                <ol id="saturday">
+                                    <div class="controls6">
+                                        <form role="form" autocomplete="off">
+                                            <div class="entry input-group col-xs-3">
+                                                <div class="row">
+                                                    <li>
+                                                        <select name="friday" class="ax_default_droplist6" data-type="answer" class="select">
+                                                            <option value="0">-</option>
+                                                        </select>
+
+                                                        <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </ol>
                             </div>
+
+                        </div>
                         </div>
 
                         <div id="u17" align="center" style="text-align: center; margin: 0 auto; padding-top: 25px; padding-bottom: 100px">
@@ -266,6 +293,7 @@ $(function()
   addMore('#wednesday', '.controls3');
   addMore('#thursday', '.controls4');
   addMore('#friday', '.controls5');
+  addMore('#saturday', '.controls6');
 });
 /****************************************Security*********************************************************************/
     $(document).ready(function () {
@@ -353,6 +381,7 @@ $(function()
                         $('.ax_default_droplist3').append('<option value="' + idSubj[i] + '"name="wednesday">' + subjectNames[i] + '</option>');
                         $('.ax_default_droplist4').append('<option value="' + idSubj[i] + '"name="thursday">' + subjectNames[i] + '</option>');
                         $('.ax_default_droplist5').append('<option value="' + idSubj[i] + '"name="friday">' + subjectNames[i] + '</option>');
+                        $('.ax_default_droplist6').append('<option value="' + idSubj[i] + '"name="saturday">' + subjectNames[i] + '</option>');
                     }
                  });
                     if (classNames.length == 0) {
@@ -371,7 +400,7 @@ $(function()
                         subjectNames.push(value.subjectName);
                         id.push(value.subjectId);
                     });
-               for (i = 1; i < 6; i ++)
+               for (i = 1; i < 7; i ++)
                $('.ax_default_droplist' + i)
                     .find('option')
                     .remove()
@@ -385,6 +414,7 @@ $(function()
                     $('.ax_default_droplist3').append('<option value="' + id[i] + '"name="wednesday">' + subjectNames[i] + '</option>');
                     $('.ax_default_droplist4').append('<option value="' + id[i] + '"name="thursday">' + subjectNames[i] + '</option>');
                     $('.ax_default_droplist5').append('<option value="' + id[i] + '"name="friday">' + subjectNames[i] + '</option>');
+                    $('.ax_default_droplist6').append('<option value="' + id[i] + '"name="saturday">' + subjectNames[i] + '</option>');
                 }
                 if (subjectNames.length == 0)
                     {
@@ -410,6 +440,7 @@ $(function()
                 var wednesday = [];
                 var thursday = [];
                 var friday = [];
+                var saturday = [];
                   $('select > option:selected').each(function() {
                    if($(this).attr('name') == 'monday')
                    monday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
@@ -421,6 +452,8 @@ $(function()
                    thursday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
                    if($(this).attr('name') == 'friday')
                    friday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   if($(this).attr('name') == 'saturday')
+                   saturday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
                   });
                 function deleteFromArray(array)
                 {
@@ -442,7 +475,8 @@ $(function()
                   "tuesdaySubjects":deleteFromArray(tuesday),
                   "wednesdaySubjects":deleteFromArray(wednesday),
                   "thursdaySubjects":deleteFromArray(thursday),
-                  "fridaySubjects":deleteFromArray(friday)
+                  "fridaySubjects":deleteFromArray(friday),
+                  "saturdaySubjects":deleteFromArray(saturday)
                 }),
                 contentType: "application/json",
                     statusCode: {
@@ -471,6 +505,7 @@ $(function()
                         $('.controls3').find('.entry:not(:last)').remove();
                         $('.controls4').find('.entry:not(:last)').remove();
                         $('.controls5').find('.entry:not(:last)').remove();
+                        $('.controls6').find('.entry:not(:last)').remove();
                         $('select').val("0");
                         $('#u15_input').val($('#u15_input option:first').val());
                     }
