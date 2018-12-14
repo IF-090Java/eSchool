@@ -80,6 +80,7 @@ public class Utility {
                     MarkTypeDTO.builder().markType(markType.getMarkType())
                     .description(markType.getDescription())
                     .isActive(markType.isActive())
+                    .id(markType.getId())
                     .build()
                 : new MarkTypeDTO();
     }

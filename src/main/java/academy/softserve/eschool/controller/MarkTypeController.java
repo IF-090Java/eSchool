@@ -1,7 +1,10 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkTypeDTO;
 import academy.softserve.eschool.service.MarkTypeService;
+import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
+import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +12,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/mark_types")
@@ -18,6 +24,11 @@ public class MarkTypeController {
     private MarkTypeService markTypeService;
 
 
+    /**
+     * Teacher or admin get all mark type.
+     * @return list of {@link MarkTypeDTO}
+     *          as object in {@link GeneralResponseWrapper} with http status code.
+     */
     @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
     @ApiOperation(value = "Teacher or admin gets all markTypes", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "teacher", value = "a teacher is allowed to view all mark types"),
@@ -29,10 +40,16 @@ public class MarkTypeController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @GetMapping
-    public List<MarkTypeDTO> getAll() {
-        return markTypeService.getAll();
+    public GeneralResponseWrapper<List<MarkTypeDTO>> getAll() {
+        return new GeneralResponseWrapper<>(Status.of(OK), markTypeService.getAll());
     }
 
+    /**
+     * Teacher or admin get mark type by ID.
+     * @param id ID of mark type.
+     * @return {@link MarkTypeDTO}
+     *          as object in {@link GeneralResponseWrapper} with http status code.
+     */
     @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
     @ApiOperation(value = "Teacher or admin gets markType", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "teacher", value = "a teacher is allowed to view mark type"),
@@ -44,27 +61,48 @@ public class MarkTypeController {
             @ApiResponse(code = 500, message = "Server error")
     })
     @GetMapping("/{id}")
-    public MarkTypeDTO getOne(@PathVariable("id") int id) {
-        return markTypeService.getMarkTypeById(id);
+    public GeneralResponseWrapper<MarkTypeDTO> getOne(@PathVariable("id") int id) {
+        return new GeneralResponseWrapper<>(Status.of(OK), markTypeService.getMarkTypeById(id));
     }
 
+    /**
+     * Admin add markType.
+     * @param markTypeDTO data about mark type.
+     * @return saved mark type
+     *              as {@link MarkTypeDTO} object in {@link GeneralResponseWrapper} with http status code.
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Admin add markType", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "a admin is allowed to add mark type")
+    })})
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
     @PostMapping
-    public MarkTypeDTO addOne(@RequestBody MarkTypeDTO markTypeDTO) {
-        return markTypeService.addMarkType(markTypeDTO);
+    public GeneralResponseWrapper<MarkTypeDTO> addOne(@RequestBody MarkTypeDTO markTypeDTO) {
+        return new GeneralResponseWrapper<>(Status.of(CREATED), markTypeService.addMarkType(markTypeDTO));
     }
 
+    /**
+     * Admin update markType.
+     * @param markTypeDTO data for update.
+     * @param id ID of mark type.
+     * @return updated mark type
+     *              as {@link MarkTypeDTO} object in {@link GeneralResponseWrapper} with http status code.
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Admin update markType", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "a admin is allowed to update mark type")
+    })})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
     @PutMapping("/{id}")
-    public MarkTypeDTO updateOne(@RequestBody MarkTypeDTO markTypeDTO, @PathVariable("id") int id) {
-        return markTypeService.updateMarkType(id, markTypeDTO);
+    public GeneralResponseWrapper<MarkTypeDTO> updateOne(@RequestBody MarkTypeDTO markTypeDTO, @PathVariable("id") int id) {
+        return new GeneralResponseWrapper<>(Status.of(OK), markTypeService.updateMarkType(id, markTypeDTO));
     }
 }
