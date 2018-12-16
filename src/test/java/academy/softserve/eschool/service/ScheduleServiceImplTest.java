@@ -67,21 +67,21 @@ public class ScheduleServiceImplTest {
         list.add(new SubjectDTO(8, "Біологія", "Природничий навчальний предмет. Починає вивчатись із 6-го класу"));
         list.add(new SubjectDTO(8, "Біологія", "Природничий навчальний предмет. Починає вивчатись із 6-го класу"));
 
-        start = LocalDate.of(2018, Month.NOVEMBER, 19);
-        end = LocalDate.of(2018, Month.NOVEMBER, 24);
+        start = LocalDate.of(2018, Month.DECEMBER, 3);
+        end = LocalDate.of(2018, Month.DECEMBER, 16);
 
-        dayOfWeek = DayOfWeek.MONDAY;
+        dayOfWeek = DayOfWeek.SATURDAY;
 
         clazz = new Clazz(2, "7-А", "", 2018, true);
 
         Map<String, Object> map1 = new HashMap<>();
-        map1.put("date", "2018-11-19");
+        map1.put("date", "2018-11-20");
         map1.put("id", "1");
         map1.put("name", "Історія України");
         map1.put("description", "Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу");
 
         Map<String, Object> map2 = new HashMap<>();
-        map2.put("date", "2018-11-20");
+        map2.put("date", "2018-12-08");
         map2.put("id", "2");
         map2.put("name", "Інформатика");
         map2.put("description", "");
@@ -99,14 +99,14 @@ public class ScheduleServiceImplTest {
     {
         Mockito.when(subjectRepository.findAll()).thenReturn(subjectList);
         List<Lesson> lessons = scheduleService.saveFunction(list, start, end, dayOfWeek, clazz);
-        assertEquals("Adding schedule for monday", 5, lessons.size());
+        assertEquals("Adding schedule for SATURDAY", 10, lessons.size());
     }
 
     @Test
     public void convertFromObjectTest() throws Exception
     {
         List<SubjectDTO> subjectDTOList = new ArrayList<>();
-        subjectDTOList.add(new SubjectDTO(1, "Історія України", "Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу"));
+        subjectDTOList.add(new SubjectDTO(2, "Інформатика", ""));
         assertEquals("Getting schedule for a specific class", subjectDTOList, scheduleService.convertFromObject(listOfMaps, dayOfWeek));
     }
 
