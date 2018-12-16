@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Журнали для класу</title>
+    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/js/JS.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;"></nav>
+<div class="row" id="body-row">
+    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
+    <div class="col py-3">
+        <div class="container">
+            <div class="row justify-content-center mt-5">
+                <h2>Журнали класу</h2>
+            </div>
+            <div class="row justify-content-center mt-5">
+                <div class="col-5">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="d-flex">
+                            <th class="col-3 ">Предмет</th>
+                            <th class="col-3 ">Клас</th>
+                            <th class="col-3 ">Рік навчання</th>
+                            <th class="col-3 ">Посилання</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                if (getJwtToken()) {
+                    xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
+                }
+            }
+        })
+    })
+
+    $(document).ready(function () {
+        $(function() {
+            $("#sidebar-container").load("/views/admin-sidebar.html");
+            $(".navbar").load("/views/admin-header.html");
+        });
+        var pathArray = window.location.pathname.split('/');
+        var classId = pathArray[4];
+
+        $.getJSON(host + 'journals/class/'+classId, function (data) {
+            var tableBody = $('<tbody></tbody>');
+            $.each(data.data, function(key, val) {
+                var tr=$('<tr class="d-flex"></tr>');
+                var ref = host + 'ui/journals/subjects/'+val.idSubject+'/classes/'+val.idClass+'/view';
+                $('<td class="col-3 ">'+val.subjectName+'</td>').appendTo(tr);
+                $('<td class="col-3 ">'+val.className+'</td>').appendTo(tr);
+                $('<td class="col-3 ">'+val.academicYear+'/'+(++val.academicYear)+'</td>').appendTo(tr);
+                $('<td class="col-3 ">'+'<a href="'+ref+'">Перейти</a>'+'</td>').appendTo(tr);
+                tr.appendTo(tableBody);
+            });
+            tableBody.appendTo('.table');
+        }).fail(function (data) {
+            if (new RegExp("4[0-9][0-9]").test(data.status)){
+                window.location.href='/ui/login'
+            }
+        });
+    });
+</script>
+</body>
+</html>

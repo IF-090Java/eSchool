@@ -32,6 +32,11 @@ public class PageMappingController {
         return "/classList.html";
     }
 
+    @RequestMapping("journals/classList")
+    public String getClassListShowJournals() {
+        return "/classList.html";
+    }
+
     @RequestMapping("classes/list")
     public String getClassesListForEdit() {
         return "/classList.html";
@@ -67,9 +72,19 @@ public class PageMappingController {
         return "/teacher/Profile.html";
     }
 
+    @RequestMapping("journals/class/{idClass}")
+    public String journalsByClass(@PathVariable int idClass) {
+        return "/journalsForClass.html";
+    }
+
     @RequestMapping("students/{id}/profile")
     public String studentProfile(@PathVariable int id) {
         return "/student/Profile.html";
+    }
+
+    @RequestMapping("admin/stats")
+    public String statsForAdmin() {
+        return "/adminStats.html";
     }
 
     @RequestMapping("teachers/add/journal")
