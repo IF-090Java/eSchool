@@ -32,7 +32,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString(of = {"id", "login"})
 public class User {
-    private final static String NAME_PATTERN = "([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+";
+    public final static String NAME_PATTERN = "[А-ЯІЇЄҐа-яіїєґ()' -]+";
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

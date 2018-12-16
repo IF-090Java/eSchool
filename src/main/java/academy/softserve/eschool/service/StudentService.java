@@ -60,6 +60,7 @@ public class StudentService {
                 .classe(i.getClasses().stream().filter(Clazz::isActive).findAny().orElseGet(Clazz::new).getName())
                 .classId(i.getClasses().stream().filter(Clazz::isActive).findAny().orElseGet(Clazz::new).getId())
                 .email(i.getEmail())
+                .avatar(i.getAvatar())
                 .phone(i.getPhone()).build()
         ).collect(Collectors.toCollection(ArrayList::new));
     }

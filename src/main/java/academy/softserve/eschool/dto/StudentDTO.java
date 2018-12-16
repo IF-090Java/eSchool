@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static academy.softserve.eschool.model.Clazz.CLASS_NAME_PATTERN;
+import static academy.softserve.eschool.model.User.NAME_PATTERN;
+
 import java.time.LocalDate;
 
 
@@ -19,16 +22,16 @@ public class StudentDTO {
     private int Id;
 
     @ApiModelProperty(notes = "Contains the first name of the pupil: " +
-            "the name must match the pattern \"([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+\", " +
-            "so you should enter only Ukrainian characters and the first one must be capitalized." +
+            "the name must match the pattern " + NAME_PATTERN +", " +
+            "so you should enter only Ukrainian characters." +
             "The name must have maximum length of 25 symbols and minimum - 3 symbols. " +
             "For example, the pupil's name can be \" Світлана\" or \" Мар'ян\", but not \" Andriy\" or \" надія\".")
     private String firstname;
 
     @ApiModelProperty(notes = "Contains the surname of the pupil. " +
             "It has the same rules of input as the first name: " +
-            "the surname must match the pattern \"([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+\", " +
-            "so you should enter only Ukrainian characters and the first one must be capitalized." +
+            "the surname must match the pattern " + NAME_PATTERN +", " +
+            "so you should enter only Ukrainian characters." +
             "The surname must have maximum length of 25 symbols and minimum - 3 symbols. " +
             "For example, the pupil's surname can be \" Прусак\", but not \" ПрУсак\" or \" prusak\".  " +
             "It can't be blank.")
@@ -36,20 +39,17 @@ public class StudentDTO {
 
     @ApiModelProperty(notes = "Contains the patronymic of the pupil. " +
             "It has the same rules of input as the first name: " +
-            "the patronymic must match the pattern \"([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+\", " +
-            "so you should enter only Ukrainian characters and the first one must be capitalized." +
+            "the patronymic must match the pattern " + NAME_PATTERN +", " +
+            "so you should enter only Ukrainian characters." +
             "The patronymic must have maximum length 25 symbols and minimum - 3 symbols. " +
             "For example, the pupil's patronymic can be \" Андріївна\", but not \" аНдріЇвна\" or \" Andriyivna\". " +
             "It can't be blank.")
     private String patronymic;
 
-    @ApiModelProperty(notes = "Contains the name of the class of the pupil. " +
-                    "This field must match the pattern \"\\\\d{1,2}-?[А-ЯІЇЄҐа-яіїєґ]?\", " +
-                    "so you have two ways to enter the class's name: \n" +
-                    "1) a string that is only composed of one or two numbers. For example: 9 or 10, but not 100.\n" +
-                    "2) a string that is composed of one or two numbers, a \"-\" symbol and a single Ukrainian character. " +
-                    "For example: \"9-Б\" or \"10-а\", but not \"5-d\".\n" +
-                    "The name must have maximum length of 4 symbols and it can't be blank.")
+    @ApiModelProperty(notes = "Contains the name of the class. " +
+            "This field must match the pattern " + CLASS_NAME_PATTERN + " "+
+            "For example: \"9-Б\" or \"10-а\", but not \"5-d\".\n" +
+            "The name must have maximum length of 20 symbols and it can't be blank.")
     private String classe;
 
     @ApiModelProperty(notes = "Contains the ID of the class of the pupil. It's a generated value in the database.")

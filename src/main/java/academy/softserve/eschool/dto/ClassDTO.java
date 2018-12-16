@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.util.List;
 
+import static academy.softserve.eschool.model.Clazz.CLASS_NAME_PATTERN;;
+
 @ApiModel
 @Data
 @AllArgsConstructor
@@ -23,12 +25,9 @@ public class ClassDTO {
 
     @ApiModelProperty(required = true,
             notes = "Contains the name of the class. " +
-                    "This field must match the pattern \"\\\\d{1,2}-?[А-ЯІЇЄҐа-яіїєґ]?\", " +
-                    "so you have two ways to enter the class's name: \n" +
-                    "1) a string that is only composed of one or two numbers. For example: 9 or 10, but not 100.\n" +
-                    "2) a string that is composed of one or two numbers, a \"-\" symbol and a single Ukrainian character. " +
+                    "This field must match the pattern " + CLASS_NAME_PATTERN + " "+
                     "For example: \"9-Б\" or \"10-а\", but not \"5-d\".\n" +
-                    "The name must have maximum length of 4 symbols and it can't be blank.")
+                    "The name must have maximum length of 20 symbols and it can't be blank.")
     private String className;
 
     @ApiModelProperty(required = false,
