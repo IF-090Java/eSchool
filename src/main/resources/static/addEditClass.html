@@ -96,10 +96,10 @@
 
         jQuery.validator.addMethod("grade", function(value, element) {
                  var inputGrade = value;
-                 if (inputGrade.match(/^(?:[5-9]|1[0-1])-([а-г]|[А-Г])$/) || inputGrade.match(/^(?:[5-9]|1[0-1])$/))
+                 if (inputGrade.match(/^[\dА-ЯІЇЄҐа-яіїєґ()' -]+$/))
                     return true;
                  return false;
-          }, "Введіть правильну назву класу, наприклад : 10-A або 10 (тільки українські букви)");
+          }, "Введіть правильну назву класу. Дозволені виключно українські літери.");
 
           jQuery.validator.addMethod("year", function(value, element) {
                  var year = value;

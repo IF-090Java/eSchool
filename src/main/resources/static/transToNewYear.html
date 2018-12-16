@@ -193,13 +193,18 @@ $(document).ready(function () {
             data: JSON.stringify(newClassesList),
             contentType: "application/json",
             success: function (responce) {
+                console.log(bufferClassesList)
+                console.log(responce.data)
+                var counter = 0;
                 for (var i = 0; i < old_classes.length; i++) {
                     var old_class_id = old_classes[i].id;
                     var new_class_id = null;
                     if (bufferClassesList[i] == "") {
                         new_class_id = 0;
+                        counter+=1;
                     } else {
-                        new_class_id = responce.data[i].id
+                        console.log(responce.data[i-counter].id);
+                        new_class_id = responce.data[i-counter].id;
                     }
                     var dto = {
                         newClassId: new_class_id,
