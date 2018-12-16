@@ -31,7 +31,7 @@ import lombok.ToString;
 @Table(name="subject")
 @ToString(of = {"id","name"})
 public class Subject {
-    private final static String SUBJECT_NAME_PATTERN = "[А-ЯІЇЄҐ]([А-ЯІЇЄҐ]*[а-яіїєґ]*[' -]?)+";
+    public final static String SUBJECT_NAME_PATTERN = "[А-ЯІЇЄҐа-яіїєґ()' -]+";
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

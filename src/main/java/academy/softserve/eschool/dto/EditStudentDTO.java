@@ -8,22 +8,24 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+import static academy.softserve.eschool.model.User.NAME_PATTERN;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditStudentDTO {
 
     @ApiModelProperty(notes = "Contains the first name of the pupil: " +
-            "the name must match the pattern \"([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+\", " +
-            "so you should enter only Ukrainian characters and the first one must be capitalized." +
+            "the name must match the pattern " + NAME_PATTERN +", " +
+            "so you should enter only Ukrainian characters." +
             "The name must have maximum length of 25 symbols and minimum - 3 symbols. " +
             "For example, the pupil's name can be \" Світлана\" or \" Мар'ян\", but not \" Andriy\" or \" надія\".")
     private String firstname;
 
     @ApiModelProperty(notes = "Contains the surname of the pupil. " +
             "It has the same rules of input as the first name: " +
-            "the surname must match the pattern \"([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+\", " +
-            "so you should enter only Ukrainian characters and the first one must be capitalized." +
+            "the surname must match the pattern " + NAME_PATTERN +", " +
+            "so you should enter only Ukrainian characters." +
             "The surname must have maximum length of 25 symbols and minimum - 3 symbols. " +
             "For example, the pupil's surname can be \" Прусак\", but not \" ПрУсак\" or \" prusak\". " +
             "It can't be blank.")
@@ -31,8 +33,8 @@ public class EditStudentDTO {
 
     @ApiModelProperty(notes = "Contains the patronymic of the pupil. " +
             "It has the same rules of input as the first name: " +
-            "the patronymic must match the pattern \"([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+\", " +
-            "so you should enter only Ukrainian characters and the first one must be capitalized." +
+            "the patronymic must match the pattern " + NAME_PATTERN +", " +
+            "so you should enter only Ukrainian characters." +
             "The patronymic must have maximum length 25 symbols and minimum - 3 symbols. " +
             "For example, the pupil's patronymic can be \" Андріївна\", but not \" аНдріЇвна\" or \" Andriyivna\". " +
             "It can't be blank.")

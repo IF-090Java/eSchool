@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+
+import static academy.softserve.eschool.model.Clazz.CLASS_NAME_PATTERN;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -53,13 +56,10 @@ public class ScheduleDTO {
      * ClassDTO {@link ClassDTO} object for which is the schedule created
      */
     @ApiModelProperty(required = true,
-            notes = "Contains a class object. " +
-                    "The name of the class must match the pattern \"\\\\d{1,2}-?[А-ЯІЇЄҐа-яіїєґ]?\", " +
-                    "so you have two ways to enter the class's name: \n" +
-                    "1) a string that is only composed of one or two numbers. For example: 9 or 10, but not 100.\n" +
-                    "2) a string that is composed of one or two numbers, a \"-\" symbol and a single Ukrainian character. " +
+            notes = "Contains the name of the class. " +
+                    "This field must match the pattern " + CLASS_NAME_PATTERN + " "+
                     "For example: \"9-Б\" or \"10-а\", but not \"5-d\".\n" +
-                    "The name must have maximum length of 4 symbols and it can't be blank.")
+                    "The name must have maximum length of 20 symbols and it can't be blank.")
     @NotNull
     private ClassDTO className;
     /**
@@ -102,6 +102,15 @@ public class ScheduleDTO {
             "2) The name of the subject (only Ukrainian characters and the first one must be capitalized)\n" +
             "3) The subject description. It's maximum length is 500 characters." )
     private List<SubjectDTO> fridaySubjects;
+
+    /**
+     * list of lessons (SubjectDTO objects) {@link SubjectDTO} for Saturday schedule
+     */
+    @ApiModelProperty(notes = "Contains the schedule for Saturday. It's an array of subjects. Every element of the array should contain: \n" +
+            "1) The ID of the subject\n" +
+            "2) The name of the subject (only Ukrainian characters and the first one must be capitalized)\n" +
+            "3) The subject description. It's maximum length is 500 characters." )
+    private List<SubjectDTO> saturdaySubjects;
 
     public int getClassId()
     {
