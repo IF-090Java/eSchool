@@ -95,8 +95,8 @@ public class MarkService implements MarkServiceBase {
     @Override
     public void updateType(int idLesson, String markType) {
         logger.info("Editing markType[{}] lesson[id={}]",markType,idLesson);
-        MarkType markTypeID = markTypeRepository.findByMarkType(markType);
-        markRepo.saveTypeByLesson(idLesson, markTypeID.getId());
+        MarkType marktype = markTypeRepository.findByMarkType(markType);
+        markRepo.saveTypeByLesson(idLesson, marktype != null ? marktype.getId() : 0);
     }
 
 
