@@ -7,6 +7,7 @@ import academy.softserve.eschool.model.Mark;
 import academy.softserve.eschool.model.MarkType;
 import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.repository.MarkRepository;
+import academy.softserve.eschool.repository.MarkTypeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,6 +51,9 @@ public class MarkServiceTest {
     
     @Mock
     private MarkRepository markRepository;
+
+    @Mock
+    private MarkTypeRepository markTypeRepository;
     
     @Before
     public void setUp() {
@@ -124,8 +128,9 @@ public class MarkServiceTest {
     public void updateTypeTest(){
         int idLesson = 1;
         String markType = "Module";
+        Mockito.when(markTypeRepository.findByMarkType(markType)).thenReturn(MarkType.builder().markType(markType).id(2).build());
         markService.updateType(idLesson,markType);
-        Mockito.verify(markRepository,Mockito.times(1)).saveTypeByLesson(idLesson,"Module");
+        Mockito.verify(markRepository,Mockito.times(1)).saveTypeByLesson(idLesson,2);
     }
     
 }

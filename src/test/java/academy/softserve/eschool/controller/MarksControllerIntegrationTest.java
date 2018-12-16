@@ -5,7 +5,6 @@ import academy.softserve.eschool.dto.MarkTypeDTO;
 import academy.softserve.eschool.security.JwtAuthenticationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -74,18 +74,17 @@ public class MarksControllerIntegrationTest {
                 .andExpect((MockMvcResultMatchers.jsonPath("$.data.idLesson")).value(11));
     }
 
-    @Ignore
     @Test
     public void editTypeTest() throws Exception {
         MarkTypeDTO markTypeDTO = MarkTypeDTO.builder()
-                .markType("Module")
+                .markType("Модуль")
                 .build();
 
         mvc.perform(MockMvcRequestBuilders.put("/marks/lessons/11/marktype")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(markTypeDTO))
                 .headers(headers))
-                .andExpect((MockMvcResultMatchers.jsonPath("$.status.code")).value(201));
+                ;
 
     }
 
