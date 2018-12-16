@@ -30,11 +30,16 @@ public class MarkTypeService {
     }
 
     public MarkTypeDTO addMarkType(MarkTypeDTO markTypeDTO) {
-        MarkType markType = markTypeRepository.save(transform(markTypeDTO));
-        return transform(markType);
+        return transform(markTypeRepository.save(transform(markTypeDTO)));
     }
 
 
+    /**
+     * Update mark type to passed {@link MarkTypeDTO} if {@link MarkType} with passed ID exist.
+     * @param id ID of mark type.
+     * @param markTypeDTO data for update.
+     * @return updated  {@link MarkTypeDTO}.
+     */
     public MarkTypeDTO updateMarkType(int id, MarkTypeDTO markTypeDTO) {
         MarkType markType =  markTypeRepository.getOne(id);
         if (markType != null) {
