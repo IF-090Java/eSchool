@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * This class represents the mark_type table of the DB
@@ -22,6 +23,7 @@ public class MarkType {
     @Column(name = "mark_type")
     private String markType;
 
+    @Size(max=500)
     private String description;
 
     @NotNull

@@ -157,5 +157,20 @@ public class PageMappingController {
         return "/passwordReset.html";
     }
 
+    @RequestMapping("mark_types/list")
+    public String getMarkTypes() {
+        return "/MarkTypesList.html";
+    }
+
+    @RequestMapping("mark_types/add")
+    public String addMarkTypes() {
+        return "/AddEditMarkType.html";
+    }
+
+    @RequestMapping("mark_types/{id}/edit")
+    public String editMarkTypes() {
+        return "/AddEditMarkType.html";
+    }
+
 }
 

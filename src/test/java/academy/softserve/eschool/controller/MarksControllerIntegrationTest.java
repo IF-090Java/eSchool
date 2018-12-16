@@ -5,6 +5,7 @@ import academy.softserve.eschool.dto.MarkTypeDTO;
 import academy.softserve.eschool.security.JwtAuthenticationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,7 @@ public class MarksControllerIntegrationTest {
                 .andExpect((MockMvcResultMatchers.jsonPath("$.data.idLesson")).value(11));
     }
 
+    @Ignore
     @Test
     public void editTypeTest() throws Exception {
         MarkTypeDTO markTypeDTO = MarkTypeDTO.builder()

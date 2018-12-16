@@ -4,6 +4,7 @@ import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
 import academy.softserve.eschool.model.Lesson;
 import academy.softserve.eschool.model.Mark;
+import academy.softserve.eschool.model.MarkType;
 import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.repository.MarkRepository;
 import org.junit.Before;
@@ -80,7 +81,7 @@ public class MarkServiceTest {
 
         lesson = Lesson.builder()
                 .id(1)
-                .markType(Mark.MarkType.Module)
+                .markType(new MarkType())
                 .hometask("testHomeWork")
                 .date(java.sql.Date.valueOf(LocalDate.of(2012,2,2)))
                 .lessonNumber((byte)3)

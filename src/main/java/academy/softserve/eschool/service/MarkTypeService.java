@@ -39,7 +39,7 @@ public class MarkTypeService {
         MarkType markType =  markTypeRepository.getOne(id);
         if (markType != null) {
             markType.setMarkType(markTypeDTO.getMarkType());
-            markType.setDescription(markType.getDescription());
+            markType.setDescription(markTypeDTO.getDescription());
             markType.setActive(markTypeDTO.isActive());
             markType = markTypeRepository.save(markType);
         }
