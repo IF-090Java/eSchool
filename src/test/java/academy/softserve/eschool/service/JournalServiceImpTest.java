@@ -102,7 +102,7 @@ public class JournalServiceImpTest {
 
         lesson = Lesson.builder()
                 .id(1)
-                .markType(Mark.MarkType.Module)
+                .markType(new MarkType())
                 .hometask("testHomeWork")
                 .date(java.sql.Date.valueOf(LocalDate.of(2012,2,2)))
                 .clazz(clazz)

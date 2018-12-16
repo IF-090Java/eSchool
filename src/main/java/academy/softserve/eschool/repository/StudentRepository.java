@@ -15,7 +15,7 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     List<Student> findByClazzId(@Param("id") int id);
 
 
-    @Query(value="select student.id as id_student ,user.first_name,user.last_name,lesson.id,mark.mark,lesson.date,lesson.mark_type,mark.note from student\n" +
+    @Query(value="select student.id as id_student ,user.first_name,user.last_name,lesson.id,mark.mark,lesson.date,lesson.mark_type_id,mark.note from student\n" +
             "left join user on student.id=user.id\n" +
             "left join students_classes on students_classes.student_id=student.id\n" +
             "right join lesson on students_classes.class_id=lesson.clazz_id\n" +

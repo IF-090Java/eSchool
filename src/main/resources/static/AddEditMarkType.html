@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="uk">
+<style type="text/css">
+    .error {
+        color: red;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Редагувати клас</title>
+    <link rel="stylesheet" type="text/css" href="/css/global-style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="icon" href="/img/book-icon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/img/book-icon.png" type="image/x-icon">
+    <script src="/js/JS.js"></script>
+    <script src="/js/jwt-decode.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top justify-content-between" style="background-color: #002c4c !important;"></nav>
+
+<div class="row" id="body-row">
+    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
+    <div class="col py-3">
+
+        <div class="container">
+            <div id="message" align="center"></div>
+            <div class="row justify-content-center mt-5">
+                <h1>Редагувати клас</h1>
+            </div>
+            <div class="row justify-content-center mt-5">
+                <div class="col-8">
+                    <form id="myForm">
+                        <div class="form-group row">
+                            <label for="typeName" class="col-3 col-form-label" title="Обов'язкове поле"><strong>Назва типу оцінки*</strong></label>
+                            <div class="col-9">
+                                <input class="form-control" id="typeName" type="text" name="className">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="txtArea" class="col-3 col-form-label">Додаткова інформація</label>
+                            <div class="col-9">
+                                <textarea id="txtArea" rows="5" name="classDescription" class="form-control"></textarea>
+                            </div>
+                            <span class="checkmark"></span>
+                        </div>
+
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" name="radioButton" id="exampleRadios1" value="true" checked>
+                            <label class="custom-control-label" for="exampleRadios1">Активний</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" name="radioButton" id="exampleRadios2" value="false">
+                            <label class="custom-control-label" for="exampleRadios2">Неакивний</label>
+                        </div>
+                        <div align="center" style="text-align: center; margin: 0 auto;">
+                            <button class="btn btn-primary btn-lg" type="submit">Зберегти</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(function() {
+        $("#sidebar-container").load("/views/admin-sidebar.html");
+        $(".navbar").load("/views/admin-header.html");
+    });
+</script>
+</body>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        validateUserPermissions();
+        refreshToken();
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                if (getJwtToken()) {
+                    xhr.setRequestHeader("Authorization", localStorage.getItem("jwtToken"))
+                }
+            }
+        })
+    })
+
+    $(document).ready(function () {
+        jQuery.validator.addMethod("description", function (value, element) {
+            var description = value;
+            if (description.length < 500)
+                return true;
+            return false;
+        }, "Перевищено допустиму кількість символів")
+
+
+        $("#myForm").validate({
+            rules: {
+                className: {
+                    required: true
+                },
+                classDescription: {
+                    required: false,
+                    description: true
+                }
+            },
+            messages: {
+                className: {
+                    required: "Це поле обов'язкове"
+                }
+            }
+        });
+    })
+
+    if (window.location.href.indexOf("mark_types/add")>-1){
+
+        $(document).ready(function () {
+            $("title").html("Додавання типу оцінки")
+            $("h1").html("Додати тип оцінки");
+
+            $('form').on('submit', function (e) {
+                e.preventDefault();
+                var typeName = $("#typeName").val();
+                var typeDescription = $("#txtArea").val();
+                var isActive = document.querySelector("input[name=radioButton]:checked").value;
+
+                $.ajax({
+                    type: "post",
+                    url: host + "mark_types",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "markType": typeName,
+                        "description": typeDescription,
+                        "active": isActive
+                    }),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        $("#message").attr("class", "alert alert-success");
+                        $("#message").html("<strong>Тип оцінки створений! <a href='/ui/mark_types/list'>Повернутися до списку типів оцінок</a></strong>");
+                        $(":input").val("");
+                    },
+                    error: function (responce) {
+                        $("#message").attr("class", "alert alert-danger");
+                        $("#message").html("<strong>Такий тип оцінки вже існує!</strong>");
+
+                    }
+                });
+            })
+        })
+    } else {
+        $(document).ready(function() {
+            var pathArray = window.location.pathname.split('/');
+            var markTypeId = pathArray[3];
+
+            $.getJSON(host + 'mark_types/' + markTypeId, function (data) {
+                $("#typeName").attr("value", data.data.markType);
+                $("#txtArea").append(data.data.description);
+                $(':radio[name=radioButton][value=' + data.data.active + ']').prop('checked', true);
+            });
+        })
+
+        $(document).ready(function () {
+            $('form').on('submit', function (e) {
+
+                e.preventDefault();
+                var typeName = $("#typeName").val();
+                var typeDescription = $("#txtArea").val();
+                var isActive = document.querySelector("input[name=radioButton]:checked").value;
+
+                var pathArray = window.location.pathname.split('/');
+                var classId = pathArray[3];
+                $.ajax({
+                    type: "put",
+                    url: host + "mark_types/" + classId,
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "markType": typeName,
+                        "description": typeDescription,
+                        "active": isActive
+                    }),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        $("#message").attr("class", "alert alert-success");
+                        $("#message").html("<strong>Тип оцінки створений! <a href='/ui/mark_types/list'>Повернутися до списку типів оцінок</a></strong>");
+                    },
+                    error: function (responce) {
+                        $("#message").attr("class", "alert alert-danger");
+                        $("#message").html("<strong>Такий тип оцінки вже існує!</strong>");
+
+                    }
+                });
+            })
+        })
+    }
+</script>
+</body>
+</html>

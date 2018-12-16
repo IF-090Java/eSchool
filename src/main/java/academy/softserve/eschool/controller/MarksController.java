@@ -38,7 +38,7 @@ public class MarksController {
      * @return list of {@link MarkDataPointDTO} wrapped in {@link GeneralResponseWrapper}
      */
 
-    @PreAuthorize("hasRole('TEACHER')")//need access for teacher on statistics page
+    @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("")
     @ApiOperation(value = "Teacher gets marks by date filtered by specified params", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "teacher", value = "a teacher is allowed to view marks by date filtered by specified params")})})

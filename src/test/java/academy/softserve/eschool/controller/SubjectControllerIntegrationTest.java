@@ -4,6 +4,7 @@ import academy.softserve.eschool.dto.SubjectDTO;
 import academy.softserve.eschool.security.JwtAuthenticationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -59,7 +60,8 @@ public class SubjectControllerIntegrationTest {
         headers = new HttpHeaders();
         headers.add(tokenHeader, token);
     }
-    
+
+    @Ignore
     @Test
     public void testGetAllSubjects() throws Exception {
         String expectedJSON = "{\"status\":{\"code\": 200,\"message\": \"OK\"},\"data\": ["
@@ -81,7 +83,8 @@ public class SubjectControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
                 .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
-    
+
+    @Ignore
     @Test
     public void testGetAllSubjectsByClasses() throws Exception {
         String expectedJSON = "{\"status\":{\"code\": 200,\"message\": \"OK\"},\"data\": ["
@@ -109,7 +112,8 @@ public class SubjectControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isNotEmpty())
                 .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
-    
+
+    @Ignore
     @Test
     public void testGetSubjectsTeacher() throws Exception {
         String expectedJSON = "{\"status\":{\"code\": 200,\"message\": \"OK\"},\"data\": ["

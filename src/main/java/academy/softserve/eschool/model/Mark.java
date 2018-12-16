@@ -42,8 +42,4 @@ public class Mark {
         this.student = student;
         this.lesson = lesson;
     }
-    
-    public enum MarkType {
-        Control, Practic, Module, Labaratorna
-    }
 }
