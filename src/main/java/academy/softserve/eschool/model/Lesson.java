@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import academy.softserve.eschool.model.Mark.MarkType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 /**

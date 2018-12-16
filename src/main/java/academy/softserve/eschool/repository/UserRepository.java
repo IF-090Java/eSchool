@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -22,6 +23,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String email);
     
     User findByLoginOrEmail(String login, String email);
+
+    @Override
+    Optional<User> findById(Integer integer);
 
     @Query("select " +
     "new academy.softserve.eschool.dto.AddedUsersDTO(u.firstName, u.lastName, u.patronymic, u.role, u.login, u.password) " +

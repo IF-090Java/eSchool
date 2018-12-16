@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -119,6 +120,17 @@ public class RestExceptionHandler {
         Status status = new Status().of(HttpStatus.BAD_REQUEST);
         GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
                 .status(status)
+                .build();
+        return response;
+    }
+
+    @ResponseStatus(code=HttpStatus.FORBIDDEN)
+    @ExceptionHandler(DisabledException.class)
+    public GeneralResponseWrapper<Object> badRequestParams(DisabledException ex) {
+        Status status = new Status().of(HttpStatus.FORBIDDEN);
+        GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+                .status(status)
+                .data(ex.getMessage())
                 .build();
         return response;
     }

@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `phone` VARCHAR(25) NULL DEFAULT NULL,
   `role` ENUM('ROLE_ADMIN','ROLE_TEACHER','ROLE_USER'),
   `sex` ENUM('male', 'female'),
+  `enabled` BOOLEAN NOT NULL default 1,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
