@@ -38,10 +38,10 @@ public class MarksController {
      * @return list of {@link MarkDataPointDTO} wrapped in {@link GeneralResponseWrapper}
      */
 
-    @PreAuthorize("hasRole('TEACHER')")//need access for teacher on statistics page
+    @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")//need access for teacher on statistics page
     @GetMapping("")
     @ApiOperation(value = "Teacher gets marks by date filtered by specified params", extensions = {@Extension(name = "roles", properties = {
-            @ExtensionProperty(name = "teacher", value = "a teacher is allowed to view marks by date filtered by specified params")})})
+            @ExtensionProperty(name = "teacher, admin", value = "a teacher is allowed to view marks by date filtered by specified params")})})
     GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
             @ApiParam(value = "filter results by student id") @RequestParam(value = "student_id", required = false) Integer studentId,
             @ApiParam(value = "filter results by subject id") @RequestParam(value = "subject_id", required = false) Integer subjectId,
@@ -59,7 +59,7 @@ public class MarksController {
      * @param studentId
      * @return list of {@link SubjectAvgMarkDTO}
      */
-    @PreAuthorize("hasRole('TEACHER')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
     @GetMapping("/avg")
     @ApiOperation(value = "Teacher gets student's average marks")
     GeneralResponseWrapper<List<SubjectAvgMarkDTO>> getAverageMarks (
@@ -80,13 +80,13 @@ public class MarksController {
      *         as {@link MarkDTO} object in {@link GeneralResponseWrapper} with http status code
      */
     @ApiOperation(value = "Teacher saves mark of students by lesson", extensions = {@Extension(name = "roles", properties = {
-            @ExtensionProperty(name = "teacher", value = "a teacher is allowed to save marks of students by the lesson he gave")})})
+            @ExtensionProperty(name = "teacher, admin", value = "a teacher is allowed to save marks of students by the lesson he gave")})})
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Mark successfully created"),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #markDTO.idLesson)")
+    @PreAuthorize("(hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #markDTO.idLesson)) or hasRole('ADMIN')")
     @PostMapping
     public GeneralResponseWrapper<MarkDTO> postMark(
         @ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
@@ -101,8 +101,8 @@ public class MarksController {
      * @param markType is mark's type
      */
     @ApiOperation(value = "Teacher updates mark's type of lesson", extensions = {@Extension(name = "roles", properties = {
-            @ExtensionProperty(name = "teacher", value = "a teacher is allowed to update mark's type of the lesson he gave")})})
-    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson)")
+            @ExtensionProperty(name = "teacher, admin", value = "a teacher is allowed to update mark's type of the lesson he gave")})})
+    @PreAuthorize("(hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson)) or hasRole('ADMIN')")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully updated"),
             @ApiResponse(code = 400, message = "Bad request"),
