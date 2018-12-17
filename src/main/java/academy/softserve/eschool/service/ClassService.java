@@ -11,6 +11,6 @@ public interface ClassService {
     List<ClassDTO> getClassesBySubject(Integer subjectId);
     ClassDTO saveClass(ClassDTO classDTO);
     ClassDTO updateClass(int id, ClassDTO classDTO);
-    List<ClassDTO> addNewYearClasses();
+    List<ClassDTO> addNewYearClasses(List<ClassDTO> classDTOS);
     void updateClassStatusById(List<NYTransitionDTO> transitionDTOS, boolean status);
 }

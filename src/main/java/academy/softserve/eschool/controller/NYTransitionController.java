@@ -37,16 +37,15 @@ import java.util.List;
 public class NYTransitionController {
     private static final Logger LOGGER = LoggerFactory.getLogger(NYTransitionController.class);
 
-    //todo bk ++ use autowiring via constructors.
-    //todo bk you should not use Impl class here. Use interface for injection and make the fields private
     @NonNull
     private ClassService classService;
     @NonNull
     private StudentService studentService;
 
     /**
-     * Add classes to next year based on currently
+     * Add classes to next school year.
      *
+     * @param classDTOS list of {@link ClassDTO} objects
      * @return List of created {@link ClassDTO} objects
      *         in {@link GeneralResponseWrapper} with http status code
      */
@@ -59,9 +58,9 @@ public class NYTransitionController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    public GeneralResponseWrapper<List<ClassDTO>> addNewYearClasses(){
+    public GeneralResponseWrapper<List<ClassDTO>> addNewYearClasses(@RequestBody List<ClassDTO> classDTOS){
         LOGGER.info("Add classes for new academic year");
-        return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), classService.addNewYearClasses());
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), classService.addNewYearClasses(classDTOS));
     }
 
     /**
