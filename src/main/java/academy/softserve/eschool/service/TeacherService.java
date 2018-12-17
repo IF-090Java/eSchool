@@ -38,7 +38,9 @@ public class TeacherService {
 
     public List<TeacherDTO> getAll(List<Teacher> resultset) {
 
-        return resultset.stream().map(i -> TeacherDTO.builder().id(i.getId())
+        return resultset.stream().
+                filter(i->i.isEnabled()).
+                map(i -> TeacherDTO.builder().id(i.getId())
                 .firstname(i.getFirstName())
                 .lastname(i.getLastName())
                 .patronymic(i.getPatronymic())

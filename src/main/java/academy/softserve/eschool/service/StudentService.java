@@ -51,7 +51,9 @@ public class StudentService {
     }
 
     public List<StudentDTO> getAll(List<Student> students) {
-        return students.stream().map(i -> StudentDTO.builder().Id(i.getId())
+        return students.stream().
+                filter(i->i.isEnabled()).
+                map(i -> StudentDTO.builder().Id(i.getId())
                 .firstname(i.getFirstName())
                 .lastname(i.getLastName())
                 .patronymic(i.getPatronymic())
