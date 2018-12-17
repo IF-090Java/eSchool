@@ -1,9 +1,11 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.AddedUsersDTO;
+import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.service.PasswordDecodeService;
+import academy.softserve.eschool.service.UserService;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
@@ -28,28 +30,61 @@ public class UserController {
     @NonNull
     private PasswordDecodeService passwordDecodeService;
 
+    @NonNull
+    private UserService userService;
+
     @GetMapping("")
     @ApiOperation(value = "Admin gets the list of all users (with passwords)", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "admin", value = "the admin is allowed to get the list of all users")})})
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "OK"),
+                    @ApiResponse(code = 400, message = "Bad request"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
     @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<List<AddedUsersDTO>> getAllUsers(){
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), passwordDecodeService.decodemultiple(userRepository.getRegisteredUsers()));
     }
 
     @ApiOperation(value = "Deactivating account by id", extensions = {@Extension(name = "roles", properties = {
-            @ExtensionProperty(name = "admin", value = "the admin is allowed to deactivate accounts")})})
+            @ExtensionProperty(name = "admin", value = "admin is allowed to deactivate accounts")})})
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{idUser}")
-    public ResponseEntity<Object> deactivate(@ApiParam(value = "ID of user", required = true) @PathVariable int idUser){
-        Optional<User> optionalUser = userRepository.findById(idUser);
-        User user;
-        if (optionalUser.isPresent()){
-            user = optionalUser.get();
-        }else {
-            throw new UsernameNotFoundException("No user with given id");
-        }
-        user.setEnabled(false);
-        userRepository.save(user);
-        return ResponseEntity.ok(null);
+    public ResponseEntity<EditUserDTO> deactivate(@ApiParam(value = "ID of user", required = true) @PathVariable int idUser){
+        return ResponseEntity.ok(userService.deactivate(idUser));
+    }
+
+    @ApiOperation(value = "Check if mail is free", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "everybody", value = "Everyone is allowed to get info about  users")})})
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'USER')")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "User with given mail already exists"),
+                    @ApiResponse(code = 404, message = "mail is free"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    @RequestMapping(value = "/email/{mail}/", method = RequestMethod.HEAD)
+    @ResponseBody
+    public GeneralResponseWrapper<EditUserDTO> getByMail(@PathVariable String mail){
+        return new GeneralResponseWrapper(Status.of(HttpStatus.OK), userService.getUserByEmail(mail));
+    }
+
+    @ApiOperation(value = "Check if login is free", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "admin is allowed to get info about  users")})})
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "User with given login already exists"),
+                    @ApiResponse(code = 404, message = "login is free"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @RequestMapping(value = "/login/{login}/", method = RequestMethod.HEAD)
+    @ResponseBody
+    public GeneralResponseWrapper<EditUserDTO> getByLogin(@PathVariable String login){
+        return new GeneralResponseWrapper(Status.of(HttpStatus.OK), userService.getUserByLogin(login));
     }
 }

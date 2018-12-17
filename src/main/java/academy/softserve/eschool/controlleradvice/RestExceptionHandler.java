@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -126,8 +127,19 @@ public class RestExceptionHandler {
 
     @ResponseStatus(code=HttpStatus.FORBIDDEN)
     @ExceptionHandler(DisabledException.class)
-    public GeneralResponseWrapper<Object> badRequestParams(DisabledException ex) {
+    public GeneralResponseWrapper<Object> accountDisabled(DisabledException ex) {
         Status status = new Status().of(HttpStatus.FORBIDDEN);
+        GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
+                .status(status)
+                .data(ex.getMessage())
+                .build();
+        return response;
+    }
+
+    @ResponseStatus(code=HttpStatus.NOT_FOUND)
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public GeneralResponseWrapper<Object> UsernameNotFound(UsernameNotFoundException ex) {
+        Status status = new Status().of(HttpStatus.NOT_FOUND);
         GeneralResponseWrapper<Object> response = GeneralResponseWrapper.builder()
                 .status(status)
                 .data(ex.getMessage())

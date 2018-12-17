@@ -131,8 +131,8 @@ public class StudentController {
             @ApiParam(value = "User object", required = true)  @RequestBody EditUserDTO student,
             @ApiParam(value = "ID of pupil", required = true)  @PathVariable int idStudent){
         LOGGER.info("Updating student [{} {}]", student.getLastname(), student.getFirstname());
-        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK) , studentService.updateStudent(studentRepository.findById(idStudent).get(), student));
 
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK) , studentService.updateStudent(studentRepository.findById(idStudent).get(), student));
     }
 
 }

@@ -27,6 +27,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Override
     Optional<User> findById(Integer integer);
 
+
     @Query("select " +
     "new academy.softserve.eschool.dto.AddedUsersDTO(u.firstName, u.lastName, u.patronymic, u.role, u.login, u.password) " +
     "from User u where u.role NOT LIKE '%ADMIN%' ORDER BY u.id desc ")
