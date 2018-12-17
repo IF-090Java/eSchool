@@ -1,7 +1,6 @@
 package academy.softserve.eschool.controller;
 
 import academy.softserve.eschool.dto.MarkTypeDTO;
-import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.security.JwtAuthenticationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -20,8 +19,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
