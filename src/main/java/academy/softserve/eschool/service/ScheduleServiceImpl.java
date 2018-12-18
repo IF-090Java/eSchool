@@ -64,7 +64,8 @@ public class ScheduleServiceImpl implements ScheduleService{
                 .tuesdaySubjects(convertFromObject(lessons, DayOfWeek.TUESDAY))
                 .wednesdaySubjects(convertFromObject(lessons, DayOfWeek.WEDNESDAY))
                 .thursdaySubjects(convertFromObject(lessons, DayOfWeek.THURSDAY))
-                .fridaySubjects(convertFromObject(lessons, DayOfWeek.FRIDAY)).build();
+                .fridaySubjects(convertFromObject(lessons, DayOfWeek.FRIDAY))
+                .saturdaySubjects(convertFromObject(lessons, DayOfWeek.SATURDAY)).build();
     }
     /**
      * Saves an object of {@link ScheduleDTO} into the lesson table
@@ -80,6 +81,7 @@ public class ScheduleServiceImpl implements ScheduleService{
         List<SubjectDTO> wednesday = scheduleDTO.getWednesdaySubjects();
         List<SubjectDTO> thursday = scheduleDTO.getThursdaySubjects();
         List<SubjectDTO> friday = scheduleDTO.getFridaySubjects();
+        List<SubjectDTO> saturday = scheduleDTO.getSaturdaySubjects();
 
         int id_class = scheduleDTO.getClassName().getId();
         Clazz clazz = classRepository.findById(id_class).get();
@@ -89,6 +91,7 @@ public class ScheduleServiceImpl implements ScheduleService{
         saveFunction(wednesday, start, end, DayOfWeek.WEDNESDAY, clazz);
         saveFunction(thursday, start, end, DayOfWeek.THURSDAY, clazz);
         saveFunction(friday, start, end, DayOfWeek.FRIDAY, clazz);
+        saveFunction(saturday, start, end, DayOfWeek.SATURDAY, clazz);
     }
 
     /**
@@ -164,11 +167,14 @@ public class ScheduleServiceImpl implements ScheduleService{
 
                 })
                         .collect(Collectors.toList());
-        for (int i = 0; i < listDate.size(); i++) {
-            if (listDate.get(i).getDayOfWeek() != dayOfWeek) {
-                list.remove(i);
+
+            for (int i = 0; i < listDate.size(); i++) {
+                if (listDate.get(i).getDayOfWeek() != dayOfWeek) {
+                    list.set(i, null);
+                }
             }
-        }
+            list.removeAll(Collections.singleton(null));
+
         logger.debug("Lessons' quantity for [{}] is [{}]", dayOfWeek, list.size());
         return list;
     }

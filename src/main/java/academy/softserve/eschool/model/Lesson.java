@@ -1,15 +1,15 @@
 package academy.softserve.eschool.model;
 
+import lombok.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import academy.softserve.eschool.model.Mark.MarkType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
 
 /**
  * This class represents the lesson table of the DB
@@ -51,10 +51,10 @@ public class Lesson {
     private String hometask;
     /**
      * Type of mark putted to the pupil for the lesson.
-     * The ENUM with mark types is specified as an internal class in the {@link Mark} class: {@link Mark.MarkType}
+     * The ENUM with mark types is specified as an internal class in the {@link Mark} class: {@link MarkType}
      */
-    @Enumerated(EnumType.STRING)
-    @Column(name = "mark_type")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "mark_type_id")
     private MarkType markType;
     /**
      * File object {@link File} that the teacher uploads for the pupils, as an addition to the lesson

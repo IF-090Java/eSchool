@@ -4,6 +4,8 @@ import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.dto.NYTransitionDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.repository.ClassRepository;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ClassServiceImpl implements ClassService{
     private static final Logger LOGGER = LoggerFactory.getLogger(ClassServiceImpl.class);
 
-    @Autowired ClassRepository classRepository;
+    @NonNull
+    ClassRepository classRepository;
 
     @Override
     public List<ClassDTO> getAllClasses() {
@@ -83,22 +87,19 @@ public class ClassServiceImpl implements ClassService{
     }
 
     @Override
-    public List<ClassDTO> addNewYearClasses() {
-        List<ClassDTO> allClasses = getAllClasses();
+    public List<ClassDTO> addNewYearClasses(List<ClassDTO> classDTOS) {
         List<Clazz> newYearClasses = new ArrayList<>();
 
-        for (ClassDTO classDTO : allClasses){
-            if (classDTO.getIsActive() == true && classDTO.getNumOfStudents() > 0 && !classDTO.getClassName().startsWith("11")){
-                LOGGER.debug("Creating new class based on [{} - {}]", classDTO.getClassName(), classDTO.getClassYear());
-                newYearClasses.add(
+        for (ClassDTO classDTO : classDTOS) {
+            newYearClasses.add(
                 Clazz.builder()
-                        .name(updateClassName(classDTO.getClassName()))
-                        .description(classDTO.getClassDescription())
-                        .academicYear(classDTO.getClassYear()+1)
-                        .isActive(classDTO.getIsActive()).build()
-                );
-            }
+                    .name(classDTO.getClassName())
+                    .description(classDTO.getClassDescription())
+                    .academicYear(classDTO.getClassYear())
+                    .isActive(true).build()
+            );
         }
+
         LOGGER.info("Saving new year classes, [count={}]", newYearClasses.size());
         List<Clazz> classes = classRepository.saveAll(newYearClasses);
         return classes.stream().map(c -> ClassDTO.builder()
@@ -113,20 +114,9 @@ public class ClassServiceImpl implements ClassService{
     public void updateClassStatusById(List<NYTransitionDTO> transitionDTOS, boolean status) {
         for (NYTransitionDTO dto: transitionDTOS){
             classRepository.updateClassStatusById(dto.getOldClassId(), status);
-            LOGGER.debug("Class [id={}] status updated to [false]", dto.getOldClassId());
+            LOGGER.debug("Class [id={}] status updated to [{}]", dto.getOldClassId(), status);
         }
         LOGGER.info("Old year classes [status=false].");
-    }
-
-    public String updateClassName(String className) {
-        String[] classNameParts = className.split("-");
-        if (classNameParts.length>1){
-            int classNum = Integer.parseInt(classNameParts[0])+1;
-            return classNum+"-"+classNameParts[1];
-        } else {
-            int classNum = Integer.parseInt(classNameParts[0])+1;
-            return String.valueOf(classNum);
-        }
     }
 
     @Override

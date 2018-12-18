@@ -186,6 +186,8 @@
         })
     })
     $(document).ready(function() {
+        var username;
+        var email;
         var pathArray = window.location.pathname.split('/');
         var subjectId = pathArray[3];
         var fileBase64;
@@ -288,7 +290,7 @@
             }).fail(function (jqXHR) {
                 status = jqXHR.status;
             });
-            if (status == 200)
+            if (status == 200 && $("#mail").val()!=email)
                 return false;
             else
                 return true;
@@ -305,7 +307,7 @@
             }).fail(function (jqXHR) {
                 status = jqXHR.status;
             });
-            if (status == 200)
+            if (status == 200 && $("#username").val()!=username)
                 return false;
             else
                 return true;
@@ -337,7 +339,6 @@
                     maxlength: 40
                 },
                 email:{
-                    required: true,
                     email: true,
                     uniqueEmail: true
                 },
@@ -374,7 +375,6 @@
                     maxlength: 'Максимальна довжина - 40 символів'
                 },
                 email:{
-                    required: "Це поле обов'язкове",
                     email: "Введіть коректний email",
                     uniqueEmail: "Користувач з таким електронним адресом уже існує"
                 },
@@ -437,7 +437,10 @@
                     if (new RegExp("4[0-9][0-9]").test(data.status)){
                         window.location.href='/ui/login'
                     }
-                });
+                }).always(function (data) {
+                username = $("#username").val();
+                email = $("#mail").val();
+            });
         }
         else{
             $.getJSON(host + 'teachers/' + subjectId, function (data) {
@@ -447,7 +450,10 @@
                     if (new RegExp("4[0-9][0-9]").test(data.status)){
                         window.location.href='/ui/login'
                     }
-                });
+                }).always(function (data) {
+                username = $("#username").val();
+                email = $("#mail").val();
+            });
         }
     });
 </script>

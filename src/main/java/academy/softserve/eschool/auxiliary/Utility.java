@@ -1,9 +1,11 @@
 package academy.softserve.eschool.auxiliary;
 
 import academy.softserve.eschool.dto.AddedUsersDTO;
+import academy.softserve.eschool.dto.MarkTypeDTO;
 import academy.softserve.eschool.dto.StudentDTO;
 import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.model.Clazz;
+import academy.softserve.eschool.model.MarkType;
 import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.model.User;
 
@@ -66,5 +68,35 @@ public class Utility {
                 .password(i.getPassword())
                 .role(i.getRole())
                 .build()).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    /**
+     * Transform {@link MarkType} to {@link MarkTypeDTO}.
+     * @param markType object with data for transformation.
+     * @return {@link MarkTypeDTO} created from markType.
+     */
+    public static MarkTypeDTO transform(MarkType markType){
+        return markType != null ?
+                    MarkTypeDTO.builder().markType(markType.getMarkType())
+                    .description(markType.getDescription())
+                    .isActive(markType.isActive())
+                    .id(markType.getId())
+                    .build()
+                : new MarkTypeDTO();
+    }
+
+    /**
+     * Transform {@link MarkTypeDTO} to {@link MarkType}.
+     * @param markTypeDTO object with data for transformation.
+     * @return {@link MarkType} created from markTypeDTO.
+     */
+    public static MarkType transform(MarkTypeDTO markTypeDTO){
+        return markTypeDTO != null ?
+                    MarkType.builder()
+                    .markType(markTypeDTO.getMarkType())
+                    .description(markTypeDTO.getDescription())
+                    .isActive(markTypeDTO.isActive())
+                    .build()
+                : new MarkType();
     }
 }

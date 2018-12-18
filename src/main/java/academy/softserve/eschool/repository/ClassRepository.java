@@ -16,7 +16,7 @@ public interface ClassRepository extends JpaRepository<Clazz, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "update clazz set is_active=:status where id=:classId", nativeQuery = true)
+    @Query("update Clazz c set c.isActive=:status where c.id=:classId")
     void updateClassStatusById(@Param("classId") int classId, @Param("status") boolean status);
     
     /**

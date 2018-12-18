@@ -60,7 +60,7 @@ public class SubjectControllerIntegrationTest {
         headers = new HttpHeaders();
         headers.add(tokenHeader, token);
     }
-    
+
     @Test
     @Ignore
     public void testGetAllSubjects() throws Exception {
@@ -83,7 +83,7 @@ public class SubjectControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray())
                 .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
-    
+
     @Test
     @Ignore
     public void testGetAllSubjectsByClasses() throws Exception {
@@ -112,7 +112,7 @@ public class SubjectControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isNotEmpty())
                 .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
-    
+
     @Test
     @Ignore
     public void testGetSubjectsTeacher() throws Exception {

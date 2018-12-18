@@ -2,7 +2,6 @@ package academy.softserve.eschool.service;
 
 import academy.softserve.eschool.dto.ClassDTO;
 import academy.softserve.eschool.model.Clazz;
-import academy.softserve.eschool.model.Student;
 import academy.softserve.eschool.repository.ClassRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -109,50 +108,6 @@ public class ClassServiceImplTest {
         Mockito.when(classRepository.findAll()).thenReturn(clazzList);
         List<ClassDTO> classList = classService.getAllClasses();
         assertEquals(classDTOList, classList);
-    }
-
-    @Test
-    public void testAddNewYearClasses(){
-        List<Clazz> getAllClassesList = new ArrayList<>();
-        clazzObject = Clazz.builder()
-                .id(1)
-                .name("10-А")
-                .academicYear(2018)
-                .description("Some desc")
-                .isActive(true)
-                .build();
-        clazzObject.getStudents().add(new Student());
-        getAllClassesList.add(clazzObject);
-
-        clazzList.add(
-                Clazz.builder()
-                .name("11-А")
-                .description("Some desc")
-                .academicYear(2019)
-                .isActive(true).build()
-        );
-        List<Clazz> returnAftSaveClazzList = new ArrayList<>();
-        List<ClassDTO> expectedDTOList = new ArrayList<>();
-        returnAftSaveClazzList.add(new Clazz(2, "11-А", "Some desc", 2019, true));
-        expectedDTOList.add(new ClassDTO(2, 2019, "11-А", "Some desc", true, 0));
-
-        Mockito.when(classRepository.findAll()).thenReturn(getAllClassesList);
-        Mockito.when(classRepository.saveAll(clazzList)).thenReturn(returnAftSaveClazzList);
-
-        List<ClassDTO> result = classService.addNewYearClasses();
-        assertEquals(expectedDTOList, result);
-    }
-
-    @Test
-    public void testUpdateClassNameWithLetter(){
-        String newNameWithLetter = classService.updateClassName("9-Б");
-        assertEquals("10-Б", newNameWithLetter);
-    }
-
-    @Test
-    public void testUpdateClassNameWithoutLetter(){
-        String newNameWithoutLetter = classService.updateClassName("10");
-        assertEquals("11", newNameWithoutLetter);
     }
 
     @Test

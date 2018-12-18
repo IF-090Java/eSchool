@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import academy.softserve.eschool.model.MarkType;
+import academy.softserve.eschool.repository.MarkTypeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class MarkService implements MarkServiceBase {
 
     @NonNull
     private MarkRepository markRepo;
+
+    @NonNull
+    private MarkTypeRepository markTypeRepository;
     private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     
     /**
@@ -90,7 +95,8 @@ public class MarkService implements MarkServiceBase {
     @Override
     public void updateType(int idLesson, String markType) {
         logger.info("Editing markType[{}] lesson[id={}]",markType,idLesson);
-        markRepo.saveTypeByLesson(idLesson,markType);
+        MarkType marktype = markTypeRepository.findByMarkType(markType);
+        markRepo.saveTypeByLesson(idLesson, marktype != null ? marktype.getId() : 0);
     }
 
 

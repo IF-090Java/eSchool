@@ -56,12 +56,12 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
     /**
      * This method save mark's type of lesson
      * @param idLesson  id of lesson
-     * @param markType  String value of enum(mark type)
+     * @param markTypeID  mark type id.
      */
     @Modifying
     @Transactional
-    @Query(value = "update lesson set mark_type=:markType where id=:idLesson", nativeQuery = true)
-    void saveTypeByLesson(@Param("idLesson") int idLesson,@Param("markType") String markType);
+    @Query(value = "update lesson set mark_type_id = :markTypeID where id=:idLesson", nativeQuery = true)
+    void saveTypeByLesson(@Param("idLesson") int idLesson,@Param("markTypeID") int markTypeID);
 
     
     /**
