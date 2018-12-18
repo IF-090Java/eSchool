@@ -12,6 +12,7 @@ import academy.softserve.eschool.repository.UserRepository;
 import academy.softserve.eschool.security.CustomPasswordEncoder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -32,6 +33,7 @@ import static org.junit.Assert.assertNotEquals;
  * {@link Mockito} mock framework is used in conjunction with {@link org.junit.runners.JUnit4}
  */
 @RunWith(MockitoJUnitRunner.class)
+@Ignore
 public class StudentServiceTest {
 
     @Mock

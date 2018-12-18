@@ -81,7 +81,7 @@ public class StatisticsIntegrationTest extends ControllerIntegrationTestBase {
                 .param("class_id", "2")
                 .param("period_start", "2018-09-03")
                 .param("period_end", "2018-10-04"))
-                .andExpect(MockMvcResultMatchers.status().isForbidden());
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
     
     @Test
