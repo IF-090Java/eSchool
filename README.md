@@ -42,12 +42,16 @@ git clone https://github.com/IF-090Java/eSchool.git
 Software required to run this application:
 1. Java
 2. MySQL Server
+3. Git
 
 #### Installing Java
 Download installer appropriate for your operating system from [www.oracle.com](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html) and run it. Complete installation process by following instructions.
 
 #### Installing MySQL Server
 To install MySQL Server visit https://www.mysql.com/downloads/ and follow installation instructions for your operating system.
+
+#### Installing Git
+To instal Git visit https://git-scm.com/downloads and follow installation instructions for your operating system.
 
 ### Configuration
 The application can be configured using environmental variables.
