@@ -61,8 +61,8 @@ public class SubjectControllerIntegrationTest {
         headers.add(tokenHeader, token);
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void testGetAllSubjects() throws Exception {
         String expectedJSON = "{\"status\":{\"code\": 200,\"message\": \"OK\"},\"data\": ["
                 + "{\"subjectId\": 1,\"subjectName\": \"Історія України\",\"subjectDescription\": \"Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу\"},"
@@ -84,8 +84,8 @@ public class SubjectControllerIntegrationTest {
                 .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void testGetAllSubjectsByClasses() throws Exception {
         String expectedJSON = "{\"status\":{\"code\": 200,\"message\": \"OK\"},\"data\": ["
                 + "{\"subjectId\": 6,\"subjectName\": \"Фізика\",\"subjectDescription\": \"Природничий навчальний предмет. Починає вивчатись із 7-го класу\"},"
@@ -113,8 +113,8 @@ public class SubjectControllerIntegrationTest {
                 .andDo(mvcResult -> JSONAssert.assertEquals(expectedJSON, mvcResult.getResponse().getContentAsString(), false));
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void testGetSubjectsTeacher() throws Exception {
         String expectedJSON = "{\"status\":{\"code\": 200,\"message\": \"OK\"},\"data\": ["
                 + "{\"subjectId\": 4,\"subjectName\": \"Українська мова\",\"subjectDescription\": \"Гуманітарний навчальний предмет\"},"

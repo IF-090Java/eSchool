@@ -88,6 +88,24 @@ public class JournalServiceImpl implements JournalService {
     }
 
     @Override
+    public List<JournalDTO> getJournalsByClass(int idClass) {
+        logger.debug("Getting journals for class = {}", idClass);
+        List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findByClazzId(idClass);
+        List<JournalDTO> listDTO = new ArrayList<>();
+        for(ClassTeacherSubjectLink link: listCTS){
+            JournalDTO dto = JournalDTO.builder()
+                    .idClass(link.getClazz().getId())
+                    .idSubject(link.getSubject().getId())
+                    .className(link.getClazz().getName())
+                    .subjectName(link.getSubject().getName())
+                    .academicYear(link.getClazz().getAcademicYear())
+                    .build();
+            listDTO.add(dto);
+        }
+        return listDTO;
+    }
+
+    @Override
     public List<JournalMarkDTO> getJournal(int idSubject, int idClass) {
          logger.debug("Getting journal class[id={}],subject[id={}]", idClass,idSubject);
          List<Map<String,Object>>  list = studentRepository.findJournal(idSubject,idClass);

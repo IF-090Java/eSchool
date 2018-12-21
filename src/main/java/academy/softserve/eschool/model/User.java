@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import academy.softserve.eschool.constraint.annotation.RegexPattern;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="user")
@@ -89,7 +90,9 @@ public class User {
     
     @Size(max=200)
     private String description;
-    
+
+    private boolean enabled;
+
     public User(String login, String password, String email, Role role, String firstName, String lastName,
             String patronymic, LocalDate dateOfBirth, Sex sex, String phone, String avatar, String description) {
         super();
@@ -106,7 +109,7 @@ public class User {
         this.avatar = avatar;
         this.description = description;
     }
-    
+
     public enum Role {
         ROLE_TEACHER, ROLE_USER, ROLE_ADMIN
     }

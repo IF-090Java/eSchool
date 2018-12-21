@@ -84,7 +84,7 @@
     <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
 
         <div class="container-fluid teacher_nav" style="position: fixed;z-index: 3">
-            <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="height: 80px;font-size: 16px">
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark" id="navbar" style="height: 80px;font-size: 16px">
                 <a id="logo" href="" class="navbar-brand d-flex w-50 mr-auto">School Management System</a>
                 <div class="navbar-collapse collapse w-100">
                     <ul class="navbar-nav w-100 justify-content-center">
@@ -208,6 +208,10 @@
     })
 
     $(document).ready(function () {
+        var refferer = document.referrer;
+        if(refferer.indexOf("journals/class")>-1){
+            $("#navbar").load("/views/admin-header.html");
+        }
 
         var pathArray = window.location.pathname.split('/');
         var idSubject = pathArray[4];

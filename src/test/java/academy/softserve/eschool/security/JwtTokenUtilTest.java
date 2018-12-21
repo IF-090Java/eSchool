@@ -36,7 +36,7 @@ public class JwtTokenUtilTest {
 
     @Before
     public void init() {
-        jwtUser = new JwtUser(1L, TEST_USERNAME, null, null, null, null,
+        jwtUser = new JwtUser(1L, TEST_USERNAME, null, null, null,true, null,
                 ReflectionTestUtils.invokeMethod(jwtUserFactory, "mapToGrantedAuthorities", TEST_ROLE));
         ReflectionTestUtils.setField(jwtTokenUtil, "expiration", 3600L);
         ReflectionTestUtils.setField(jwtTokenUtil, "globalExpiration", 86400L);

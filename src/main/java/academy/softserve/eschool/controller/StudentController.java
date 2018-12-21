@@ -91,7 +91,7 @@ public class StudentController {
      * @return List of {@link StudentDTO} object
      *         in {@link GeneralResponseWrapper} with http status code
      */
-    @ApiOperation(value = "Admin or teacher gets pupils from class", extensions = {@Extension(name = "roles", properties = {
+    @ApiOperation(value = "Admin or teacher gets active pupils from class", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "teacher", value = "a teacher is allowed to view information about the pupils of a class"),
             @ExtensionProperty(name = "admin", value = "the admin is allowed to view information about the pupils of a class")})})
     @ApiResponses(
@@ -131,8 +131,8 @@ public class StudentController {
             @ApiParam(value = "User object", required = true)  @RequestBody EditUserDTO student,
             @ApiParam(value = "ID of pupil", required = true)  @PathVariable int idStudent){
         LOGGER.info("Updating student [{} {}]", student.getLastname(), student.getFirstname());
-        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK) , studentService.updateStudent(studentRepository.findById(idStudent).get(), student));
 
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK) , studentService.updateStudent(studentRepository.findById(idStudent).get(), student));
     }
 
 }

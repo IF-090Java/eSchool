@@ -36,16 +36,16 @@ public class LoginGeneratorServiceTest {
 
     @BeforeClass
     public static void init(){
-        users.add(new User(1, "iivanov",	"password",	"@mail.com", User.Role.ROLE_TEACHER, "Іван",	"Іванов",	"Іванович",	LocalDate.of(2003, Month.DECEMBER, 4), User.Sex.male, "0575651789", null, null));
-        users.add(new User(2, "iivanov1",	"password",	"@mail.com", User.Role.ROLE_TEACHER, "Іван",	"Іванов",	"Іванович",	LocalDate.of(2003, Month.DECEMBER, 4), User.Sex.male, "0575651789", null, null));
-        users.add(new User(3, "iivanov2",	"password",	"@mail.com", User.Role.ROLE_TEACHER, "Іван",	"Іванов",	"Іванович",	LocalDate.of(2003, Month.DECEMBER, 4), User.Sex.male, "0575651789", null, null));
-        users.add(new User(4, "iivanov3",	"password",	"@mail.com", User.Role.ROLE_TEACHER, "Іван",	"Іванов",	"Іванович",	LocalDate.of(2003, Month.DECEMBER, 4), User.Sex.male, "0575651789", null, null));
+        users.add(new User(1, "iivanov",	"password",	"@mail.com", User.Role.ROLE_TEACHER, "Іван",	"Іванов",	"Іванович",	LocalDate.of(2003, Month.DECEMBER, 4), User.Sex.male, "0575651789", null, null, true));
+        users.add(new User(2, "iivanov1",	"password",	"@mail.com", User.Role.ROLE_TEACHER, "Іван",	"Іванов",	"Іванович",	LocalDate.of(2003, Month.DECEMBER, 4), User.Sex.male, "0575651789", null, null, true));
+        users.add(new User(3, "iivanov2",	"password",	"@mail.com", User.Role.ROLE_TEACHER, "Іван",	"Іванов",	"Іванович",	LocalDate.of(2003, Month.DECEMBER, 4), User.Sex.male, "0575651789", null, null, true));
+        users.add(new User(4, "iivanov3",	"password",	"@mail.com", User.Role.ROLE_TEACHER, "Іван",	"Іванов",	"Іванович",	LocalDate.of(2003, Month.DECEMBER, 4), User.Sex.male, "0575651789", null, null, true));
 
     }
 
     @Test
     public void generateLogin() {
-        User user = new User(6, "",	"password",	"@mail.com", User.Role.ROLE_TEACHER, "Іван",	"Іванов",	"Іванович",	LocalDate.of(2003, Month.DECEMBER, 4), User.Sex.male, "0575651789", null, null);
+        User user = new User(6, "",	"password",	"@mail.com", User.Role.ROLE_TEACHER, "Іван",	"Іванов",	"Іванович",	LocalDate.of(2003, Month.DECEMBER, 4), User.Sex.male, "0575651789", null, null, true);
         assertEquals("iivanov", loginGeneratorService.generateLogin(user.getFirstName(), user.getLastName()));
 
         Mockito.when(userRepository.findUsersWithPartOfLogin("iivanov")).thenReturn(users.subList(1, 3));

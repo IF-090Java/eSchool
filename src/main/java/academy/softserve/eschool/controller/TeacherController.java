@@ -40,7 +40,7 @@ public class TeacherController {
      * @return list of {@link TeacherDTO} in {@link GeneralResponseWrapper} with http status code.
      */
     @GetMapping("")
-    @ApiOperation(value = "Admin gets list of teachers", extensions = {@Extension(name = "roles", properties = {
+    @ApiOperation(value = "Admin gets list of active teachers", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "admin", value = "the admin is allowed to get the list of teachers")})})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
