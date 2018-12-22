@@ -290,7 +290,6 @@
                     var select = $('<select class="type"></select>').attr("idLes",v.idLesson);
                     $.each(types, function(k, v) {
                         $('<option title ="'+v.markType+'" value="'+v.markType+'" >' + v.markType.substring(0, 3)+'.' + '</option>').appendTo(select);
-                        console.log(v);
                     });
                     select.val(v.typeMark);
 
