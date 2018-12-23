@@ -4,8 +4,10 @@ import academy.softserve.eschool.dto.AddedUsersDTO;
 import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.UserRepository;
+import academy.softserve.eschool.service.EmailService;
 import academy.softserve.eschool.service.PasswordDecodeService;
 import academy.softserve.eschool.service.UserService;
+import academy.softserve.eschool.service.base.CredentialsMailingServiceBase;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
@@ -32,10 +34,12 @@ public class UserController {
 
     @NonNull
     private UserService userService;
+    @NonNull
+    private CredentialsMailingServiceBase credentialsMailingService ;
 
-    @GetMapping("")
-    @ApiOperation(value = "Admin gets the list of all users (with passwords)", extensions = {@Extension(name = "roles", properties = {
-            @ExtensionProperty(name = "admin", value = "the admin is allowed to get the list of all users")})})
+    @GetMapping("/credentials/teachers")
+    @ApiOperation(value = "Admin gets the list of all teachers (with passwords) on his email", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to get the list of all teachers")})})
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
@@ -44,8 +48,25 @@ public class UserController {
             }
     )
     @PreAuthorize("hasRole('ADMIN')")
-    public GeneralResponseWrapper<List<AddedUsersDTO>> getAllUsers(){
-        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), passwordDecodeService.decodemultiple(userRepository.getRegisteredUsers()));
+    public GeneralResponseWrapper<Void> emailTeachersCredentials(){
+        credentialsMailingService.sendTeachersCredentials();
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), null);
+    }
+    
+    @GetMapping("/credentials/students")
+    @ApiOperation(value = "Admin gets the list of all students (with passwords) on his email", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to get the list of all students")})})
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "OK"),
+                    @ApiResponse(code = 400, message = "Bad request"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    @PreAuthorize("hasRole('ADMIN')")
+    public GeneralResponseWrapper<Void> emailStudentsCredentials(@RequestParam Integer classId){
+        credentialsMailingService.sendStudentsCredentials(classId);
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), null);
     }
 
     @ApiOperation(value = "Deactivating account by id", extensions = {@Extension(name = "roles", properties = {
