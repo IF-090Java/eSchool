@@ -13,6 +13,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -73,6 +74,24 @@ public class JournalServiceImpl implements JournalService {
     public List<JournalDTO> getJournals() {
         logger.debug("Getting all journals");
         List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findJournals();
+        List<JournalDTO> listDTO = new ArrayList<>();
+        for(ClassTeacherSubjectLink link: listCTS){
+            JournalDTO dto = JournalDTO.builder()
+                    .idClass(link.getClazz().getId())
+                    .idSubject(link.getSubject().getId())
+                    .className(link.getClazz().getName())
+                    .subjectName(link.getSubject().getName())
+                    .academicYear(link.getClazz().getAcademicYear())
+                    .build();
+            listDTO.add(dto);
+        }
+        return listDTO;
+    }
+
+    @Override
+    public List<JournalDTO> getJournalsByClass(int idClass) {
+        logger.debug("Getting journals for class = {}", idClass);
+        List<ClassTeacherSubjectLink> listCTS = classTeacherSubjectLinkRepository.findByClazzId(idClass);
         List<JournalDTO> listDTO = new ArrayList<>();
         for(ClassTeacherSubjectLink link: listCTS){
             JournalDTO dto = JournalDTO.builder()

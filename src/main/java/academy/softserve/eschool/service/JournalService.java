@@ -12,6 +12,7 @@ public interface JournalService{
     List<JournalDTO> getJournalsByTeacher(int idTeacher);
     List<JournalDTO> getActiveJournalsByTeacher(int idTeacher);
     List<JournalDTO> getJournals();
+    List<JournalDTO> getJournalsByClass(int idClass);
     List<JournalMarkDTO> getJournal(int idSubject, int idClass);
     List<HomeworkDTO> getHomework(int idSubject, int idClass);
     HomeworkFileDTO getFile(int idSubject);

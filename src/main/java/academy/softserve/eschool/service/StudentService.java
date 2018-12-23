@@ -15,6 +15,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -51,7 +52,9 @@ public class StudentService {
     }
 
     public List<StudentDTO> getAll(List<Student> students) {
-        return students.stream().map(i -> StudentDTO.builder().Id(i.getId())
+        return students.stream().
+                filter(i->i.isEnabled()).
+                map(i -> StudentDTO.builder().Id(i.getId())
                 .firstname(i.getFirstName())
                 .lastname(i.getLastName())
                 .patronymic(i.getPatronymic())
@@ -79,10 +82,12 @@ public class StudentService {
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
-        if ((passwordEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))
-                && edited.getNewPass().length() > 0) {
-            oldUser.setPassword(passwordEncoder.encode(edited.getNewPass()));
+        if (edited.getNewPass().length()>0){
+            if ((passwordEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))) {
+                oldUser.setPassword(passwordEncoder.encode(edited.getNewPass()));
+            }else throw new BadCredentialsException("Wrong password");
         }
+
         return userRepository.save(oldUser);
     }
 

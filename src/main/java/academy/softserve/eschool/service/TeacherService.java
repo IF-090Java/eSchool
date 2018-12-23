@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import academy.softserve.eschool.security.CustomPasswordEncoder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.dto.EditUserDTO;
@@ -38,7 +39,9 @@ public class TeacherService {
 
     public List<TeacherDTO> getAll(List<Teacher> resultset) {
 
-        return resultset.stream().map(i -> TeacherDTO.builder().id(i.getId())
+        return resultset.stream().
+                filter(i->i.isEnabled()).
+                map(i -> TeacherDTO.builder().id(i.getId())
                 .firstname(i.getFirstName())
                 .lastname(i.getLastName())
                 .patronymic(i.getPatronymic())
@@ -74,9 +77,10 @@ public class TeacherService {
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
-        if ((passwordEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))
-                && edited.getNewPass().length() > 0) {
-            oldUser.setPassword(passwordEncoder.encode(edited.getNewPass()));
+        if (edited.getNewPass().length()>0){
+            if ((passwordEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))) {
+                oldUser.setPassword(passwordEncoder.encode(edited.getNewPass()));
+            }else throw new BadCredentialsException("Wrong password");
         }
         oldUser = userRepository.save(oldUser);
         return transform(oldUser);

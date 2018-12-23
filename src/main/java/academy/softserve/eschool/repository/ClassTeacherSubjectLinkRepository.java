@@ -80,4 +80,11 @@ public interface ClassTeacherSubjectLinkRepository extends JpaRepository<ClassTe
      * @return list of {@link ClassTeacherSubjectLink} if found else null
      */
     List<ClassTeacherSubjectLink> findByTeacherIdAndSubjectId(int teacherId, int subjectId);
+
+    /**
+     * Find all {@link ClassTeacherSubjectLink} by class id.
+     * @param classId teacher's id
+     * @return list of {@link ClassTeacherSubjectLink} if found else null
+     */
+    List<ClassTeacherSubjectLink> findByClazzId(int classId);
 }

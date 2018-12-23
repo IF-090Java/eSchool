@@ -39,12 +39,13 @@ public class HomeworkController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idClass, #idSubject)")
+    @PreAuthorize("(hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idClass, #idSubject)) or hasRole('ADMIN')")
     public GeneralResponseWrapper<List<HomeworkDTO>> getHomeworks(
             @ApiParam(value = "ID of subject", required = true) @PathVariable int idSubject,
             @ApiParam(value = "ID of class", required = true) @PathVariable int idClass) {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getHomework(idSubject,idClass));
     }
+
 
     /**
      * Create new homework for transmitted class and lesson.
@@ -63,7 +64,7 @@ public class HomeworkController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #homeworkFileDTO.idLesson)")
+    @PreAuthorize("(hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #homeworkFileDTO.idLesson)) or hasRole('ADMIN')")
     public GeneralResponseWrapper<HomeworkFileDTO> postHomework(
             @ApiParam(value = "Homework object", required = true)@RequestBody HomeworkFileDTO homeworkFileDTO) {
         journalServiceImpl.saveHomework(homeworkFileDTO);
@@ -87,7 +88,8 @@ public class HomeworkController {
             }
     )
     @PreAuthorize("(hasRole('USER') and @securityExpressionService.isAttendingLesson(principal.id, #idLesson))"
-            + " or (hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson))")
+            + " or (hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson))"
+            + " or hasRole('ADMIN')")
     public GeneralResponseWrapper<HomeworkFileDTO> getFile(
             @ApiParam(value = "ID of the lesson", required = true) @PathVariable int idLesson){
         System.out.println(journalServiceImpl.getFile(idLesson));

@@ -16,7 +16,7 @@
 <form id="loginForm">
     <h1>Форма входу</h1>
     <fieldset id="inputs">
-        <input id="login" type="text" placeholder="Логин" autofocus required>   
+        <input id="login" type="text" placeholder="Логін" autofocus required>
         <input id="password" type="password" placeholder="Пароль" required>
     </fieldset>
     <div id="wrongPasswOrLogin"></div>
@@ -62,7 +62,7 @@
                 },
                 error: function(jqXHR, exception){
                     var status = jqXHR.responseText;
-                    if (jqXHR.responseJSON.status.message == 'Bad Credentials'){
+                    if (jqXHR.responseJSON.status.message == 'Bad Credentials' || jqXHR.responseJSON.data == 'User is disabled'){
                         $("#password").val("");
                       
                         $('#wrongPasswOrLogin').html('Неправильний логін або пароль')
