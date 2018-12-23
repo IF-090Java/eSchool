@@ -46,6 +46,7 @@ public class HomeworkController {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getHomework(idSubject,idClass));
     }
 
+
     /**
      * Create new homework for transmitted class and lesson.
      * Homework, lesson id and class id required.
