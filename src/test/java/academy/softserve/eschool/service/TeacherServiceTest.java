@@ -30,7 +30,6 @@ import static org.junit.Assert.assertNotEquals;
  * {@link Mockito} mock framework is used in conjunction with {@link org.junit.runners.JUnit4}
  */
 @RunWith(MockitoJUnitRunner.class)
-@Ignore
 public class TeacherServiceTest {
     @Mock
     private UserRepository userRepository;
@@ -73,6 +72,7 @@ public class TeacherServiceTest {
     }
 
     @Test
+    @Ignore
     public void getAll() {
         assertEquals(teacherDTOS, teacherService.getAll(teachers));
     }

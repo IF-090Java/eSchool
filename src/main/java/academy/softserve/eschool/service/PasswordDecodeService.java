@@ -38,7 +38,7 @@ public class PasswordDecodeService {
                 .build()).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public List<AddedUsersDTO> decodeusers(List<User> usersDTOList){
+    public List<AddedUsersDTO> decodeUsers(List<Teacher> usersDTOList){
         return usersDTOList.stream().map(i-> AddedUsersDTO.builder()
                 .firstname(i.getFirstName())
                 .lastname(i.getLastName())
@@ -58,12 +58,5 @@ public class PasswordDecodeService {
                 .password(encoder.decode(i.getPassword()))
                 .classe(i.getClasses().stream().filter(Clazz::isActive).findFirst().orElseGet(Clazz::new).getName())
                 .build()).collect(Collectors.toCollection(ArrayList::new));
-    }
-
-    public List<AddedUsersDTO> decodemultiple(){
-        List<AddedUsersDTO> addedUsers = transform(userRepository.findAll());
-        for (AddedUsersDTO addedUsersDTO : addedUsers)
-            addedUsersDTO.setPassword(encoder.decode(addedUsersDTO.getPassword()));
-        return addedUsers;
     }
 }

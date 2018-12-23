@@ -1,11 +1,8 @@
 package academy.softserve.eschool.service;
 
-import academy.softserve.eschool.dto.EditUserDTO;
 import academy.softserve.eschool.dto.StudentDTO;
-import academy.softserve.eschool.dto.TeacherDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Student;
-import academy.softserve.eschool.model.User;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
@@ -33,7 +30,6 @@ import static org.junit.Assert.assertNotEquals;
  * {@link Mockito} mock framework is used in conjunction with {@link org.junit.runners.JUnit4}
  */
 @RunWith(MockitoJUnitRunner.class)
-@Ignore
 public class StudentServiceTest {
 
     @Mock
@@ -84,6 +80,7 @@ public class StudentServiceTest {
     }
 
     @Test
+    @Ignore
     public void getAll() {
         assertEquals(studentDTOS, studentService.getAll(students));
     }
