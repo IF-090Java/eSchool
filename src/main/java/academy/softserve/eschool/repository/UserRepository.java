@@ -32,4 +32,16 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     "new academy.softserve.eschool.dto.AddedUsersDTO(u.firstName, u.lastName, u.patronymic, u.role, u.login, u.password) " +
     "from User u where u.role NOT LIKE '%ADMIN%' ORDER BY u.id desc ")
     List<AddedUsersDTO> getRegisteredUsers();
+    
+    @Query("select " +
+            "new academy.softserve.eschool.dto.AddedUsersDTO(u.firstName, u.lastName, u.patronymic, u.role, u.login, u.password) " +
+            "from Teacher u ORDER BY u.lastName, u.firstName desc ")
+    List<AddedUsersDTO> getAllTeachersCredentials();
+    
+    @Query("select " +
+            "new academy.softserve.eschool.dto.AddedUsersDTO(u.firstName, u.lastName, u.patronymic, u.role, u.login, u.password) " +
+            "from Student u join u.classes c " +
+            "where c.id = :classId " +
+            "ORDER BY u.lastName, u.firstName desc ")
+    List<AddedUsersDTO> getAllStudentsCredentials(@Param("classId") Integer classId);
 }

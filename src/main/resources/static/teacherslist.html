@@ -24,6 +24,9 @@
                     <ul id="teacherslist" class="list-group-flush">
                     </ul>
                 </div>
+                <div class="row justify-content-center">
+                    <button id="sendCredentials" class="btn-primary">Надіслати дані вчителів на пошту</button>
+                </div>
             </div>
         </div>
     </div>    
@@ -50,6 +53,19 @@
                 if (new RegExp("4[0-9][0-9]").test(data.status)){
                     window.location.href='/ui/login'
                 }
+            });
+            
+            $('#sendCredentials').on("click", function (e){
+                var btn = $('#sendCredentials');
+                btn.attr("disabled", true);
+                $.getJSON(host + 'users/credentials/teachers', function (data) {
+                    console.log("derp");
+                    btn.text("Надіслано!");
+                    btn.attr("disabled", false);
+                }).fail(function (data) {
+                    btn.text(data.status.message);
+                    btn.attr("disabled", false);
+                });
             });
         });
     </script>

@@ -21,8 +21,11 @@
                     <h1 id="h1-title">Всі учні класу</h1>
                 </div>                
                 <div class="row mainbox justify-content-center">
-            <ul id="studentList" class="list-group-flush"></ul>
-</div>
+                    <ul id="studentList" class="list-group-flush"></ul>
+                </div>
+                <div class="row justify-content-center">
+                    <button id="sendCredentials" class="btn-primary">Надіслати дані учнів на пошту</button>
+                </div>
         </div>
     </div>    
 </div>    
@@ -59,9 +62,21 @@
             }
         });
 
-$.getJSON(host + 'classes/' + classId, function (data) {
-    console.log(data);
-                $('#h1-title').html('Учні ' + data.data.className + ' класу' + ' (' + data.data.classYear + ')');
+        $.getJSON(host + 'classes/' + classId, function (data) {
+            console.log(data);
+            $('#h1-title').html('Учні ' + data.data.className + ' класу' + ' (' + data.data.classYear + ')');
+        });
+        $('#sendCredentials').on("click", function (e){
+            var btn = $('#sendCredentials');
+            btn.attr("disabled", true);
+            $.getJSON(host + 'users/credentials/students', {"classId" : classId}, function (data) {
+                console.log("derp");
+                btn.text("Надіслано!");
+                btn.attr("disabled", false);
+            }).fail(function (data) {
+                btn.text(data.status.message);
+                btn.attr("disabled", false);
+            });
         });
     });
 </script>
