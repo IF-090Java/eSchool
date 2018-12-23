@@ -50,27 +50,27 @@ public class ScheduleControllerIntegrationTest {
             "\"className\":" +
                 "{\"id\":2,\"classYear\":2018,\"className\":\"7-А\",\"classDescription\":\"\",\"isActive\":true,\"numOfStudents\":3}," +
             "\"mondaySubjects\":" +
-                "[{\"subjectId\":1,\"subjectName\":\"Історія України\",\"subjectDescription\":\"Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу\"}," +
-                "{\"subjectId\":2,\"subjectName\":\"Інформатика\",\"subjectDescription\":\"\"}," +
-                "{\"subjectId\":2,\"subjectName\":\"Інформатика\",\"subjectDescription\":\"\"}]," +
+                "[{\"lessonNumber\":1,\"subjectId\":1,\"subjectName\":\"Історія України\",\"subjectDescription\":\"Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу\"}," +
+                "{\"lessonNumber\":2,\"subjectId\":2,\"subjectName\":\"Інформатика\",\"subjectDescription\":\"\"}," +
+                "{\"lessonNumber\":3,\"subjectId\":2,\"subjectName\":\"Інформатика\",\"subjectDescription\":\"\"}]," +
             "\"tuesdaySubjects\":" +
-                "[{\"subjectId\":3,\"subjectName\":\"Англійська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}," +
-                "{\"subjectId\":3,\"subjectName\":\"Англійська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}," +
-                "{\"subjectId\":3,\"subjectName\":\"Англійська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}]," +
+                "[{\"lessonNumber\":1,\"subjectId\":3,\"subjectName\":\"Англійська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}," +
+                "{\"lessonNumber\":2,\"subjectId\":3,\"subjectName\":\"Англійська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}," +
+                "{\"lessonNumber\":3,\"subjectId\":3,\"subjectName\":\"Англійська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}]," +
             "\"wednesdaySubjects\":" +
-                "[{\"subjectId\":4,\"subjectName\":\"Українська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}," +
-                "{\"subjectId\":3,\"subjectName\":\"Англійська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}]," +
+                "[{\"lessonNumber\":1,\"subjectId\":4,\"subjectName\":\"Українська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}," +
+                "{\"lessonNumber\":1,\"subjectId\":3,\"subjectName\":\"Англійська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}]," +
             "\"thursdaySubjects\":" +
-                "[{\"subjectId\":4,\"subjectName\":\"Українська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}," +
-                "{\"subjectId\":5,\"subjectName\":\"Українська література\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}]," +
+                "[{\"lessonNumber\":1,\"subjectId\":4,\"subjectName\":\"Українська мова\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}," +
+                "{\"lessonNumber\":2,\"subjectId\":5,\"subjectName\":\"Українська література\",\"subjectDescription\":\"Гуманітарний навчальний предмет\"}]," +
             "\"fridaySubjects\":" +
-                "[{\"subjectId\":8,\"subjectName\":\"Біологія\",\"subjectDescription\":\"Природничий навчальний предмет. Починає вивчатись із 6-го класу\"}," +
-                "{\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}," +
-                "{\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}]," +
+                "[{\"lessonNumber\":1,\"subjectId\":8,\"subjectName\":\"Біологія\",\"subjectDescription\":\"Природничий навчальний предмет. Починає вивчатись із 6-го класу\"}," +
+                "{\"lessonNumber\":2,\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}," +
+                "{\"lessonNumber\":3,\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}]," +
             "\"saturdaySubjects\":" +
-                "[{\"subjectId\":8,\"subjectName\":\"Біологія\",\"subjectDescription\":\"Природничий навчальний предмет. Починає вивчатись із 6-го класу\"}," +
-                "{\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}," +
-                "{\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}]," +
+                "[{\"lessonNumber\":1,\"subjectId\":8,\"subjectName\":\"Біологія\",\"subjectDescription\":\"Природничий навчальний предмет. Починає вивчатись із 6-го класу\"}," +
+                "{\"lessonNumber\":1,\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}," +
+                "{\"lessonNumber\":2,\"subjectId\":9,\"subjectName\":\"Математика\",\"subjectDescription\":\"\"}]," +
             "\"classId\":2}";
 
     @Before
