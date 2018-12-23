@@ -1,6 +1,7 @@
 package academy.softserve.eschool.repository;
 
 import academy.softserve.eschool.model.Lesson;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -41,6 +42,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
     @Query(value = "select * from lesson where lesson.clazz_id=:idClass and lesson.subject_id=:idSubject\n" +
             "order by lesson.date", nativeQuery = true)
     List<Lesson> findHomework(@Param("idSubject") int idSubject, @Param("idClass") int idClass);
+
     /**
      * Returns a list of Map objects that contains data about {@link academy.softserve.eschool.dto.ScheduleDTO}}
      * @param classId   id of the class

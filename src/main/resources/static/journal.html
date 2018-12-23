@@ -272,6 +272,10 @@
                 window.location.href='/ui/login'
             }
         });
+        var types;
+        $.getJSON(host + 'mark_types', function (data) {
+            types = data.data;
+        });
         $.getJSON(host + 'journals/subjects/'+idSubject+'/classes/'+idClass, function (data) {
             var date = data.data[0].marks[0].dateMark.split(".");
             $('<span>'+date[0]+'/'+(++date[0])+'</span>').appendTo('#yearTitle');
@@ -284,10 +288,9 @@
                 $.each(val.marks, function(k, v) {
                     var th_mark = $('<th></th>');
                     var select = $('<select class="type"></select>').attr("idLes",v.idLesson);
-                    $('<option title ="Контрольна"  value="Control" selected>' + "Кр." + '</option>').appendTo(select);
-                    $('<option title ="Практична"  value="Practic">' + "Пр." + '</option>').appendTo(select);
-                    $('<option title ="Модульна"  value="Module">' + "Мд." + '</option>').appendTo(select);
-                    $('<option title ="Лабораторна" value="Labaratorna">' + "Лр." + '</option>').appendTo(select);
+                    $.each(types, function(k, v) {
+                        $('<option title ="'+v.markType+'" value="'+v.markType+'" >' + v.markType.substring(0, 3)+'.' + '</option>').appendTo(select);
+                    });
                     select.val(v.typeMark);
 
                     select.appendTo(th_mark);
