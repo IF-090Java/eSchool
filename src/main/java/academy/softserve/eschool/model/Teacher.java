@@ -26,9 +26,9 @@ public class Teacher extends User{
 
     @Builder
     public Teacher(String login, String password, String email, Role role, String firstName, String lastName,
-                   String patronymic, LocalDate dateOfBirth, Sex sex, String phone, String avatar, String description) {
+                   String patronymic, LocalDate dateOfBirth, Sex sex, String phone, String avatar, String description, boolean enabled) {
         super(login, password, email, role, firstName, lastName, patronymic, dateOfBirth, sex, phone, avatar,
-                description);
+                description, enabled);
     }
 
 }
