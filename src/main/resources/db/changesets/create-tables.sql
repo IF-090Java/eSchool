@@ -174,8 +174,6 @@ CREATE TABLE IF NOT EXISTS `password_reset_token` (
     `created_at` DATETIME NOT NULL
 );
 
-SET GLOBAL event_scheduler = ON;
-
 CREATE EVENT remove_expired_password_reset_tokens
 ON SCHEDULE EVERY 5 MINUTE
 STARTS CURRENT_TIMESTAMP
