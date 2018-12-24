@@ -59,10 +59,10 @@ public class StudentServiceTest {
 
     @BeforeClass
     public static void init() {
-        students.add(new Student("iivanov", "password", "@mail.com", Student.Role.ROLE_USER, "Іван", "Іванов", "Іванович", LocalDate.of(2003, Month.DECEMBER, 4), null, "0995456198", null, ""));
-        students.add(new Student("iivanov1", "password", "@mail.com", Student.Role.ROLE_USER, "Іван", "Іванов", "Іванович", LocalDate.of(2003, Month.DECEMBER, 4), null, "0995456198", null, ""));
-        students.add(new Student("afedoriv", "password", "@mail.com", Student.Role.ROLE_USER, "Аліна", "Федорів", "Петрівна", LocalDate.of(2003, Month.DECEMBER, 4), null, "0995456198", null, ""));
-        students.add(new Student("pshevchuk", "password", "@mail.com", Student.Role.ROLE_USER, "Петро", "Шевчук", "Петрович", LocalDate.of(2003, Month.DECEMBER, 4), null, "0995456198", null, ""));
+        students.add(new Student("iivanov", "password", "@mail.com", Student.Role.ROLE_USER, "Іван", "Іванов", "Іванович", LocalDate.of(2003, Month.DECEMBER, 4), null, "0995456198", null, "", true));
+        students.add(new Student("iivanov1", "password", "@mail.com", Student.Role.ROLE_USER, "Іван", "Іванов", "Іванович", LocalDate.of(2003, Month.DECEMBER, 4), null, "0995456198", null, "", true));
+        students.add(new Student("afedoriv", "password", "@mail.com", Student.Role.ROLE_USER, "Аліна", "Федорів", "Петрівна", LocalDate.of(2003, Month.DECEMBER, 4), null, "0995456198", null, "", true));
+        students.add(new Student("pshevchuk", "password", "@mail.com", Student.Role.ROLE_USER, "Петро", "Шевчук", "Петрович", LocalDate.of(2003, Month.DECEMBER, 4), null, "0995456198", null, "", true));
 
         studentDTOS.add(new StudentDTO("Іван", "Іванов", "Іванович", "7-А", 1,  LocalDate.of(2003, Month.DECEMBER, 4), "iivanov", "@mail.com", "0995456198", null));
         studentDTOS.add(new StudentDTO("Іван", "Іванов", "Іванович", "7-А", 1,  LocalDate.of(2003, Month.DECEMBER, 4), "iivanov1", "@mail.com", "0995456198", null));

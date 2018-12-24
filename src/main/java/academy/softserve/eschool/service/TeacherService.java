@@ -104,6 +104,7 @@ public class TeacherService {
                 .email(teacherDTO.getEmail())
                 .dateOfBirth(teacherDTO.getDateOfBirth())
                 .role(Role.ROLE_TEACHER)
+                .enabled(true)
                 .build();
         String login = teacherDTO.getLogin();
         if (login == null || !generateLogin.isUnique(login))

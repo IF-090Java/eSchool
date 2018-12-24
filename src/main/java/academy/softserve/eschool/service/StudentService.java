@@ -109,6 +109,7 @@ public class StudentService {
                 .email(studentDTO.getEmail())
                 .dateOfBirth(studentDTO.getDateOfBirth())
                 .role(Role.ROLE_USER)
+                .enabled(true)
                 .build();
         String login = studentDTO.getLogin();
         if (login.isEmpty() || !generateLogin.isUnique(login))

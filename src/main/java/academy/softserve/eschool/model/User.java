@@ -94,7 +94,7 @@ public class User {
     private boolean enabled;
 
     public User(String login, String password, String email, Role role, String firstName, String lastName,
-            String patronymic, LocalDate dateOfBirth, Sex sex, String phone, String avatar, String description) {
+            String patronymic, LocalDate dateOfBirth, Sex sex, String phone, String avatar, String description, boolean enabled) {
         super();
         this.login = login;
         this.password = password;
@@ -108,6 +108,7 @@ public class User {
         this.phone = phone;
         this.avatar = avatar;
         this.description = description;
+        this.enabled = enabled;
     }
 
     public enum Role {
