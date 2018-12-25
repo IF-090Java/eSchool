@@ -45,7 +45,7 @@ public class EditUserDTO {
 
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd", timezone="EST")
+            pattern = "yyyy-MM-dd", timezone="EET")
     @ApiModelProperty(notes = "Contains the date of birth of the user in format: \"yyyy-mm-dd\". " +
             "The date must be in the past. For example: \"2002-02-02\", but not \"2019-10-10\" or \"10-10-2003\".")
     private LocalDate dateOfBirth;

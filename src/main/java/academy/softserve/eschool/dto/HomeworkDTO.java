@@ -20,7 +20,8 @@ public class HomeworkDTO{
     
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy.MM.dd")
+            pattern = "yyyy.MM.dd",
+            timezone="Europe/Kiev")
     @ApiModelProperty(notes = "Contains the date of the homework in format: \"yyyy.MM.dd\". ")
     private Date date;
     

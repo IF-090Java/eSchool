@@ -59,24 +59,24 @@ public class HomeworkControllerIntegrationTest {
     @Test
     public void getHomeworksTest() throws Exception {
         String expectedJSON = "{\"status\":{\"code\":200,\"message\":\"OK\"},\"data\":[" +
-                "{\"idLesson\":11,\"date\":\"2018.09.04\",\"homework\":\"Домашнє завдання #15\",\"fileName\":\"test.txt\"}," +
-                "{\"idLesson\":20,\"date\":\"2018.09.06\",\"homework\":\"Домашнє завдання #67, #95\",\"fileName\":null}," +
-                "{\"idLesson\":32,\"date\":\"2018.09.11\",\"homework\":\"Домашнє завдання #94, #22\",\"fileName\":null}," +
-                "{\"idLesson\":41,\"date\":\"2018.09.13\",\"homework\":\"Домашнє завдання #83\",\"fileName\":null}," +
-                "{\"idLesson\":53,\"date\":\"2018.09.18\",\"homework\":\"\",\"fileName\":null}," +
-                "{\"idLesson\":62,\"date\":\"2018.09.20\",\"homework\":\"\",\"fileName\":null}," +
-                "{\"idLesson\":74,\"date\":\"2018.09.25\",\"homework\":\"\",\"fileName\":null}," +
-                "{\"idLesson\":83,\"date\":\"2018.09.27\",\"homework\":\"Домашнє завдання #40, #2\",\"fileName\":null}" +
-                ",{\"idLesson\":95,\"date\":\"2018.10.02\",\"homework\":\"Домашнє завдання #85, #72\",\"fileName\":null}," +
-                "{\"idLesson\":104,\"date\":\"2018.10.04\",\"homework\":\"\",\"fileName\":null}," +
-                "{\"idLesson\":116,\"date\":\"2018.10.09\",\"homework\":\"Домашнє завдання #73, #83\",\"fileName\":null}," +
-                "{\"idLesson\":125,\"date\":\"2018.10.11\",\"homework\":\"\",\"fileName\":null}," +
-                "{\"idLesson\":137,\"date\":\"2018.10.16\",\"homework\":\"Домашнє завдання #82, #10\",\"fileName\":null}," +
-                "{\"idLesson\":146,\"date\":\"2018.10.18\",\"homework\":\"Домашнє завдання #21, #35\",\"fileName\":null}," +
-                "{\"idLesson\":158,\"date\":\"2018.10.23\",\"homework\":\"Домашнє завдання #27, #89\",\"fileName\":null}," +
-                "{\"idLesson\":167,\"date\":\"2018.10.25\",\"homework\":\"\",\"fileName\":null}," +
-                "{\"idLesson\":179,\"date\":\"2018.10.30\",\"homework\":\"\",\"fileName\":null}," +
-                "{\"idLesson\":188,\"date\":\"2018.11.01\",\"homework\":\"\",\"fileName\":null}]}";
+                "{\"idLesson\":11,\"date\":\"2018.09.05\",\"homework\":\"Домашнє завдання #15\",\"fileName\":\"test.txt\"}," +
+                "{\"idLesson\":20,\"date\":\"2018.09.07\",\"homework\":\"Домашнє завдання #67, #95\",\"fileName\":null}," +
+                "{\"idLesson\":32,\"date\":\"2018.09.12\",\"homework\":\"Домашнє завдання #94, #22\",\"fileName\":null}," +
+                "{\"idLesson\":41,\"date\":\"2018.09.14\",\"homework\":\"Домашнє завдання #83\",\"fileName\":null}," +
+                "{\"idLesson\":53,\"date\":\"2018.09.19\",\"homework\":\"\",\"fileName\":null}," +
+                "{\"idLesson\":62,\"date\":\"2018.09.21\",\"homework\":\"\",\"fileName\":null}," +
+                "{\"idLesson\":74,\"date\":\"2018.09.26\",\"homework\":\"\",\"fileName\":null}," +
+                "{\"idLesson\":83,\"date\":\"2018.09.28\",\"homework\":\"Домашнє завдання #40, #2\",\"fileName\":null}" +
+                ",{\"idLesson\":95,\"date\":\"2018.10.03\",\"homework\":\"Домашнє завдання #85, #72\",\"fileName\":null}," +
+                "{\"idLesson\":104,\"date\":\"2018.10.05\",\"homework\":\"\",\"fileName\":null}," +
+                "{\"idLesson\":116,\"date\":\"2018.10.10\",\"homework\":\"Домашнє завдання #73, #83\",\"fileName\":null}," +
+                "{\"idLesson\":125,\"date\":\"2018.10.12\",\"homework\":\"\",\"fileName\":null}," +
+                "{\"idLesson\":137,\"date\":\"2018.10.17\",\"homework\":\"Домашнє завдання #82, #10\",\"fileName\":null}," +
+                "{\"idLesson\":146,\"date\":\"2018.10.19\",\"homework\":\"Домашнє завдання #21, #35\",\"fileName\":null}," +
+                "{\"idLesson\":158,\"date\":\"2018.10.24\",\"homework\":\"Домашнє завдання #27, #89\",\"fileName\":null}," +
+                "{\"idLesson\":167,\"date\":\"2018.10.26\",\"homework\":\"\",\"fileName\":null}," +
+                "{\"idLesson\":179,\"date\":\"2018.10.31\",\"homework\":\"\",\"fileName\":null}," +
+                "{\"idLesson\":188,\"date\":\"2018.11.02\",\"homework\":\"\",\"fileName\":null}]}";
         mvc.perform(MockMvcRequestBuilders.get("/homeworks/subjects/3/classes/2")
                 .contentType(MediaType.APPLICATION_JSON)
                 .headers(headers))

@@ -75,7 +75,7 @@ public class User {
     @Column(name="date_of_birth")
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd", timezone="EST")
+            pattern = "yyyy-MM-dd", timezone="EET")
     private LocalDate dateOfBirth;
     
     @Enumerated(EnumType.STRING)

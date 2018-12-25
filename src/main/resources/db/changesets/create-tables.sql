@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `lesson` (
   `date` DATE NOT NULL,
   `hometask` VARCHAR(255) NULL DEFAULT NULL,
   `lesson_number` TINYINT(2) NOT NULL,
-  `mark_type_id` INT(11) NOT NULL,
+  `mark_type_id` INT(11) DEFAULT NULL,
   `homework_file_id` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `FKlqfrfxjgij4gjebdvvaeoyr14` (`clazz_id` ASC),

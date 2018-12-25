@@ -4,9 +4,7 @@ import academy.softserve.eschool.dto.LessonDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Lesson;
 import academy.softserve.eschool.model.Subject;
-import academy.softserve.eschool.repository.ClassRepository;
-import academy.softserve.eschool.repository.LessonRepository;
-import academy.softserve.eschool.repository.SubjectRepository;
+import academy.softserve.eschool.repository.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +39,8 @@ public class ScheduleServiceImplTest {
     private ClassRepository classRepository;
     @Mock
     private SubjectRepository subjectRepository;
+    @Mock
+    private MarkTypeRepository markTypeRepository;
 
     @InjectMocks
     private ScheduleServiceImpl scheduleService;
