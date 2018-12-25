@@ -63,54 +63,54 @@ public class ScheduleDTO {
     @NotNull
     private ClassDTO className;
     /**
-     * list of lessons (SubjectDTO objects) {@link SubjectDTO} for Monday schedule
+     * list of lessons (LessonDTO objects) {@link LessonDTO} for Monday schedule
      */
     @ApiModelProperty(notes = "Contains the schedule for Monday. It's an array of subjects. Every element of the array should contain: \n" +
             "1) The ID of the subject\n" +
             "2) The name of the subject (only Ukrainian characters and the first one must be capitalized)\n" +
             "3) The subject description. It's maximum length is 500 characters." )
-    private List<SubjectDTO> mondaySubjects;
+    private List<LessonDTO> mondaySubjects;
     /**
-     * list of lessons (SubjectDTO objects) {@link SubjectDTO} for Tuesday schedule
+     * list of lessons (LessonDTO objects) {@link LessonDTO} for Tuesday schedule
      */
     @ApiModelProperty(notes = "Contains the schedule for Tuesday. It's an array of subjects. Every element of the array should contain: \n" +
             "1) The ID of the subject\n" +
             "2) The name of the subject (only Ukrainian characters and the first one must be capitalized)\n" +
             "3) The subject description. It's maximum length is 500 characters." )
-    private List<SubjectDTO> tuesdaySubjects;
+    private List<LessonDTO> tuesdaySubjects;
     /**
-     * list of lessons (SubjectDTO objects) {@link SubjectDTO} for Wednesday schedule
+     * list of lessons (LessonDTO objects) {@link LessonDTO} for Wednesday schedule
      */
     @ApiModelProperty(notes = "Contains the schedule for Wednesday. It's an array of subjects. Every element of the array should contain: \n" +
             "1) The ID of the subject\n" +
             "2) The name of the subject (only Ukrainian characters and the first one must be capitalized)\n" +
             "3) The subject description. It's maximum length is 500 characters." )
-    private List<SubjectDTO> wednesdaySubjects;
+    private List<LessonDTO> wednesdaySubjects;
     /**
-     * list of lessons (SubjectDTO objects) {@link SubjectDTO} for Thursday schedule
+     * list of lessons (LessonDTO objects) {@link LessonDTO} for Thursday schedule
      */
     @ApiModelProperty(notes = "Contains the schedule for Thursday. It's an array of subjects. Every element of the array should contain: \n" +
             "1) The ID of the subject\n" +
             "2) The name of the subject (only Ukrainian characters and the first one must be capitalized)\n" +
             "3) The subject description. It's maximum length is 500 characters." )
-    private List<SubjectDTO> thursdaySubjects;
+    private List<LessonDTO> thursdaySubjects;
     /**
-     * list of lessons (SubjectDTO objects) {@link SubjectDTO} for Friday schedule
+     * list of lessons (LessonDTO objects) {@link LessonDTO} for Friday schedule
      */
     @ApiModelProperty(notes = "Contains the schedule for Friday. It's an array of subjects. Every element of the array should contain: \n" +
             "1) The ID of the subject\n" +
             "2) The name of the subject (only Ukrainian characters and the first one must be capitalized)\n" +
             "3) The subject description. It's maximum length is 500 characters." )
-    private List<SubjectDTO> fridaySubjects;
+    private List<LessonDTO> fridaySubjects;
 
     /**
-     * list of lessons (SubjectDTO objects) {@link SubjectDTO} for Saturday schedule
+     * list of lessons (LessonDTO objects) {@link LessonDTO} for Saturday schedule
      */
     @ApiModelProperty(notes = "Contains the schedule for Saturday. It's an array of subjects. Every element of the array should contain: \n" +
             "1) The ID of the subject\n" +
             "2) The name of the subject (only Ukrainian characters and the first one must be capitalized)\n" +
             "3) The subject description. It's maximum length is 500 characters." )
-    private List<SubjectDTO> saturdaySubjects;
+    private List<LessonDTO> saturdaySubjects;
 
     public int getClassId()
     {
