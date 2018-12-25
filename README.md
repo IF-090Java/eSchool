@@ -66,6 +66,18 @@ These variables are used by the application to send password recovery emails
 * MAIL_LOGIN - username for the account at the mail host
 * MAIL_PASSWORD - password for the account (in case of Gmail it must be application password)
 * ESCHOOL_APP_HOST - address where application is hosted
+#### Security Configuration
+* PASSWORD_ENCODING_KEY - secret text that is used to encrypt and decrypt passwords
+* JWT_EXPIRATION - lifetime of jwt token in seconds (default value is one hour)
+* ADMIN_USERNAME - initial administrator login login
+* ADMIN_PASSWORD - initial administrator password. It should be encrypted with PASSWORD_ENCODING_KEY. To get encrypted password you can use one of this methods:
+     * [this service](https://www.devglan.com/online-tools/jasypt-online-encryption-decryption) - 
+ choose "Two Way Encryption(With Secret Text)" option provide raw password and encoding key and press encrypt
+    * if you have jasypt in your maven repository you can use following command:
+    ```
+    java -cp ~/.m2/repository/org/jasypt/jasypt/1.9.2/jasypt-1.9.2.jar org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI input="YOUR_DECRYPTED_PASSWORD" password=YOUR_ENCODIG_KEY algorithm=PBEWithMD5AndDES
+    ```
+
 
 ### Run application
 1. Clone the repository:

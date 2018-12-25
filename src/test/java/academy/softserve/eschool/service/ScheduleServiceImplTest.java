@@ -6,6 +6,7 @@ import academy.softserve.eschool.model.Lesson;
 import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.LessonRepository;
+import academy.softserve.eschool.repository.MarkRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -41,6 +42,8 @@ public class ScheduleServiceImplTest {
     private ClassRepository classRepository;
     @Mock
     private SubjectRepository subjectRepository;
+    @Mock
+    private MarkRepository markRepository;
 
     @InjectMocks
     private ScheduleServiceImpl scheduleService;

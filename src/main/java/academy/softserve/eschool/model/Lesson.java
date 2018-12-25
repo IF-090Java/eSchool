@@ -1,5 +1,6 @@
 package academy.softserve.eschool.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -43,6 +44,9 @@ public class Lesson {
     @NotNull
     @Temporal(TemporalType.DATE)
     @Future
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = "yyyy-MM-dd", timezone="Europe/Kiev")
     private Date date;
     /**
      * Homework that the teacher gives for the pupils.
