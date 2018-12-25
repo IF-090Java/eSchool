@@ -34,7 +34,7 @@ select {
    padding: 5px 10px;
    text-overflow: ellipsis;
    white-space: nowrap;
-   width: 250px;
+   width: 210px;
  }
 </style>
 <head>
@@ -97,8 +97,8 @@ select {
                                                 <div class="entry input-group col-xs-3">
                                                     <div class="row">
                                                     <li>
-                                                        <select name="monday" class="ax_default_droplist1" data-type="answer" class="select">
-                                                            <option value="0">-</option>
+                                                        <select value="simple" name="monday" class="ax_default_droplist1" data-type="answer" class="select">
+                                                            <option name="monday" value="0">-</option>
                                                         </select>
 
                                                         <span class="input-group-btn">
@@ -106,6 +106,12 @@ select {
                                 <span> + </span>
                             </button>
                         </span>
+                                                        <span class="input-group-btn1">
+                            <button class="btn btn-primary btn-add1" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+
                                                     </li>
                                                     </div>
 
@@ -123,8 +129,8 @@ select {
                                                 <div class="entry input-group col-xs-3">
                                                     <div class="row">
                                                     <li>
-                                                        <select name="thursday" class="ax_default_droplist4" data-type="answer" class="select">
-                                                            <option value="0">-</option>
+                                                        <select value="simple" name="thursday" class="ax_default_droplist4" data-type="answer" class="select">
+                                                            <option name="thursday" value="0">-</option>
                                                         </select>
 
                                                         <span class="input-group-btn">
@@ -132,6 +138,13 @@ select {
                                 <span> + </span>
                             </button>
                         </span>
+
+                                                        <span class="input-group-btn1">
+                            <button class="btn btn-primary btn-add1" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+
                                                     </li>
                                                     </div>
 
@@ -152,8 +165,8 @@ select {
                                                 <div class="entry input-group col-xs-3">
                                                     <div class="row">
                                                     <li>
-                                                        <select name="tuesday" class="ax_default_droplist2" data-type="answer" class="select">
-                                                            <option value="0">-</option>
+                                                        <select value="simple" name="tuesday" class="ax_default_droplist2" data-type="answer" class="select">
+                                                            <option name="tuesday" value="0">-</option>
                                                         </select>
 
                                                         <span class="input-group-btn">
@@ -161,6 +174,13 @@ select {
                                 <span> + </span>
                             </button>
                         </span>
+
+                                                        <span class="input-group-btn1">
+                            <button class="btn btn-primary btn-add1" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+
                                                     </li>
                                                     </div>
 
@@ -178,8 +198,8 @@ select {
                                                 <div class="entry input-group col-xs-3">
                                                     <div class="row">
                                                     <li>
-                                                        <select name="friday" class="ax_default_droplist5" data-type="answer" class="select">
-                                                            <option value="0">-</option>
+                                                        <select value="simple" name="friday" class="ax_default_droplist5" data-type="answer" class="select">
+                                                            <option name="friday" value="0">-</option>
                                                         </select>
 
                                                         <span class="input-group-btn">
@@ -187,6 +207,13 @@ select {
                                 <span> + </span>
                             </button>
                         </span>
+
+                                                        <span class="input-group-btn1">
+                            <button class="btn btn-primary btn-add1" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+
                                                     </li>
                                                     </div>
                                                 </div>
@@ -206,8 +233,8 @@ select {
                                                 <div class="entry input-group col-xs-3">
                                                     <div class="row">
                                                     <li>
-                                                        <select name="wednesday" class="ax_default_droplist3" data-type="answer" class="select">
-                                                            <option value="0">-</option>
+                                                        <select value="simple" name="wednesday" class="ax_default_droplist3" data-type="answer" class="select">
+                                                            <option name="wednesday" value="0">-</option>
                                                         </select>
 
                                                         <span class="input-group-btn">
@@ -215,6 +242,13 @@ select {
                                 <span> + </span>
                             </button>
                         </span>
+
+                                                        <span class="input-group-btn1">
+                            <button class="btn btn-primary btn-add1" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+
                                                     </li>
                                                     </div>
                                                 </div>
@@ -232,8 +266,8 @@ select {
                                             <div class="entry input-group col-xs-3">
                                                 <div class="row">
                                                     <li>
-                                                        <select name="friday" class="ax_default_droplist6" data-type="answer" class="select">
-                                                            <option value="0">-</option>
+                                                        <select value="simple" name="saturday" class="ax_default_droplist6" data-type="answer" class="select">
+                                                            <option name="saturday" value="0">-</option>
                                                         </select>
 
                                                         <span class="input-group-btn">
@@ -241,6 +275,14 @@ select {
                                 <span> + </span>
                             </button>
                         </span>
+
+                                                        <span class="input-group-btn1">
+                            <button class="btn btn-primary btn-add1" type="button">
+                                <span> + </span>
+                            </button>
+                        </span>
+
+
                                                     </li>
                                                 </div>
                                             </div>
@@ -265,15 +307,19 @@ select {
 /****************************************Add more selects*********************************************************************/
 function addMore(obj, controls)
 {
-      $(obj).on('click', '.btn-add', function(e)
+    $(obj).find('.entry').attr('value', 1);
+    $(obj).find('.input-group-btn1').attr('value', 1);
+    var id = 2;
+  $(obj).on('click', '.btn-add', function(e)
     {
         e.preventDefault();
         var controlForm = $(controls + ' form:first'),
             currentEntry = $(this).parents('.entry:first'),
-            newEntry = $(currentEntry.clone()).appendTo(controlForm);
-        var id = 0;
+            newEntry = $(currentEntry.clone()).attr('value', id).appendTo(controlForm);
+            newEntry.find('.input-group-btn1').attr('value', id);
+
         newEntry.each(function(){
-                   $(this).find('select').attr('id', id + 1);
+            id ++;
                 });
         controlForm.find('.entry:not(:last) .btn-add')
             .removeClass('btn-add').addClass('btn-remove')
@@ -281,6 +327,9 @@ function addMore(obj, controls)
             .html('<span> - </span>');
     }).on('click', '.btn-remove', function(e)
     {
+        id--;
+        $(obj).find('.entry:last').attr('value', id - 1);
+        $(obj).find('.input-group-btn1:last').attr('value', id - 1);
         $(this).parents('.entry:first').remove();
         e.preventDefault();
         return false;
@@ -294,6 +343,44 @@ $(function()
   addMore('#thursday', '.controls4');
   addMore('#friday', '.controls5');
   addMore('#saturday', '.controls6');
+});
+
+
+
+
+
+function addClass(obj, controls)
+{
+      $(obj).on('click', '.btn-add1', function(e)
+    {
+        e.preventDefault();
+        var append = $(obj).find('.input-group-btn1');
+        var newField = $(obj + ' select:first').clone().appendTo(append);
+        newField.attr('value', 'addClass');
+
+        $(obj).find('.btn-add1')
+            .removeClass('btn-add1').addClass('btn-remove1')
+            .removeClass('btn-primary').addClass('btn-danger')
+            .html('<span> - </span>');
+    }).on('click', '.btn-remove1', function(e)
+    {
+    $(obj).find('.btn-remove1')
+        .removeClass('btn-remove1').addClass('btn-add1')
+        .removeClass('btn-danger').addClass('btn-primary')
+        .html('<span> + </span>');
+        $(obj).find("select[value='addClass']").remove();
+        e.preventDefault();
+        return false;
+    });
+}
+$(function()
+{
+  addClass('#monday', '.controls1');
+  addClass('#tuesday', '.controls2');
+  addClass('#wednesday', '.controls3');
+  addClass('#thursday', '.controls4');
+  addClass('#friday', '.controls5');
+  addClass('#saturday', '.controls6');
 });
 /****************************************Security*********************************************************************/
     $(document).ready(function () {
@@ -441,20 +528,63 @@ $(function()
                 var thursday = [];
                 var friday = [];
                 var saturday = [];
-                  $('select > option:selected').each(function() {
-                   if($(this).attr('name') == 'monday')
-                   monday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
-                   if($(this).attr('name') == 'tuesday')
-                   tuesday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
-                   if($(this).attr('name') == 'wednesday')
-                   wednesday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
-                   if($(this).attr('name') == 'thursday')
-                   thursday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
-                   if($(this).attr('name') == 'friday')
-                   friday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
-                   if($(this).attr('name') == 'saturday')
-                   saturday.push({subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                var m1 = 0, m2 = 0, t1 = 0, t2 = 0, w1 = 0, w2 = 0, th1 = 0, th2 = 0, f1 = 0, f2 = 0, s1 = 0, s2 = 0;
+
+                 $('select[value="addClass"] > option:selected').each(function() {
+                   if($(this).attr('name') == 'monday' ) {
+                   m1++;
+                   monday.push({lessonNumber: m1, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
+                   if($(this).attr('name') == 'tuesday'){
+                   t1++;
+                   tuesday.push({lessonNumber: t1, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
+                   if($(this).attr('name') == 'wednesday'){
+                   w1++;
+                   wednesday.push({lessonNumber: w1, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
+                   if($(this).attr('name') == 'thursday'){
+                   th1++;
+                   thursday.push({lessonNumber: th1, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
+                   if($(this).attr('name') == 'friday'){
+                   f1++;
+                   friday.push({lessonNumber: f1, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
+                   if($(this).attr('name') == 'saturday'){
+                   s1++;
+                   saturday.push({lessonNumber: s1, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
                   });
+
+                  $('select[value="simple"] > option:selected').each(function() {
+                   if($(this).attr('name') == 'monday' ) {
+                   m2++;
+                   monday.push({lessonNumber: m2, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
+                   if($(this).attr('name') == 'tuesday'){
+                   t2++;
+                   tuesday.push({lessonNumber: t2, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
+                   if($(this).attr('name') == 'wednesday'){
+                   w2++;
+                   wednesday.push({lessonNumber: w2, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
+                   if($(this).attr('name') == 'thursday'){
+                   th2++;
+                   thursday.push({lessonNumber: th2, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
+                   if($(this).attr('name') == 'friday'){
+                   f2++;
+                   friday.push({lessonNumber: f2, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
+                   if($(this).attr('name') == 'saturday'){
+                   s2++;
+                   saturday.push({lessonNumber: s2, subjectId: $(this).val(), subjectName: $(this).text(), subjectDescription: ""});
+                   }
+                  });
+
+
                 function deleteFromArray(array)
                 {
                   var array2 = [];
@@ -506,6 +636,11 @@ $(function()
                         $('.controls4').find('.entry:not(:last)').remove();
                         $('.controls5').find('.entry:not(:last)').remove();
                         $('.controls6').find('.entry:not(:last)').remove();
+                        $('.main').find('select[value="addClass"]').remove();
+                        $('.main').find('.btn-remove1')
+                                .removeClass('btn-remove1').addClass('btn-add1')
+                                .removeClass('btn-danger').addClass('btn-primary')
+                                .html('<span> + </span>');
                         $('select').val("0");
                         $('#u15_input').val($('#u15_input option:first').val());
                     }

@@ -50,7 +50,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
      *                  and for class with id that equals {@param classId}
      *                  that is represented as a list of {@link academy.softserve.eschool.dto.SubjectDTO}.
      */
-    @Query(value = "select l.date, s.id, s.name, s.description" +
+    @Query(value = "select l.lesson_number, l.date, s.id, s.name, s.description" +
             "        from lesson l" +
             "        left join clazz c on l.clazz_id = c.id" +
             "        left join subject s on l.subject_id = s.id" +

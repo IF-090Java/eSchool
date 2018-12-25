@@ -1,6 +1,6 @@
 package academy.softserve.eschool.service;
 
-import academy.softserve.eschool.dto.SubjectDTO;
+import academy.softserve.eschool.dto.LessonDTO;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Lesson;
 import academy.softserve.eschool.model.Subject;
@@ -48,7 +48,7 @@ public class ScheduleServiceImplTest {
     @InjectMocks
     private ScheduleServiceImpl scheduleService;
 
-    private static List<SubjectDTO> list = new ArrayList<>();
+    private static List<LessonDTO> list = new ArrayList<>();
     private static LocalDate start, end;
     private static DayOfWeek dayOfWeek;
     private static Clazz clazz;
@@ -64,11 +64,11 @@ public class ScheduleServiceImplTest {
         subjectList.add(new Subject(8, "Біологія", ""));
         subjectList.add(new Subject(9, "Математика", ""));
 
-        list.add(new SubjectDTO(1, "Історія України", "Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу"));
-        list.add(new SubjectDTO(1, "Історія України", "Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу"));
-        list.add(new SubjectDTO(9, "Математика", ""));
-        list.add(new SubjectDTO(8, "Біологія", "Природничий навчальний предмет. Починає вивчатись із 6-го класу"));
-        list.add(new SubjectDTO(8, "Біологія", "Природничий навчальний предмет. Починає вивчатись із 6-го класу"));
+        list.add(new LessonDTO((byte) 1, 1, "Історія України", "Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу"));
+        list.add(new LessonDTO((byte) 2, 1, "Історія України", "Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу"));
+        list.add(new LessonDTO((byte) 3, 9, "Математика", ""));
+        list.add(new LessonDTO((byte) 4, 8, "Біологія", "Природничий навчальний предмет. Починає вивчатись із 6-го класу"));
+        list.add(new LessonDTO((byte) 5, 8, "Біологія", "Природничий навчальний предмет. Починає вивчатись із 6-го класу"));
 
         start = LocalDate.of(2018, Month.DECEMBER, 3);
         end = LocalDate.of(2018, Month.DECEMBER, 16);
@@ -79,12 +79,14 @@ public class ScheduleServiceImplTest {
 
         Map<String, Object> map1 = new HashMap<>();
         map1.put("date", "2018-11-20");
+        map1.put("lesson_number", "1");
         map1.put("id", "1");
         map1.put("name", "Історія України");
         map1.put("description", "Гуманітарний навчальний предмет. Починає вивчатись із 5-го класу");
 
         Map<String, Object> map2 = new HashMap<>();
         map2.put("date", "2018-12-08");
+        map2.put("lesson_number", "1");
         map2.put("id", "2");
         map2.put("name", "Інформатика");
         map2.put("description", "");
@@ -108,9 +110,9 @@ public class ScheduleServiceImplTest {
     @Test
     public void convertFromObjectTest() throws Exception
     {
-        List<SubjectDTO> subjectDTOList = new ArrayList<>();
-        subjectDTOList.add(new SubjectDTO(2, "Інформатика", ""));
-        assertEquals("Getting schedule for a specific class", subjectDTOList, scheduleService.convertFromObject(listOfMaps, dayOfWeek));
+        List<LessonDTO> lessonDTOList = new ArrayList<>();
+        lessonDTOList.add(new LessonDTO((byte) 1, 2, "Інформатика", ""));
+        assertEquals("Getting schedule for a specific class", lessonDTOList, scheduleService.convertFromObject(listOfMaps, dayOfWeek));
     }
 
     @After
