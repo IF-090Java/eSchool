@@ -15,11 +15,11 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     List<Student> findByClazzId(@Param("id") int id);
 
 
-    @Query(value="select student.id as 'id_student',user.first_name,user.last_name,lesson.id,mark.mark,lesson.date,lesson.mark_type,mark.note from student\n" +
+    @Query(value="select student.id as id_student ,user.first_name,user.last_name,lesson.id,mark.mark,lesson.date,mark_type.mark_type,mark.note from student\n" +
             "left join user on student.id=user.id\n" +
             "left join students_classes on students_classes.student_id=student.id\n" +
             "right join lesson on students_classes.class_id=lesson.clazz_id\n" +
-            "left join mark on (lesson.id=mark.lesson_id and mark.student_id = student.id)\n" +
+            "left join mark on (lesson.id=mark.lesson_id and mark.student_id = student.id) left join mark_type on lesson.mark_type_id=mark_type.id\n" +
             "where lesson.clazz_id=:idClass and lesson.subject_id=:idSubject\n" +
             "order by student.id,lesson.id", nativeQuery=true)
     List<Map<String,Object>> findJournal(@Param("idSubject")int idSubject, @Param("idClass")int idClass);

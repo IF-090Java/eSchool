@@ -1,29 +1,29 @@
 package academy.softserve.eschool.controller;
 
-import academy.softserve.eschool.dto.MarkDTO;
-import academy.softserve.eschool.dto.MarkDataPointDTO;
-import academy.softserve.eschool.dto.MarkTypeDTO;
+import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.service.base.MarkServiceBase;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
-
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/marks")
-@Api(value = "Operations about marks", description="Operations about marks")
+@Api(value = "Marks' endpoints", description="Operations about marks")
 @RequiredArgsConstructor
 public class MarksController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
     private MarkServiceBase markService;
@@ -38,21 +38,38 @@ public class MarksController {
      * @return list of {@link MarkDataPointDTO} wrapped in {@link GeneralResponseWrapper}
      */
 
-    @PreAuthorize("hasRole('TEACHER')")//need access for teacher on statistics page
+    @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")//need access for teacher on statistics page
     @GetMapping("")
-    @ApiOperation(value = "Get marks by date filtered by specified params")
+    @ApiOperation(value = "Teacher gets marks by date filtered by specified params", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher, admin", value = "a teacher is allowed to view marks by date filtered by specified params")})})
     GeneralResponseWrapper<List<MarkDataPointDTO>> getMarks (
-            //todo bk Don't you see that IDEA marks @ApiParam 'required = false' by grey color??
-            //todo bk Look into javaDocs and remove the option: 'Path parameters will always be set as required, whether you set this property or not'
             @ApiParam(value = "filter results by student id") @RequestParam(value = "student_id", required = false) Integer studentId,
             @ApiParam(value = "filter results by subject id") @RequestParam(value = "subject_id", required = false) Integer subjectId,
             @ApiParam(value = "filter results by class id") @RequestParam(value = "class_id", required = false) Integer classId,
             @ApiParam(value = "get marks received after specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodStart,
             @ApiParam(value = "get marks received before specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodEnd){
-
+        logger.debug("Called getMarks() with params: studentId : [{}], subjectId : [{}], classId : [{}], period : [{} - {}]", studentId, subjectId, classId, periodStart, periodEnd);
         return new GeneralResponseWrapper<>(
                 Status.of(OK),
                 markService.getFilteredByParams(subjectId, classId, studentId, periodStart, periodEnd));
+    }
+    
+    /**
+     * Returns list of strudent's average marks grouped by subject
+     * @param studentId
+     * @return list of {@link SubjectAvgMarkDTO}
+     */
+    @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
+    @GetMapping("/avg")
+    @ApiOperation(value = "Teacher gets student's average marks")
+    GeneralResponseWrapper<List<SubjectAvgMarkDTO>> getAverageMarks (
+            @ApiParam(value = "student id", required = true) @RequestParam(value = "student_id", required = true) Integer studentId,
+            @ApiParam(value = "get average calculated after specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodStart,
+            @ApiParam(value = "get average calculated before specified date, accepts date in format 'yyyy-MM-dd'") @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate periodEnd){
+        logger.debug("Called getAverageMarks() for studentId:[{}], period:[{} - {}]", studentId, periodStart, periodEnd);
+        return new GeneralResponseWrapper<List<SubjectAvgMarkDTO>>(
+                Status.of(OK),
+                markService.getAverageMarks(studentId, periodStart, periodEnd));
     }
 
     /**
@@ -62,22 +79,30 @@ public class MarksController {
      * @return Created mark for transmitted student and subject in HomeworkDTO
      *         as {@link MarkDTO} object in {@link GeneralResponseWrapper} with http status code
      */
-    @ApiOperation(value = "Save mark of students by lesson")
+    @ApiOperation(value = "Teacher saves mark of students by lesson", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher, admin", value = "a teacher is allowed to save marks of students by the lesson he gave")})})
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Mark successfully created"),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #markDTO.idLesson)")
+    @PreAuthorize("(hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #markDTO.idLesson)) or hasRole('ADMIN')")
     @PostMapping
     public GeneralResponseWrapper<MarkDTO> postMark(
         @ApiParam(value = "mark,note,lesson's id and student's id", required = true) @RequestBody MarkDTO markDTO){
-        markService.saveMark(markDTO);
-        return new GeneralResponseWrapper<>(Status.of(CREATED), markDTO);
+        MarkDTO resultMarkDTO =  markService.saveMark(markDTO);
+        return new GeneralResponseWrapper<>(Status.of(CREATED), resultMarkDTO);
     }
 
-    @ApiOperation("Update mark's type of lesson")
-    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson)")
+    /**
+     * Update mark's type of lesson
+     * lesson's id and mark's type are required.
+     * @param idLesson is id of lesson
+     * @param markType is mark's type
+     */
+    @ApiOperation(value = "Teacher updates mark's type of lesson", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher, admin", value = "a teacher is allowed to update mark's type of the lesson he gave")})})
+    @PreAuthorize("(hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idLesson)) or hasRole('ADMIN')")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully updated"),
             @ApiResponse(code = 400, message = "Bad request"),
@@ -85,8 +110,8 @@ public class MarksController {
     })
     @PutMapping("/lessons/{idLesson}/marktype")
     public GeneralResponseWrapper editType(
-            @ApiParam(value = "id of lesson", required = true) @PathVariable int idLesson,
-            @ApiParam(value = "type of mark", required = true) @RequestBody MarkTypeDTO markType){
+            @ApiParam(value = "ID of lesson", required = true) @PathVariable int idLesson,
+            @ApiParam(value = "Type of mark", required = true) @RequestBody MarkTypeDTO markType){
         markService.updateType(idLesson, markType.getMarkType());
         return new GeneralResponseWrapper<>(Status.of(CREATED), null);
     }

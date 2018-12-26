@@ -50,44 +50,49 @@
 <div class="row" id="body-row">
     <div id="sidebar-container" class="sidebar-expanded d-none d-md-block col-2.5"></div>
     <div class="col py-3">
-
         <div class="container">
             <div id="message" align="center"></div>
             <div class="row justify-content-center mt-1">
                 <h2>Перехід на новий навчальний рік</h2>
             </div>
             <div class="row justify-content-center mt-3">
-                <div class="col-5">
-                    <button type="button" class="transitButton btn btn-primary btn-block">Новий навчальний рік. Додати класи</button>
+                <div class="col-10">
+                    <div class="spoiler">
+                        <input type="checkbox" id="spoilerid_1">
+                        <label for="spoilerid_1" style="background: #e4e4e4 !important;">ІНСТРУКЦІЯ</label>
+                        <div class="spoiler_body">
+                            <p>
+                                <ol style="font-size: 85%;">
+                                    <li>На даній сторінці можна натисканням однієї кнопки створити класи для нового навчального року і перевести в них учнів.</li>
+                                    <li>В колонці <b>"Поточний клас"</b> відображаються класи поточного року (ті, які мають статус <b>"Активний"</b> і в яких навчаються учні).</li>
+                                    <li>Для переведення поточних класів на новий навчальний рік заповніть напроти кожного поточного класу поле <b>"Новий клас"</b>. Впишіть сюди назву класу для наступного навчального року.</li>
+                                    <li>Календарний рік для нового класу визначається автоматично на основі року поточного класу. Наприклад, якщо рік поточного класу 2018, то буде створений новий клас з календарним роком 2019.</li>
+                                    <li>Для випускних класів або класів, переводити які не потрібно, поле <b>"Новий клас"</b> потрібно залишити пустим. В такому випадку випускний клас стане неактивним, а новий клас на його основі створений не буде!</li>
+                                </ol>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <hr />
-            <div class="row justify-content-center mt-5">
-                <div class="col-5"><h3>Зміна поточних класів для учнів</h3></div>
-            </div>
-            <div class="row justify-content-center">
-                <div id="message2" align="center"></div>
-            </div>
-            <div class="row justify-content-center mt-1">
-                <div class="col-8">
+            <div class="row justify-content-center mt-3">
+                <div class="col-10">
                     <table class="table">
                         <thead>
                         <tr>
                             <th scope="col" style="width: 50%">Учні поточного класу</th>
-                            <th scope="col" style="width: 25%">Поточний клас</th>
-                            <th scope="col" style="width: 25%">Новий клас</th>
+                            <th scope="col" style="width: 20%">Поточний клас</th>
+                            <th scope="col" style="width: 15%">Новий клас</th>
                         </tr>
                         </thead>
                         <tbody id="tbody"></tbody>
                     </table>
                 </div>
             </div>
-
             <div class="row justify-content-center mt-5 mb-5">
                 <div class="col-5">
                 <button type="button" class="bindingButton btn btn-primary btn-block" disabled>Перевести учнів в нові класи</button>
                 </div>
             </div>
+            <hr>
         </div>
     </div>
 </div>
@@ -103,6 +108,7 @@
 </script>
 
 <script type="text/javascript">
+    var year = [];
     $(document).ready(function () {
         refreshToken();
         $.ajaxSetup({
@@ -114,46 +120,17 @@
         })
     })
 
-    $('.transitButton').on('click', function (e) {
-        $('.transitButton').prop("disabled", true)
-        e.preventDefault();
-        $.ajax({
-            type: "post",
-            url: host + "students/transition",
-            dataType: "json",
-            contentType: "application/json",
-            success: function (responce) {
-                $("#message").attr("class", "alert alert-success");
-                $("#message").html("<strong>Нові класи успішно додані!</strong>");
-
-                setTimeout(function (){
-                    window.location.href="/ui/students/new-year-transition";
-                }, 2000);
-            },
-            error: function (responce) {
-                $("#message").attr("class", "alert alert-danger");
-                $("#message").html("<strong>Такі класи вже існують!</strong>");
-            }
-        });
-    })
-
 $(document).ready(function () {
+    $(".bindingButton").removeAttr("disabled");
     $.getJSON(host + 'classes', function (classes) {
         var activeClasses = [];
         var activeClassesId = [];
-
         $.each(classes.data, function (i, item) {
-            if (item.isActive == true && item.numOfStudents == 0) {
-                activeClasses.push(item.className +' - '+item.classYear)
-            }
+            if (item.isActive == true && item.numOfStudents == 0) activeClasses.push(item.className +' - '+item.classYear)
         })
-
         $.each(classes.data, function (i, item) {
-            if (item.isActive == true && item.numOfStudents == 0) {
-             activeClassesId.push(item.id)
-            }
+            if (item.isActive == true && item.numOfStudents == 0) activeClassesId.push(item.id)
         })
-
         $.each(classes.data, function (i, item) {
             if (item.isActive == true && item.numOfStudents > 1) {
                 $.getJSON(host + 'students/classes/'+item.id, function (studList) {
@@ -167,23 +144,17 @@ $(document).ready(function () {
                             '</div></td>')
                     spoiler.appendTo(tr);
                     tr.appendTo('#tbody');
-
-                    $.each(studList, function (k, v) {
+                    $.each(studList.data, function (k, v) {
                         $('<li><a href="/ui/students/'+v.id+'/edit" target="_blank">'+v.firstname+' ' +v.lastname +'</a></li>').appendTo('#studId_'+item.id);
                     })
 
                     var oldClass = $('<td class="transitionTableOldClass" id="'+item.id+'">'+item.className+' - '+item.classYear+'</td>')
                     oldClass.appendTo(tr);
 
-                    var newClassesList = $('<td class="transitionTableNewClass"><select id="newClassesList_'+item.id+'"></select></td>')
+                    var newClassesList = $('<td class="transitionTableNewClass"><input type="text" id="newClassesList_'+item.id+'" placeholder="Назва нового класу"></td>')
                     newClassesList.appendTo(tr);
-                if (activeClasses.length > 0) {
-                    $(".bindingButton").removeAttr("disabled");
-                    $('#newClassesList_'+item.id).append('<option value="0">Випускний</option>')
-                    for (i=0; i<activeClasses.length; i++){
-                        $('#newClassesList_'+item.id).append('<option value="'+activeClassesId[i]+'">'+activeClasses[i]+'</option>')
-                    }
-                }
+
+                    year.push(item.classYear+1);
 
                 }).fail(function (data) {
                     if (new RegExp("4[0-9][0-9]").test(data.status)){
@@ -198,29 +169,67 @@ $(document).ready(function () {
     $('.bindingButton').on('click', function (e) {
         e.preventDefault();
         var old_classes = document.getElementsByClassName("transitionTableOldClass");
-
-        var classesList = [];
+        var newClassesList = [];
+        var bufferClassesList = [];
+        var transitionList = [];
 
         for (var j = 0; j < old_classes.length; j++) {
             var old_class_id = old_classes[j].id;
-            var new_class = $('#newClassesList_'+old_class_id).find(":selected").val();
-            var dto = {
-                newClassId: new_class,
-                oldClassId: old_class_id
-            };
-            classesList.push(dto);
+            var new_class = $('#newClassesList_'+old_class_id).val();
+            if (new_class !== "") {
+                var dto = {
+                    className: new_class,
+                    classYear: year[j]
+                };
+                newClassesList.push(dto);
+            }
+            bufferClassesList.push(new_class);
         }
 
         $.ajax({
-            type: "put",
+            type: "post",
             url: host + "students/transition",
             dataType: "json",
-            data: JSON.stringify(classesList),
+            data: JSON.stringify(newClassesList),
             contentType: "application/json",
             success: function (responce) {
-                $("#message2").attr("class", "alert alert-success");
-                $(".bindingButton").attr("disabled", "true");
-                $("#message2").html("<strong>Учні успішно переведені в нові класи! <a href='/ui/classes/classList'>Переглянути список класів</a></strong>");
+                console.log(bufferClassesList)
+                console.log(responce.data)
+                var counter = 0;
+                for (var i = 0; i < old_classes.length; i++) {
+                    var old_class_id = old_classes[i].id;
+                    var new_class_id = null;
+                    if (bufferClassesList[i] == "") {
+                        new_class_id = 0;
+                        counter+=1;
+                    } else {
+                        console.log(responce.data[i-counter].id);
+                        new_class_id = responce.data[i-counter].id;
+                    }
+                    var dto = {
+                        newClassId: new_class_id,
+                        oldClassId: old_class_id
+                    };
+                    transitionList.push(dto);
+                }
+
+                $.ajax({
+                    type: "put",
+                    url: host + "students/transition",
+                    dataType: "json",
+                    data: JSON.stringify(transitionList),
+                    contentType: "application/json",
+                    success: function (responce) {
+                        window.scrollTo(0, 0);
+                        $("#message").attr("class", "alert alert-success");
+                        $(".bindingButton").attr("disabled", "true");
+                        $("#message").html("<strong>Нові класи успішно створені, всі учні переведені зі старих класів в нові! <a href='/ui/classes/classList'>Переглянути список класів</a></strong>");
+                    }
+                });
+            },
+            error: function (responce) {
+                $("#message").attr("class", "alert alert-danger");
+                $("#message").html("<strong>Такі класи вже існують!</strong>");
             }
         });
     })

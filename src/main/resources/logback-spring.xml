@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <property name="log.folder" value="${LOG_PATH}"/>
+    <appender name="ConsoleLogger"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss} %highlight([%-5p]) %-40.40c{40}:%L - %m%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="RollingFileLogger"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.folder}/spring-boot-logger.log</file>
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] %-40.40c{40}:%L [%t] - %m%n%throwable</Pattern>
+        </encoder>
+
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.folder}/spring-boot-logger-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <root>
+        <appender-ref ref="ConsoleLogger" />
+        <appender-ref ref="RollingFileLogger" />
+    </root>
+
+    <logger name="academy.softserve.eschool" additivity="false">
+        <appender-ref ref="ConsoleLogger" />
+        <appender-ref ref="RollingFileLogger" />
+    </logger>
+
+</Configuration>

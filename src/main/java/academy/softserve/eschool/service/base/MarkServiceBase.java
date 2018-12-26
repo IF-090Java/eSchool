@@ -5,11 +5,11 @@ import java.util.List;
 
 import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
-import academy.softserve.eschool.dto.MarkDescriptionDTO;
+import academy.softserve.eschool.dto.SubjectAvgMarkDTO;
 
 public interface MarkServiceBase {
     List<MarkDataPointDTO> getFilteredByParams(Integer subjectId, Integer classId, Integer studentId, LocalDate startDate, LocalDate endDate);
-    void saveMark(MarkDTO dto);
+    MarkDTO saveMark(MarkDTO dto);
     void updateType(int idLesson, String markType);
-    List<MarkDescriptionDTO> getMarksPuttedInTheFuture();
+    List<SubjectAvgMarkDTO> getAverageMarks(Integer studentId, LocalDate start, LocalDate end);
 }

@@ -4,16 +4,22 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import academy.softserve.eschool.dto.MarkDescriptionDTO;
+import academy.softserve.eschool.model.MarkType;
+import academy.softserve.eschool.repository.MarkTypeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.dto.MarkDTO;
 import academy.softserve.eschool.dto.MarkDataPointDTO;
+import academy.softserve.eschool.dto.SubjectAvgMarkDTO;
+import academy.softserve.eschool.model.Mark;
 import academy.softserve.eschool.repository.MarkRepository;
 import academy.softserve.eschool.service.base.MarkServiceBase;
 import lombok.NonNull;
@@ -21,10 +27,15 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MarkService implements MarkServiceBase{
+public class MarkService implements MarkServiceBase {
+    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
     private MarkRepository markRepo;
+
+    @NonNull
+    private MarkTypeRepository markTypeRepository;
     private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     
     /**
@@ -63,34 +74,48 @@ public class MarkService implements MarkServiceBase{
                 return new MarkDataPointDTO(averageMark, date, count);
             })
             .collect(Collectors.toList());
-        System.out.println(dataPoints.toString());
         return dataPoints;
     }
 
     @Override
-    public void saveMark(MarkDTO dto) {
+    public MarkDTO saveMark(MarkDTO dto) {
+        logger.info("Adding mark lesson[id={}],student[id={}",dto.getIdLesson(),dto.getIdStudent());
         markRepo.saveMarkByLesson(dto.getIdStudent(),dto.getIdLesson(),dto.getMark(),dto.getNote());
+        Mark mark = markRepo.findTopByStudentIdAndLessonId(dto.getIdStudent(),dto.getIdLesson());
+        MarkDTO markDTO = MarkDTO.builder()
+                .idMark(mark.getId())
+                .mark(mark.getMark())
+                .idLesson(mark.getLesson().getId())
+                .idStudent(mark.getStudent().getId())
+                .note(mark.getNote())
+                .build();
+        return markDTO;
     }
 
     @Override
     public void updateType(int idLesson, String markType) {
-        markRepo.saveTypeByLesson(idLesson,markType);
+        logger.info("Editing markType[{}] lesson[id={}]",markType,idLesson);
+        MarkType marktype = markTypeRepository.findByMarkType(markType);
+        markRepo.saveTypeByLesson(idLesson, marktype != null ? marktype.getId() : 0);
     }
 
+
+    /**
+     * Returns average marks grouped by subject for specified student
+     * @param studentId id of student
+     * @return list of {@link SubjectAvgMarkDTO}
+     */
     @Override
-    public List<MarkDescriptionDTO> getMarksPuttedInTheFuture() {
-        return getListOfMarkDescrDTOs(markRepo.getMarksPuttedInTheFuture());
-    }
-
-    public List<MarkDescriptionDTO> getListOfMarkDescrDTOs(List<Map<String, Object>> data) {
-        List<MarkDescriptionDTO> markDescriptions;
-        markDescriptions = data.stream().map((obj) -> {
-            int id = ((BigInteger)obj.get("lesson_id")).intValue();
-            Byte mark = ((Byte)obj.get("mark")).byteValue();
-            Date date = (Date)obj.get("date");
-            return new MarkDescriptionDTO(id, mark, date, null, null);
-        })
-                .collect(Collectors.toList());
-        return markDescriptions;
+    public List<SubjectAvgMarkDTO> getAverageMarks(Integer studentId, LocalDate periodStart, LocalDate periodEnd) {
+        java.util.Date startDate = null;
+        java.util.Date endDate = null;
+        
+        if (periodStart != null) {
+            startDate = Date.from(periodStart.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        }
+        if (periodEnd != null) {
+            endDate = Date.from(periodEnd.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        }
+        return markRepo.getFilteredByStudentGroupedBySubject(studentId, startDate, endDate);
     }
 }

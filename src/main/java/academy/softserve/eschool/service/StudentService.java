@@ -10,9 +10,12 @@ import academy.softserve.eschool.model.User.Role;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.StudentRepository;
 import academy.softserve.eschool.repository.UserRepository;
+import academy.softserve.eschool.security.CustomPasswordEncoder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,10 +23,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static academy.softserve.eschool.auxiliary.PasswordGenerator.generatePassword;
+import static academy.softserve.eschool.auxiliary.Utility.transform;
 
 @Service
 @RequiredArgsConstructor
 public class StudentService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
+
     @NonNull
     private UserRepository userRepository;
 
@@ -34,7 +40,7 @@ public class StudentService {
     private StudentRepository studentRepository;
 
     @NonNull
-    private BCryptPasswordEncoder bcryptEncoder;
+    private CustomPasswordEncoder passwordEncoder;
 
     @NonNull
     private LoginGeneratorService generateLogin;
@@ -42,25 +48,22 @@ public class StudentService {
 
     //todo bk ++ move all of your transfomers into some util class. Don't keep it within services
     public StudentDTO getOne(Student s) {
-        return StudentDTO.builder().firstname(s.getFirstName())
-                .lastname(s.getLastName())
-                .patronymic(s.getPatronymic())
-                .login(s.getLogin())
-                .dateOfBirth(s.getDateOfBirth())
-                .classe(s.getClasses().stream().filter(Clazz::isActive).findFirst().orElseGet(Clazz::new).getName())
-                .email(s.getEmail())
-                .avatar(s.getAvatar())
-                .phone(s.getPhone()).build();
+        return transform(s);
     }
 
     public List<StudentDTO> getAll(List<Student> students) {
-        return students.stream().map(i -> StudentDTO.builder().Id(i.getId())
+        return students.stream().
+                filter(i->i.isEnabled()).
+                map(i -> StudentDTO.builder().Id(i.getId())
                 .firstname(i.getFirstName())
                 .lastname(i.getLastName())
                 .patronymic(i.getPatronymic())
+                .login(i.getLogin())
                 .dateOfBirth(i.getDateOfBirth())
                 .classe(i.getClasses().stream().filter(Clazz::isActive).findAny().orElseGet(Clazz::new).getName())
+                .classId(i.getClasses().stream().filter(Clazz::isActive).findAny().orElseGet(Clazz::new).getId())
                 .email(i.getEmail())
+                .avatar(i.getAvatar())
                 .phone(i.getPhone()).build()
         ).collect(Collectors.toCollection(ArrayList::new));
     }
@@ -79,12 +82,13 @@ public class StudentService {
         oldUser.setAvatar(edited.getAvatar());
         oldUser.setEmail(edited.getEmail());
         oldUser.setPhone(edited.getPhone());
-        if ((bcryptEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))
-                && edited.getNewPass().length() > 0) {
-            oldUser.setPassword(bcryptEncoder.encode(edited.getNewPass()));
+        if (edited.getNewPass().length()>0){
+            if ((passwordEncoder.matches(edited.getOldPass(), oldUser.getPassword()) || edited.getOldPass().equals("adminchangedpass"))) {
+                oldUser.setPassword(passwordEncoder.encode(edited.getNewPass()));
+            }else throw new BadCredentialsException("Wrong password");
         }
-        userRepository.save(oldUser);
-        return oldUser;
+
+        return userRepository.save(oldUser);
     }
 
     /**
@@ -100,11 +104,12 @@ public class StudentService {
                 .lastName(studentDTO.getLastname())
                 .firstName(studentDTO.getFirstname())
                 .patronymic(studentDTO.getPatronymic())
-                .password(bcryptEncoder.encode(generatePassword(7)))
+                .password(passwordEncoder.encode(generatePassword(7)))
                 .phone(studentDTO.getPhone())
                 .email(studentDTO.getEmail())
                 .dateOfBirth(studentDTO.getDateOfBirth())
                 .role(Role.ROLE_USER)
+                .enabled(true)
                 .build();
         String login = studentDTO.getLogin();
         if (login.isEmpty() || !generateLogin.isUnique(login))
@@ -124,12 +129,12 @@ public class StudentService {
                     List<Clazz> clazzes = student.getClasses();
                     clazzes.add(classRepository.findById(nDTO.getNewClassId()).orElse(null));
                     student.setClasses(clazzes);
-
-                    //todo bk !!!!!!! Never do it again - calling repository method in loop. Just prepare all required data and save it once
                     updatedStudentsList.add(student);
                 }
             }
+            LOGGER.debug("Students from class with id=" +nDTO.getOldClassId() +" to class with id=" +nDTO.getNewClassId() +" added.");
         }
         studentRepository.saveAll(updatedStudentsList);
+        LOGGER.info("Students from old year classes to new year classes added.");
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@Api(value = "Journal's operations", description = "Get journals")
+@Api(value = "Journal's endpoints", description = "Operations with getting journals")
 @RequestMapping("/journals")
 @RequiredArgsConstructor
 public class JournalController {
@@ -26,7 +26,11 @@ public class JournalController {
     @NonNull
     private JournalServiceImpl journalServiceImpl;
 
-    @ApiOperation(value = "Get list of all journals")
+    /**
+     * @return List of {@link JournalDTO} which contains data of all journals wrapped in {@link GeneralResponseWrapper}
+     */
+    @ApiOperation(value = "Admin gets the list of all journals", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to view the list of all journals")})})
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
@@ -40,7 +44,13 @@ public class JournalController {
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getJournals());
     }
 
-    @ApiOperation(value = "Get list of all teacher's journals")
+    /**
+     * Returns list of {@link JournalDTO} which contains data of all journals of specific teacher wrapped in {@link GeneralResponseWrapper}
+     * @param idTeacher if specified marks are filtered by user id
+     * @return List of {@link JournalDTO} wrapped in {@link GeneralResponseWrapper}
+     */
+    @ApiOperation(value = "Teacher gets the list of all teacher's journals", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher or admin", value = "a teacher is allowed to view the list of all his journals")})})
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
@@ -48,14 +58,20 @@ public class JournalController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('TEACHER') and principal.id == #idTeacher")
+    @PreAuthorize("(hasRole('TEACHER') and principal.id == #idTeacher) or hasRole('ADMIN')")
     @GetMapping("/teachers/{idTeacher}")
     public GeneralResponseWrapper<List<JournalDTO>> getJournalsTeacher(
-            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
+            @ApiParam(value = "ID of teacher", required = true) @PathVariable int idTeacher){
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getJournalsByTeacher(idTeacher));
     }
 
-    @ApiOperation(value = "Get list of active teacher's journals")
+    /**
+     * Returns list of {@link JournalDTO} which contains data of active journals of specific teacher wrapped in {@link GeneralResponseWrapper}
+     * @param idTeacher if specified marks are filtered by user id
+     * @return List of {@link JournalDTO} wrapped in {@link GeneralResponseWrapper}
+     */
+    @ApiOperation(value = "Get list of active teacher's journals", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher or admin", value = "a teacher is allowed to view the list of all his active journals")})})
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
@@ -63,18 +79,38 @@ public class JournalController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @PreAuthorize("hasRole('TEACHER') and principal.id == #idTeacher")
+    @PreAuthorize("(hasRole('TEACHER') and principal.id == #idTeacher) or hasRole('ADMIN')")
     @GetMapping("/teachers/{idTeacher}/active")
     public GeneralResponseWrapper<List<JournalDTO>> getActiveJournalsTeacher(
-            @ApiParam(value = "id of teacher", required = true) @PathVariable int idTeacher){
+            @ApiParam(value = "ID of teacher", required = true) @PathVariable int idTeacher){
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getActiveJournalsByTeacher(idTeacher));
     }
 
+    /**
+     * Returns list of {@link JournalDTO} which contains all journals for specific class wrapped in {@link GeneralResponseWrapper}
+     * @param idClass if specified marks are filtered by user id
+     * @return List of {@link JournalDTO} wrapped in {@link GeneralResponseWrapper}
+     */
+    @ApiOperation(value = "Get list of all journals in class", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "only admin is allowed to view the list of all his active journals")})})
+    @ApiResponses(
+            value = {
+                    @ApiResponse(code = 200, message = "OK"),
+                    @ApiResponse(code = 400, message = "Bad request"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/class/{idClass}")
+    public GeneralResponseWrapper<List<JournalDTO>> getJournalsForClass(
+            @ApiParam(value = "ID of class", required = true) @PathVariable int idClass){
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getJournalsByClass(idClass));
+    }
 
     /**
      * Returns list of {@link JournalMarkDTO} which contains student's data and his marks wrapped in {@link GeneralResponseWrapper}
-     * @param idSubject if specified marks are filtered by user id
-     * @param idClass if specified marks are filtered by subject id
+     * @param idSubject is id of subject
+     * @param idClass is id of class
      * @return List of {@link JournalMarkDTO} wrapped in {@link GeneralResponseWrapper}
      */
     @ApiResponses(
@@ -84,13 +120,16 @@ public class JournalController {
                     @ApiResponse(code = 500, message = "Server error")
             }
     )
-    @ApiOperation(value = "Get journal by subjects and classes")
-    @PreAuthorize("hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idClass, #idSubject)")
+    @ApiOperation(value = "Teacher gets a journal by subjects and classes", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "teacher or admin", value = "a teacher is allowed to view his journal by subjects and classes")})})
+    @PreAuthorize("(hasRole('TEACHER') and @securityExpressionService.hasLessonsInClass(principal.id, #idClass, #idSubject)) or hasRole('ADMIN')")
     @GetMapping("/subjects/{idSubject}/classes/{idClass}")
     public GeneralResponseWrapper<List<JournalMarkDTO>> getJournalTable(
-            @ApiParam(value = "id of subject", required = true) @PathVariable int idSubject,
-            @ApiParam(value = "id of class", required = true) @PathVariable int idClass
+            @ApiParam(value = "ID of subject", required = true) @PathVariable int idSubject,
+            @ApiParam(value = "ID of class", required = true) @PathVariable int idClass
             ){
         return new GeneralResponseWrapper<>(Status.of(HttpStatus.OK), journalServiceImpl.getJournal(idSubject,idClass));
     }
+
+
 }

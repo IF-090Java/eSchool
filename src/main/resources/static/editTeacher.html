@@ -120,7 +120,7 @@
                             <p style=" display: inline; font-size: 12px;">* Максимальний розмір - 500 Кб</p>
                         </div>
                     </div>
-                    <!-- Modal -->
+                    <!-- Modal delete avatar-->
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -137,8 +137,29 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Modal deactivate-->
+                    <div class="modal fade" id="deactivateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Аккаунт буде деактивовано. Зміни не можливо повернути</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Ні</button>
+                                    <button type="button" id="deactivte" class="btn btn-primary">Так</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="warning" class="invisible">
+                        <p class="text-center alert alert-danger mb-3 offset-3 col-md-6" id="message"></p>
+                    </div>
                     <div align="center" class="mt-3">
                         <button class="btn btn-lg btn-primary" id="submitButton" type="Submit">Зберегти</button>
+                        <button class="btn btn-lg btn-danger" id="disableUser" type="button" aria-label="Close" data-toggle="modal" data-target="#deactivateModal">Деактивувати</button>
                     </div>
                 </form>
             </div>
@@ -165,6 +186,8 @@
         })
     })
     $(document).ready(function() {
+        var username;
+        var email;
         var pathArray = window.location.pathname.split('/');
         var subjectId = pathArray[3];
         var fileBase64;
@@ -207,6 +230,7 @@
             $("#lname").prop('disabled',true);
             $("#patronymic").prop('disabled',true);
             $("#username").prop('disabled',true);
+            $("#disableUser").hide();
         }
         if ((window.location.href.indexOf("ui/teachers/") > -1)||(window.location.href.indexOf("ui/students/") > -1)) {
             $("#oldPass").prop('disabled',true);
@@ -218,6 +242,7 @@
             else endpoint = 'teachers'
         }
         else{
+            document.title = 'Редагування учня';
             if (window.location.href.indexOf("ui/students") > -1)
                 endpoint = 'admin/students';
             else endpoint = 'students';
@@ -228,12 +253,24 @@
             $(".modal").modal('hide');
             $("#deletebutton").hide();
         });
+        $("#deactivte").click(function(){
+            $.ajax({
+                type: "PATCH",
+                url: host + "users/" + subjectId,
+                success: function(){
+                    window.history.back();
+                },
+                dataType: "json",
+                contentType : "application/json"
+            })
+            window.history.back();
+        });
         jQuery.validator.addMethod("cyrrilic", function(value, element) {
             return this.optional(element) || /^([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+$/.test(value);
         }, "Ім'я не корректне");
         jQuery.validator.addMethod('filesize', function (value, element, param) {
             return this.optional(element) || (element.files[0].size <= param)
-        }, 'File size must be less than {0}');
+        }, 'Розмір файлу повинен бути менше {0} Байт');
         jQuery.validator.addMethod("dateOfB", function(value, element) {
             var date = new Date(value);
             var today = new Date();
@@ -241,6 +278,40 @@
                 return true;
             return false;
         }, "Дата народження повинна бути в минулому");
+        jQuery.validator.addMethod("uniqueEmail", function(value, element) {
+            var status;
+            $.ajax({
+                type: "HEAD",
+                async: false,
+                url: host + "users/email/" + value + "/",
+            }).done(function(message,text,jqXHR){
+                status = jqXHR.status;
+
+            }).fail(function (jqXHR) {
+                status = jqXHR.status;
+            });
+            if (status == 200 && $("#mail").val()!=email)
+                return false;
+            else
+                return true;
+        }, "Користувач з таким електронним адресом уже існує");
+        jQuery.validator.addMethod("uniqueLogin", function(value, element) {
+            var status;
+            $.ajax({
+                type: "HEAD",
+                async: false,
+                url: host + "users/login/" + value + "/",
+            }).done(function(message,text,jqXHR){
+                status = jqXHR.status;
+
+            }).fail(function (jqXHR) {
+                status = jqXHR.status;
+            });
+            if (status == 200 && $("#username").val()!=username)
+                return false;
+            else
+                return true;
+        }, "Користувач з таким логіном уже існує");
         $("#myForm").validate({
             rules:{
                 firstname:{
@@ -263,11 +334,13 @@
                 },
                 login:{
                     required: true,
+                    uniqueLogin: true,
                     minlength: 5,
                     maxlength: 40
                 },
                 email:{
-                    email: true
+                    email: true,
+                    uniqueEmail: true
                 },
                 newPassRepeat:{
                     equalTo: "#newPass"
@@ -297,11 +370,13 @@
                 },
                 login:{
                     required: "Це поле обов'язкове",
+                    uniqueLogin: "Логін не унікальній",
                     minlength: 'Мінімальна довжина - 5 символів',
                     maxlength: 'Максимальна довжина - 40 символів'
                 },
                 email:{
-                    email: "Введіть коректний email"
+                    email: "Введіть коректний email",
+                    uniqueEmail: "Користувач з таким електронним адресом уже існує"
                 },
                 newPassRepeat:{
                     equalTo: "Паролі не співпадають"
@@ -316,7 +391,7 @@
                         firstname : $("#fname").val() , lastname: $("#lname").val(),
                         patronymic: $("#patronymic").val(), dateOfBirth: $("#dateOfBirth").val(),
                         login: $("#username").val(),oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),
-                        email: $("#mail").val(), phone : $("#mobile").val(), avatar: fileBase64
+                        email: $("#mail").val(), phone : $("#mobile").val(), avatar: $("#avatar").attr("src")
                     };
                     if (window.location.href.indexOf("ui/teachers/")> -1) {
                         obj.oldPass = "adminchangedpass"
@@ -327,7 +402,7 @@
                         firstname : $("#fname").val() , lastname: $("#lname").val(),
                         patronymic: $("#patronymic").val(),  dateOfBirth: $("#dateOfBirth").val(),
                         login: $("#username").val(), oldPass: $("#oldPass").val(), newPass: $("#newPassRepeat").val(),
-                        email: $("#mail").val(), phone : $("#mobile").val(), avatar: fileBase64
+                        email: $("#mail").val(), phone : $("#mobile").val(), avatar: $("#avatar").attr("src")
                     }
                     if (window.location.href.indexOf("ui/students/")> -1) {
                         obj.oldPass = "adminchangedpass"
@@ -340,11 +415,17 @@
                     data: formData,
                     success: function(){
                         console.log(formData);
+                        window.history.back();
+                    },
+                    error: function(jqXHR) {
+                        if (jqXHR.responseJSON.status.message == 'Bad Credentials'){
+                            $("#warning").attr("class", "visible");
+                            $("#message").html("<strong>Неправильний пароль</strong>");
+                        };
                     },
                     dataType: "json",
                     contentType : "application/json"
                 })
-                window.history.back();
                 return false;
             }
         });
@@ -356,7 +437,10 @@
                     if (new RegExp("4[0-9][0-9]").test(data.status)){
                         window.location.href='/ui/login'
                     }
-                });
+                }).always(function (data) {
+                username = $("#username").val();
+                email = $("#mail").val();
+            });
         }
         else{
             $.getJSON(host + 'teachers/' + subjectId, function (data) {
@@ -366,7 +450,10 @@
                     if (new RegExp("4[0-9][0-9]").test(data.status)){
                         window.location.href='/ui/login'
                     }
-                });
+                }).always(function (data) {
+                username = $("#username").val();
+                email = $("#mail").val();
+            });
         }
     });
 </script>

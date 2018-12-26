@@ -21,11 +21,8 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import academy.softserve.eschool.constraint.annotation.RegexPattern;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="user")
@@ -36,7 +33,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString(of = {"id", "login"})
 public class User {
-    private final static String NAME_PATTERN = "([А-ЯІЇЄҐ][а-яіїєґ']+[-]?)+";
+    public final static String NAME_PATTERN = "[А-ЯІЇЄҐа-яіїєґ()' -]+";
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +52,6 @@ public class User {
     
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(length = 8)
     private Role role;
     
     @NotBlank
@@ -79,11 +75,10 @@ public class User {
     @Column(name="date_of_birth")
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd", timezone="EST")
+            pattern = "yyyy-MM-dd", timezone="EET")
     private LocalDate dateOfBirth;
     
     @Enumerated(EnumType.STRING)
-    @Column(length = 6)
     private Sex sex;
     
     @Size(max=20)
@@ -95,9 +90,11 @@ public class User {
     
     @Size(max=200)
     private String description;
-    
+
+    private boolean enabled;
+
     public User(String login, String password, String email, Role role, String firstName, String lastName,
-            String patronymic, LocalDate dateOfBirth, Sex sex, String phone, String avatar, String description) {
+            String patronymic, LocalDate dateOfBirth, Sex sex, String phone, String avatar, String description, boolean enabled) {
         super();
         this.login = login;
         this.password = password;
@@ -111,8 +108,9 @@ public class User {
         this.phone = phone;
         this.avatar = avatar;
         this.description = description;
+        this.enabled = enabled;
     }
-    
+
     public enum Role {
         ROLE_TEACHER, ROLE_USER, ROLE_ADMIN
     }

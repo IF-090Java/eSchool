@@ -7,6 +7,8 @@ import academy.softserve.eschool.dto.SubjectDTO;
 import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.SubjectRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class SubjectServiceImpl implements SubjectService {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(SubjectServiceImpl.class);
 	
 	@NonNull
 	SubjectRepository subjectRepository;
@@ -39,7 +43,7 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	public SubjectDTO getSubjectById(int id) {
-		Subject subject = subjectRepository.findById(id).orElse(null);
+		Subject subject = subjectRepository.getOne(id);
 		return SubjectDTO.builder()
 				.subjectName(subject.getName())
 				.subjectDescription(subject.getDescription())
@@ -48,6 +52,8 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	public SubjectDTO addSubject(SubjectDTO subjectDTO) {
+		LOGGER.info("Saving a new subject [{}]", subjectDTO.getSubjectName());
+		
 		Subject savedSubject = subjectRepository.save(
 				Subject.builder()
 				.name(subjectDTO.getSubjectName())
@@ -63,7 +69,9 @@ public class SubjectServiceImpl implements SubjectService {
 	
 	@Override
     public SubjectDTO editSubject(int id, SubjectDTO subjectDTO) {
-        Subject subject = subjectRepository.findById(id).orElse(null);
+		LOGGER.info("Updating an existing subject with id = [{}] ", id);
+		
+        Subject subject = subjectRepository.getOne(id);
         subject.setName(subjectDTO.getSubjectName());
         subject.setDescription(subjectDTO.getSubjectDescription());
 

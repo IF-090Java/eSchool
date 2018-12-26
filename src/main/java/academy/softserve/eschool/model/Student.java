@@ -13,11 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name="student")
@@ -44,9 +40,9 @@ public class Student extends User{
 
     @Builder
     public Student(String login, String password, String email, Role role, String firstName, String lastName,
-                   String patronymic, LocalDate dateOfBirth, Sex sex, String phone, String avatar, String description) {
+                   String patronymic, LocalDate dateOfBirth, Sex sex, String phone, String avatar, String description, boolean enabled) {
         super(login, password, email, role, firstName, lastName, patronymic, dateOfBirth, sex, phone, avatar,
-                description);
+                description, enabled);
     }
 }
 

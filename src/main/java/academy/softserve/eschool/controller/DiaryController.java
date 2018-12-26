@@ -8,6 +8,9 @@ import academy.softserve.eschool.wrapper.Status;
 import io.swagger.annotations.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -24,12 +27,14 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/diaries")
-@Api(value = "Reads students' diaries", description = "Reads students' diaries")
+@Api(value = "Diary endpoint", description = "Operation for reading students' diaries")
 @RequiredArgsConstructor
 public class DiaryController {
+    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
-    DiaryServiceBase diaryService;
+    private DiaryServiceBase diaryService;
 
     /**
      * Returns list of {@link DiaryEntryDTO} that describe one week of diary wrapped
@@ -42,16 +47,15 @@ public class DiaryController {
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    @ApiOperation(value = "Get student's diary")
+    @ApiOperation(value = "User gets student's diary", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "user", value = "every pupil is allowed to see his own diary")})})
     @PreAuthorize("hasRole('USER')")
     @GetMapping("")
     GeneralResponseWrapper<List<DiaryEntryDTO>> getDiary(
             @ApiParam(value = "first day of week, accepts date in format 'yyyy-MM-dd'", required=true) @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate weekStartDate){
-        //todo bk ++ instead of 3 lines of code use just one. Keep it simple.
-        //return new GeneralResponseWrapper<>(new Status(200, "OK"), diaryService.getDiary(weekStartDate, studentId))
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JwtUser user = (JwtUser) auth.getPrincipal();
-        //todo bk Use such stile across the whole app. Looks much simpler and easier for reading
+        logger.debug("Called getDiary() for weekStartDate : [{}]", weekStartDate);
         return new GeneralResponseWrapper<>(Status.of(OK), diaryService.getDiary(weekStartDate, user.getId().intValue()));
     }
 }

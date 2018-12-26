@@ -24,21 +24,20 @@ import java.io.IOException;
 @Component
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
     private static ObjectMapper mapper = new ObjectMapper();
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
             throws ServletException, IOException {
         try {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } catch (ExpiredJwtException e) {
-
             GeneralResponseWrapper errorResponse = new GeneralResponseWrapper(new Status(HttpStatus.UNAUTHORIZED.value()
-                    , "Token expired"),null);
+                    , "Token expired"), null);
             httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
             httpServletResponse.getWriter().write(convertObjectToJson(errorResponse));
-        }
-        catch (MalformedJwtException | SignatureException  e) {
+        } catch (MalformedJwtException | SignatureException e) {
             GeneralResponseWrapper errorResponse = new GeneralResponseWrapper(new Status(HttpStatus.BAD_REQUEST.value()
-                    , "Bad Token"),null);
+                    , "Bad Token"), null);
             httpServletResponse.setStatus(HttpStatus.BAD_REQUEST.value());
             httpServletResponse.getWriter().write(convertObjectToJson(errorResponse));
         }
@@ -48,7 +47,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         if (object == null) {
             return null;
         }
-                return mapper.writeValueAsString(object);
+        return mapper.writeValueAsString(object);
     }
 
 }

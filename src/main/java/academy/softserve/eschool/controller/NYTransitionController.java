@@ -3,6 +3,9 @@ package academy.softserve.eschool.controller;
 import academy.softserve.eschool.service.ClassService;
 import academy.softserve.eschool.wrapper.GeneralResponseWrapper;
 import academy.softserve.eschool.wrapper.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,24 +32,25 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/students/transition")
-@Api(value = "transition", description = "Endpoints for transition to new school year")
+@Api(value = "Transition Endpoints", description = "Operations for transition to new school year")
 @RequiredArgsConstructor
 public class NYTransitionController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NYTransitionController.class);
 
-    //todo bk ++ use autowiring via constructors.
-    //todo bk you should not use Impl class here. Use interface for injection and make the fields private
     @NonNull
     private ClassService classService;
     @NonNull
     private StudentService studentService;
 
     /**
-     * Add classes to next year based on currently
+     * Add classes to next school year.
      *
+     * @param classDTOS list of {@link ClassDTO} objects
      * @return List of created {@link ClassDTO} objects
      *         in {@link GeneralResponseWrapper} with http status code
      */
-    @ApiOperation(value = "Add new classes based on currently classes with new year and name")
+    @ApiOperation(value = "Admin adds new classes based on currently classes with new year and name", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to add new classes based on currently classes with new year and name")})})
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ApiResponses(value = {
@@ -54,11 +58,9 @@ public class NYTransitionController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Server error")
     })
-    public GeneralResponseWrapper<List<ClassDTO>> addNewYearClasses(){
-        return new GeneralResponseWrapper<>(
-                new Status(HttpServletResponse.SC_CREATED, "New classes successfully added"),
-                classService.addNewYearClasses()
-        );
+    public GeneralResponseWrapper<List<ClassDTO>> addNewYearClasses(@RequestBody List<ClassDTO> classDTOS){
+        LOGGER.info("Add classes for new academic year");
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), classService.addNewYearClasses(classDTOS));
     }
 
     /**
@@ -70,7 +72,8 @@ public class NYTransitionController {
      *         in {@link GeneralResponseWrapper} with http status code
      */
     @PutMapping
-    @ApiOperation(value = "Binding students to new classes, deactivate previous year classes")
+    @ApiOperation(value = "Admin binds students to new classes, deactivate previous year classes", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to bind students to new classes, deactivate previous year classes")})})
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully updated"),
             @ApiResponse(code = 400, message = "Bad request"),
@@ -78,12 +81,10 @@ public class NYTransitionController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     public GeneralResponseWrapper<List<NYTransitionDTO>> bindingStudentsToNewClasses(
-            @ApiParam(value = "transition class(new and old classes id)", required = true) @RequestBody List<NYTransitionDTO> transitionDTOS){
+            @ApiParam(value = "Transition of the class(new and old classes ID)", required = true) @RequestBody List<NYTransitionDTO> transitionDTOS){
+        LOGGER.info("Update old year class status, rebind students to new classes.");
         classService.updateClassStatusById(transitionDTOS, false);
         studentService.studentClassesRebinding(transitionDTOS);
-        return new GeneralResponseWrapper<>(
-                new Status(HttpServletResponse.SC_CREATED, "Old classes disabled, students bindet to new classes"),
-                transitionDTOS
-        );
+        return new GeneralResponseWrapper<>(Status.of(HttpStatus.CREATED), transitionDTOS);
     }
 }

@@ -14,18 +14,20 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class HomeworkDTO{
-    @ApiModelProperty(notes = "id of lesson",required = true)
+    @ApiModelProperty(required = true,
+            notes = "Contains the ID of the lesson. It's a generated value in the database.")
     private int idLesson;
     
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy.MM.dd")
-    @ApiModelProperty(notes = "date of homework")
+            pattern = "yyyy.MM.dd",
+            timezone="Europe/Kiev")
+    @ApiModelProperty(notes = "Contains the date of the homework in format: \"yyyy.MM.dd\". ")
     private Date date;
     
-    @ApiModelProperty(notes = "homework")
+    @ApiModelProperty(notes = "Contains the homework. It's maximum length is 500 characters.")
     private String homework;
   
-    @ApiModelProperty(notes = "homework")
+    @ApiModelProperty(notes = "Contains the homework file.")
     private String fileName;
 }

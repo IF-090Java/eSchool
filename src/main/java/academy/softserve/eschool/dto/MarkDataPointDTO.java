@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MarkDataPointDTO{
-    @ApiModelProperty(required = true, notes = "average mark")
+    @ApiModelProperty(required = true, notes = "Contains the average mark.")
     private double y;
     
-    @ApiModelProperty(required = true, notes = "date")
+    @ApiModelProperty(required = true, notes = "Contains the date when the mark was putted.")
     private LocalDate x;
     
-    @ApiModelProperty(required = true, notes = "count of marks in current date")
+    @ApiModelProperty(required = true, notes = "Contains the count of marks in current date.")
     private int weight;
 }

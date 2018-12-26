@@ -3,12 +3,16 @@ package academy.softserve.eschool.service;
 import academy.softserve.eschool.dto.*;
 import academy.softserve.eschool.model.Clazz;
 import academy.softserve.eschool.model.Lesson;
+import academy.softserve.eschool.model.MarkType;
 import academy.softserve.eschool.model.Subject;
 import academy.softserve.eschool.repository.ClassRepository;
 import academy.softserve.eschool.repository.LessonRepository;
+import academy.softserve.eschool.repository.MarkTypeRepository;
 import academy.softserve.eschool.repository.SubjectRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -36,12 +40,15 @@ import java.util.stream.Collectors;
 @Service
 public class ScheduleServiceImpl implements ScheduleService{
 
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleServiceImpl.class);
     @NonNull
     LessonRepository lessonRepository;
     @NonNull
     ClassRepository classRepository;
     @NonNull
     SubjectRepository subjectRepository;
+    @NonNull
+    MarkTypeRepository markTypeRepository;
     /**
      * Returns an object of {@link ScheduleDTO} that describes a schedule of a class with specified id for current week
      * @param classId   id of the class for which is the schedule taken from DB
@@ -61,7 +68,8 @@ public class ScheduleServiceImpl implements ScheduleService{
                 .tuesdaySubjects(convertFromObject(lessons, DayOfWeek.TUESDAY))
                 .wednesdaySubjects(convertFromObject(lessons, DayOfWeek.WEDNESDAY))
                 .thursdaySubjects(convertFromObject(lessons, DayOfWeek.THURSDAY))
-                .fridaySubjects(convertFromObject(lessons, DayOfWeek.FRIDAY)).build();
+                .fridaySubjects(convertFromObject(lessons, DayOfWeek.FRIDAY))
+                .saturdaySubjects(convertFromObject(lessons, DayOfWeek.SATURDAY)).build();
     }
     /**
      * Saves an object of {@link ScheduleDTO} into the lesson table
@@ -72,11 +80,12 @@ public class ScheduleServiceImpl implements ScheduleService{
 
         LocalDate start = scheduleDTO.getStartOfSemester();
         LocalDate end = scheduleDTO.getEndOfSemester();
-        List<SubjectDTO> monday = scheduleDTO.getMondaySubjects();
-        List<SubjectDTO> tuesday = scheduleDTO.getTuesdaySubjects();
-        List<SubjectDTO> wednesday = scheduleDTO.getWednesdaySubjects();
-        List<SubjectDTO> thursday = scheduleDTO.getThursdaySubjects();
-        List<SubjectDTO> friday = scheduleDTO.getFridaySubjects();
+        List<LessonDTO> monday = scheduleDTO.getMondaySubjects();
+        List<LessonDTO> tuesday = scheduleDTO.getTuesdaySubjects();
+        List<LessonDTO> wednesday = scheduleDTO.getWednesdaySubjects();
+        List<LessonDTO> thursday = scheduleDTO.getThursdaySubjects();
+        List<LessonDTO> friday = scheduleDTO.getFridaySubjects();
+        List<LessonDTO> saturday = scheduleDTO.getSaturdaySubjects();
 
         int id_class = scheduleDTO.getClassName().getId();
         Clazz clazz = classRepository.findById(id_class).get();
@@ -86,45 +95,46 @@ public class ScheduleServiceImpl implements ScheduleService{
         saveFunction(wednesday, start, end, DayOfWeek.WEDNESDAY, clazz);
         saveFunction(thursday, start, end, DayOfWeek.THURSDAY, clazz);
         saveFunction(friday, start, end, DayOfWeek.FRIDAY, clazz);
+        saveFunction(saturday, start, end, DayOfWeek.SATURDAY, clazz);
     }
 
     /**
      * This method saves schedule for a particular day. It helps the {@link #saveSchedule(ScheduleDTO)} method to save data
-     * @param list      list of {@link SubjectDTO} objects that represents the lessons of a particular day
+     * @param list      list of {@link LessonDTO} objects that represents the lessons of a particular day
      * @param start     date of start of the semester
      * @param end       date of end of the semester
      * @param dayOfWeek day of week for which are the lessons saved
      * @param clazz     class for which is the schedule saved
      */
-    public void saveFunction(List<SubjectDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
+    public List<Lesson> saveFunction(List<LessonDTO> list, LocalDate start, LocalDate end, DayOfWeek dayOfWeek, Clazz clazz)
     {
         List<Subject> resultList = new ArrayList<>();
         if (list.size() != 0) {
             List<Integer> listOfIds = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                listOfIds.add(list.get(i).getSubjectId());
+            for (LessonDTO lessonDTO : list) {
+                listOfIds.add(lessonDTO.getSubjectId());
             }
             List<Subject> listOfSubjects = subjectRepository.findAll();
-            for (int i = 0; i < listOfIds.size(); i ++)
-            {
-                for (int j = 0; j < listOfSubjects.size(); j ++) {
-                    if (listOfSubjects.get(j).getId() == listOfIds.get(i))
-                        resultList.add(listOfSubjects.get(j));
+            for (int id : listOfIds) {
+                for (Subject subject : listOfSubjects) {
+                    if (subject.getId() == id)
+                        resultList.add(subject);
                 }
             }
-
         }
+
+        LocalDate dateAfterEnd = end.plusDays(1);
         List<Lesson> listOfLessons = new ArrayList<>();
         for (int i = 0; i < list.size(); i ++) {
-            for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+            for (LocalDate date = start; date.isBefore(dateAfterEnd); date = date.plusDays(1)) {
                 DayOfWeek dow = date.getDayOfWeek();
                 if (dow == dayOfWeek) {
                     listOfLessons.add(
                             Lesson.builder()
-                                    .lessonNumber((byte) (i + 1))
+                                    .lessonNumber(list.get(i).getLessonNumber())
                                     .date(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()))
-                                    .hometask(null)
-                                    .markType(null)
+                                    .hometask("")
+                                    .markType(markTypeRepository.getOne(1))
                                     .file(null)
                                     .clazz(clazz)
                                     .subject(resultList.get(i)).build()
@@ -133,36 +143,44 @@ public class ScheduleServiceImpl implements ScheduleService{
             }
         }
         lessonRepository.saveAll(listOfLessons);
+        logger.info("Lessons' quantity for [{}] is [{}], semester's bound [{}]-[{}], class [{}]",
+                 dayOfWeek, listOfLessons.size(), start, end, clazz.getId());
+        return listOfLessons;
     }
 
     /**
-     * This method converts List<Map<String, Object>> into a list of {@link SubjectDTO} and filters it by day of week.
+     * This method converts List<Map<String, Object>> into a list of {@link LessonDTO} and filters it by day of week.
      * It helps the {@link #getScheduleByClassId(int)} method to save data.
-     * @param someList     list that needs to be converted into List<SubjectDTO> and filtered by day of week
+     * @param someList     list that needs to be converted into List<LessonDTO> and filtered by day of week
      * @param dayOfWeek    day of week for what will be returned the list
-     * @return             List of {@link SubjectDTO} filtered by {@param dayOfWeek} that represents a schedule for a particular day
+     * @return             List of {@link LessonDTO} filtered by {@param dayOfWeek} that represents a schedule for a particular day
      */
-    public List<SubjectDTO> convertFromObject(List<Map<String, Object>> someList, DayOfWeek dayOfWeek)
+    public List<LessonDTO> convertFromObject(List<Map<String, Object>> someList, DayOfWeek dayOfWeek)
     {
         List<LocalDate> listDate = someList.stream().map((obj) -> {
-            LocalDate date = (LocalDate) obj.get("date");
+            LocalDate date = LocalDate.parse((CharSequence) obj.get("date"));
             return date;
         })
                 .collect(Collectors.toList());
 
-        List<SubjectDTO> list = new ArrayList<>();
-
-        for (int i = 0; i < listDate.size(); i++) {
-            if (listDate.get(i).getDayOfWeek() == dayOfWeek) {
-                list = someList.stream().map((obj) -> {
-                    int id = (int) obj.get("id");
+        List<LessonDTO> list = someList.stream().map((obj) -> {
+                    byte lessonNum = Byte.valueOf((String) obj.get("lesson_number"));
+                    int id = Integer.valueOf((String) obj.get("id"));
                     String name = (String) obj.get("name");
                     String description = (String) obj.get("description");
-                    return new SubjectDTO(id, name, description);
+                    return new LessonDTO(lessonNum, id, name, description);
+
                 })
                         .collect(Collectors.toList());
+
+            for (int i = 0; i < listDate.size(); i++) {
+                if (listDate.get(i).getDayOfWeek() != dayOfWeek) {
+                    list.set(i, null);
+                }
             }
-        }
+            list.removeAll(Collections.singleton(null));
+
+        logger.debug("Lessons' quantity for [{}] is [{}]", dayOfWeek, list.size());
         return list;
     }
 }

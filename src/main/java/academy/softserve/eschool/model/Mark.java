@@ -1,28 +1,23 @@
 package academy.softserve.eschool.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name="mark")
 @Data
+@Builder
+@AllArgsConstructor
 @EqualsAndHashCode(exclude = {"student", "lesson"})
 @NoArgsConstructor
 public class Mark {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @Positive
@@ -46,9 +41,5 @@ public class Mark {
         this.note = note;
         this.student = student;
         this.lesson = lesson;
-    }
-    
-    public enum MarkType {
-        Control, Practic, Module, Labaratorna
     }
 }

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import academy.softserve.eschool.dto.DiaryEntryDTO;
@@ -17,7 +19,9 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class DiaryService implements DiaryServiceBase{
+public class DiaryService implements DiaryServiceBase {
+    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
     private LessonRepository lessonRepo;
@@ -31,26 +35,27 @@ public class DiaryService implements DiaryServiceBase{
      */
     @Override
     public List<DiaryEntryDTO> getDiary(LocalDate weekStartDate, int studentId) {
-        LocalDate weekEndDate = weekStartDate.plusDays(4);
+        LocalDate weekEndDate = weekStartDate.plusDays(5);
         String startDate = dateFormat.format(weekStartDate);
         String endDate = dateFormat.format(weekEndDate);
+        logger.debug("Reading diary data for user_id : [{}] period : [{} - {}]", studentId, startDate, endDate);
         List<Map<String, Object>> diaryData = lessonRepo.getDiary(studentId, startDate, endDate);
-        //todo bk let's think how to refactor it. Just remind me about it when I come.
-        List<DiaryEntryDTO> diary = diaryData.stream().map((obj) -> {
-                    int lessonId = (int)obj.get("id");
-                    Integer homeworkFileId = (Integer)obj.get("homework_file_id");
-                    LocalDate date = ((Date)obj.get("date")).toLocalDate();
-                    byte no = (byte)obj.get("lesson_number");
-                    String lessonName = (String)obj.get("name");
-                    String hometask = obj.get("hometask") == null ? "" :(String)obj.get("hometask");
-                    byte mark = obj.get("mark") == null ? 0 : (byte)obj.get("mark");
-                    String note = obj.get("note") == null ? "" : (String)obj.get("note");
-                    return new DiaryEntryDTO(lessonId, date, no, lessonName, hometask, homeworkFileId, mark, note);
-                })
-                .collect(Collectors.toList());
-        //todo bk ++ don't use sys.out . Use logger instead
-        System.out.println(diary);
-        return diary;
+        return mapToDTO(diaryData);
+    }
+    
+    private List<DiaryEntryDTO> mapToDTO(List<Map<String, Object>> diaryData) {
+        return diaryData.stream().map((obj) -> {
+            int lessonId = (int)obj.get("id");
+            Integer homeworkFileId = (Integer)obj.get("homework_file_id");
+            LocalDate date = ((Date)obj.get("date")).toLocalDate();
+            byte no = (byte)obj.get("lesson_number");
+            String lessonName = (String)obj.get("name");
+            String hometask = obj.get("hometask") == null ? "" :(String)obj.get("hometask");
+            byte mark = obj.get("mark") == null ? 0 : (byte)obj.get("mark");
+            String note = obj.get("note") == null ? "" : (String)obj.get("note");
+            return new DiaryEntryDTO(lessonId, date, no, lessonName, hometask, homeworkFileId, mark, note);
+        })
+        .collect(Collectors.toList());
     }
 
 }
