@@ -73,8 +73,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
      * Returns a {@link academy.softserve.eschool.model.Lesson} object that contains information about file}
      * @param idLesson  id of the lesson
      */
-    @Query(value = "select * from lesson inner join file on lesson.homework_file_id = file.id where lesson.id=:idLesson " +
-            "order by lesson.date", nativeQuery = true)
+    @Query(value = "select * from lesson  where lesson.id=:idLesson", nativeQuery = true)
     Lesson findFile(@Param("idLesson") int idLesson);
 
     /**

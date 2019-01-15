@@ -165,13 +165,17 @@ public class JournalServiceImpl implements JournalService {
     public HomeworkFileDTO getFile(int idLesson) {
         logger.debug("Getting file lesson[id={}]", idLesson);
         Lesson lesson = lessonRepository.findFile(idLesson);
-        HomeworkFileDTO homeworkFileDTO = HomeworkFileDTO.builder()
-                .idLesson(idLesson)
-                .fileData(lesson.getFile().getFile())
-                .fileName(lesson.getFile().getFileName())
-                .fileType(lesson.getFile().getFileType())
-                .homework(lesson.getHometask())
-                .build();
+
+        HomeworkFileDTO homeworkFileDTO = new HomeworkFileDTO();
+        homeworkFileDTO.setIdLesson(idLesson);
+        if(lesson!=null) {
+            homeworkFileDTO.setHomework(lesson.getHometask());
+            if (lesson.getFile() != null) {
+                homeworkFileDTO.setFileData(lesson.getFile().getFile());
+                homeworkFileDTO.setFileName(lesson.getFile().getFileName());
+                homeworkFileDTO.setFileType(lesson.getFile().getFileType());
+            }
+        }
         return homeworkFileDTO;
     }
 
