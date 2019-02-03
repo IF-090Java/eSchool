@@ -158,14 +158,15 @@ public class ScheduleServiceImpl implements ScheduleService{
     public List<LessonDTO> convertFromObject(List<Map<String, Object>> someList, DayOfWeek dayOfWeek)
     {
         List<LocalDate> listDate = someList.stream().map((obj) -> {
-            LocalDate date = LocalDate.parse((CharSequence) obj.get("date"));
+            LocalDate date = LocalDate.parse(obj.get("date").toString());
             return date;
         })
                 .collect(Collectors.toList());
 
+        logger.debug("listDate size = {}", listDate.size());
         List<LessonDTO> list = someList.stream().map((obj) -> {
-                    byte lessonNum = Byte.valueOf((String) obj.get("lesson_number"));
-                    int id = Integer.valueOf((String) obj.get("id"));
+                    byte lessonNum = (Byte) obj.get("lesson_number");
+                    int id = (Integer)obj.get("id");
                     String name = (String) obj.get("name");
                     String description = (String) obj.get("description");
                     return new LessonDTO(lessonNum, id, name, description);
@@ -173,6 +174,7 @@ public class ScheduleServiceImpl implements ScheduleService{
                 })
                         .collect(Collectors.toList());
 
+        logger.debug("list size = {}" , list.size());
             for (int i = 0; i < listDate.size(); i++) {
                 if (listDate.get(i).getDayOfWeek() != dayOfWeek) {
                     list.set(i, null);
@@ -182,5 +184,29 @@ public class ScheduleServiceImpl implements ScheduleService{
 
         logger.debug("Lessons' quantity for [{}] is [{}]", dayOfWeek, list.size());
         return list;
+    }
+
+    public Map<LocalDate, List<LessonDTO>> getYearScheduleByClassId(int classId){
+        Map<LocalDate, List<LessonDTO>> ret = new HashMap<>();
+        List<Map<String, Object>> lessons = lessonRepository.allScheduleByClassId(classId);
+        for (Map<String, Object> map: lessons) {
+            if (!ret.containsKey(LocalDate.parse(map.get("date").toString()))){
+                LocalDate date = LocalDate.parse(map.get("date").toString());
+                byte lessonNum = (Byte) map.get("lesson_number");
+                int id = (Integer) map.get("id");
+                String name = (String) map.get("name");
+                String description = (String) map.get("description");
+                ArrayList<LessonDTO> lst = new ArrayList<>();
+                lst.add(new LessonDTO(lessonNum, id, name, description));
+                ret.put(date,lst);
+            }else{
+                byte lessonNum = (Byte) map.get("lesson_number");
+                int id = (Integer) map.get("id");
+                String name = (String) map.get("name");
+                String description = (String) map.get("description");
+                ret.get(LocalDate.parse(map.get("date").toString())).add(new LessonDTO(lessonNum, id, name, description));
+            }
+        }
+        return ret;
     }
 }

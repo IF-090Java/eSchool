@@ -54,7 +54,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
             "        from lesson l" +
             "        left join clazz c on l.clazz_id = c.id" +
             "        left join subject s on l.subject_id = s.id" +
-            "        where YEARWEEK(l.date, 1) = YEARWEEK(CURDATE(), 1)" +
+            "        where YEARWEEK(l.date, 7) = YEARWEEK(CURDATE(), 7) + 2" +
             "		and clazz_id = :classId and c.is_active = 1", nativeQuery = true)
     List<Map<String, Object>> scheduleByClassId(@Param("classId") int classId);
     /**
@@ -86,5 +86,13 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
     @Transactional
     @Query(value = "update lesson set hometask=:hometask,homework_file_id=:idFile where id=:idLesson", nativeQuery = true)
     void saveHomeWork(@Param("hometask") String hometask, @Param("idFile") Integer idFile,  @Param("idLesson") Integer idLesson);
+
+    @Query(value = "select l.lesson_number, l.date, s.id, s.name, s.description" +
+            "        from lesson l" +
+            "        left join clazz c on l.clazz_id = c.id" +
+            "        left join subject s on l.subject_id = s.id" +
+            "        where YEAR(l.date) = YEAR(CURDATE())" +
+            "		and clazz_id = :classId and c.is_active = 1", nativeQuery = true)
+    List<Map<String, Object>> allScheduleByClassId(@Param("classId") int classId);
 
 }
