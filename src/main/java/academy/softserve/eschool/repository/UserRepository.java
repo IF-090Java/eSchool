@@ -35,13 +35,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     
     @Query("select " +
             "new academy.softserve.eschool.dto.AddedUsersDTO(u.firstName, u.lastName, u.patronymic, u.role, u.login, u.password) " +
-            "from Teacher u ORDER BY u.lastName, u.firstName desc ")
+            "from Teacher u " +
+            "where u.enabled = true " +
+            "ORDER BY u.lastName, u.firstName desc")
     List<AddedUsersDTO> getAllTeachersCredentials();
     
     @Query("select " +
             "new academy.softserve.eschool.dto.AddedUsersDTO(u.firstName, u.lastName, u.patronymic, u.role, u.login, u.password) " +
             "from Student u join u.classes c " +
-            "where c.id = :classId " +
+            "where c.id = :classId and u.enabled = true " +
             "ORDER BY u.lastName, u.firstName desc ")
     List<AddedUsersDTO> getAllStudentsCredentials(@Param("classId") Integer classId);
 }
