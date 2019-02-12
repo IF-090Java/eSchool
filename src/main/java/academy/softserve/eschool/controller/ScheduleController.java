@@ -1,5 +1,6 @@
 package academy.softserve.eschool.controller;
 
+import academy.softserve.eschool.dto.LessonDTO;
 import academy.softserve.eschool.dto.ScheduleDTO;
 import academy.softserve.eschool.repository.LessonRepository;
 import academy.softserve.eschool.service.ScheduleServiceImpl;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -91,7 +94,7 @@ public class ScheduleController {
      * @param   classId id of the class which we want to get the schedule
      * @return  Class of {@link ScheduleDTO} wrapped in {@link GeneralResponseWrapper}
      */
-    @ApiOperation(value = "Admin gets schedule for the class with id", extensions = {@Extension(name = "roles", properties = {
+    @ApiOperation(value = "Admin gets schedule for next week for the class with id", extensions = {@Extension(name = "roles", properties = {
             @ExtensionProperty(name = "admin", value = "the admin is allowed to view a schedule for a class")})})
     @ApiResponses(
             value={
@@ -106,5 +109,28 @@ public class ScheduleController {
 
         logger.debug("Shown for class [{}]", classId);
         return new GeneralResponseWrapper<>(Status.of(OK), scheduleService.getScheduleByClassId(classId));
+    }
+
+    /**
+     * This GET method returns a class of {@link ScheduleDTO} that contains the schedule for a specific class for current week
+     * wrapped in {@link GeneralResponseWrapper}
+     * @param   classId id of the class which we want to get the schedule
+     * @return  Class of {@link ScheduleDTO} wrapped in {@link GeneralResponseWrapper}
+     */
+    @ApiOperation(value = "Admin gets schedule for all yearthe class with id", extensions = {@Extension(name = "roles", properties = {
+            @ExtensionProperty(name = "admin", value = "the admin is allowed to view a schedule for a class")})})
+    @ApiResponses(
+            value={
+                    @ApiResponse(code = 200, message = "OK"),
+                    @ApiResponse(code = 400, message = "Bad request"),
+                    @ApiResponse(code = 500, message = "Server error")
+            }
+    )
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/classes/{classId}/fullschedule")
+    public GeneralResponseWrapper<Map<LocalDate, List<LessonDTO>>> getScheduleYear(@ApiParam(value = "ID of class", required = true) @PathVariable("classId") final int classId){
+
+        logger.debug("Shown for class [{}]", classId);
+        return new GeneralResponseWrapper<>(Status.of(OK), scheduleService.getYearScheduleByClassId(classId));
     }
 }
