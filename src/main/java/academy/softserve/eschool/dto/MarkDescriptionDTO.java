@@ -25,7 +25,8 @@ public class MarkDescriptionDTO {
     
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy.MM.dd")
+            pattern = "yyyy.MM.dd",
+            timezone="Europe/Kiev")
     @ApiModelProperty(notes = "Contains the date when the mark was puttedin format \"yyyy.MM.dd\".")
     private Date dateMark;
     
